@@ -12,6 +12,7 @@ import GetPayment from './components/GetPayment'
 import Header from './components/Header'
 import testuser from './pages/user/testuser'
 import Testuser from './pages/user/testuser'
+import T1 from './pages/user/T1'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Route path="/register" element={<Register/>}/>
       <Route path='/getPayment' exact element={<GetPayment/>}/>
       <Route path='/testuser'  element={<Testuser/>}/>
+      <Route path='/t1'  element={<T1/>}/>
     </Routes>
     </BrowserRouter>
   );
