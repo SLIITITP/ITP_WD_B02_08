@@ -10,6 +10,8 @@ import Login from './pages/common/Login';
 import Register from './pages/common/Register';
 import GetPayment from './components/GetPayment'
 import Header from './components/Header'
+import testuser from './pages/user/testuser'
+import Testuser from './pages/user/testuser'
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>}/>
       <Route path='/getPayment' exact element={<GetPayment/>}/>
+      <Route path='/testuser'  element={<Testuser/>}/>
     </Routes>
     </BrowserRouter>
   );
