@@ -8,14 +8,18 @@ import './stylesheets/form-elements.css'
 import {BrowserRouter , Routes , Route} from 'react-router-dom'
 import Login from './pages/common/Login';
 import Register from './pages/common/Register';
+import GetPayment from './components/GetPayment'
+import Header from './components/Header'
 
 
 function App() {
   return (
     <BrowserRouter>
+    <Header/>
     <Routes>
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>}/>
+      <Route path='/getPayment' exact element={<GetPayment/>}/>
     </Routes>
     </BrowserRouter>
   );
