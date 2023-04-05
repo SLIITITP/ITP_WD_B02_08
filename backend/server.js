@@ -7,8 +7,10 @@ const Payment = require('./models/Payments');
 const app = express();
 
 //app middleware
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
+
 
 const PORT = 9090;
 const MONGODB_URL = 'mongodb+srv://ITP:mern2023@itp.iv1rmde.mongodb.net/?retryWrites=true&w=majority';
@@ -29,6 +31,7 @@ app.listen(PORT, () => {
 
 //import routes
 const PaymentRouter = require('./routes/Payment')
+const userRoute = require('./routes/eusersRoute')
 
 //route middleware
 app.use('/api/payment', PaymentRouter);
