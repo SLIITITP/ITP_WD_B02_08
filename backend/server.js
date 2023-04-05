@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const Payment = require('./models/Payments');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.listen(PORT, () => {
 })
 
 //import routes
-
+const PaymentRouter = require('./routes/Payment')
 
 //route middleware
+app.use('/api/payment', PaymentRouter);
