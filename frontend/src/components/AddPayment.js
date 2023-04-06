@@ -12,7 +12,7 @@ function SearchStudents() {
   useEffect(() => {
     const search = async () => {
       try {
-        const response = await axios.get(`/api/nipunusers/${searchTerm}`);
+        const response = await axios.get(`http://localhost:9090/api/user/search/${searchTerm}`);
         setSearchResults([response.data]);
       } catch (err) {
         setSearchResults([]);
