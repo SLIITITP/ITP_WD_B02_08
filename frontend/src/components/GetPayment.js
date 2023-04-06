@@ -11,7 +11,7 @@ function GetPayment() {
 
     const handleCheckboxChange = (event) => {
         const { value } = event.target;
-        const subjectFees = { Math: 1000, Science: 2000, History: 1500 };
+        const subjectFees = { Math: 1200, Science: 1200, History: 1000, HGC: 1300 };
         if (subjects.includes(value)) {
             setSubjects(subjects.filter((subject) => subject !== value));
             setAmount(paidAmount - subjectFees[value]);
@@ -49,11 +49,25 @@ function GetPayment() {
                     </label>
                 </div>
                 <div>
+                    <label>
+                        Month:
+                        <input type="text" value={month} onChange={(e) => setMonth(e.target.value)} />
+                    </label>
+                </div>
+                <div>
+                    <label>Amount: </label>
+                    <input type="number" value={paidAmount} readOnly />
+                </div>
+                <div>
                     <label>Subjects:</label>
                     <br />
                     <label>
                         <input type="checkbox" value="Math" checked={subjects.includes('Math')} onChange={handleCheckboxChange} />
                         Math
+                    </label>
+                    <label>
+                        <input type="checkbox" value="HGC" checked={subjects.includes('HGC')} onChange={handleCheckboxChange} />
+                        HGC
                     </label>
                     <br />
                     <label>
@@ -65,16 +79,6 @@ function GetPayment() {
                         <input type="checkbox" value="History" checked={subjects.includes('History')} onChange={handleCheckboxChange} />
                         History
                     </label>
-                </div>
-                <div>
-                    <label>
-                        Month:
-                        <input type="text" value={month} onChange={(e) => setMonth(e.target.value)} />
-                    </label>
-                </div>
-                <div>
-                    <label>Amount: </label>
-                    <input type="number" value={paidAmount} readOnly />
                 </div>
                 <div>
                     <label>
