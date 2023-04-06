@@ -15,6 +15,7 @@ import Testuser from './pages/user/testuser'
 import T1 from './pages/user/T1'
 import AdminEditSchedule from "./components/AdminEditSchedule";
 import AddClass from "./components/AddClass";
+import AddPayment from './components/AddPayment'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route path='/getPayment' exact element={<GetPayment/>}/>
       <Route path='/testuser'  element={<Testuser/>}/>
       <Route path='/t1'  element={<T1/>}/>
+      <Route path='/addPayment' exact element={<AddPayment/>}/>
 
       <Route path="/allClasses" exact element={<AdminEditSchedule/>} />
       <Route path="/addClass" exact element={<AddClass/>} />
