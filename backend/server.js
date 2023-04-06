@@ -41,5 +41,4 @@ app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 
 //route middleware
-app.use('/api/payment', PaymentRouter);
 app.use("/class",classRouter);
