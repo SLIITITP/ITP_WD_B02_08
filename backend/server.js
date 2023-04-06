@@ -33,6 +33,13 @@ app.listen(PORT, () => {
 //import routes
 const PaymentRouter = require('./routes/Payment')
 const userRoute = require('./routes/eusersRoute')
+
+const SubjectRouter = require('./routes/Subject')
+
+//route middleware
+app.use('/api/payment', PaymentRouter);
+app.use('/api/subject', SubjectRouter);
+=======
 const classRouter = require('./routes/classes');
 
 //route middleware
