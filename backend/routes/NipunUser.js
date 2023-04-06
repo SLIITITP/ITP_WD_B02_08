@@ -20,7 +20,7 @@ router.post('/add', async (req, res) => {
 });
 
 // Get NipunUser by ID
-router.get('/id/:id', async (req, res) => {
+router.get('/search/:id', async (req, res) => {
   try {
     const nipunUser = await NipunUser.findOne({ studentID: req.params.id });
     if (nipunUser == null) {
@@ -33,7 +33,7 @@ router.get('/id/:id', async (req, res) => {
 });
 
 // Get NipunUser by Name
-router.get('/name/:name', async (req, res) => {
+router.get('/search/:name', async (req, res) => {
   try {
     const nipunUser = await NipunUser.findOne({ name: req.params.name });
     if (nipunUser == null) {

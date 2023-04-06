@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const Payment = require('./models/Payments');
 
 
 const app = express();
@@ -35,10 +34,12 @@ const PaymentRouter = require('./routes/Payment')
 const userRoute = require('./routes/eusersRoute')
 const classRouter = require('./routes/classes');
 const SubjectRouter = require('./routes/Subject')
+const NipunUserRouter = require('./routes/NipunUser')
 
 //route middleware
 app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
+app.use('/api/user', NipunUserRouter);
 
 //route middleware
 app.use("/class",classRouter);
