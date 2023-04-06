@@ -17,6 +17,7 @@ function Header() {
                 <Link className="nav-link" to="">CCCC</Link>
                 <Link className="nav-link" to="">DDDD</Link>
                 <Link className="nav-link disabled">Disabled</Link>
+                <Link className="nav-link" to="/allClasses">Timetable</Link>
             </div>
           </div>
         </div>
