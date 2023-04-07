@@ -16,6 +16,8 @@ import T1 from './pages/user/T1'
 import AdminEditSchedule from "./components/AdminEditSchedule";
 import AddClass from "./components/AddClass";
 import AddPayment from './components/AddPayment'
+import ProtectedRoute from './components/ProtectedRoute'
+import Home from './pages/common/Home'
 
 function App() {
   return (
@@ -31,6 +33,14 @@ function App() {
 
       <Route path="/allClasses" exact element={<AdminEditSchedule/>} />
       <Route path="/addClass" exact element={<AddClass/>} />
+
+
+
+      <Route path='/exams' element={<ProtectedRoute>
+        <Home/>
+
+
+      </ProtectedRoute>}/>
 
     </Routes>
     </BrowserRouter>
