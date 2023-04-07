@@ -35,11 +35,13 @@ const userRoute = require('./routes/eusersRoute')
 const classRouter = require('./routes/classes');
 const SubjectRouter = require('./routes/Subject')
 const NipunUserRouter = require('./routes/NipunUser')
+const ticketRoutes = require('./routes/tickets');
 
 //route middleware
 app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
+app.use(ticketRoutes);
 
 //route middleware
 app.use("/class",classRouter);
