@@ -14,7 +14,7 @@ function Header() {
                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                 <Link className="nav-link" to="/addPayment">Add Payment</Link>
                 <Link className="nav-link" to="/getPayment">BBBB</Link>
-                <Link className="nav-link" to="">CCCC</Link>
+                <Link className="nav-link" to="/payOnline">CCCC</Link>
                 <Link className="nav-link" to="">DDDD</Link>
                 <Link className="nav-link disabled">Disabled</Link>
                 <Link className="nav-link" to="/allClasses">Timetable</Link>
