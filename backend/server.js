@@ -34,6 +34,7 @@ const PaymentRouter = require('./routes/Payment')
 const classRouter = require('./routes/classes');
 const SubjectRouter = require('./routes/Subject')
 const NipunUserRouter = require('./routes/NipunUser')
+const ticketRoutes = require('./routes/tickets');
 
 
 
@@ -45,6 +46,7 @@ const usersRoute = require('./routes/usersRoute')
 app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
+app.use(ticketRoutes);
 
 
 
