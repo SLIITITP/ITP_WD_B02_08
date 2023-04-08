@@ -19,6 +19,7 @@ import AddPayment from './components/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/common/Home'
 import OnlinePayment from './components/OnlinePayment'
+import Exams from './pages/admin/Exams'
 
 function App() {
   return (
@@ -37,11 +38,13 @@ function App() {
         <Route path="/addClass" exact element={<AddClass />} />
 
 
-
+        {/* User Routes for exams management */}
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
-
-
+        </ProtectedRoute>} />
+          {/* Admin Routes for exams management */}
+        <Route path='/admin/exams' element={<ProtectedRoute>
+          <Exams />
         </ProtectedRoute>} />
 
       </Routes>
