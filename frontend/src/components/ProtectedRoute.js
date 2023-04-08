@@ -4,6 +4,12 @@ import { message } from 'antd';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { SetUser } from '../redux/usersSlice.js';
+import '../stylesheets/layout.css'
+import '../stylesheets/theme.css'
+import '../stylesheets/alignments.css'
+import '../stylesheets/textelements.css'
+import '../stylesheets/custom-component.css'
+import '../stylesheets/form-elements.css'
 
 export default function ProtectedRoute({children}) {
   const dispatch = useDispatch();
@@ -57,10 +63,21 @@ export default function ProtectedRoute({children}) {
 
   return (
     
-    <div>
-      
-      {user?.name} 
-     {children}
+    <div className='layout'>
+      <div className="flex gap-2">
+        <div className="sidebar">
+          Sidebar
+        </div>
+        <div className="body">
+          <div className="header flex justify-between">
+            Header
+          </div>
+          <div className="content">
+          {user?.name} 
+            {children}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

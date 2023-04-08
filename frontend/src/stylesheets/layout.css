@@ -1,0 +1,13 @@
+.layout{
+    padding: 15px;
+    
+}
+
+.sidebar{
+    background-color: var(--primary);
+    padding: 20px;
+    border-radius: 5px;
+}
+.header{
+    background-color: var(--primary);
+}
