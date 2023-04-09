@@ -23,6 +23,14 @@ import OnlinePayment from './components/OnlinePayment'
 import Exams from './pages/admin/Exams'
 import AddEditExam from './pages/admin/Exams/AddEditExam'
 
+import Username from './components/Username';
+import Password from './components/Password';
+import Registers from './components/Registers';
+import Profile from './components/Profile';
+import Recovery from './components/Recovery';
+//import PageNotFoud from './components/PageNotFound';
+import Reset from './components/Reset';
+
 function App() {
   return (
     <BrowserRouter>
@@ -40,11 +48,18 @@ function App() {
         <Route path="/addClass" exact element={<AddClass />} />
 
 
+        <Route path="/plogin" element={<Username />} />
+        <Route path="/password" element={<Password />} />
+        <Route path="/registers" element={<Registers />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/recovery" element={<Recovery />} />
+        <Route path="/reset" element={<Reset />} />
+        {/* <Route path="*" element={<PageNotFoud/>}/> */}
         {/* User Routes for exams management */}
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
-          {/* Admin Routes for exams management */}
+        {/* Admin Routes for exams management */}
         <Route path='/admin/exams' element={<ProtectedRoute>
           <Exams />
         </ProtectedRoute>} />
@@ -54,7 +69,7 @@ function App() {
         <Route path='/admin/exams/edit/:id' element={<ProtectedRoute>
           <AddEditExam />
         </ProtectedRoute>} />
-        
+
 
       </Routes>
     </BrowserRouter>
