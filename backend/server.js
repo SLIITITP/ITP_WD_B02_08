@@ -33,7 +33,7 @@ app.listen(PORT, () => {
 const PaymentRouter = require('./routes/Payment')
 const classRouter = require('./routes/classes');
 const SubjectRouter = require('./routes/Subject')
-const NipunUserRouter = require('./routes/NipunUser')
+const NipunUserRouter = require('./routes/NipunUser');
 const ticketRoutes = require('./routes/tickets');
 
 
