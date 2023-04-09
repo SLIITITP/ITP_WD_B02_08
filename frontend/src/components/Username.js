@@ -34,7 +34,7 @@ export default function Username() {
           <div className="title flex flex-col items-center">
             <h4 className='text-5xl font-bold'>Thilina Login</h4>
             <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
-              Explore more by connecting with us
+              Explore more by connecting with us ......
             </span>
           </div>
           <form className='py-1' onSubmit={formik.handleSubmit}>
