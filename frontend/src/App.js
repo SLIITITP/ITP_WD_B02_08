@@ -19,6 +19,9 @@ import AddPayment from './components/AddPayment'
 import StudentTicket from './components/StudentTicket'
 import AddTicket from './components/AddTicket'
 import EditTicket from './components/EditTicket'
+import TicketList from './components/TicketList';
+import ViewReply from './components/ViewReply';
+import Reply from './components/reply';
 
 function App() {
   return (
@@ -37,6 +40,9 @@ function App() {
       <Route path="/STickets" exact element={<StudentTicket/>} />
       <Route path="/addTicket" exact element={<AddTicket/>} />
       <Route path="/edit/:id" exact element={<EditTicket/>} />
+      <Route path="/ticketlist" element ={<TicketList/>}/>
+       <Route path="/vreply/:id" element ={<ViewReply/>}/>
+       <Route path="/reply/:id" element ={<Reply/>}/>
 
     </Routes>
     </BrowserRouter>

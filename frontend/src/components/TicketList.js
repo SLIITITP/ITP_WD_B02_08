@@ -55,14 +55,7 @@ export default class TicketList extends Component{
 });
   }
 
-  generatePDF = (ticket) => {
-    const doc = new jsPDF();
-    doc.text(`Registration Number: ${ticket.Rnumber}`, 20, 20);
-    doc.text(`Subject: ${ticket.subject}`, 20, 30);
-    doc.text(`Status: ${ticket.status}`, 20, 40);
-    doc.text(`Open Date: ${ticket.openAt}`, 20, 50);
-    doc.save(`${ticket.Rnumber}.pdf`);
-  }
+ 
   
 
  render(){
