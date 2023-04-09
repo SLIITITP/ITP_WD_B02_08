@@ -16,6 +16,7 @@ import T1 from './pages/user/T1'
 import AdminEditSchedule from "./components/AdminEditSchedule";
 import AddClass from "./components/AddClass";
 import AddPayment from './components/AddPayment'
+import StudentTicket from './components/StudentTicket'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
 
       <Route path="/allClasses" exact element={<AdminEditSchedule/>} />
       <Route path="/addClass" exact element={<AddClass/>} />
+      <Route path="/STickets" exact element={<StudentTicket/>} />
 
     </Routes>
     </BrowserRouter>
