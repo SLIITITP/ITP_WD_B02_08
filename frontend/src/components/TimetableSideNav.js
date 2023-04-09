@@ -58,7 +58,7 @@ function TimetableSideNav(){
 
 
     return(
-      <div class="sidenav">
+      <div class="sidenav text-center">
         <a className='sidenav-a' href="/addClass">Add New Classes</a>
         <a className='sidenav-a' href="/allClasses">Class Schedule</a>
         <a className='sidenav-a' href="#examSchedule">Exam Schedule</a>

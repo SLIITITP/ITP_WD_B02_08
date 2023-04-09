@@ -32,7 +32,7 @@ function AdminEditSchedule() {
 
 
 //Edit Class
-  const [grade, setGrade] = useState("");
+  const [grade] = useState("");
   const [subject, setSubject] = useState("");
   const [teacher, setTeacher] = useState("");
   const [hall, setHall] = useState("");
@@ -52,20 +52,31 @@ function AdminEditSchedule() {
       time,
       fees
     };
-  
-    axios.put(`http://localhost:9090/class/updateClass/`, updatedClass)
+    console.log("selectedClass:", selectedClass);
+    axios.put(`http://localhost:9090/class/updateClass/${selectedClass.id}`, updatedClass)
       .then(() => {
         alert("Class updated");
+        axios
+        .get('http://localhost:9090/class/allClasses')
+        .then((res) => {
+          setClasses(res.data);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
       })
       .catch((err) => {
         alert(err.message);
       });
-  }
+    }
+
 //Click to edit class details
 const [selectedClass, setSelectedClass] = useState(null);
 
 function handleClassClick(clz) {
   setSelectedClass({
+    id: clz._id,
+    grade: clz.grade,
     subject: clz.subject,
     teacher: clz.teacher,
     hall: clz.hall,
@@ -74,7 +85,7 @@ function handleClassClick(clz) {
     fees: clz.fees
   });
 }
-
+  
 
   return (
     
@@ -83,7 +94,7 @@ function handleClassClick(clz) {
     <div className="row" >
       {/*View timetable*/}
       <div class="col-7" style={{marginLeft:"200px"}}>
-      <h3 className="mb-4">All Classes</h3>
+      <h3 className="mb-4 text-center">All Classes</h3>
       <nav className="d-flex justify-content-center mb-4">
         <ul className="nav nav-pills">
         {gradeButtons.map((button) => (
@@ -100,8 +111,9 @@ function handleClassClick(clz) {
       </nav>
       <div className="table-responsive">
         <table className="table table-striped table-hover">
-          <thead>
+          <thead className="text-center">
             <tr>
+              <th>Grade</th>
               <th>Subject</th>
               <th>Teacher</th>
               <th>Hall</th>
@@ -110,11 +122,12 @@ function handleClassClick(clz) {
               <th>Fees</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {classes
               .filter((clz) => clz.grade === activeGrade)
               .map((clz) => (
                 <tr key={clz._id} onClick={() => handleClassClick(clz)}>
+                  <td>{clz.grade}</td>
                   <td>{clz.subject}</td>
                   <td>{clz.teacher}</td>
                   <td>{clz.hall}</td>
@@ -142,14 +155,14 @@ function handleClassClick(clz) {
   <div className="row">
   <div className="col-md-12 mb-3 d-flex align-items-center">
     <label htmlFor="grade" className="mr-2">Grade:</label>
-    <input type="text" className="form-control" id="grade" placeholder="" value={activeGrade} readOnly />
+    <input  className="form-control" id="grade"  placeholder={selectedClass} value={activeGrade} />
   </div>
   </div>
   
   <div className="row">
   <div className="col-md-12 mb-3 d-flex align-items-center">
     <label htmlFor="Subject" className="mr-2">Subject:</label>
-      <input type="text" className="form-control" id="subject" placeholder={selectedClass ? selectedClass.subject : "Subject"}
+      <input type="text" className="form-control" id="subject" placeholder={selectedClass ? selectedClass.subject : "Subject"} 
         onChange={(e) => {
           setSubject(e.target.value);
         }} 

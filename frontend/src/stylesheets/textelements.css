@@ -27,3 +27,12 @@
 h1{
     margin-bottom: 0px !important;
 }
+
+i{
+    font-size: 18px !important;
+    cursor: pointer !important;
+    
+}
+.underline{
+    text-decoration: underline !important;
+}

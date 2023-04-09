@@ -14,6 +14,9 @@ function GetPayment() {
     const [subjectList, setSubjectList] = useState([]);
     //set selected subjects
     const [selectedSubjects, setSelectedSubjects] = useState([]);
+    //search student details
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     //getting subject details and fetch
     useEffect(() => {
@@ -27,6 +30,8 @@ function GetPayment() {
         };
         fetchSubjects();
     }, []);
+
+
 
     //Sum the total of selecting
     const handleCheckboxChange = (event, sub) => {
@@ -74,6 +79,30 @@ function GetPayment() {
         }
     };
 
+
+    //search student details
+    //search ekata oni useeffect eka(searchTerm)
+    useEffect(() => {
+        const search = async () => {
+            try {
+                const response = await axios.get(`http://localhost:9090/api/user/search/${searchTerm}`);
+                setSearchResults(response.data);
+            } catch (err) {
+                setSearchResults([]);
+            }
+        };
+
+        if (searchTerm.length > 0) {
+            search();
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchTerm]);
+
+    //AAAAAAAAAAAAAA
+    const handleSearchTermChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
 
     return (
         <div className='container'>
@@ -156,6 +185,27 @@ function GetPayment() {
                 <div className='split-right'>
                     <button>Search by QR</button>
                     <button onClick={handleSearchClick}>See previous payments</button>
+                    <div>
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={handleSearchTermChange}
+                            placeholder="Search by ID or Name"
+                        />
+
+                        {searchResults.length === 0 ? (
+                            <p>No results found.</p>
+                        ) : (
+                            <ul>
+                                {searchResults.map((result) => (
+                                    <li key={result._id}>
+                                        <p>{`ID: ${result.studentID}`}</p>
+                                        <p>{`Name: ${result.name}`}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
             </div>
             <div className='split-right'>

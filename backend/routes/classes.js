@@ -39,9 +39,8 @@ router.route("/allClasses").get((req,res)=>{
 //update classes
 router.route("/updateClass/:id").put(async(req,res)=>{
     let classId = req.params.id;
-    const{grade,subject,teacher,hall,date,time,fees}= req.body;
+    const{subject,teacher,hall,date,time,fees}= req.body;
     const updateClass = {
-        grade,
         subject,
         teacher,
         hall,
