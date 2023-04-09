@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../stylesheets/GetPayment.css'
+import '../stylesheets/Payment.css'
 
 function GetPayment() {
     //set values
