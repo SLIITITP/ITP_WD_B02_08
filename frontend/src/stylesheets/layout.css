@@ -39,3 +39,7 @@
     border-radius: 5px;
     align-items: center !important;
 }
+
+.header i{
+    color: white !important;
+}
