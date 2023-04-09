@@ -52,12 +52,12 @@ import { loginUser } from "../../../apicalls/users";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 
 function Login() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //for loader
   const onFinish = async (values) => {
     try {
-      dispatch(ShowLoading());
+      dispatch(ShowLoading()); //showing loader
       const response = await loginUser(values);
-      dispatch(HideLoading());
+      dispatch(HideLoading()); //hide loader
       if (response.success) {
         message.success(response.message);
         localStorage.setItem("token", response.data);
@@ -77,7 +77,7 @@ function Login() {
       <div className="card w-400 p-3 bg-white">
         <div className="flex flex-col">
           <div className="flex">
-            <h1 className="text-2xl">SHEYQUIZ - LOGIN <i class="ri-login-circle-line"></i></h1>
+            <h1 className="text-2xl">Quiz Portal <i class="ri-login-circle-line"></i></h1>
             
           </div>
           <div className="divider"></div>

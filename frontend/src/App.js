@@ -30,6 +30,8 @@ import Profile from './components/Profile';
 import Recovery from './components/Recovery';
 //import PageNotFoud from './components/PageNotFound';
 import Reset from './components/Reset';
+import Loader from './components/Loader'
+import { useSelector } from 'react-redux'
 
 import StudentTicket from './components/StudentTicket'
 import AddTicket from './components/AddTicket'
@@ -40,9 +42,12 @@ import Reply from './components/reply';
 
 
 function App() {
+  const { loading } = useSelector((state) => state.loader);
   return (
+    
     <BrowserRouter>
       <Header />
+      {loading && <Loader />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -63,7 +68,7 @@ function App() {
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
-        {/* User Routes for exams management */}
+        {/* User Routes for exams management */}  
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
@@ -77,6 +82,7 @@ function App() {
         <Route path='/admin/exams/edit/:id' element={<ProtectedRoute>
           <AddEditExam />
         </ProtectedRoute>} />
+        
 
         <Route path="/STickets" exact element={<StudentTicket/>} />
       <Route path="/addTicket" exact element={<AddTicket/>} />

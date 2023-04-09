@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const examSchema = new mongoose.Schema(
@@ -24,12 +25,12 @@ const examSchema = new mongoose.Schema(
     },
     grade: {
       type: Number,
-      required: true,
+      required: false,
     },
     questions: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "questions",
-      required: true,
+      required: false,
     },
   },
   {
@@ -39,3 +40,4 @@ const examSchema = new mongoose.Schema(
 
 const Exam = mongoose.model("exams", examSchema);
 module.exports = Exam;
+

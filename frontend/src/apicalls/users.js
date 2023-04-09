@@ -30,6 +30,7 @@ export const getUserInfo = async () =>{
 const { default: axiosInstance } = require(".");
 
 export const registerUser = async (payload) => {
+    console.log(payload);
     try {
         const response = await axiosInstance.post('/api/users/register', payload);
         return response.data;
@@ -55,4 +56,6 @@ export const getUserInfo = async () => {
         return error.response.data;
     }
 }
+
+
 

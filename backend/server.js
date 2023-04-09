@@ -40,8 +40,8 @@ const ticketRoutes = require('./routes/tickets');
 
 
 
-const usersRoute = require('./routes/usersRoute');
-const examsRoute = require("./routes/examRoute");
+const usersRoute = require("./routes/usersRoute");
+const examsRoute = require("./routes/examsRoute");
 
 
 //route middleware
@@ -49,14 +49,15 @@ app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
 app.use(ticketRoutes);
-app.use('/api/exams' , examsRoute);
 
 
 
 
 
 
-app.use('/api/users', usersRoute);
+
+app.use("/api/users", usersRoute);
+app.use("/api/exams", examsRoute);
 
 //route middleware
 app.use("/class",classRouter);
