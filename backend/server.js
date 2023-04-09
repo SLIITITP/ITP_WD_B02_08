@@ -35,6 +35,7 @@ const userRoute = require('./routes/eusersRoute')
 const classRouter = require('./routes/classes');
 const SubjectRouter = require('./routes/Subject')
 const NipunUserRouter = require('./routes/NipunUser')
+// const studentRouter = require('./routes/students')
 
 //route middleware
 app.use('/api/payment', PaymentRouter);
@@ -43,3 +44,4 @@ app.use('/api/user', NipunUserRouter);
 
 //route middleware
 app.use("/class",classRouter);
+// app.use("/student",studentRouter);
