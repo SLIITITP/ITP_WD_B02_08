@@ -31,6 +31,14 @@ import Recovery from './components/Recovery';
 //import PageNotFoud from './components/PageNotFound';
 import Reset from './components/Reset';
 
+import StudentTicket from './components/StudentTicket'
+import AddTicket from './components/AddTicket'
+import EditTicket from './components/EditTicket'
+import TicketList from './components/TicketList';
+import ViewReply from './components/ViewReply';
+import Reply from './components/reply';
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -69,6 +77,13 @@ function App() {
         <Route path='/admin/exams/edit/:id' element={<ProtectedRoute>
           <AddEditExam />
         </ProtectedRoute>} />
+
+        <Route path="/STickets" exact element={<StudentTicket/>} />
+      <Route path="/addTicket" exact element={<AddTicket/>} />
+      <Route path="/edit/:id" exact element={<EditTicket/>} />
+      <Route path="/ticketlist" exact element ={<TicketList/>}/>
+       <Route path="/vreply/:id" exact element ={<ViewReply/>}/>
+       <Route path="/reply/:id" exact element ={<Reply/>}/>
 
 
       </Routes>

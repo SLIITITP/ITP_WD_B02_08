@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const ticketSchema = new mongoose.Schema({
 
+  
+  Rnumber: {
+    type: String,
+    required: true,
+    default: "",
+  },
+  
   subject: {
     type: String,
     maxlength: 100,
