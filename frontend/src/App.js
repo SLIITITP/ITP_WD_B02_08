@@ -1,6 +1,7 @@
 //import logo from './logo.svg';
 //import './App.css';
 import './stylesheets/theme.css'
+import './stylesheets/layout.css'
 import './stylesheets/alignments.css'
 import './stylesheets/textelements.css'
 import './stylesheets/custom-component.css'
@@ -20,6 +21,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/common/Home'
 import OnlinePayment from './components/OnlinePayment'
 import Exams from './pages/admin/Exams'
+import AddEditExam from './pages/admin/Exams/AddEditExam'
 
 function App() {
   return (
@@ -46,6 +48,13 @@ function App() {
         <Route path='/admin/exams' element={<ProtectedRoute>
           <Exams />
         </ProtectedRoute>} />
+        <Route path='/admin/exams/add' element={<ProtectedRoute>
+          <AddEditExam />
+        </ProtectedRoute>} />
+        <Route path='/admin/exams/edit/:id' element={<ProtectedRoute>
+          <AddEditExam />
+        </ProtectedRoute>} />
+        
 
       </Routes>
     </BrowserRouter>
