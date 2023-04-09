@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../stylesheets/GetPayment.css'
+import '../stylesheets/Payment.css'
 
 function GetPayment() {
     //set values
@@ -9,7 +9,7 @@ function GetPayment() {
     const [subjects, setSubjects] = useState([]);
     const [month, setMonth] = useState('');
     const [paidAmount, setAmount] = useState(0);
-    const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+    //const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
     //set subject list getting from DB
     const [subjectList, setSubjectList] = useState([]);
     //set selected subjects
@@ -18,6 +18,12 @@ function GetPayment() {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
+    const now = new Date();
+    const ldate = now.toLocaleDateString('en-CA');
+    const ltime = now.toLocaleTimeString('en-US', { hour12: false });
+    const [date, setDate] = useState(`${ldate}T${ltime}`);
+
+    console.log(date)
     //getting subject details and fetch
     useEffect(() => {
         const fetchSubjects = async () => {
@@ -164,20 +170,25 @@ function GetPayment() {
                         <ul>
                             {subjectList.map((sub) => (
                                 <div key={sub._id}>
-                                    <input
-                                        type='checkbox'
-                                        value={sub.subjectAmount}
-                                        onClick={(event) => handleCheckboxChange(event, sub)}
-                                    />
-                                    <label htmlFor={`subject-${sub._id}`}>{sub.subjectName}     {sub.subjectTeacherID}</label>
+                                    <label htmlFor={`subject-${sub._id}`}>
+                                        <input
+                                            type='checkbox'
+                                            id={`subject-${sub._id}`}
+                                            value={sub.subjectAmount}
+                                            checked={sub.checked}
+                                            onChange={(event) => handleCheckboxChange(event, sub)}
+                                        />
+                                        {sub.subjectName} {sub.subjectTeacherID}
+                                    </label>
                                 </div>
                             ))}
                         </ul>
+
                     </div>
                     <div>
                         <label>
                             Date:
-                            <input type="date" id="date" value={date} onChange={(event) => setDate(event.target.value)} />
+                            <input type="datetime-local" id="date" value={date} onChange={(event) => setDate(event.target.value)} />
                         </label>
                     </div>
                     <button type="submit">Submit</button>
@@ -211,11 +222,6 @@ function GetPayment() {
             <div className='split-right'>
                 <div>
                     <h2>Search for Payment Details</h2>
-                    <div>
-                        {/* <label htmlFor="studentIdInput">Student ID:</label>
-                        <input id="studentIdInput" type="text" value={studentId} onChange={handleStudentIdChange} />
-                        <button onClick={handleSearchClick}>Search</button> */}
-                    </div>
                     {errorMessage && <p>{errorMessage}</p>}
                     {payments.length > 0 && (
                         <div>
