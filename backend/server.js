@@ -40,13 +40,15 @@ const ticketRoutes = require('./routes/tickets');
 
 
 
-const usersRoute = require('./routes/usersRoute')
+const usersRoute = require('./routes/usersRoute');
+const examsRoute = require("./routes/examRoute");
 
 //route middleware
 app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
 app.use(ticketRoutes);
+app.use('/api/exams' , examsRoute);
 
 
 
