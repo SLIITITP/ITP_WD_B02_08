@@ -11,7 +11,7 @@ export default function EditTicket(props) {
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:4003/ticket/${id}`).then((res)=>{
+    axios.get(`http://localhost:9090/ticket/${id}`).then((res)=>{
       if(res.data.success){
         setRnumber(res.data.ticket.Rnumber);
         setsubject(res.data.ticket.subject);
@@ -45,7 +45,7 @@ export default function EditTicket(props) {
       details:details,
     };
     
-    axios.put(`http://localhost:4003/ticket/update/${id}`, data).then((res) => {
+    axios.put(`http://localhost:9090/ticket/update/${id}`, data).then((res) => {
       if (res.data.success) {
         alert("Ticket Update Successfully");
         setRnumber("");
