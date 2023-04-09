@@ -1,7 +1,9 @@
 import React,{ Component} from 'react';
 import axios from 'axios';
 
-export default class StudentTicket extends Component{
+
+
+export default class TicketList extends Component{
   constructor(props){
     super(props);
 
@@ -53,14 +55,22 @@ export default class StudentTicket extends Component{
 });
   }
 
+  generatePDF = (ticket) => {
+    const doc = new jsPDF();
+    doc.text(`Registration Number: ${ticket.Rnumber}`, 20, 20);
+    doc.text(`Subject: ${ticket.subject}`, 20, 30);
+    doc.text(`Status: ${ticket.status}`, 20, 40);
+    doc.text(`Open Date: ${ticket.openAt}`, 20, 50);
+    doc.save(`${ticket.Rnumber}.pdf`);
+  }
+  
+
  render(){
   return(
-
-    
     <div className="container">
       <div className="row">
         <div className="col-lg-9 mt-2 mb-2">
-            <h4>My Tickets </h4>
+            <h4> Tickets List </h4>
         </div>
 
         
@@ -75,11 +85,11 @@ export default class StudentTicket extends Component{
             </input>
         </div>
       </div>
-      <center> <button className="btn btn-success"><a href="/addTicket" style={{textDecoration:'none',color:'white',padding: "10px 50px" ,margin:"80px 30px"}}>Add new Ticket</a></button>
-</center>
-     
 
-        
+      <div><center><h4> Total Tickets:  {this.state.tickets.length}</h4>
+</center>
+        </div>
+   
           <table className="table table-hover" style={{marginTop:'40px'}}>
             <thead>
               <tr>
@@ -96,7 +106,7 @@ export default class StudentTicket extends Component{
                 <tr key={index}>
                   <th scope="row">{index+1}</th>
                   <td>
-                    <a href={ `/vreply/${tickets._id}`} style={{textDecoration:'none'}}>
+                    <a href={ `/reply/${tickets._id}`} style={{textDecoration:'none'}}>
                     {tickets.Rnumber}
                     </a>
                   </td>
@@ -104,21 +114,22 @@ export default class StudentTicket extends Component{
                   <td>{tickets.status}</td>
                   <td>{tickets.openAt}</td>
                   <td> 
-                    <a className="btn btn-warning" href={`/edit/${tickets._id}`}>
-                      <i className="fas fa-edit"></i>&nbsp;Edit
-                    </a>
-                    &nbsp;
                     <a className="btn btn-danger" href="#" onClick={()=>this.onDelete(tickets._id)}>
                       <i className="far fa-trash-alt"></i>&nbsp;Delete
                     </a>
                   </td>
+
+   
+
                 </tr>
+
+                
 
               ))}
             </tbody>
           </table>
         
-       
+        
 
     </div>
  
