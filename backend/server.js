@@ -43,7 +43,6 @@ const postRoutes = require('./routes/assignment');
 
 
 
-
 const usersRoute = require("./routes/usersRoute");
 const examsRoute = require("./routes/examsRoute");
 

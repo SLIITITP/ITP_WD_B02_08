@@ -45,6 +45,7 @@ import ViewReply from './components/ViewReply';
 import Reply from './components/reply';
 
 import AssignmentForm from './components/Assignment_Management_components/AssignmentForm'
+import ViewPayment from './components/ViewPayment'
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
         <Route path='/t1' element={<T1 />} />
         <Route path='/addPayment' exact element={<AddPayment />} />
         <Route path='/payOnline' exact element={<OnlinePayment />} />
+        <Route path='/viewPayment' exact element={<ViewPayment/>}/>
 
         {/* Admin Routes for Timetable Management */}
         <Route path="/timetable" exact element={<TimetableSideNav/>}/>
