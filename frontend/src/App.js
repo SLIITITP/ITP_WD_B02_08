@@ -46,6 +46,14 @@ import ViewReply from './components/ViewReply';
 import Reply from './components/reply';
 
 import AssignmentForm from './components/Assignment_Management_components/AssignmentForm'
+import Dashboard from './components/Assignment_Management_components/Dashboard'
+import RetrieveAssignments from './components/Assignment_Management_components/RetrieveAssignments'
+import EditAssignment from './components/Assignment_Management_components/EditAssignment'
+
+
+
+
+
 import ViewPayment from './components/ViewPayment'
 
 
@@ -118,6 +126,8 @@ function App() {
 
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
+        <Route path="/retriveAss" exact element={<RetrieveAssignments/>} />
+        <Route path="/editAss/:id" exact element={<EditAssignment/>} />
       </Routes>
     </BrowserRouter>
   );
