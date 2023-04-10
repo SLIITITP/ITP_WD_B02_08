@@ -19,6 +19,7 @@ import TimetableSideNav from "./components/TimetableSideNav";
 import AdminEditSchedule from "./pages/admin/Timetable/AdminEditSchedule";
 import AddClass from "./pages/admin/Timetable/AddClass";
 import MainTimetable from './pages/user/Timetable/MainTimetable'
+import MyTimetable from './pages/user/Timetable/MyTimetable'
 
 import AddPayment from './components/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -70,8 +71,13 @@ function App() {
         <Route path="/addClass" exact element={<TimetableSideNav>
         <AddClass />
         </TimetableSideNav> } />
+
+         {/* User Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
         <MainTimetable/>
+        </TimetableSideNav> } />
+        <Route path="/myTimetable" exact element={<TimetableSideNav>
+        <MyTimetable/>
         </TimetableSideNav> } />
 
         <Route path="/plogin" element={<Username />} />
