@@ -39,12 +39,13 @@ import EditTicket from './components/EditTicket'
 import TicketList from './components/TicketList';
 import ViewReply from './components/ViewReply';
 import Reply from './components/reply';
+import CreateAssignment from './components/CreateAssignment'
 
 
 function App() {
   const { loading } = useSelector((state) => state.loader);
   return (
-    
+
     <BrowserRouter>
       <Header />
       {loading && <Loader />}
@@ -69,7 +70,7 @@ function App() {
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
-        {/* User Routes for exams management */}  
+        {/* User Routes for exams management */}
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
@@ -83,16 +84,20 @@ function App() {
         <Route path='/admin/exams/edit/:id' element={<ProtectedRoute>
           <AddEditExam />
         </ProtectedRoute>} />
-        
-
-        <Route path="/STickets" exact element={<StudentTicket/>} />
-      <Route path="/addTicket" exact element={<AddTicket/>} />
-      <Route path="/edit/:id" exact element={<EditTicket/>} />
-      <Route path="/ticketlist" exact element ={<TicketList/>}/>
-       <Route path="/vreply/:id" exact element ={<ViewReply/>}/>
-       <Route path="/reply/:id" exact element ={<Reply/>}/>
 
 
+
+        <Route path="/STickets" exact element={<StudentTicket />} />
+        <Route path="/addTicket" exact element={<AddTicket />} />
+        <Route path="/edit/:id" exact element={<EditTicket />} />
+        <Route path="/ticketlist" exact element={<TicketList />} />
+        <Route path="/vreply/:id" exact element={<ViewReply />} />
+        <Route path="/reply/:id" exact element={<Reply />} />
+
+
+
+
+        <Route path="/CreateAssignment" exact element={<CreateAssignment />} />
       </Routes>
     </BrowserRouter>
   );
