@@ -57,6 +57,7 @@ function App() {
         <Route path='/addPayment' exact element={<AddPayment />} />
         <Route path='/payOnline' exact element={<OnlinePayment />} />
 
+        {/* Admin Routes for Timetable Management */}
         <Route path="/allClasses" exact element={<AdminEditSchedule />} />
         <Route path="/addClass" exact element={<AddClass />} />
 
