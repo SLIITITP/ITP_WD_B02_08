@@ -14,8 +14,12 @@ import Header from './components/Header'
 import testuser from './pages/user/testuser'
 import Testuser from './pages/user/testuser'
 import T1 from './pages/user/T1'
-import AdminEditSchedule from "./components/AdminEditSchedule";
-import AddClass from "./components/AddClass";
+
+import TimetableSideNav from "./components/TimetableSideNav";
+import AdminEditSchedule from "./pages/admin/Timetable/AdminEditSchedule";
+import AddClass from "./pages/admin/Timetable/AddClass";
+import MainTimetable from './pages/user/Timetable/MainTimetable'
+
 import AddPayment from './components/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/common/Home'
@@ -58,9 +62,16 @@ function App() {
         <Route path='/payOnline' exact element={<OnlinePayment />} />
 
         {/* Admin Routes for Timetable Management */}
-        <Route path="/allClasses" exact element={<AdminEditSchedule />} />
-        <Route path="/addClass" exact element={<AddClass />} />
-
+        <Route path="/timetable" exact element={<TimetableSideNav/>}/>
+        <Route path="/allClasses" exact element={<TimetableSideNav>
+        <AdminEditSchedule/>
+        </TimetableSideNav> } />
+        <Route path="/addClass" exact element={<TimetableSideNav>
+        <AddClass />
+        </TimetableSideNav> } />
+        <Route path="/mainTimetable" exact element={<TimetableSideNav>
+        <MainTimetable/>
+        </TimetableSideNav> } />
 
         <Route path="/plogin" element={<Username />} />
         <Route path="/password" element={<Password />} />
