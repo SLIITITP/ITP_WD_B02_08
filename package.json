@@ -3,6 +3,7 @@
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-hot-toast": "^2.4.0",
+    "stripe": "^12.0.0",
     "useref": "^1.4.4"
   }
 }
