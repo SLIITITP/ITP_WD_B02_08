@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TimetableSideNav from "./TimetableSideNav";
+import "../stylesheets/Timetable-form.css"
 function AdminEditSchedule() {
   
  //view timetabe 
@@ -42,7 +43,10 @@ function AdminEditSchedule() {
 
   function sendData(e) {
     e.preventDefault();
-  
+    if (!grade || !subject || !teacher || !hall || !date || !time || !fees) {
+      alert("Please fill out all fields.");
+      return;
+    }
     const updatedClass = {
       grade,
       subject,
@@ -85,16 +89,56 @@ function handleClassClick(clz) {
     fees: clz.fees
   });
 }
-  
 
+//Edit Class Form Input field (Avoid duplicating)
+function InputField({ label, placeholder, value, onChange }) {
   return (
-    
-    <div className="container my-5 " style={{ maxWidth: "1600px"}}>
-        <TimetableSideNav/>
+    <div className="col-md-12 mb-1 d-flex items-center">
+      <label htmlFor={label} className="mr-2">
+        {label}:
+      </label>
+      <input
+        type="text"
+        className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+        focus:ring-2 sm:text-sm sm:leading-6"
+        id={label.toLowerCase()}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+    </div>
+  );
+}
+
+//Delete Class
+function deleteClass(id) {
+  console.log("selectedClass:", selectedClass);
+  axios
+    .delete(`http://localhost:9090/class/deleteClass/${selectedClass.id}`)
+    .then((res) => {
+      alert("Class deleted");
+      axios
+        .get('http://localhost:9090/class/allClasses')
+        .then((res) => {
+          setClasses(res.data);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+}
+
+return (
+   
+<div className="container my-5 " style={{ maxWidth: "1600px"}}>
+    <TimetableSideNav/>
     <div className="row" >
       {/*View timetable*/}
       <div class="col-7" style={{marginLeft:"200px"}}>
-      <h3 className="mb-4 text-center">All Classes</h3>
+      <h3 className="mb-4 text-center font-medium text-2xl text-gray-900 dark:text-white">All Classes</h3>
       <nav className="d-flex justify-content-center mb-4">
         <ul className="nav nav-pills">
         {gradeButtons.map((button) => (
@@ -147,89 +191,60 @@ function handleClassClick(clz) {
       </div>
       </div>
 
-  {/*Add Classes*/}
+  {/*Edit Classes Form*/}
   <div class="col" >
-  <h3 className="text-center mb-4">Edit Class Details</h3> 
+  <h3 className="mb-4 text-center font-medium text-2xl text-gray-900 dark:text-white">Edit Class Details</h3> 
   <div className="container">
-  <form onSubmit={sendData}>
+  <form>
+
   <div className="row">
-  <div className="col-md-12 mb-3 d-flex align-items-center">
-    <label htmlFor="grade" className="mr-2">Grade:</label>
-    <input  className="form-control" id="grade"  placeholder={selectedClass} value={activeGrade} />
-  </div>
-  </div>
-  
-  <div className="row">
-  <div className="col-md-12 mb-3 d-flex align-items-center">
-    <label htmlFor="Subject" className="mr-2">Subject:</label>
-      <input type="text" className="form-control" id="subject" placeholder={selectedClass ? selectedClass.subject : "Subject"} 
-        onChange={(e) => {
-          setSubject(e.target.value);
-        }} 
-      />
-    </div>
-  </div>
-  
-  <div className="row">
-  <div className="col-md-12 mb-3 d-flex align-items-center">
-    <label htmlFor="Teacher" className="mr-2">Teacher:</label>
-      <input type="text" className="form-control" id="teacher" placeholder={selectedClass ? selectedClass.teacher : "Teacher's Name"}
-        onChange={(e) => {
-          setTeacher(e.target.value);
-        }} 
-      />
-    </div>
-  </div>
-  
-  <div className="row">
-  <div className="col-md-12 mb-3 d-flex align-items-center">
-    <label htmlFor="HallNo" className="mr-2">Hall:</label>
-      <input type="text" className="form-control" id="hall" placeholder={selectedClass ? selectedClass.hall : "Hall No"}
-        onChange={(e) => {
-          setHall(e.target.value);
-        }} 
-      />
-    </div>
-  </div>
-  
-  <div className="row">
-  <div className="col-md-12 mb-3 d-flex align-items-center">
-    <label htmlFor="Date" className="mr-2">Date:</label>
-      <input type="text" className="form-control" id="date" placeholder={selectedClass ? selectedClass.date : "Date"}
-        onChange={(e) => {
-          setDate(e.target.value);
-        }} 
-      />
-    </div>
-  </div>
-  
-  <div className="row">
-  <div className="col-md-12 mb-3 d-flex align-items-center">
-    <label htmlFor="Time" className="mr-2">Time:</label>
-      <input type="text" className="form-control" id="time" placeholder={selectedClass ? selectedClass.time: "Time"}
-        onChange={(e) => {
-          setTime(e.target.value);
-        }} 
-      />
-    </div>
-  </div>
-  
-  <div className="row">
-  <div className="col-md-12 mb-3 d-flex align-items-center">
-    <label htmlFor="Fees" className="mr-2">Fees:</label>
-      <input type="text" className="form-control" id="fees" placeholder={selectedClass ? selectedClass.fees : "Fees"}
-        onChange={(e) => {
-          setFees(e.target.value);
-          }} />
+     <InputField label="Grade" placeholder={selectedClass} value={activeGrade} />
   </div>
 
+  <div className="row">
+     <InputField label="Subject" placeholder={selectedClass ? selectedClass.subject : "Subject"} value={subject} 
+      onChange={(e) => setSubject(e.target.value)} />
+  </div>
+  
+  <div className="row">
+     <InputField label="Teacher" placeholder={selectedClass ? selectedClass.teacher : "Teacher's Name"} value={teacher}
+      onChange={(e) => setTeacher(e.target.value)}
+     />
+  </div>
+  
+  <div className="row">
+     <InputField label="Hall" placeholder={selectedClass ? selectedClass.hall : "Hall"} value={hall}
+      onChange={(e) => setHall(e.target.value)}
+     />
+  </div>
+  
+  <div className="row">
+     <InputField label="Date" placeholder={selectedClass ? selectedClass.date : "Date"} value={date}
+      onChange={(e) => setDate(e.target.value)}
+     />
+  </div>
+  
+  <div className="row">
+     <InputField label="Time" placeholder={selectedClass ? selectedClass.time : "Time"} value={time}
+      onChange={(e) => setTime(e.target.value)}
+     />
+  </div>
+ 
+  <div className="row">
+    <InputField label="Fees" placeholder={selectedClass ? selectedClass.fees : "Fees"} value={fees}
+     onChange={(e) => setFees(e.target.value)}
+    />
   </div>
 
-        <button type="submit" className="btn btn-primary">Submit</button>
-      </form>
+  <button type="submit" onClick={sendData} className="mt-2 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none 
+  font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center">Update</button>
 
-      </div>
-      </div>
+  <button type="submit" onClick={deleteClass} className="ml-5 mt-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none 
+ font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center">Delete</button>
+
+  </form>
+  </div>
+  </div>
 
     </div>
     </div>
