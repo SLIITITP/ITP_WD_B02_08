@@ -39,7 +39,8 @@ import EditTicket from './components/EditTicket'
 import TicketList from './components/TicketList';
 import ViewReply from './components/ViewReply';
 import Reply from './components/reply';
-import CreateAssignment from './components/CreateAssignment'
+
+import AssignmentForm from './components/Assignment_Management_components/AssignmentForm'
 
 
 function App() {
@@ -97,7 +98,7 @@ function App() {
 
 
 
-        <Route path="/CreateAssignment" exact element={<CreateAssignment />} />
+        <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
       </Routes>
     </BrowserRouter>
   );
