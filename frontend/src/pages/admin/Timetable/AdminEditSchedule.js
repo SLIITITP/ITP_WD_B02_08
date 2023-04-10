@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TimetableSideNav from "./TimetableSideNav";
-import "../stylesheets/Timetable-form.css"
+
 function AdminEditSchedule() {
   
  //view timetabe 
@@ -43,10 +42,10 @@ function AdminEditSchedule() {
 
   function sendData(e) {
     e.preventDefault();
-    if (!grade || !subject || !teacher || !hall || !date || !time || !fees) {
-      alert("Please fill out all fields.");
-      return;
-    }
+    // if ( !subject || !teacher || !hall || !date || !time || !fees) {
+    //   alert("Please fill out all fields.");
+    //   return;
+    // }
     const updatedClass = {
       grade,
       subject,
@@ -134,10 +133,10 @@ function deleteClass(id) {
 return (
    
 <div className="container my-5 " style={{ maxWidth: "1600px"}}>
-    <TimetableSideNav/>
+    
     <div className="row" >
       {/*View timetable*/}
-      <div class="col-7" style={{marginLeft:"200px"}}>
+      <div class="col-8" >
       <h3 className="mb-4 text-center font-medium text-2xl text-gray-900 dark:text-white">All Classes</h3>
       <nav className="d-flex justify-content-center mb-4">
         <ul className="nav nav-pills">

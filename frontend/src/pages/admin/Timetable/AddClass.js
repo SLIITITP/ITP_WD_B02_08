@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import TimetableSideNav from "./TimetableSideNav";
 
 function AddClass() {
   const [formData, setFormData] = useState({
@@ -67,9 +66,8 @@ function handleInputChange(event) {
   }
 
   return (
-    <div className="container">
-      <TimetableSideNav />
-      <div className="items-center justify-center" style={{ marginLeft: "200px" }}>
+    <div className="container mt-5 ml-4">
+      <div className="items-center justify-center">
         
         <h3 className="mt-3 mb-4 font-medium text-2xl text-gray-900 dark:text-white">Add New Class</h3>
         <form className="col-5" onSubmit={handleSubmit}>
