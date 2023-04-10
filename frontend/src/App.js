@@ -14,8 +14,12 @@ import Header from './components/Header'
 import testuser from './pages/user/testuser'
 import Testuser from './pages/user/testuser'
 import T1 from './pages/user/T1'
-import AdminEditSchedule from "./components/AdminEditSchedule";
-import AddClass from "./components/AddClass";
+
+import TimetableSideNav from "./components/TimetableSideNav";
+import AdminEditSchedule from "./pages/admin/Timetable/AdminEditSchedule";
+import AddClass from "./pages/admin/Timetable/AddClass";
+import MainTimetable from './pages/user/Timetable/MainTimetable'
+
 import AddPayment from './components/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/common/Home'
@@ -39,12 +43,13 @@ import EditTicket from './components/EditTicket'
 import TicketList from './components/TicketList';
 import ViewReply from './components/ViewReply';
 import Reply from './components/reply';
+import CreateAssignment from './components/CreateAssignment'
 
 
 function App() {
   const { loading } = useSelector((state) => state.loader);
   return (
-    
+
     <BrowserRouter>
       <Header />
       {loading && <Loader />}
@@ -57,9 +62,17 @@ function App() {
         <Route path='/addPayment' exact element={<AddPayment />} />
         <Route path='/payOnline' exact element={<OnlinePayment />} />
 
-        <Route path="/allClasses" exact element={<AdminEditSchedule />} />
-        <Route path="/addClass" exact element={<AddClass />} />
-
+        {/* Admin Routes for Timetable Management */}
+        <Route path="/timetable" exact element={<TimetableSideNav/>}/>
+        <Route path="/allClasses" exact element={<TimetableSideNav>
+        <AdminEditSchedule/>
+        </TimetableSideNav> } />
+        <Route path="/addClass" exact element={<TimetableSideNav>
+        <AddClass />
+        </TimetableSideNav> } />
+        <Route path="/mainTimetable" exact element={<TimetableSideNav>
+        <MainTimetable/>
+        </TimetableSideNav> } />
 
         <Route path="/plogin" element={<Username />} />
         <Route path="/password" element={<Password />} />
@@ -68,7 +81,7 @@ function App() {
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
-        {/* User Routes for exams management */}  
+        {/* User Routes for exams management */}
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
@@ -82,16 +95,20 @@ function App() {
         <Route path='/admin/exams/edit/:id' element={<ProtectedRoute>
           <AddEditExam />
         </ProtectedRoute>} />
-        
-
-        <Route path="/STickets" exact element={<StudentTicket/>} />
-      <Route path="/addTicket" exact element={<AddTicket/>} />
-      <Route path="/edit/:id" exact element={<EditTicket/>} />
-      <Route path="/ticketlist" exact element ={<TicketList/>}/>
-       <Route path="/vreply/:id" exact element ={<ViewReply/>}/>
-       <Route path="/reply/:id" exact element ={<Reply/>}/>
 
 
+
+        <Route path="/STickets" exact element={<StudentTicket />} />
+        <Route path="/addTicket" exact element={<AddTicket />} />
+        <Route path="/edit/:id" exact element={<EditTicket />} />
+        <Route path="/ticketlist" exact element={<TicketList />} />
+        <Route path="/vreply/:id" exact element={<ViewReply />} />
+        <Route path="/reply/:id" exact element={<Reply />} />
+
+
+
+
+        <Route path="/CreateAssignment" exact element={<CreateAssignment />} />
       </Routes>
     </BrowserRouter>
   );
