@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../stylesheets/Payment.css'
 
+//Added a comment to check
 function GetPayment() {
     //set values
     const [studentId, setStudentId] = useState('');
