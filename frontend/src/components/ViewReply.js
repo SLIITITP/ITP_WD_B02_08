@@ -20,25 +20,26 @@ const TicketDetails = () => {
  
 
   return (
-   <div>
-    <div style={{ marginTop: '20px' }}>
-      <h4>{ticket.subject}</h4>
-      <hr />
 
-      <dl className="row">
-        <dt className="col-sm-3">Ticket Date</dt>
-        <dd className="col-sm-9">{ticket.openAt}</dd>
-        <dt className="col-sm-3">Ticket details</dt>
-        <dd className="col-sm-9">{ticket.details}</dd>
-      </dl>
+    <div>
+      <br></br>
+   <h3 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Subject :
+   <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.subject}</small></h3>
 
+    <br></br>
       
-    </div>
-   
-    <label  style={{marginBottom:'5px'}}>Reply</label>
-   
-    <dd className="col-sm-9">{ticket.message}</dd>
+   <h3 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Date :
+   <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.openAt}</small></h3>
+    
+    <br></br>
+      
+   <h3 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Details :
+   <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.details}</small></h3>
 
+    <br></br>
+   <h3 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Reply </h3>
+   <br></br>
+   <h6 style={{marginLeft:'40px'}}><mark class="px-2 text-white bg-gray-500 rounded dark:bg-gray-400">{ticket.message}</mark></h6>
     </div>
   
     
