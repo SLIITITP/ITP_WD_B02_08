@@ -60,79 +60,96 @@ export default function OnlinePayment() {
             });
     }, [studentId]);
 
+    //handleSubmit for Adding payemnts
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            await axios.post('http://localhost:9090/api/payment/add', { studentId, date, month, subjects, grade, paidAmount });
+            alert('Payment added successfully!');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to add Payment!');
+        }
+    };
+
 
     return (
         <div className='container'>
             <div className='split-left'>
-                <div className='get-center'>
-                    <h3>Hello, You are ready to pay your class fess</h3>
-                    <div>
-                        <label>
-                            Student ID :
-                            <input
-                                type='text'
-                                value={studentId}
-                                readOnly
-                            />
-                        </label>
-                        <label>
-                            Amount:
-                            <input type="number" value={totalAmount} readOnly />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Grade :
-                            <select value={grade} onChange={(e) => setGrade(e.target.value)}>
-                                <option value=''>--Select Grade--</option>
-                                <option value='1'>Grade 1</option>
-                                <option value='2'>Grade 2</option>
-                                <option value='3'>Grade 3</option>
-                                <option value='4'>Grade 4</option>
-                                <option value='5'>Grade 5</option>
-                                <option value='6'>Grade 6</option>
-                                <option value='7'>Grade 7</option>
-                                <option value='8'>Grade 8</option>
-                                <option value='9'>Grade 9</option>
-                                <option value='10'>Grade 10</option>
-                                <option value='11'>Grade 11</option>
-                            </select>
-                        </label>
-                        <label>
-                            Month:
-                            <select value={month} onChange={(e) => setMonth(e.target.value)}>
-                                <option value="">--Select Month--</option>
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
-                            </select>
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    Select Classes to pay
-                    <ul>
-                        {subjectList.map((sub) => (
-                            <div key={sub._id}>
+                <form onSubmit={handleSubmit}>
+                    <div className='get-center'>
+                        <h3>Hello, You are ready to pay your class fess</h3>
+                        <div>
+                            <label>
+                                Student ID :
                                 <input
-                                    type='checkbox'
-                                    value={sub.subjectAmount}
-                                    onClick={(event) => handleCheckboxChange(event, sub)}
-                                />
-                                <label htmlFor={`subject-${sub._id}`}>{sub.subjectName}     {sub.subjectTeacherID}</label>
-                            </div>
-                        ))}
-                    </ul>
-                </div>
+                                    type='text'
+                                    value={studentId}
+                                    readOnly />
+                            </label>
+                            <label>
+                                Amount:
+                                <input type="number" value={totalAmount} readOnly />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                Grade :
+                                <select value={grade} onChange={(e) => setGrade(e.target.value)}>
+                                    <option value=''>--Select Grade--</option>
+                                    <option value='1'>Grade 1</option>
+                                    <option value='2'>Grade 2</option>
+                                    <option value='3'>Grade 3</option>
+                                    <option value='4'>Grade 4</option>
+                                    <option value='5'>Grade 5</option>
+                                    <option value='6'>Grade 6</option>
+                                    <option value='7'>Grade 7</option>
+                                    <option value='8'>Grade 8</option>
+                                    <option value='9'>Grade 9</option>
+                                    <option value='10'>Grade 10</option>
+                                    <option value='11'>Grade 11</option>
+                                </select>
+                            </label>
+                            <label>
+                                Month:
+                                <select value={month} onChange={(e) => setMonth(e.target.value)}>
+                                    <option value="">--Select Month--</option>
+                                    <option value="January">January</option>
+                                    <option value="February">February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        Select Classes to pay
+                        <ul>
+                            {subjectList.map((sub) => (
+                                <div key={sub._id}>
+                                    <label htmlFor={`subject-${sub._id}`}>
+                                        <input
+                                            type='checkbox'
+                                            id={`subject-${sub._id}`}
+                                            value={sub.subjectAmount}
+                                            checked={sub.checked}
+                                            onChange={(event) => handleCheckboxChange(event, sub)} />
+                                        {sub.subjectName} {sub.subjectTeacherID}
+                                    </label>
+                                </div>
+                            ))}
+                        </ul>
+                    </div>
+                    <button type="submit">Pay</button>
+                </form>
             </div>
             <div className='split-right'>
                 <div>
@@ -166,6 +183,6 @@ export default function OnlinePayment() {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
