@@ -55,6 +55,7 @@ import EditAssignment from './components/Assignment_Management_components/EditAs
 
 
 import ViewPayment from './components/ViewPayment'
+import PaymentConfirm from './components/PaymentConfirm'
 
 
 function App() {
@@ -73,6 +74,8 @@ function App() {
         <Route path='/addPayment' exact element={<AddPayment />} />
         <Route path='/payOnline' exact element={<OnlinePayment />} />
         <Route path='/viewPayment' exact element={<ViewPayment/>}/>
+        <Route path='/confirmPayment' exact element={<PaymentConfirm/>}/>
+
 
         {/* Admin Routes for Timetable Management */}
         <Route path="/timetable" exact element={<TimetableSideNav/>}/>
