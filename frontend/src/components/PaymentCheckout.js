@@ -37,5 +37,7 @@ const Checkout = () => {
     </StripeCheckout>
   );
 };
+//මේකට යටින් ගහන්න එපා මුකුත්
+// ගහන ඒවා උඩින් ගහන්න ( ගහලා)
 
 export default Checkout;
