@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ex = () => {
+const Exxxxx = () => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [subject, setSubject] = useState('');
@@ -50,4 +50,4 @@ const ex = () => {
   );
 };
 
-export default ex;
+export default Exxxxx;
