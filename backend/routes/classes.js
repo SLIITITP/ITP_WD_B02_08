@@ -84,4 +84,15 @@ router.route("/getSpecificClass/:id").get(async(req,res)=>{
     })
 })
 
+/*retrieve class details by day
+router.get('/schedule/:day', async (req, res) => {
+    try {
+      const schedule = await Class.find({ day: req.params.date });
+      res.json(schedule);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({status: "Error with get class", error: err.message});
+    }
+ });
+*/
 module.exports = router;

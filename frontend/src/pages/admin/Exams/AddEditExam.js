@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { Tabs } from "antd";
 import AddEditQuestion from "./AddEditQuestion";
+
 const { TabPane } = Tabs;
 
 function AddEditExam() {
@@ -25,6 +26,7 @@ function AddEditExam() {
   const params = useParams();
   const onFinish = async (values) => {
     try {
+      console.log(values);
       dispatch(ShowLoading());
       let response;
 
@@ -190,6 +192,21 @@ function AddEditExam() {
                 <Col span={8}>
                     <Form.Item label="Grade" name = "grade">
                         <input className='einput' type='number'/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item label="Date (YYYY/MM/DD)" name = "date">
+                    <input className='einput' type='text'/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item label="Time (HH:MM am/pm)" name = "time">
+                    <input className='einput' type='text'/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item label="Enrollment Key" name = "enrollmentkey">
+                        <input className='einput' type='text'/>
                     </Form.Item>
                 </Col>
               </Row>

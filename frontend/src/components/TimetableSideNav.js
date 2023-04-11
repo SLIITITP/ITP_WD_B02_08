@@ -124,9 +124,9 @@ const { user } = useSelector((state) => state.users);
     },
     {
       title: "My Class Schedule",
-      paths: ["/user/reports"],
+      paths: ["/myTimetable"],
       icon: <i className="ri-table-line"></i>,
-      onClick: () => navigate("#/myTimetable"),
+      onClick: () => navigate("/myTimetable"),
     },
     {
       title: "Exam Schedule",
