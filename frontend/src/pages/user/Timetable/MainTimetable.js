@@ -72,7 +72,7 @@ return (
              <td>{clz.hall}</td>
              <td>{clz.date}</td>
              <td>{clz.time}</td>
-             <td>{clz.fees}</td>
+             <td>Rs.{clz.fees}</td>
            </tr>
          ))}
      </tbody>
