@@ -42,10 +42,14 @@ function AdminEditSchedule() {
 
   function sendData(e) {
     e.preventDefault();
-    // if ( !subject || !teacher || !hall || !date || !time || !fees) {
-    //   alert("Please fill out all fields.");
-    //   return;
-    // }
+    if (!selectedClass) {
+      alert("No class selected.");
+      return;
+    }
+    else if ( !subject || !teacher || !hall || !date || !time || !fees) {
+      alert("Please fill out all fields.");
+      return;
+    } 
     const updatedClass = {
       grade,
       subject,
@@ -71,12 +75,17 @@ function AdminEditSchedule() {
       .catch((err) => {
         alert(err.message);
       });
+      if (!selectedClass) {
+        console.error("No class selected.");
+        return;
+      }
     }
 
 //Click to edit class details
 const [selectedClass, setSelectedClass] = useState(null);
 
 function handleClassClick(clz) {
+
   setSelectedClass({
     id: clz._id,
     grade: clz.grade,
@@ -111,6 +120,10 @@ function InputField({ label, placeholder, value, onChange }) {
 
 //Delete Class
 function deleteClass(id) {
+  if (!selectedClass) {
+    alert("No class selected.");
+    return;
+  }
   console.log("selectedClass:", selectedClass);
   axios
     .delete(`http://localhost:9090/class/deleteClass/${selectedClass.id}`)
@@ -128,6 +141,7 @@ function deleteClass(id) {
     .catch((err) => {
       alert(err.message);
     });
+
 }
 
 return (
@@ -176,7 +190,7 @@ return (
                   <td>{clz.hall}</td>
                   <td>{clz.date}</td>
                   <td>{clz.time}</td>
-                  <td>{clz.fees}</td>
+                  <td>Rs.{clz.fees}</td>
                 </tr>
               ))}
           </tbody>
@@ -185,7 +199,7 @@ return (
       </div>
 
       <div class="col-1" style={{width: "2%"}}>
-      <div class="d-flex " style={{height: "100vh"}}>
+      <div class="d-flex " style={{height: "80vh"}}>
          <div class="vr"></div>
       </div>
       </div>

@@ -30,17 +30,16 @@ app.listen(PORT, () => {
 })
 
 //import routes
-const PaymentRouter = require('./routes/Payment')
 const classRouter = require('./routes/classes');
-const SubjectRouter = require('./routes/Subject')
-const NipunUserRouter = require('./routes/NipunUser');
 const ticketRoutes = require('./routes/tickets');
 
 //assignment
 const postRoutes = require('./routes/assignment');
 
-
-
+//Payment Management
+const SubjectRouter = require('./routes/Subject')
+const NipunUserRouter = require('./routes/NipunUser');
+const PaymentRouter = require('./routes/Payment')
 
 
 const usersRoute = require("./routes/usersRoute");

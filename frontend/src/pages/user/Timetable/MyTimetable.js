@@ -86,10 +86,10 @@ return (
     <thead className="text-center">
       <tr>
         <th>Time</th>
+        <th>Grade</th>
         <th>Subject</th>
         <th>Teacher</th>
         <th>Hall</th>
-        <th>Date</th>
         <th>Fees</th>
       </tr>
     </thead>
@@ -98,11 +98,11 @@ return (
       .map((clz) => (
           <tr key={clz.id}>
             <td>{clz.time}</td>
+            <td>Grade {clz.grade}</td>
             <td>{clz.subject}</td>
             <td>{clz.teacher}</td>
             <td>{clz.hall}</td>
-            <td>{clz.date}</td>
-            <td>{clz.fees}</td>
+            <td>Rs.{clz.fees}</td>
           </tr>
         ))}
     </tbody>

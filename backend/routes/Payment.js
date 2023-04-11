@@ -21,7 +21,7 @@ router.post('/add', (req, res) => {
 router.get('/history/:studentId', async (req, res) => {
   try {
     const studentId = req.params.studentId;
-    const payments = await Payment.find({ studentId: studentId }).sort({ createdAt: 1 });
+    const payments = await Payment.find({ studentId: studentId }).sort({ date: -1 });
     if (payments.length === 0) {
       return res.status(404).json({ message: 'No payment found for student ID ' + studentId });
     }
@@ -32,18 +32,25 @@ router.get('/history/:studentId', async (req, res) => {
   }
 });
 
-//search payment category wise
-router.get('/payments', async (req, res) => {
+router.get('/payHistory', async (req, res) => {
   try {
-    const { subject, grade, month } = req.query;
-    const payments = await Payment.find({
-      subjects: { $in: subject },
-      grade: { $eq: grade },
-      month: { $eq: month },
-    });
+    const searchCriteria = {};
+    if (req.query.subject) {
+      searchCriteria.subjects = { $in: [req.query.subject] };
+    }
+    if (req.query.grade) {
+      searchCriteria.grade = req.query.grade;
+    }
+    if (req.query.month) {
+      searchCriteria.month = req.query.month;
+    }
+    if (req.query.studentId) {
+      searchCriteria.studentId = req.query.studentId;
+    }
+    const payments = await Payment.find(searchCriteria).sort({ date: -1 });
     res.json(payments);
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).send('Server Error');
   }
 });
