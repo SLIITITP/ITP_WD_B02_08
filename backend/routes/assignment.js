@@ -61,7 +61,7 @@ router.get('/assignments/:id', async (req, res) => {
 });
 
 // Route for updating a specific assignment by ID
-router.patch('/assignments/:id', async (req, res) => {
+router.patch('/assignments/update/:id', async (req, res) => {
   try {
     // Fetch the assignment by ID from the database and update its properties
     const updatedAssignment = await Assignment.findByIdAndUpdate(req.params.id, {
@@ -105,4 +105,4 @@ router.delete('/assignments/:id', async (req, res) => {
 
 module.exports = router;
 
-module.exports = router;
+

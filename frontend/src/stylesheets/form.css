@@ -1,0 +1,25 @@
+/* Import Bootstrap CSS */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+/* Custom styles */
+.assignment-form-container {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 20px;
+}
+
+.assignment-form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.btn-success {
+  margin-top: 15px;
+}

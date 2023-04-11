@@ -19,6 +19,17 @@ const RetrieveAssignments = () => {
         fetchAssignments();
     }, []);
 
+    // Define onDelete function
+    const onDelete = async (assignmentId) => {
+        try {
+            await axios.delete(`/assignments/${assignmentId}`); // Replace with your API endpoint for deleting assignments
+            // Update assignments state after successful deletion
+            setAssignments(assignments.filter(assignment => assignment._id !== assignmentId));
+        } catch (error) {
+            console.error('Failed to delete assignment:', error);
+        }
+    }
+
     return (
         <div className=" container">
             <h1>Assignments</h1>
@@ -42,16 +53,15 @@ const RetrieveAssignments = () => {
 
 
                             <td>
-                                <a className="btn btn-warning" href={`/edit/${assignment._id}`}>
+                                <a className="btn btn-warning" href={`/editAss/${assignment._id}`}>
                                     <i className="fas fa-edit"></i>&nbsp;Edit
                                 </a>
 
 
                                 &nbsp;
-
-                                <a className="btn btn-danger" href="#" onClick={() => this.onDelete(assignment._id)}>
-                                    <i className=" fas fa-trash-alt"></i>&nbsp;Delete
-                                </a>
+                                <a className="btn btn-danger" href="#" onClick={() => onDelete(assignment._id)}>
+                                      <i className=" fas fa-trash-alt"></i>&nbsp;Delete
+        </a>
 
                             </td>
 

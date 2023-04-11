@@ -1,76 +1,71 @@
 import React, { useState, useEffect } from 'react';
-
 import axios from 'axios';
 
-const EditAssignment = ({ match }) => {
-    const [assignment, setAssignment] = useState({
-        type: "",
-        grade: "",
-        guidelines: "",
-        deadline: ""
-    });
+const EditAssignment = ({ assignmentId }) => {
+  // State to store assignment data
+  const [assignment, setAssignment] = useState({
+    type: '',
+    grade: '',
+    guidelines: '',
+    deadline: ''
+  });
 
-    useEffect(() => {
-        const fetchAssignment = async () => {
-            try {
-                const response = await axios.get(`/assignments/${match.params.id}`); // Replace with your API endpoint
-                setAssignment(response.data);
-            } catch (error) {
-                console.error('Failed to retrieve assignment:', error);
-            }
-        };
+  // Fetch assignment data from server
+  useEffect(() => {
+    axios.get(`/assignments/${assignmentId}`)
+      .then(response => {
+        setAssignment(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching assignment data:', error);
+      });
+  }, [assignmentId]);
 
-        fetchAssignment();
-    }, [match.params.id]);
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+    try {
+      // Send updated assignment data to server
+      await axios.patch(`/assignments/update/${assignmentId}`, assignment);
 
-        setAssignment({
-            ...assignment,
-            [name]: value
-        });
+      // Redirect to assignment details page or show success message
+      // depending on your implementation
+      console.log('Assignment updated successfully!');
+    } catch (error) {
+      console.error('Error updating assignment:', error);
     }
+  };
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.put(`/assignments/update/${match.params.id}`, assignment); // Replace with your API endpoint
-            if (response.data.success) {
-                alert("Assignment Updated Successfully");
-                // Optional: Redirect to a different page or perform other actions upon successful update
-            }
-        } catch (error) {
-            console.error('Failed to update assignment:', error);
-        }
-    }
+  // Function to handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAssignment(prevAssignment => ({
+      ...prevAssignment,
+      [name]: value
+    }));
+  };
 
-    const { type, grade, guidelines, deadline } = assignment;
-
-    return (
-        <div className="container">
-            <h1>Edit Assignment</h1>
-            <form onSubmit={onSubmit}>
-                <div className="form-group">
-                    <label>Type</label>
-                    <input type="text" className="form-control" placeholder="Enter Type" name="type" id="type" value={assignment.type} onChange={handleInputChange} />
-                </div>
-                <div className="form-group">
-                    <label>Grade</label>
-                    <input type="text" className="form-control" placeholder="Enter Grade" name="grade" id="grade" value={assignment.grade} onChange={handleInputChange} />
-                </div>
-                <div className="form-group">
-                    <label>Guidelines</label>
-                    <input type="text" className="form-control" placeholder="Enter Guidelines" name="guidelines" id="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
-                </div>
-                <div className="form-group">
-                    <label>Deadline</label>
-                    <input type="text" className="form-control" placeholder="Enter Deadline" name="deadline" id="deadline" value={assignment.deadline} onChange={handleInputChange} />
-                </div>
-                <button className="btn btn-success" type="submit">Update</button>
-            </form>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Edit Assignment</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Type:</label>
+        <input type="text" name="type" value={assignment.type} onChange={handleChange} />
+        <br />
+        <label>Grade:</label>
+        <input type="text" name="grade" value={assignment.grade} onChange={handleChange} />
+        <br />
+        <label>Guidelines:</label>
+        <textarea name="guidelines" value={assignment.guidelines} onChange={handleChange}></textarea>
+        <br />
+        <label>Deadline:</label>
+        <input type="date" name="deadline" value={assignment.deadline} onChange={handleChange} />
+        <br />
+        <button type="submit">Update Assignment</button>
+      </form>
+    </div>
+  );
 };
 
 export default EditAssignment;

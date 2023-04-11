@@ -128,6 +128,7 @@ function App() {
         <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
         <Route path="/retriveAss" exact element={<RetrieveAssignments/>} />
         <Route path="/editAss/:id" exact element={<EditAssignment/>} />
+        <Route path="/dash" exact element={<Dashboard/>} />
       </Routes>
     </BrowserRouter>
   );

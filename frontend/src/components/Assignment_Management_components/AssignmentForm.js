@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../../stylesheets/form.css'
 
 const AssignmentForm = () => {
   const [assignment, setAssignment] = useState({
@@ -30,9 +31,9 @@ const AssignmentForm = () => {
   }
 
   return (
-    <div>
+    <div className="assignment-form-container">
       <h1>Create new Assignment</h1>
-      <form>
+      <form className="assignment-form">
         <div className='form-group'>
           <label>Assignment Type</label>
           <select name="type" id="type" className="form-control" value={assignment.type} onChange={handleInputChange}>
@@ -67,7 +68,7 @@ const AssignmentForm = () => {
           <input type="date" className="form-control" placeholder="Enter deadline" id="deadline" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
         </div>
 
-        <button className='btn btn-success' type="submit" onClick={onSubmit}>Submit</button>
+        <button type="button" className="btn btn-success" onClick={onSubmit} >Create Assignment</button>
       </form>
     </div>
   );
