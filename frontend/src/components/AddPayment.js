@@ -69,10 +69,6 @@ function GetPayment() {
     const [payments, setPayments] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleStudentIdChange = (event) => {
-        setStudentId(event.target.value);
-    };
-
     //handleSubmit for search previous payments
     const handleSearchClick = async () => {
         try {
