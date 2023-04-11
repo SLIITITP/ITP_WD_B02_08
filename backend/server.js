@@ -41,7 +41,9 @@ const postRoutes = require('./routes/assignment');
 
 
 
-
+//delete this later
+const exRouter = require("./routes/exs")
+app.use('/api/ex', exRouter)
 
 const usersRoute = require("./routes/usersRoute");
 const examsRoute = require("./routes/examsRoute");
