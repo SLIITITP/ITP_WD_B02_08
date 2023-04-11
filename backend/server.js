@@ -68,3 +68,11 @@ app.use("/class",classRouter);
 
 app.use("/api",loginRouter);
 
+
+
+
+
+
+
+//මේකට යටින් ගහන්න එපා මුකුත්
+// ගහන ඒවා උඩින් ගහන්න (Enter ගහලා)
