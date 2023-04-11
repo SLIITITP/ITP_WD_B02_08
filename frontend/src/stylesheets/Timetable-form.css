@@ -1,0 +1,8 @@
+.tableHover :hover {
+    color: white;
+    background-color: blue;
+  }
+  
+  .tableSelected {
+    background-color: blue;
+  }
