@@ -1,108 +1,102 @@
 const express = require('express');
+const multer = require('multer');
+const Assignment = require('../models/assignment');
+
 const router = express.Router();
-const Assignment = require('../models/assignment'); // Import the Assignment model
 
-// Route for adding a new assignment
-router.post('/assignments/add', async (req, res) => {
-  try {
-    // Create a new assignment object with data from the request body
-    const newAssignment = new Assignment({
-      type: req.body.type,
-      grade: req.body.grade,
-      guidelines: req.body.guidelines,
-      deadline: req.body.deadline
+// Set up Multer storage configuration
+const storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  }
+});
+
+// Create a Multer instance with the storage configuration
+const upload = multer({ storage }).single('testimage'); // Update field name to 'testimage'
+
+router.get('/', (req, res) => {
+  res.send('Upload file');
+});
+
+// POST /assignments - Route to upload a file and create a new assignment
+router.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const newImage = new Assignment({
+        type: req.body.type,
+        grade: req.body.grade,
+        guidelines: req.body.guidelines,
+        deadline: req.body.deadline,
+        image: {
+          data: req.file.filename,
+          contentType: 'image/png'
+        }
+      });
+      newImage.save()
+      console.log(newImage)
+        //.then(() => res.send('Successfully uploaded'))
+        //.catch(err => console.log(err));
+    }
+  });
+});
+
+
+////////////////////////////////
+
+
+// GET /assignments - Route to retrieve all assignments
+router.get('/getAss', (req, res) => {
+  Assignment.find()
+    .then(assignments => res.json(assignments))
+    .catch(err => res.status(500).json({ error: err.message }));
+});
+
+// GET /assignments/:id - Route to retrieve a specific assignment by ID
+router.get('/getAss/:id', (req, res) => {
+  Assignment.findById(req.params.id)
+    .then(assignment => {
+      if (!assignment) {
+        return res.status(404).json({ error: 'Assignment not found' });
+      }
+      res.json(assignment);
+    })
+    .catch(err => res.status(500).json({ error: err.message }));
+});
+
+
+// Update an assignment by ID
+router.put('/updateAss/:id', (req, res) => {
+  const assignmentId = req.params.id;
+  const updateData = req.body;
+
+  Assignment.findByIdAndUpdate(assignmentId, updateData, { new: true })
+    .then(updatedAssignment => {
+      if (!updatedAssignment) {
+        return res.status(404).send('Assignment not found');
+      }
+      res.send(updatedAssignment);
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send('Internal server error');
     });
-
-    // Save the new assignment to the database
-    const savedAssignment = await newAssignment.save();
-
-    // Send a success response
-    
-    res.status(201).json("Assignment saved successfully");
-    
-  } catch (err) {
-    // Send an error response
-    res.status(400).json({ message: err.message });
-  }
 });
 
 
-// Route for getting all assignments
-router.get('/assignments', async (req, res) => {
-  try {
-    // Fetch all assignments from the database
-    const assignments = await Assignment.find();
-
-    // Send the assignments as a JSON response
-    res.status(200).json(assignments);
-  } catch (err) {
-    // Send an error response
-    res.status(500).json({ message: err.message });
-  }
+// DELETE /assignments/:id - Route to delete a specific assignment by ID
+router.delete('/deleteAss/:id', (req, res) => {
+  Assignment.findByIdAndRemove(req.params.id)
+    .then(assignment => {
+      if (!assignment) {
+        return res.status(404).json({ error: 'Assignment not found' });
+      }
+      res.json({ message: 'Assignment deleted successfully' });
+    })
+    .catch(err => res.status(500).json({ error: err.message }));
 });
 
-// Route for getting a specific assignment by ID
-router.get('/assignments/:id', async (req, res) => {
-  try {
-    // Fetch the assignment by ID from the database
-    const assignment = await Assignment.findById(req.params.id);
-
-    // If assignment not found, send an error response
-    if (!assignment) {
-      return res.status(404).json({ message: 'Assignment not found' });
-    }
-
-    // Send the assignment as a JSON response
-    res.status(200).json(assignment);
-  } catch (err) {
-    // Send an error response
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Route for updating a specific assignment by ID
-router.patch('/assignments/update/:id', async (req, res) => {
-  try {
-    // Fetch the assignment by ID from the database and update its properties
-    const updatedAssignment = await Assignment.findByIdAndUpdate(req.params.id, {
-      type: req.body.type,
-      grade: req.body.grade,
-      guidelines: req.body.guidelines,
-      deadline: req.body.deadline
-    }, { new: true });
-
-    // If assignment not found, send an error response
-    if (!updatedAssignment) {
-      return res.status(404).json({ message: 'Assignment not found' });
-    }
-
-    // Send the updated assignment as a JSON response
-    res.status(200).json(updatedAssignment);
-  } catch (err) {
-    // Send an error response
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// Route for deleting a specific assignment by ID
-router.delete('/assignments/:id', async (req, res) => {
-  try {
-    // Fetch the assignment by ID from the database and delete it
-    const deletedAssignment = await Assignment.findByIdAndDelete(req.params.id);
-
-    // If assignment not found, send an error response
-    if (!deletedAssignment) {
-      return res.status(404).json({ message: 'Assignment not found' });
-    }
-
-    // Send a success response
-    res.status(200).json({ message: 'Assignment deleted successfully' });
-  } catch (err) {
-    // Send an error response
-    res.status(500).json({ message: err.message });
-  }
-});
 
 module.exports = router;
-
-
