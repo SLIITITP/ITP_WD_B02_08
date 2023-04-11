@@ -27,6 +27,18 @@ const examSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
+    date:{
+      type: String,
+      required:true,
+    },
+    time:{
+      type: String,
+      required: true,
+    },
+    enrollmentkey:{
+      type:String,
+      required:true,
+    },
     questions: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "questions",
