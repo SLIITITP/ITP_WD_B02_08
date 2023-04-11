@@ -9,7 +9,11 @@ export default function OnlinePayment() {
     const [subjects, setSubjects] = useState([]);
     const [month, setMonth] = useState('');
     const [paidAmount, setAmount] = useState(0);
-    const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+
+    const now = new Date();
+    const ldate = now.toLocaleDateString('en-CA');
+    const ltime = now.toLocaleTimeString('en-US', { hour12: false });
+    const [date, setDate] = useState(`${ldate}T${ltime}`);
 
     //set subject list getting from DB
     const [subjectList, setSubjectList] = useState([]);
