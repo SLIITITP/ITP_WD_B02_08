@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const controller = require('./controller/registrationController');
+
 
 const app = express();
 
@@ -40,7 +42,7 @@ const ticketRoutes = require('./routes/tickets');
 const postRoutes = require('./routes/assignment');
 
 
-
+const loginRouter = require('./routes/login');
 
 
 const usersRoute = require("./routes/usersRoute");
@@ -60,4 +62,8 @@ app.use("/api/exams", examsRoute);
 
 //route middleware
 app.use("/class",classRouter);
+
+
+
+app.use("/api",loginRouter);
 
