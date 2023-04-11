@@ -1,10 +1,11 @@
 import React, { useState, useEffect}  from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'
+import ViewReply from './ViewReply';
 
 export default function Reply(props) {
   const [message, setmessage] = useState("");
-  
+  const [status, setstatus] = useState("");
 
   const { id } = useParams();
 
@@ -12,6 +13,7 @@ export default function Reply(props) {
     axios.get(`http://localhost:9090/ticket/${id}`).then((res)=>{
       if(res.data.success){
         setmessage(res.data.ticket.message);
+        setstatus(res.data.ticket.status);
      
       }
     });
@@ -30,6 +32,7 @@ export default function Reply(props) {
     
     const data = {
     message:message,
+    status:"Getting operator Reply",
     };
     
     
@@ -44,8 +47,11 @@ export default function Reply(props) {
 
   return (
     <div>
+      <div>
+      <ViewReply />
+    </div>
       <div className="col-lg-9 mt-2 mb-2">
-      <h5 className="text-2xl font-bold dark:text-white" style={{marginLeft:'40px'}}> Reply</h5>
+      {/*<h5 className="text-2xl font-bold dark:text-white" style={{marginLeft:'40px'}}> Reply</h5>*/}
       </div>
 
       <form style={{padding: '40px'}}>
