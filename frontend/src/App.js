@@ -46,6 +46,8 @@ import EditTicket from './components/EditTicket'
 import TicketList from './components/TicketList';
 import ViewReply from './components/ViewReply';
 import Reply from './components/reply';
+import FAQ from './components/faq';
+import Gvideos from './components/GuideVideos';
 
 import AssignmentForm from './components/Assignment_Management_components/AssignmentForm'
 import Dashboard from './components/Assignment_Management_components/Dashboard'
@@ -129,7 +131,9 @@ function App() {
         <Route path="/ticketlist" exact element={<TicketList />} />
         <Route path="/vreply/:id" exact element={<ViewReply />} />
         <Route path="/reply/:id" exact element={<Reply />} />
-
+        <Route path="/faq" exact element={<FAQ/>}/>
+        <Route path="/gvideos" element ={<Gvideos/>}/>
+        
 
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
