@@ -50,8 +50,6 @@ import Dashboard from './components/Assignment_Management_components/Dashboard'
 import RetrieveAssignments from './components/Assignment_Management_components/RetrieveAssignments'
 import EditAssignment from './components/Assignment_Management_components/EditAssignment'
 
-import Exxxxx from './components/Exxxxx';
-
 
 
 
@@ -125,7 +123,6 @@ function App() {
         <Route path="/reply/:id" exact element={<Reply />} />
 
 
-        <Route path="/AAA/ex" exact element={<Exxxxx/>} />
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
         <Route path="/retriveAss" exact element={<RetrieveAssignments/>} />
