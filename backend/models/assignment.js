@@ -11,11 +11,15 @@ const assignmentSchema = new mongoose.Schema({
   },
   guidelines: {
     type: String,
-    required: true
+    required: false
   },
   deadline: {
-    type: Date,
+    type: String,
     required: true
+  },
+  image:{
+    data:Buffer,
+    contentType:String
   }
 });
 
