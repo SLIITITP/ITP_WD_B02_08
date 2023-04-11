@@ -71,10 +71,22 @@ function Exams() {
       dataIndex: "grade",
     },
     {
+      title: "Date",
+      dataIndex: "date",
+    },
+    {
+      title: "Time",
+      dataIndex: "time",
+    },
+    {
+      title: "Enrollment key",
+      dataIndex: "enrollmentkey",
+    },
+    {
       title: "Action",
       dataIndex: "action",
       render: (text, record) => (
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <i
             className="ri-pencil-line"
             onClick={() => navigate(`/admin/exams/edit/${record._id}`)}
