@@ -55,3 +55,11 @@ app.use('/api/users', usersRoute);
 
 //route middleware
 app.use("/class",classRouter);
+
+
+
+
+//study material routes
+const Study = require('./routes/study.routes');
+
+app.use("/study",Study);
