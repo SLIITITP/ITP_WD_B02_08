@@ -11,6 +11,7 @@ const localVariables = require('../middlewares/auth.js')
 //     return controller.loginUser;
 // }
 //Post method
+
 router.post("/registration", controller.registers)
 router.post("/login",controller.verifyUser, controller.login);
 router.post("/registerMail");
