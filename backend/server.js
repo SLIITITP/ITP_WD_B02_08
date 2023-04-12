@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const multer = require('multer')
+
 
 const controller = require('./controller/registrationController');
 

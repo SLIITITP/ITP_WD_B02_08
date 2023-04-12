@@ -1,74 +1,72 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../../stylesheets/form.css'
 
 const AssignmentForm = () => {
   const [assignment, setAssignment] = useState({
     type: '',
     grade: '',
     guidelines: '',
-    deadline: ''
+    deadline: '',
+    image: null
   });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setAssignment({
-      ...assignment,
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAssignment(prevAssignment => ({
+      ...prevAssignment,
       [name]: value
-    });
+    }));
   }
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await axios.post('/assignments/add', assignment);
-      alert('Assignment added successfully!');
-      // You can add additional logic here, such as showing a success message or redirecting to another page
-    } catch (error) {
-      console.error('Error adding assignment:', error);
-      // You can handle the error here, such as showing an error message
-    }
+  const handleFileChange = (e) => {
+    setAssignment(prevAssignment => ({
+      ...prevAssignment,
+      image: e.target.files[0]
+    }));
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('type', assignment.type);
+    formData.append('grade', assignment.grade);
+    formData.append('guidelines', assignment.guidelines);
+    formData.append('deadline', assignment.deadline);
+    formData.append('testimage', assignment.image);
+    axios.post('http://localhost:9090/upload', formData)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   }
 
   return (
-    <div className="assignment-form-container">
-      <h1>Create new Assignment</h1>
-      <form className="assignment-form">
-        <div className='form-group'>
-          <label>Assignment Type</label>
-          <select name="type" id="type" className="form-control" value={assignment.type} onChange={handleInputChange}>
-            <option value="">Select Assignment Type</option>
-            <option value="Home Work">Home Work</option>
-            <option value="Group Work">Group Work</option>
-            <option value="Subject Related">Subject Related</option>
-            <option value="Extra Work">Extra Work</option>
-          </select>
-        </div>
-
-        <div className='form-group'>
-          <label>Grade</label>
-          <select name="grade" id="grade" className="form-control" value={assignment.grade} onChange={handleInputChange}>
-            <option value="">Select grade</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-          </select>
-        </div>
-
-        <div className='form-group'>
-          <label>Assignment Guidelines</label>
-          <input type="text" className="form-control" placeholder="Enter Name" name="guidelines" id="gui" value={assignment.guidelines} onChange={handleInputChange} />
-        </div>
-
-        <div className='form-group'>
-          <label>Deadline</label>
-          <input type="date" className="form-control" placeholder="Enter deadline" id="deadline" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
-        </div>
-
-        <button type="button" className="btn btn-success" onClick={onSubmit} >Create Assignment</button>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Type:
+          <input type="text" name="type" value={assignment.type} onChange={handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Grade:
+          <input type="text" name="grade" value={assignment.grade} onChange={handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Guidelines:
+          <input type="text" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Deadline:
+          <input type="text" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Upload Image:
+          <input type="file" onChange={handleFileChange} />
+        </label>
+        <br />
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
