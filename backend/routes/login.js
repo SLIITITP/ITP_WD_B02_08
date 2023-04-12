@@ -5,7 +5,8 @@ const router = require("express").Router();
 const controller = require('../controller/registrationController.js');
 const Auth = require('../middlewares/auth.js');
 const localVariables = require('../middlewares/auth.js')
-
+const registerMail = require('../controller/mailer.js')
+//import {registerMail} from '../controller/mailer.js'
 
 // const call = ()=>{
 //     return controller.loginUser;
@@ -14,7 +15,7 @@ const localVariables = require('../middlewares/auth.js')
 
 router.post("/registration", controller.registers)
 router.post("/login",controller.verifyUser, controller.login);
-router.post("/registerMail");
+router.post("/registerMail",registerMail);
 // //router.route('/registerMail').post();
 // router.route('/authenticate').post((req, res) => res.send());
 // router.route('/login').post(controller.login);
