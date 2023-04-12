@@ -102,7 +102,7 @@ function ProtectedRoute({ children }) {
         message.error(response.message);
       }
     } catch (error) {
-      navigate("/login");
+      navigate("/login"); //if there is problem with token user navigate login
       dispatch(HideLoading());
       message.error(error.message);
     }
@@ -112,7 +112,7 @@ function ProtectedRoute({ children }) {
     if (localStorage.getItem("token")) {
       getUserData();
     } else {
-      navigate("/login");
+      navigate("/login"); //if there is problem with token user navigate login
     }
   }, []);
 
