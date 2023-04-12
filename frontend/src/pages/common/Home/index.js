@@ -32,7 +32,7 @@ function Home() {
   }, []);
 
   return (
-    user && (
+    user && (   //if user is present then render home
       <div>
         <PageTitle title={`Hi ${user.name}, Welcome to Thilina Institute Quiz Portal`} />
         <div className="divider"></div>

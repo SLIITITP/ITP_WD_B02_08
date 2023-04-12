@@ -23,6 +23,41 @@
     border-radius: 50%;
     animation: loader 1s linear infinite;
   }
+  .option {
+    /* question option style */
+    box-shadow: rgba(0, 0, 0, 0.638) 0px 0px 1.5px;  
+    padding: 10px;
+    border-radius: 2px;
+  }
+  .selected-option {   /*selected option border color wenas karanan tika*/
+    box-shadow: rgba(0, 0, 0, 0.638) 0px 0px 1px;
+    padding: 10px;
+    border-radius: 2px;
+    border: 2px solid var(--primary);
+  }
+  .result{
+    background-color: aquamarine;
+    padding: 30px;
+    border-radius: 5px;
+  }
+
+  .lottie-animation{
+    height: 300px;
+  }
+
+  .timer {
+    background-color: #894114;
+    color: white !important;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+  }
+  
+
   /* loader css */
   @keyframes loader {   
     0% {
