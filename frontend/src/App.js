@@ -1,5 +1,6 @@
 //import logo from './logo.svg';
 //import './App.css';
+import StripeContainer from './components/StripeContainer';
 import './stylesheets/theme.css'
 import './stylesheets/layout.css'
 import './stylesheets/alignments.css'
@@ -82,31 +83,33 @@ function App() {
         <Route path='/t1' element={<T1 />} />
         <Route path='/addPayment' exact element={<AddPayment />} />
         <Route path='/payOnline' exact element={<OnlinePayment />} />
-        <Route path='/viewPayment' exact element={<ViewPayment/>}/>
-        <Route path='/confirmPayment' exact element={<PaymentConfirm/>}/>
-        <Route path='/payment/checkout' exact element={<PaymentCheckout />} />
+        <Route path='/viewPayment' exact element={<ViewPayment />} />
+        <Route path='/confirmPayment' exact element={<PaymentConfirm />} />
+        <Route path='/payment/checkout' exact element={<StripeContainer />} />
+
+        
 
 
 
         {/* Admin Routes for Timetable Management */}
-        <Route path="/timetable" exact element={<TimetableSideNav/>}/>
+        <Route path="/timetable" exact element={<TimetableSideNav />} />
         <Route path="/allClasses" exact element={<TimetableSideNav>
-        <AdminEditSchedule/>
-        </TimetableSideNav> } />
+          <AdminEditSchedule />
+        </TimetableSideNav>} />
         <Route path="/addClass" exact element={<TimetableSideNav>
-        <AddClass />
-        </TimetableSideNav> } />
+          <AddClass />
+        </TimetableSideNav>} />
         <Route path="/adminExamSchedule" exact element={<TimetableSideNav>
-        <AdminExamSchedule />
-        </TimetableSideNav> } />
+          <AdminExamSchedule />
+        </TimetableSideNav>} />
 
-         {/* User Routes for Timetable Management */}
+        {/* User Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
-        <MainTimetable/>
-        </TimetableSideNav> } />
+          <MainTimetable />
+        </TimetableSideNav>} />
         <Route path="/myTimetable" exact element={<TimetableSideNav>
-        <MyTimetable/>
-        </TimetableSideNav> } />
+          <MyTimetable />
+        </TimetableSideNav>} />
 
         <Route path="/plogin" element={<Username />} />
         <Route path="/password" element={<Password />} />
@@ -123,13 +126,13 @@ function App() {
           <WriteExam />
         </ProtectedRoute>} />
         <Route
-            path="/user/reports"
-            element={
-              <ProtectedRoute>
-                <UserReports/>
-              </ProtectedRoute>
-            }
-          />
+          path="/user/reports"
+          element={
+            <ProtectedRoute>
+              <UserReports />
+            </ProtectedRoute>
+          }
+        />
         {/* Admin Routes for exams management */}
         <Route path='/admin/exams' element={<ProtectedRoute>
           <Exams />
@@ -149,15 +152,15 @@ function App() {
         <Route path="/ticketlist" exact element={<TicketList />} />
         <Route path="/vreply/:id" exact element={<ViewReply />} />
         <Route path="/reply/:id" exact element={<Reply />} />
-        <Route path="/faq" exact element={<FAQ/>}/>
-        <Route path="/gvideos" element ={<Gvideos/>}/>
-        
+        <Route path="/faq" exact element={<FAQ />} />
+        <Route path="/gvideos" element={<Gvideos />} />
+
 
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
-        <Route path="/retriveAss" exact element={<RetrieveAssignments/>} />
-        <Route path="/editAss/:id" exact element={<EditAssignment/>} />
-        <Route path="/dash" exact element={<Dashboard/>} />
+        <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
+        <Route path="/editAss/:id" exact element={<EditAssignment />} />
+        <Route path="/dash" exact element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
