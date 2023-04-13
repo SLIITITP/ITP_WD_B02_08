@@ -20,6 +20,8 @@ import AdminEditSchedule from "./pages/admin/Timetable/AdminEditSchedule";
 import AddClass from "./pages/admin/Timetable/AddClass";
 import MainTimetable from './pages/user/Timetable/MainTimetable'
 import MyTimetable from './pages/user/Timetable/MyTimetable'
+import AdminExamSchedule from "./pages/admin/Timetable/AdminExamSchedule";
+
 
 import AddPayment from './components/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -44,6 +46,8 @@ import EditTicket from './components/EditTicket'
 import TicketList from './components/TicketList';
 import ViewReply from './components/ViewReply';
 import Reply from './components/reply';
+import FAQ from './components/faq';
+import Gvideos from './components/GuideVideos';
 
 import AssignmentForm from './components/Assignment_Management_components/AssignmentForm'
 import Dashboard from './components/Assignment_Management_components/Dashboard'
@@ -56,6 +60,10 @@ import EditAssignment from './components/Assignment_Management_components/EditAs
 
 import ViewPayment from './components/ViewPayment'
 import PaymentConfirm from './components/PaymentConfirm'
+import WriteExam from './pages/user/WriteExam/WriteExam'
+import UserReports from './pages/user/UserReports/UserReports'
+
+
 import PaymentCheckout from './components/PaymentCheckout'
 
 
@@ -88,6 +96,9 @@ function App() {
         <Route path="/addClass" exact element={<TimetableSideNav>
         <AddClass />
         </TimetableSideNav> } />
+        <Route path="/adminExamSchedule" exact element={<TimetableSideNav>
+        <AdminExamSchedule />
+        </TimetableSideNav> } />
 
          {/* User Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
@@ -108,6 +119,17 @@ function App() {
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
+        <Route path='/user/write-exam/:id' element={<ProtectedRoute>
+          <WriteExam />
+        </ProtectedRoute>} />
+        <Route
+            path="/user/reports"
+            element={
+              <ProtectedRoute>
+                <UserReports/>
+              </ProtectedRoute>
+            }
+          />
         {/* Admin Routes for exams management */}
         <Route path='/admin/exams' element={<ProtectedRoute>
           <Exams />
@@ -127,7 +149,9 @@ function App() {
         <Route path="/ticketlist" exact element={<TicketList />} />
         <Route path="/vreply/:id" exact element={<ViewReply />} />
         <Route path="/reply/:id" exact element={<Reply />} />
-
+        <Route path="/faq" exact element={<FAQ/>}/>
+        <Route path="/gvideos" element ={<Gvideos/>}/>
+        
 
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm />} />

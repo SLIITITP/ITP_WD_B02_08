@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 function AdminEditSchedule() {
   
  //view timetabe 
@@ -81,7 +80,7 @@ function AdminEditSchedule() {
       }
     }
 
-//Click to edit class details
+//set data of the selected class to render them to the edit form
 const [selectedClass, setSelectedClass] = useState(null);
 
 function handleClassClick(clz) {
@@ -143,6 +142,15 @@ function deleteClass(id) {
     });
 
 }
+const conditionalRowStyles = [
+  {
+    when: row => row.toggleSelected,
+    style: {
+      backgroundColor: "green",
+      userSelect: "none"
+    }
+  }
+];
 
 return (
    
@@ -183,7 +191,8 @@ return (
             {classes
               .filter((clz) => clz.grade === activeGrade)
               .map((clz) => (
-                <tr key={clz._id} onClick={() => handleClassClick(clz)}>
+                <tr key={clz._id} onClick={() => handleClassClick(clz)}
+                conditionalRowStyles={conditionalRowStyles}>
                   <td>{clz.grade}</td>
                   <td>{clz.subject}</td>
                   <td>{clz.teacher}</td>
@@ -195,6 +204,7 @@ return (
               ))}
           </tbody>
         </table>
+        
       </div>
       </div>
 

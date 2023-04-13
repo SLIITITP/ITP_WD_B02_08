@@ -59,6 +59,8 @@ export default class TicketList extends Component{
   
 
  render(){
+  const pendingOperatorResponseCount = this.state.tickets.filter(ticket => ticket.status === "Pending operator response").length;
+
   return(
     <div className="container">
     <div className="row">
@@ -80,8 +82,12 @@ export default class TicketList extends Component{
       </div>
 
       <div><center>
-        <h4  class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-2xl dark:text-white">
+        <h4  class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-2xl dark:text-white">
        <mark class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500"> Total Tickets:  {this.state.tickets.length}</mark></h4>
+      </center></div>
+      <div><center>
+        <h4  class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-2xl dark:text-white">
+       <mark class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500"> Pending Tickets:  {pendingOperatorResponseCount}</mark></h4>
       </center></div>
 
 <br></br>
@@ -126,7 +132,7 @@ export default class TicketList extends Component{
                    
                     
 
-            <a class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+            <a class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
              href="#" onClick={()=>this.onDelete(tickets._id)}>Delete</a>
          
                    

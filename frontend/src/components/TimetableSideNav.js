@@ -151,9 +151,9 @@ const { user } = useSelector((state) => state.users);
     },
     {
       title: "Exam Schedule",
-      paths: ["/exams", "/user/write-exam"],
+      paths: ["/adminExamSchedule"],
       icon: <i className="ri-todo-line"></i>,
-      onClick: () => navigate("#/mainTimetable"),
+      onClick: () => navigate("/adminExamSchedule"),
     },
     {
       title: "Add New Class",

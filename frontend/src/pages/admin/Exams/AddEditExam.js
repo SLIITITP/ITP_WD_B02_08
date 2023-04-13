@@ -19,7 +19,7 @@ const { TabPane } = Tabs;
 function AddEditExam() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [examData, setExamData] = React.useState(null);
+  const [examData, setExamData] = React.useState(null); // set exam data
   const [showAddEditQuestionModal, setShowAddEditQuestionModal] =
     React.useState(false);
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
@@ -29,11 +29,12 @@ function AddEditExam() {
       console.log(values);
       dispatch(ShowLoading());
       let response;
-
+      console.log(params);
       if (params.id) {
-        response = await editExamById({
+        response = await editExamById({  //check it is add exam or edit exam
           ...values,
           examId: params.id,
+          
         });
       } else {
         response = await addExam(values);
@@ -54,7 +55,7 @@ function AddEditExam() {
   const getExamData = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await getExamById({
+      const response = await getExamById({ //get exam by id
         examId: params.id,
       });
       dispatch(HideLoading());
@@ -152,7 +153,7 @@ function AddEditExam() {
       {(examData || !params.id) && (
         <Form layout="vertical" onFinish={onFinish} initialValues={examData}>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Exam Details" key="1">
+            <TabPane tab="Exam Details" key="1">  {/**exam details tab*/}
               <Row gutter={[10, 10]}>
                 <Col span={8}>
                     <Form.Item label="Exam Name" name = "name">
@@ -224,7 +225,7 @@ function AddEditExam() {
               </div>
             </TabPane>
             {params.id && (
-              <TabPane tab="Questions" key="2">
+              <TabPane tab="Questions" key="2">  {/*question tab*/}
                 <div className="flex justify-end">
                   <button
                     className="primary-outlined-btn"

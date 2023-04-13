@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const multer = require('multer')
+
 
 const controller = require('./controller/registrationController');
 
@@ -48,6 +50,7 @@ const PaymentRouter = require('./routes/Payment')
 
 const usersRoute = require("./routes/usersRoute");
 const examsRoute = require("./routes/examsRoute");
+const reportsRoute = require("./routes/reportsRoute");
 
 
 //route middleware
@@ -60,6 +63,7 @@ app.use(postRoutes);
 
 app.use("/api/users", usersRoute);
 app.use("/api/exams", examsRoute);
+app.use("/api/reports", reportsRoute);
 
 //route middleware
 app.use("/class",classRouter);
