@@ -5,6 +5,8 @@ const cors = require('cors');
 const multer = require('multer')
 require("dotenv").config()
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
+//study material routes
+const Study = require('./routes/study.routes');
 
 
 const controller = require('./controller/registrationController');
@@ -73,6 +75,10 @@ app.use("/class",classRouter);
 
 
 app.use("/api",loginRouter);
+
+
+//study material middlewares
+app.use("/study",Study);
 
 
 
