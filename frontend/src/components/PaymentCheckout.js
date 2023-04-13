@@ -29,8 +29,8 @@ function PaymentCheckout() {
         if (!error) {
             try {
                 const { id } = paymentMethod;
-                const response = await axios.post('http://localhost:9090/api/payment/add', {
-                    studentId, date, month, subjects, grade, paidAmount,
+                const response = await axios.post('http://localhost:9090/payment', {
+                    amount: paidAmount*100,
                     id
                 })
 
@@ -73,6 +73,33 @@ function PaymentCheckout() {
 
             {!success ?
                 <form onSubmit={handleSubmit}>
+                    <div className='container'>
+                        Confirm details & Pay
+                        <hr />
+                        <div>
+                            <label>
+                                Your Student ID : {studentId}
+                            </label><br />
+                            <label>
+                                Grade : {grade}
+                            </label><br />
+                            {subjects && (
+                                <label>
+                                    Subjects : {subjects.join(', ')}
+                                </label>
+                            )}<br />
+                            <label>
+                                Total Amount : {paidAmount}
+                            </label><br />
+                            <label>
+                                Month : {month}
+                            </label><br />
+                            <label>
+                                Payment Date : {date}
+                            </label><br />
+                        </div>
+                        <hr />
+                    </div>
                     <fieldset className="FormGroup">
                         <div className="FormRow">
                             <CardElement options={CARD_OPTIONS} />
@@ -82,7 +109,7 @@ function PaymentCheckout() {
                 </form>
                 :
                 <div>
-                    <h2>You just bought a sweet spatula congrats this is the best decision of you're life</h2>
+                    <h2>You paid for fees</h2>
                 </div>
             }
         </>
