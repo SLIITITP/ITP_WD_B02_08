@@ -1,6 +1,9 @@
 //import logo from './logo.svg';
 //import './App.css';
+
+
 import StripeContainer from './components/StripeContainer';
+
 import './stylesheets/theme.css'
 import './stylesheets/layout.css'
 import './stylesheets/alignments.css'
@@ -50,17 +53,29 @@ import Reply from './components/reply';
 import FAQ from './components/faq';
 import Gvideos from './components/GuideVideos';
 
+
+/////__________________Assignments___________________/////////////////////////////////////
+
 import AssignmentForm from './components/Assignment_Management_components/AssignmentForm'
-import Dashboard from './components/Assignment_Management_components/Dashboard'
+
 import RetrieveAssignments from './components/Assignment_Management_components/RetrieveAssignments'
 import EditAssignment from './components/Assignment_Management_components/EditAssignment'
+import Details from './components/Assignment_Management_components/Details'
+import Navbar1 from './components/Assignment_Management_components/Navbar1'
+import Home1 from './components/Assignment_Management_components/pages/Home1';
+import Reports from './components/Assignment_Management_components/pages/Reports';
+import Products from './components/Assignment_Management_components/pages/Products';
 
+///////////////////////////////////////////////////
 
 
 
 
 import ViewPayment from './components/ViewPayment'
 import PaymentConfirm from './components/PaymentConfirm'
+
+import { Switch } from 'antd'
+
 import WriteExam from './pages/user/WriteExam/WriteExam'
 import UserReports from './pages/user/UserReports/UserReports'
 
@@ -124,12 +139,13 @@ import FeedbackTable from './components/FeedbackTable';
 
 
 
+
 function App() {
   const { loading } = useSelector((state) => state.loader);
   return (
 
     <BrowserRouter>
-      <Header />
+     
       {loading && <Loader />}
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -174,10 +190,18 @@ function App() {
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
+
+
         {/* User Routes for exams management */}
+
+
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
+
+
+
+
         <Route path='/user/write-exam/:id' element={<ProtectedRoute>
           <WriteExam />
         </ProtectedRoute>} />
@@ -189,7 +213,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         {/* Admin Routes for exams management */}
+
+        
         <Route path='/admin/exams' element={<ProtectedRoute>
           <Exams />
         </ProtectedRoute>} />
@@ -214,9 +241,22 @@ function App() {
 
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
+
+        <Route path="/retriveAss" exact element={<RetrieveAssignments/>} />
+        <Route path="/editAss/:id" exact element={<EditAssignment/>} />
+        
+        <Route path="/details" exact element={<Details/>} />
+
+        
+        <Route path="/nav" exact element={<Navbar1/>}/>
+      
+        <Route path="/reports" exact element={<Reports/>}/>
+        <Route path="/products" exact element={<Products/>}/>
+        
+
         <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
         <Route path="/editAss/:id" exact element={<EditAssignment />} />
-        <Route path="/dash" exact element={<Dashboard />} />
+        
 
         <Route exact path="/sm" element={<enrollPage/>}/>
           <Route exact path="/smt" element={<TeacherDashboard/>}/>
@@ -257,6 +297,7 @@ function App() {
           <Route exact path="/fbs/t/:id" element={<EditFeedBackPage/>}/>
 
         
+
 
 
 
