@@ -4,7 +4,7 @@ export default function Home1() {
   return (
     <div className='Home'>
         
-        <h1>Home page </h1>
+        <h1>Home page2 </h1>
     </div>
   )
 }
