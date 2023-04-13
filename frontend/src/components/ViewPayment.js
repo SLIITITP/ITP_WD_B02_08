@@ -12,13 +12,26 @@ function ViewPayment() {
         month: '',
         studentId: '',
     });
+
+
     const [payments, setPayments] = useState([]);
+
+    // Set default search criteria
+    useEffect(() => {
+        handleChange({
+            target: {
+                name: 'subject',
+                value: '',
+            },
+        });
+    }, []);
+
 
     const handleChange = async (event) => {
         const { name, value } = event.target;
         setSearchCriteria((prevState) => ({ ...prevState, [name]: value }));
         try {
-            const res = await axios.get('/api/payment/payHistory', {
+            const res = await axios.get('http://localhost:9090/api/payment/payHistory', {
                 params: { ...searchCriteria, [name]: value },
             });
             setPayments(res.data);
@@ -44,7 +57,6 @@ function ViewPayment() {
     //Search user from ID or Name
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-
     const handleInputChange = (event) => {
         const value = event.target.value;
         setSearchTerm(value);
@@ -64,7 +76,7 @@ function ViewPayment() {
         setSearchTerm(studentId);
         setSearchCriteria((prevState) => ({ ...prevState, studentId: studentId }));
         try {
-            const res = await axios.get('/api/payment/payHistory', {
+            const res = await axios.get('http://localhost:9090/api/payment/payHistory', {
                 params: { ...searchCriteria, studentId: studentId },
             });
             setPayments(res.data);
@@ -90,8 +102,26 @@ function ViewPayment() {
         };
     }, []);
 
+    const handleDelete = async (id) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this item?');
+        if (!confirmDelete) {
+          return;
+        }
+      
+        try {
+          const response = await axios.delete(`http://localhost:9090/api/payment/delete/${id}`);
+          console.log(response.data);
+          setPayments(payments.filter(payment => payment._id !== id));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      
+      
+
     const grades = ['5', '6', '7', '8', '9', '10', '11'];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
+
 
     return (
         <div>
@@ -158,6 +188,7 @@ function ViewPayment() {
                         <th>Month---</th>
                         <th>Grade---</th>
                         <th>Subjects---</th>
+                        <th>Options---</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -169,6 +200,11 @@ function ViewPayment() {
                             <td>{payment.month}</td>
                             <td>{payment.grade}</td>
                             <td>{payment.subjects.join(', ')}</td>
+                            <td>
+                                <div>
+                                    <button onClick={() => handleDelete(payment._id)}>Delete</button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
