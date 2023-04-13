@@ -1,12 +1,13 @@
 import { message} from "antd";
 import React, { useState, useEffect } from "react";
 import {getAllExams } from "../../../apicalls/exams";
-
+import moment from 'moment';
 
 function AdminExamSchedule() {
 
   const [exams, setExams] = useState([]);
   const [activeGrade, setActiveGrade] = useState(6); 
+  const moment = require('moment');
 
   //handle the grade click
   const handleGradeClick = (grade) => {
@@ -27,12 +28,18 @@ function AdminExamSchedule() {
     try {
       const response = await getAllExams();
       if (response.success) {
+        //make the date and time sequence
         const sortedExams = response.data.sort((a, b) => {
-          const dateA = new Date(`${a.date} ${a.time}`);
-          const dateB = new Date(`${b.date} ${b.time}`);
-          return dateA - dateB;
-        });
-        setExams(sortedExams);
+            // Compare dates
+            if (a.date !== b.date) {
+              return new Date(a.date) - new Date(b.date);
+            }
+            // Compare times if dates are equal
+            const aTime = moment(a.time, 'hh:mm a');
+            const bTime = moment(b.time, 'hh:mm a');
+            return aTime.diff(bTime);
+          });
+          setExams(sortedExams);
       } else {
         message.error(response.message);
       }
