@@ -1,28 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { CardElement, Elements, useStripe } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
-const PaymentCheckout = (studentInfo) => {
-  const location = useLocation();
-//   const { studentId, date, month, subjects, grade, paidAmount } = location.state;
+const stripePromise = loadStripe("your_publishable_key_here");
 
-  console.log(studentInfo)
+function ComponentB() {
+
+    const location = useLocation();
+
+    const [studentId] = useState(location.state.sId);
+    const [grade] = useState(location.state.sGrade);
+    const [subjects] = useState(location.state.sSubjects);
+    const [date] = useState(location.state.sDate);
+    const [paidAmount] = useState(location.state.sPaidAmount);
+    const [month] = useState(location.state.sMonth);
+
 
 
     return (
-        <div>
-            <h1>Payment Checkout</h1>
-        {studentInfo.paidAmount}
-        console.log(studentInfo)
 
-            {/* <p>Student ID: {studentId}</p>
-            <p>Date: {date}/{month}</p>
-            <p>Subjects: {subjects}</p>
-            <p>Grade: {grade}</p>
-            <p>Paid Amount: {paidAmount}</p> */}
-            {/* rest of your checkout form */}
-        </div>
-    );
+        <>
+            <div className='container'>
+                Confirm details & Pay
+                <hr />
+                <div>
+                    <label>
+                        Your Student ID : {studentId}
+                    </label><br />
+                    <label>
+                        Grade : {grade}
+                    </label><br />
+                    {subjects && (
+                        <label>
+                            Subjects : {subjects.join(', ')}
+                        </label>
+                    )}<br />
+                    <label>
+                        Total Amount : {paidAmount}
+                    </label><br />
+                    <label>
+                        Month : {month}
+                    </label><br />
+                    <label>
+                        Payment Date : {date}
+                    </label><br />
+                </div>
+                <hr />
+                <div>
+                    Add Card Payment details
+                    <div>
+                        {/* Card Element */}
+
+                        <Elements stripe={stripePromise}>
+                            <CardElement />
+                        </Elements>
+
+                    </div>
+                </div>
+            </div>
+
+        </>
+    )
 }
 
-export default PaymentCheckout;
+export default ComponentB;

@@ -83,5 +83,5 @@ app.use("/api",loginRouter);
 //API for PAYMENT
 app.post('/payment/create', async(req, res) =>{
     const total = req.body.amount
-    console.log(`Payment request recieved for ${amount} rupees`)
+    console.log(`Payment request recieved for ${total} rupees`,total)
 });
