@@ -24,8 +24,7 @@ function PaymentCheckout() {
             type: "card",
             card: element.getElement(CardElement)
         })
-
-
+    
         if (!error) {
             try {
                 const { id } = paymentMethod;
@@ -33,10 +32,23 @@ function PaymentCheckout() {
                     amount: paidAmount*100,
                     id
                 })
-
+    
                 if (response.data.success) {
                     console.log("payment succesfull")
                     setSuccess(true);
+    
+                    // Update database with payment information
+                    const paymentData = {
+                        studentId,
+                        grade,
+                        subjects,
+                        paidAmount,
+                        month,
+                        date,
+                        paymentID: id
+                    };
+                    const updateResponse = await axios.post('http://localhost:9090/api/payment/add', paymentData);
+                    console.log("Payment added to DB");
                 }
             } catch (error) {
                 console.log("error", error)
@@ -45,6 +57,7 @@ function PaymentCheckout() {
             console.log(error.message)
         }
     }
+    
 
     const CARD_OPTIONS = {
         iconStyle: "solid",

@@ -4,9 +4,9 @@ const Payment = require('../models/Payments');
 
 // POST /payments - create a new payment
 router.post('/add', (req, res) => {
-  const { studentId, date, month, subjects, grade, paidAmount } = req.body;
+  const { studentId, date, month, subjects, grade, paidAmount, paymentID } = req.body;
 
-  const newPayment = new Payment({ studentId, date, month, subjects, grade, paidAmount });
+  const newPayment = new Payment({ studentId, date, month, subjects, grade, paidAmount, paymentID });
 
   newPayment.save()
     .then((payment) => {
@@ -32,6 +32,7 @@ router.get('/history/:studentId', async (req, res) => {
   }
 });
 
+//search history category wise
 router.get('/payHistory', async (req, res) => {
   try {
     const searchCriteria = {};
@@ -52,6 +53,22 @@ router.get('/payHistory', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send('Server Error');
+  }
+});
+
+
+//delete data using ID
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const payment = await Payment.findByIdAndDelete(req.params.id);
+
+    if (!payment) {
+      return res.status(404).send();
+    }
+
+    res.send(payment);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
