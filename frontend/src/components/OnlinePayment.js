@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../stylesheets/Payment.css'
+import { Link } from 'react-router-dom';
+import PaymentCheckout from './PaymentCheckout';
 
 //added comment
 export default function OnlinePayment() {
@@ -66,15 +68,19 @@ export default function OnlinePayment() {
     }, [studentId]);
 
     //handleSubmit for Adding payemnts
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            await axios.post('http://localhost:9090/api/payment/add', { studentId, date, month, subjects, grade, paidAmount });
-            alert('Payment added successfully!');
-        } catch (error) {
-            console.error(error);
-            alert('Failed to add Payment!');
-        }
+    const handleSubmit = () => {
+        const studentInfo = {
+            studentId,
+            date,
+            month,
+            subjects,
+            grade,
+            paidAmount
+        };
+        <PaymentCheckout 
+            studentInfo = {studentInfo}
+        />
+       
     };
 
 
@@ -153,7 +159,7 @@ export default function OnlinePayment() {
                             ))}
                         </ul>
                     </div>
-                    <button type="submit">Pay</button>
+                    <Link to="/payment/checkout"><button type="submit" >Submit</button></Link>
                 </form>
             </div>
             <div className='split-right'>

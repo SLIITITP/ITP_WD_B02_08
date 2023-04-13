@@ -1,43 +1,28 @@
-import React, { useState } from 'react';
-import StripeCheckout from 'react-stripe-checkout';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useLocation, useParams } from "react-router-dom";
 
-const Checkout = () => {
-  const [product, setProduct] = useState({
-    name: 'Example Product',
-    price: 10,
-    description: 'This is an example product.',
-  });
+const PaymentCheckout = (studentInfo) => {
+  const location = useLocation();
+//   const { studentId, date, month, subjects, grade, paidAmount } = location.state;
 
-  const handleToken = async (token) => {
-    const response = await fetch('/api/payment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token,
-        product,
-      }),
-    });
+  console.log(studentInfo)
 
-    const data = await response.json();
-    console.log(data);
-  };
 
-  return (
-    <StripeCheckout
-      stripeKey="your_publishable_key"
-      token={handleToken}
-      name="Example Company"
-      description={product.description}
-      amount={product.price * 100}
-      currency="lkr"
-    >
-      <button>Pay ${product.price}</button>
-    </StripeCheckout>
-  );
-};
-//මේකට යටින් ගහන්න එපා මුකුත්
-// ගහන ඒවා උඩින් ගහන්න ( ගහලා)
+    return (
+        <div>
+            <h1>Payment Checkout</h1>
+        {studentInfo.paidAmount}
+        console.log(studentInfo)
 
-export default Checkout;
+            {/* <p>Student ID: {studentId}</p>
+            <p>Date: {date}/{month}</p>
+            <p>Subjects: {subjects}</p>
+            <p>Grade: {grade}</p>
+            <p>Paid Amount: {paidAmount}</p> */}
+            {/* rest of your checkout form */}
+        </div>
+    );
+}
+
+export default PaymentCheckout;

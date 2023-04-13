@@ -64,6 +64,7 @@ import WriteExam from './pages/user/WriteExam/WriteExam'
 import UserReports from './pages/user/UserReports/UserReports'
 
 
+import PaymentCheckout from './components/PaymentCheckout'
 
 
 function App() {
@@ -83,6 +84,8 @@ function App() {
         <Route path='/payOnline' exact element={<OnlinePayment />} />
         <Route path='/viewPayment' exact element={<ViewPayment/>}/>
         <Route path='/confirmPayment' exact element={<PaymentConfirm/>}/>
+        <Route path='/payment/checkout' exact element={<PaymentCheckout />} />
+
 
 
         {/* Admin Routes for Timetable Management */}
