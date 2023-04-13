@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const multer = require('multer')
+require("dotenv").config()
+const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
+//study material routes
+const Study = require('./routes/study.routes');
 
 
 const controller = require('./controller/registrationController');
@@ -50,6 +54,7 @@ const PaymentRouter = require('./routes/Payment')
 
 const usersRoute = require("./routes/usersRoute");
 const examsRoute = require("./routes/examsRoute");
+const reportsRoute = require("./routes/reportsRoute");
 
 
 //route middleware
@@ -62,6 +67,7 @@ app.use(postRoutes);
 
 app.use("/api/users", usersRoute);
 app.use("/api/exams", examsRoute);
+app.use("/api/reports", reportsRoute);
 
 //route middleware
 app.use("/class",classRouter);
@@ -71,6 +77,10 @@ app.use("/class",classRouter);
 app.use("/api",loginRouter);
 
 
+//study material middlewares
+app.use("/study",Study);
+
+
 
 
 
@@ -78,3 +88,27 @@ app.use("/api",loginRouter);
 
 //මේකට යටින් ගහන්න එපා මුකුත්
 // ගහන ඒවා උඩින් ගහන්න (Enter ගහලා)
+//API for PAYMENT
+app.post("/payment", cors(), async (req, res) => {
+	let { amount, id } = req.body
+	try {
+		const payment = await stripe.paymentIntents.create({
+			amount,
+			currency: "lkr",
+			description: "Thilina Institute",
+			payment_method: id,
+			confirm: true
+		})
+		console.log("Payment", payment)
+		res.json({
+			message: "Payment successful",
+			success: true
+		})
+	} catch (error) {
+		console.log("Error", error)
+		res.json({
+			message: "Payment failed",
+			success: false
+		})
+	}
+})
