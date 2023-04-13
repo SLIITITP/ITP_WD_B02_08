@@ -76,3 +76,8 @@ app.use("/api",loginRouter);
 
 //මේකට යටින් ගහන්න එපා මුකුත්
 // ගහන ඒවා උඩින් ගහන්න (Enter ගහලා)
+//API for PAYMENT
+app.post('/payment/create', async(req, res) =>{
+    const total = req.body.amount
+    console.log(`Payment request recieved for ${amount} rupees`)
+});
