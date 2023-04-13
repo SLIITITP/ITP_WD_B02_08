@@ -128,6 +128,7 @@ import RecordMaterialCardStudent from './components/RecordMaterialCardStudent';
 import FeedBackStudent from './components/FeedBackStudent';
 import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
+import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
 
 /*
 
@@ -163,7 +164,9 @@ function App() {
         <Route path='/confirmPayment' exact element={<PaymentConfirm />} />
         <Route path='/payment/checkout' exact element={<StripeContainer />} />
         <Route path='/payment/addSubToTeachers' element={<AddSubToTeachers/>} />
-        <Route path='/subject/update' element={<SubListUpdate/>} />  
+        <Route path='/subject/update' element={<SubListUpdate/>} />
+        <Route path='/salary/calculate' element={<SalaryCalculation />} />
+
 
 
 

@@ -72,4 +72,28 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
+//for salary calculation get payment data
+router.get('/', async (req, res) => {
+  try {
+    const { grade, month, subject } = req.query;
+
+    const query = {};
+    if (grade) {
+      query.grade = grade;
+    }
+    if (month) {
+      query.month = month;
+    }
+    if (subject) {
+      query.subjects = { $in: [subject] };
+    }
+
+    const payments = await Payment.find(query);
+    res.json(payments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;
