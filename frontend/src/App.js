@@ -126,6 +126,7 @@ import PdfMaterialCardStudent from './components/PdfMaterialCardStudent';
 import ResearchMaterialCardStudent from './components/ResearchMaterialCardStudent';
 import RecordMaterialCardStudent from './components/RecordMaterialCardStudent';
 import FeedBackStudent from './components/FeedBackStudent';
+import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 
 /*
 
@@ -153,13 +154,17 @@ function App() {
         <Route path='/getPayment' exact element={<GetPayment />} />
         <Route path='/testuser' element={<Testuser />} />
         <Route path='/t1' element={<T1 />} />
+
+        {/* Financial Management Routes */}
         <Route path='/addPayment' exact element={<AddPayment />} />
         <Route path='/payOnline' exact element={<OnlinePayment />} />
         <Route path='/viewPayment' exact element={<ViewPayment />} />
         <Route path='/confirmPayment' exact element={<PaymentConfirm />} />
         <Route path='/payment/checkout' exact element={<StripeContainer />} />
+        <Route path='/payment/addSubToTeachers' element={<AddSubToTeachers/>} />
 
-        
+
+  
 
 
 
