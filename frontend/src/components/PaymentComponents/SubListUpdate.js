@@ -8,6 +8,7 @@ export default function SubListUpdate() {
     const [subjectID, setSubjectID] = useState('');
     const [subjectAmount, setSubjectAmount] = useState(0);
     const [subjectTeacherID, setSubjectTeacherID] = useState('');
+    const [subjectTeacherName, setSubjectTeacherName] = useState('');
 
     useEffect(() => {
         const fetchSubjects = async () => {
@@ -23,6 +24,7 @@ export default function SubListUpdate() {
         setSubjectID(subject.subjectID);
         setSubjectAmount(subject.subjectAmount);
         setSubjectTeacherID(subject.subjectTeacherID);
+        setSubjectTeacherName(subject.subjectTeacherName);
     };
 
     const handleUpdate = async () => {
@@ -31,7 +33,8 @@ export default function SubListUpdate() {
             subjectName: subjectName,
             subjectID: subjectID,
             subjectAmount: subjectAmount,
-            subjectTeacherID: subjectTeacherID
+            subjectTeacherID: subjectTeacherID,
+            subjectTeacherName: subjectTeacherName
         };
         try {
             const response = await axios.put(`/api/subject/update/${selectedSubject._id}`, updatedSubject);
@@ -41,6 +44,7 @@ export default function SubListUpdate() {
             setSubjectID('');
             setSubjectAmount(0);
             setSubjectTeacherID('');
+            setSubjectTeacherName('');
         } catch (err) {
             console.error(err);
         }
@@ -52,7 +56,7 @@ export default function SubListUpdate() {
             <ul>
                 {subjects.map((subject) => (
                     <li key={subject._id} onClick={() => handleSubjectClick(subject)}>
-                        {subject.subjectName}
+                        {subject.subjectName} {subject.subjectTeacherName}   {subject.subjectID}
                     </li>
                 ))}
             </ul>
@@ -73,9 +77,10 @@ export default function SubListUpdate() {
                             <input type="number" value={subjectAmount} onChange={(e) => setSubjectAmount(e.target.value)} />
                         </label>
                         <label>
-                            Subject Teacher ID:
-                            <input type="text" value={subjectTeacherID} onChange={(e) => setSubjectTeacherID(e.target.value)} />
+                            Subject Teacher Name:
+                            <input type="text" value={subjectTeacherName} onChange={(e) => setSubjectTeacherName(e.target.value)} />
                         </label>
+                        
                         <button type="submit">Update Subject</button>
                     </form>
                 </div>
