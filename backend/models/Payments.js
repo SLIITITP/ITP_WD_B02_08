@@ -18,6 +18,10 @@ const paymentSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  subjectsIDs: {
+    type: [String],
+    required: false,
+  },
   grade: {
     type: String,
     required: true,

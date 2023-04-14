@@ -1,3 +1,4 @@
+//latest addPayment
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../stylesheets/Payment.css'
@@ -9,7 +10,6 @@ function GetPayment() {
     const [subjects, setSubjects] = useState([]);
     const [month, setMonth] = useState('');
     const [paidAmount, setAmount] = useState(0);
-    //const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
     //set subject list getting from DB
     const [subjectList, setSubjectList] = useState([]);
     //set selected subjects
@@ -23,8 +23,7 @@ function GetPayment() {
     const ltime = now.toLocaleTimeString('en-US', { hour12: false });
     const [date, setDate] = useState(`${ldate}T${ltime}`);
 
-    console.log(date)
-    //getting subject details and fetch
+
     useEffect(() => {
         const fetchSubjects = async () => {
             try {
@@ -36,7 +35,6 @@ function GetPayment() {
         };
         fetchSubjects();
     }, []);
-
 
 
     //Sum the total of selecting
@@ -54,11 +52,13 @@ function GetPayment() {
 
     const totalAmount = selectedSubjects.reduce((total, sub) => total + sub.subjectAmount, 0);
 
+    const subjectsIDs = [...selectedSubjects];
+
     //handleSubmit for Adding payemnts
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post('http://localhost:9090/api/payment/add', { studentId, date, month, subjects, grade, paidAmount });
+            await axios.post('http://localhost:9090/api/payment/add', { studentId, date, month, subjects, subjectsIDs, grade, paidAmount });
             alert('Payment added successfully!');
         } catch (error) {
             console.error(error);
@@ -68,6 +68,10 @@ function GetPayment() {
 
     const [payments, setPayments] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const handleStudentIdChange = (event) => {
+        setStudentId(event.target.value);
+    };
 
     //handleSubmit for search previous payments
     const handleSearchClick = async () => {
@@ -174,7 +178,7 @@ function GetPayment() {
                                             checked={sub.checked}
                                             onChange={(event) => handleCheckboxChange(event, sub)}
                                         />
-                                        {sub.subjectName} {sub.subjectTeacherID}
+                                        {sub.subjectName} {sub.subjectTeacherName}
                                     </label>
                                 </div>
                             ))}

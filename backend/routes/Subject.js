@@ -28,12 +28,29 @@ router.put('/update/:_id', async (req, res) => {
 //get list of subject data
 router.get('/subjects', async (req, res) => {
     try {
-      const subjects = await Subject.find();
-      res.json(subjects);
+        const subjects = await Subject.find().sort({ subjectName: 1 });
+        res.json(subjects);
     } catch (error) {
-      console.error(error);
-      res.status(500).send('Server error');
+        console.error(error);
+        res.status(500).send('Server error');
     }
-  });
+});
+
+
+//get subject amount by id
+router.get('/amount/:_id', async (req, res) => {
+    try {
+        const subject = await Subject.findById(req.params._id);
+        if (!subject) {
+            return res.status(404).json({ message: 'Subject not found' });
+        }
+        const subjectAmount = subject.subjectAmount;
+        res.json({ subjectAmount });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 module.exports = router;
