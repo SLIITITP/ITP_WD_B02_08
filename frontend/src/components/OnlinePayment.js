@@ -68,6 +68,8 @@ export default function OnlinePayment() {
             });
     }, [studentId]);
 
+    const subjectsIDs = [...selectedSubjects];
+
     //handleSubmit for pass data to checkout page
     const navigate = useNavigate();
 
@@ -79,7 +81,8 @@ export default function OnlinePayment() {
                 sSubjects: subjects,
                 sMonth: month,
                 sPaidAmount: paidAmount,
-                sDate: date
+                sDate: date,
+                sSubIDs: subjectsIDs,
             }
 
         });
