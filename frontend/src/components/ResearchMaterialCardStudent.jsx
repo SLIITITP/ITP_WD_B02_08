@@ -2,11 +2,15 @@ import React from 'react'
 import MaterialBg from '../assets/MaterialBg.jpg'
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useRef } from 'react';
+import ReactToPrint from 'react-to-print';
+
+
 export default function ResearchMaterialCardStudent() {
   const { id } = useParams();
   const [research, setResearch] = useState('');
 
+  const componentRef = useRef();
 
   useEffect(() => {
     const fetchRe = async () => {
@@ -34,7 +38,16 @@ export default function ResearchMaterialCardStudent() {
     }
   };
 
-
+ const pageStyle = `
+  @page {
+    size: A4;
+    margin: 1cm;
+    @top-center {
+      content: "Thilina Institute Hanwella";
+      font-size: 28px;
+      font-weight: bold;
+    }
+`;
 
 
 
@@ -45,7 +58,7 @@ export default function ResearchMaterialCardStudent() {
     </div>
          <div  className='relative flex justify-center mt-8'>
 
-<div className='box-border md:box-content rounded-md h-auto w-auto p-4 drop-shadow-md md:drop-shadow-xl bg-white'>
+<div ref={componentRef} className='box-border md:box-content rounded-md h-auto w-auto p-4 drop-shadow-md md:drop-shadow-xl bg-white'>
 
  
 <div className="mb-4">
@@ -80,7 +93,12 @@ export default function ResearchMaterialCardStudent() {
  <button type="submit"  onClick={downloadFile}  className=" float-right mr-2 text-white bg-green-700 hover:shadow-xl hover:bg-green-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Download material</button>
  </div>
 
- 
+ <ReactToPrint
+  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-3 mr-3 font-bold float-right p-2'>Download Report</button>}
+  content={() => componentRef.current}
+  documentTitle="Thilina institute Hanwella"
+  pageStyle={pageStyle}
+/>
  
 </div>
 </div>

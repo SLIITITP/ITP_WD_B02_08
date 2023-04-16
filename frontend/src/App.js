@@ -269,7 +269,7 @@ function App() {
 
         <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
         <Route path="/editAss/:id" exact element={<EditAssignment />} />
-
+        
 
         <Route exact path="/sm" element={<enrollPage />} />
         <Route exact path="/smt" element={<TeacherDashboard />} />

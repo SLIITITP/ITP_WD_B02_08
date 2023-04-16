@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { useState} from 'react';
+import { useState,useRef} from 'react';
+import ReactToPrint from 'react-to-print';
+
 
 export default function AddResearchMaterial() {
 
@@ -15,6 +17,8 @@ export default function AddResearchMaterial() {
     const file = event.target.files[0];
     setFile(file);
   };
+
+  const componentRef = useRef();
 
   const handleFormSubmit = async (event) => {
     const formData = new FormData();
@@ -45,13 +49,24 @@ export default function AddResearchMaterial() {
       }
     };
 
+    const pageStyle = `
+    @page {
+      size: A4;
+      margin: 1cm;
+      @top-center {
+        content: "Thilina Institute Hanwella";
+        font-size: 28px;
+        font-weight: bold;
+      }
+  `;
+
 
 
 
 
   return (
     <>
-       <div className='box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
+       <div ref={componentRef} className='box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
       
       <form onSubmit={handleFormSubmit}>
       
@@ -84,7 +99,7 @@ export default function AddResearchMaterial() {
         
        
       <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
-      <input  type="file" onChange={handleFileChange} className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size"/>
+      <input  type="file" onChange={handleFileChange} className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size"/>
       
       
       
@@ -96,6 +111,13 @@ export default function AddResearchMaterial() {
         <button type="submit" className=" float-right px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">UPLOAD</button>
         </div>
       </form>
+
+      <ReactToPrint
+      trigger={() => <button className='bg-yellow-400 border-2 border-black mt-3 font-bold float-right p-2'>Download Report</button>}
+      content={() => componentRef.current}
+      documentTitle="Thilina institute Hanwella"
+      pageStyle={pageStyle}
+      />
       
             
           </div>
