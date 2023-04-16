@@ -62,7 +62,7 @@ export default function TeacherRecordPage() {
         <div className="opacity-50 absolute">
       <img src={back} alt="logo" />
     </div>
-    <h1 className=' mt-8 text-4xl text-black text-center relative font-bold'>record Material Section</h1>
+    <h1 className=' mt-8 text-4xl text-black text-center relative font-bold'>Record Material Section</h1>
     <div className="flex items-center max-h-screen">
     <div className="mx-auto mt-8 relative">
       

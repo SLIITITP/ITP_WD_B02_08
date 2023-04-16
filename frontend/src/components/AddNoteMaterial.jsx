@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios';
-import { useState} from 'react';
+import { useState,useRef} from 'react';
 import { Link } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
 
 
 export default function AddNoteMaterial() {
@@ -18,7 +19,7 @@ export default function AddNoteMaterial() {
     const file = event.target.files[0];
     setFile(file);
   };
-  
+  const componentRef = useRef();
 
   const handleFormSubmit = async (event) => {
     const formData = new FormData();
@@ -49,10 +50,22 @@ export default function AddNoteMaterial() {
         setFile(null);
         event.target.reset(); // clear the form inputs, including the file input
        
+       
       } catch (error) {
         console.log(error.Note.data);
       }
     };
+
+    const pageStyle = `
+    @page {
+      size: A4;
+      margin: 1cm;
+      @top-center {
+        content: "Thilina Institute Hanwella";
+        font-size: 28px;
+        font-weight: bold;
+      }
+  `;
 
   
 
@@ -60,7 +73,7 @@ export default function AddNoteMaterial() {
 
   return (
     <>
-    <div className='box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
+    <div ref={componentRef} className='box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
       
 <form  onSubmit={handleFormSubmit}>
 
@@ -112,7 +125,7 @@ export default function AddNoteMaterial() {
   
  
 <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
-<input type="file"  id="large_size"  onChange={handleFileChange} className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" />
+<input id="files"  onChange={handleFileChange} className= " !block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type='file'/>
 
 
 
@@ -126,6 +139,14 @@ export default function AddNoteMaterial() {
   
   </div>
 </form>
+
+<ReactToPrint
+  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-1 font-bold float-right p-2'>Download Report</button>}
+  content={() => componentRef.current}
+  documentTitle="Thilina institute Hanwella"
+  pageStyle={pageStyle}
+/>
+
 
       
     </div>

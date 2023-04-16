@@ -2,12 +2,15 @@ import React from 'react'
 import MaterialBg from '../assets/MaterialBg.jpg'
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useRef } from 'react';
+import ReactToPrint from 'react-to-print';
 
 export default function PdfMaterialCardStudent() {
 
   const { id } = useParams();
   const [Pdf, setPdf] = useState('');
+
+  const componentRef = useRef();
 
 
   useEffect(() => {
@@ -36,6 +39,16 @@ export default function PdfMaterialCardStudent() {
     }
   };
 
+  const pageStyle = `
+  @page {
+    size: A4;
+    margin: 1cm;
+    @top-center {
+      content: "Thilina Institute Hanwella";
+      font-size: 28px;
+      font-weight: bold;
+    }
+`;
 
 
 
@@ -97,6 +110,12 @@ export default function PdfMaterialCardStudent() {
  <button type="submit"  onClick={downloadFile}   className=" float-right mr-2 text-white bg-green-700 hover:shadow-xl hover:bg-green-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Download material</button>
  </div>
 
+ <ReactToPrint
+  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-3 mr-3 font-bold float-right p-2'>Download Report</button>}
+  content={() => componentRef.current}
+  documentTitle="Thilina institute Hanwella"
+  pageStyle={pageStyle}
+/>
  
  
 </div>

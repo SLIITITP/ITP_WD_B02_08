@@ -265,6 +265,8 @@ function App() {
         <Route path="/editAss/:id" exact element={<EditAssignment />} />
         
 
+         {/* study Materials routes */}
+
         <Route exact path="/sm" element={<enrollPage/>}/>
           <Route exact path="/smt" element={<TeacherDashboard/>}/>
           <Route exact path="/sms" element={<StudentDashboard/>}/>
