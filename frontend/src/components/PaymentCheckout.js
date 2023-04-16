@@ -13,6 +13,7 @@ function PaymentCheckout() {
     const [date] = useState(location.state.sDate);
     const [paidAmount] = useState(location.state.sPaidAmount);
     const [month] = useState(location.state.sMonth);
+    const [subjectsIDs] = useState(location.state.sSubIDs);
 
     const [success, setSuccess] = useState(false)
     const stripe = useStripe();
@@ -42,6 +43,7 @@ function PaymentCheckout() {
                         studentId,
                         grade,
                         subjects,
+                        subjectsIDs,
                         paidAmount,
                         month,
                         date,
