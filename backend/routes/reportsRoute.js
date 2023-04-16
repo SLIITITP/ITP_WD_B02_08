@@ -1,8 +1,10 @@
+const express = require('express');
 const authMiddleware = require("../middlewares/authMiddleware");
 const Exam = require("../models/examModel");
 const User = require("../models/userModel");
 const Report = require("../models/reportModel");
 const router = require("express").Router();
+const nodemailer = require('nodemailer');
 
 // add report
 
@@ -90,5 +92,35 @@ router.post("/get-all-reports-by-user", authMiddleware, async (req, res) => {
     });
   }
 });
+
+// send email route
+router.post('/send-report-email', async (req, res) => {
+  const { to, subject, body } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'itp23project@gmail.com',
+      pass: 'cxdctakuacpeoavq',
+    },
+  });
+
+  const mailOptions = {
+    from: 'itp23project@gmail.com',
+    to,
+    subject,
+    text: body,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`Email sent: ${info.response}`);
+    res.send('Email sent successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error sending email');
+  }
+});
+
 
 module.exports = router;
