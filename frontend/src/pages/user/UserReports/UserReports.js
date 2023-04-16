@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTitle from "../../../components/PageTitle";
 import { message, Modal, Table , Row , Col} from "antd";
-import { useDispatch } from "react-redux";
+
+import { useDispatch , useSelector } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { getAllReportsByUser } from "../../../apicalls/reports";
 import { useEffect } from "react";
 import moment from "moment";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import { SetUser } from "../../../redux/usersSlice";
+import { getUserInfo } from "../../../apicalls/users";
 
 function UserReports() {
   const [reportsData, setReportsData] = React.useState([]);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
   const columns = [
     {
       title: "Exam Name",
@@ -74,7 +78,7 @@ function UserReports() {
       startY: 20,
       head: [["Thilina Institute", ""]],
       body: [
-        ["Name", report.users?.name],
+        ["Name", report.user.name],
         ["Subject", report.exam.category],
         ["Date", moment(report.createdAt).format("DD-MM-YYYY hh:mm:ss")],
         ["Duration", report.exam.duration],
@@ -86,6 +90,32 @@ function UserReports() {
     });
     doc.save(`${report.exam.name}.pdf`);
   };
+
+  const getUserData = async () => {
+    try {
+      dispatch(ShowLoading());
+      const response = await getUserInfo();
+      dispatch(HideLoading());
+      if (response.success) {
+        dispatch(SetUser(response.data));
+        console.log(response.data.email)
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      //navigate("/login"); //if there is problem with token user navigate login
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getUserData();
+    } else {
+      //navigate("/login"); //if there is problem with token user navigate login
+    }
+  }, []);
 
   return (
     <div>
@@ -100,7 +130,7 @@ function UserReports() {
                 <b>{report.exam.name}</b>
               </h1> {/*show exam details */}
               <hr />
-              <h1 className="text-md">Name : {report.users?.name}</h1>
+              <h1 className="text-md">Name : {user?.email}</h1>
               <h1 className="text-md">Subject : {report.exam.category}</h1>
               <h1 className="text-md">
                 Date : {moment(report.createdAt).format("DD-MM-YYYY hh:mm:ss")}{" "}
