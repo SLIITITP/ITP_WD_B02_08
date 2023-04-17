@@ -9,10 +9,9 @@ import convertToBase64 from '../validations/convert';
 import extend from '../stylesheets/Profile.module.css'
 import useFetch from '../hooks/fetch.hook';
 import {useAuthStore} from '../redux/store1';
-import { updateUser,getProfile,deleteUser } from '../apicalls/helper';
-import QRCodeGenerator from './QRCodeGenerator';
+import { updateUser,getProfile,deleteUser , updateTeacher } from '../apicalls/helper';
 
-export default function Profile() {
+export default function TeaProfile() {
 
   const navigate = useNavigate()
 
@@ -29,7 +28,7 @@ export default function Profile() {
          setApiData({firstName:apiData?.firstName || '',
          lastName:apiData?.lastName || '',
          email :apiData?.email || '', 
-         mobile:apiData?.mobile || '',
+         teaId:apiData?.teaId || '',
          address:apiData?.address || '',
          profile:apiData?.profile || '',
          id:apiData._id 
@@ -43,7 +42,7 @@ export default function Profile() {
          firstName:apiData?.firstName || '',
          lastName:apiData?.lastName || '',
          email :apiData?.email || '', 
-         mobile:apiData?.mobile || '',
+         teaId:apiData?.teaId || '',
          address:apiData?.address || '',
          profile:apiData?.profile || ''
       },
@@ -54,7 +53,7 @@ export default function Profile() {
       onSubmit : async values =>{                 //validate only after submitting button
           values = await Object.assign(values , {profile : apiData.profile ||'' })
 
-          let updatePromise = updateUser(values,apiData.id);
+          let updatePromise = updateTeacher(values,apiData.id);
 
           toast.promise(updatePromise, {
             loading: 'Updating...',
@@ -115,7 +114,7 @@ function userLogout(){
       <div className='flex justify-center items-center h-screen' >
         <div className={`${styles.glass} ${extend.glass}`} style={{height: "98%"}}>
           <div className="title flex flex-col items-center">
-            <h4 className='text-5xl font-bold'> User Profile</h4>
+            <h4 className='text-5xl font-bold'> Teacher Profile</h4>
             <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
               You can update the details
             </span>
@@ -129,28 +128,18 @@ function userLogout(){
               <input onChange={onUpload} type='file' id='profile' name='profile'></input>
           
             </div>
-
-            <div>
-      {/* <h1>Login Page</h1> */}
-      <QRCodeGenerator apiData={apiData} />
-      {/* <p>{apiData.name}</p> */}
-      {/* <p>{apiData.email}</p> */}
-      <p>{apiData.id}</p>
-       </div>
-
-
             <div className="textbox flex flex-col items-center gap-6">
               <div className="name flex w-3/4 gap-10">
                 <input {...formik.getFieldProps('firstName')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='FirstName*'/>
                 <input {...formik.getFieldProps('lastName')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='LastName*'/>
               </div>
               <div className="name flex w-3/4 gap-10">
-                <input {...formik.getFieldProps('mobile')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Contact No*'/>
+                <input {...formik.getFieldProps('teaId')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Teacher ID'/>
                 <input {...formik.getFieldProps('email')} className={`${styles.textbox} ${extend.textbox}`} type="email" placeholder='Email Address*'/>
               </div>
               
                 <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address*'/>
-                <button className={styles.btn} type='submit' onClick={updateUser}>Update</button>
+                <button className={styles.btn} type='submit'>Update</button>
                 {/* <button className={styles.btn} type='submit' onClick={deleteUser}>Delete</button> */}
               
             </div>

@@ -1,15 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link , useNavigate } from 'react-router-dom'
 import avatar from '../images/profile.png';
 import styles from '../stylesheets/Username.module.css'
 import { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { usernameValidate } from '../validations/validate';
+import {useAuthStore} from '../redux/store1';
 //import { passwordValidate } from '../validations/validate';
 
 
 
 export default function Username() {
+
+  const navigate = useNavigate();
+ const setUsername = useAuthStore(state => state.setUsername)
+
+
+ useEffect(()=> {
+  //console.log(Username)
+ })
 
     const formik = useFormik({
         initialValues : {
@@ -19,7 +28,8 @@ export default function Username() {
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values =>{                //validate only after submitting button
-            console.log(values)
+            setUsername(values.username);
+            navigate('/password')
         }            
     })
 

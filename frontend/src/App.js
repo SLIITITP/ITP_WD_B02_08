@@ -34,12 +34,15 @@ import OnlinePayment from './components/OnlinePayment'
 import Exams from './pages/admin/Exams'
 import AddEditExam from './pages/admin/Exams/AddEditExam'
 
+import {AuthorizeUser , ProtectRoute} from './middleware/auth'
 import Username from './components/Username';
 import Password from './components/Password';
 import Registers from './components/Registers';
 import Profile from './components/Profile';
 import Recovery from './components/Recovery';
-//import PageNotFoud from './components/PageNotFound';
+import TeaProfile from './components/TeaProfile';
+import TeaRegister from './components/TeaRegister'
+import AdminDash from './components/AdminDash'
 import Reset from './components/Reset';
 import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
@@ -198,11 +201,14 @@ function App() {
         </TimetableSideNav>} />
 
         <Route path="/plogin" element={<Username />} />
-        <Route path="/password" element={<Password />} />
+        <Route path="/password" element={<ProtectRoute><Password /></ProtectRoute>} />
         <Route path="/registers" element={<Registers />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<AuthorizeUser><Profile /></AuthorizeUser> } />
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
+        <Route path="/tProfile" element={<TeaProfile/>}/> 
+        <Route path="/tRegister" element={<TeaRegister/>}/> 
+        <Route path="/adminDash" element={<AdminDash/>}/>
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 
