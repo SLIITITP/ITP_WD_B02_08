@@ -39,6 +39,9 @@ router.get('/payHistory', async (req, res) => {
     if (req.query.subject) {
       searchCriteria.subjects = { $in: [req.query.subject] };
     }
+    if (req.query.subjectID) {
+      searchCriteria.subjectsIDs = { $in: [req.query.subjectID] };
+    }
     if (req.query.grade) {
       searchCriteria.grade = req.query.grade;
     }

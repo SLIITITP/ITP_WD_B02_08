@@ -159,7 +159,7 @@ export default function OnlinePayment() {
                                                 value={sub.subjectAmount}
                                                 checked={sub.checked}
                                                 onChange={(event) => handleCheckboxChange(event, sub)} />
-                                            {sub.subjectName} {sub.subjectTeacherID}
+                                            {sub.subjectName} {sub.subjectTeacherName}
                                         </label>
                                     </div>
                                 ))}
