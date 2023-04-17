@@ -58,6 +58,7 @@ function SalaryCalculation() {
         return moment(date).format('MMM DD, YYYY');
     };
 
+    console.log(subjectID)
     return (
         <div>
             {/* Subject selection */}
@@ -65,7 +66,7 @@ function SalaryCalculation() {
                 <label htmlFor="subject">Subject:</label>
                 <select
                     id="subject"
-                    value={subject.subjectName}
+                    value={subject._id}
                     onChange={(e) => {
                         const selectedSubject = subjectList.find(
                             (sub) => sub.subjectName === e.target.value
