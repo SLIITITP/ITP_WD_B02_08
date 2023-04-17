@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Payment = require('../models/Payments');
+const Subject = require('../models/Subjects');
 
 // POST /payments - create a new payment
 router.post('/add', (req, res) => {
@@ -75,6 +76,8 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
+
+
 //for salary calculation get payment data
 router.get('/', async (req, res) => {
   try {
@@ -98,5 +101,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 module.exports = router;

@@ -42,28 +42,6 @@ function ViewPayment() {
         }
     };
 
-    // const handleChange = async (event) => {
-    //     const { name, value } = event.target;
-
-    //     // If the selected field is the subject, find the corresponding subject ID
-    //     let subjectID = searchCriteria.subjectID;
-    //     if (name === 'subject') {
-    //         const subject = subjectList.find((sub) => sub.subjectName === value);
-    //         subjectID = subject ? subject.subjectID : '';
-    //     }
-
-    //     setSearchCriteria((prevState) => ({ ...prevState, [name]: value, subjectID: subjectID }));
-
-    //     try {
-    //         const res = await axios.get('http://localhost:9090/api/payment/payHistory', {
-    //             params: { ...searchCriteria, [name]: value, subjectID: subjectID },
-    //         });
-    //         setPayments(res.data);
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
-
 
     //getting subject details and fetch
     const [subjectList, setSubjectList] = useState([]);
