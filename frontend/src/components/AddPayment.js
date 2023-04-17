@@ -206,6 +206,7 @@ function GetPayment() {
                             <option value="9">Grade 9</option>
                             <option value="10">Grade 10</option>
                             <option value="11">Grade 11</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     {/* month */}
