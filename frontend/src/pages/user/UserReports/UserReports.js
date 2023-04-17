@@ -87,6 +87,36 @@ function UserReports() {
         ["Obtained Mark", report.result.correctAnswers.length],
         ["Verdict", report.result.verdict],
       ],
+      styles: {
+        cellPadding: 2,
+        fontSize: 10,
+        valign: 'middle',
+        halign: 'center',
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+        lineWidth: 0.1,
+        lineColor: [0, 0, 0]
+      },
+      headStyles: {
+        fillColor: [204, 204, 204],
+        textColor: [0, 0, 0],
+        lineWidth: 0.1,
+        lineColor: [0, 0, 0]
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+        lineWidth: 0.1,
+        lineColor: [0, 0, 0]
+      },
+      alternateRowStyles: {
+        fillColor: [240, 240, 240]
+      },
+      columnStyles: {
+        0: {
+          fontStyle: 'bold'
+        }
+      }
     });
     doc.save(`${report.exam.name}.pdf`);
   };

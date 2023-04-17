@@ -119,7 +119,7 @@ export default function WriteExam() {
     }
   }, [timeUp]);
 
-  const sendEmail = async () => {
+  const sendEmail = async () => {   //send email 
 
     try {
       const response = await axios.post('/api/reports/send-report-email', {
@@ -229,7 +229,7 @@ export default function WriteExam() {
                 </button>
               )}
               {selectedQuestionIndex === questions.length - 1 && (
-                <button
+                <button  //when pressed submit button automatically show result page and send email 
                   className="primary-contained-btn"
                   onClick={() => {
                     calculateResult();
