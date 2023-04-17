@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const otpenerator = require("otp-generator");
 
+
 // // exports . loginForm = ( req, res ) => {
 // //     res. render ( 'login' , { title : 'Login' });
 // // };
@@ -75,6 +76,27 @@ const otpenerator = require("otp-generator");
 //   "profile": ""
 // }
 // */
+
+
+/*get all user */
+async function getAllUsers(req, res) {
+  try {
+    const users = await UserModel.find({});
+    if (!users) {
+      return res.status(404).json({ error: 'No Users Found' });
+    }
+    const userList = users.map(user => {
+      const { password, ...rest } = user.toObject();
+      return rest;
+    });
+    return res.status(200).json(userList);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Server Error' });
+  }
+}
+
+
 
 //middleware for verify the user
 async function verifyUser(req, res, next){
@@ -164,6 +186,7 @@ async function registers(req, res) {
 
 module.exports = {
   //loginUser,
+  getAllUsers,
   registers,
   login,
   getUser,
@@ -173,6 +196,9 @@ module.exports = {
   createResetSession,
   resetPassword,
   verifyUser,
+  deleteUser,
+  updateTeacher,
+  tearegister
 };
 
 /** POST: http://localhost:8080/api/login
@@ -264,7 +290,7 @@ async function updateUser(req, res){
   try {
     //const { userId } = req.user;
     const id = req.query.id;
-
+    console.log(id)
     if (!id) {
       return res.status(401).json({ error: 'User Not Found' });
     }
@@ -303,10 +329,10 @@ async function verifyOTP(req, res) {
 /** GET: http://localhost:8080/api/createResetSession */
 async function createResetSession(req, res) {
   if(req.app.locals.resetSession){
-    req.app.locals.resetSession = false;  //allow access to this route only once 
-    return res.status(201).send({ msg : "access granted!"})
+      //allow access to this route only once 
+    return res.status(201).send({ flag: req.app.locals.resetSession})
 }
-return res.status(440).send({ error: "Session granted!"});
+return res.status(440).send({ error: "Session expired!"});
 }
 
 // update the password when we have valid session
@@ -335,5 +361,118 @@ async function resetPassword(req, res) {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Something went wrong" });
+  }
+}
+
+/delete user/
+async function deleteUser(req, res) {
+  try {
+    const id = req.query.id;
+    console.log(id);
+    if (!id) {
+      return res.status(401).json({ error: 'User Not Found' });
+    }
+
+    // delete the user
+    await UserModel.deleteOne({ _id: id });
+
+    return res.status(200).json({ msg: 'Record Deleted' });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Server Error' });
+  }
+};
+
+
+
+//=================================Teacher=======================================
+
+async function updateTeacher(req, res){
+  try {
+    //const { userId } = req.user;
+    const id = req.query.id;
+    console.log(id)
+    if (!id) {
+      return res.status(401).json({ error: 'User Not Found' });
+    }
+
+    const body = req.body;
+
+    // update the data
+    await TeacherModel.updateOne({ _id: id }, body);
+
+    return res.status(200).json({ msg: 'Record Updated' });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Server Error' });
+  }
+};
+
+
+
+async function tearegister(req, res) {
+  console.log(req.body);
+  try {
+    const { username, password, profile, email } = req.body;
+    //check the existing user
+    const existUsername = new Promise((resolve, reject) => {
+      console.log(resolve);
+      TeacherModel.findOne({ username }).then(
+        (res) => {
+          if (res) reject({ error: "Please use unique username" });
+          resolve();
+        },
+        (err) => {
+          if (err) reject(new Error(err));
+        }
+      );
+    });
+    // check for existing email
+    const existEmail = new Promise((resolve, reject) => {
+      console.log(resolve);
+      UserModel.findOne({ email }).then(
+        (res) => {
+          if (res) reject({ error: "Please use unique email" });
+          resolve();
+        },
+        (err) => {
+          if (err) reject(new Error(err));
+        }
+      );
+    });
+    Promise.all([existUsername, existEmail])
+      .then(() => {
+        console.log(password);
+        if (password) {
+          bcrypt
+            .hash(password, 10)
+            .then((hashedPassword) => {
+              const user = new UserModel({
+                username,
+                password: hashedPassword,
+                profile: profile || "",
+                email,
+              });
+
+              // return save result as a response
+              user
+                .save()
+                .then((result) =>
+                  res.status(201).send({ msg: "User Register Successfully" })
+                )
+                .catch((error) => res.status(500).send({ error }));
+            })
+            .catch((error) => {
+              return res.status(500).send({
+                error: "Enable to hashed password",
+              });
+            });
+        }
+      })
+      .catch((error) => {
+        return res.status(500).send({ error });
+      });
+  } catch (error) {
+    return res.status(500).send(error);
   }
 }

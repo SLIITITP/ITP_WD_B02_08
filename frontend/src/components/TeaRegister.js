@@ -6,10 +6,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import {registerValdation } from '../validations/validate';
 import convertToBase64 from '../validations/convert';
-import { registerUser } from '../apicalls/helper';
+import { registerTeacher } from '../apicalls/helper';
 
 
-export default function Register() {
+export default function TeaRegister() {
 
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export default function Register() {
         validateOnChange: false,
         onSubmit : async values =>{                 //validate only after submitting button
             values = await Object.assign(values , {profile : file || ''})
-           let registerPromise = registerUser(values)
+           let registerPromise = registerTeacher(values)
             toast.promise(registerPromise,{
               loading: 'Creating...',
               success: <b>Register Successfully...!</b>,
@@ -72,7 +72,7 @@ export default function Register() {
             <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*'/>
             <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*'/>
             <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*'/>
-            <input {...formik.getFieldProps('grade')} className={styles.textbox} type="text" placeholder='Grade'/> 
+            {/* <input {...formik.getFieldProps('grade')} className={styles.textbox} type="text" placeholder='Grade'/>  */}
               
               <button className={styles.btn} type='submit'>Register</button>
             </div>

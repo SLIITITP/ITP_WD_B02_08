@@ -2,13 +2,24 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer')
-
+const multer = require('multer');
+const app = express();
 
 const controller = require('./controller/registrationController');
 
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-const app = express();
+
+
+// your routes and other middleware
+
+
+
+// app.listen(3000, () => {
+//  console.log('Server started on port 3000');
+// });
+
 
 //app middleware
 app.use(express.json());
@@ -40,7 +51,7 @@ const ticketRoutes = require('./routes/tickets');
 //assignment
 const postRoutes = require('./routes/assignment');
 
-
+const teaRouter = require('./routes/teacher')
 const loginRouter = require('./routes/login');
 //Payment Management
 const SubjectRouter = require('./routes/Subject')
@@ -69,6 +80,7 @@ app.use("/class",classRouter);
 
 
 app.use("/api",loginRouter);
+app.use("/api",teaRouter)
 
 
 
