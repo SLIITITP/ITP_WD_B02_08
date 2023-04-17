@@ -63,6 +63,10 @@ import EditAssignment from './components/Assignment_Management_components/EditAs
 
 import ViewPayment from './components/ViewPayment'
 import PaymentConfirm from './components/PaymentConfirm'
+import WriteExam from './pages/user/WriteExam/WriteExam'
+import UserReports from './pages/user/UserReports/UserReports'
+
+
 
 
 function App() {
@@ -117,6 +121,17 @@ function App() {
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
+        <Route path='/user/write-exam/:id' element={<ProtectedRoute>
+          <WriteExam />
+        </ProtectedRoute>} />
+        <Route
+            path="/user/reports"
+            element={
+              <ProtectedRoute>
+                <UserReports/>
+              </ProtectedRoute>
+            }
+          />
         {/* Admin Routes for exams management */}
         <Route path='/admin/exams' element={<ProtectedRoute>
           <Exams />

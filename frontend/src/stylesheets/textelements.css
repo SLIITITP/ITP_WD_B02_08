@@ -36,3 +36,9 @@ i{
 .underline{
     text-decoration: underline !important;
 }
+.text-center{
+    text-align: center;
+}
+ul.a {
+    list-style-type: square;
+}
