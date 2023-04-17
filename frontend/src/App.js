@@ -134,6 +134,7 @@ import FeedBackStudent from './components/FeedBackStudent';
 import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
+import NipTest from './components/PaymentComponents/NipTest';
 
 
 /*
@@ -172,7 +173,7 @@ function App() {
         <Route path='/payment/addSubToTeachers' element={<AddSubToTeachers />} />
         <Route path='/subject/update' element={<SubListUpdate />} />
         <Route path='/salary/calculate' element={<SalaryCalculation />} />
-
+        <Route path='/niptest' element={<NipTest />} />
 
 
 
