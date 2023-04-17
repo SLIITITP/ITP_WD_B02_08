@@ -266,7 +266,7 @@ function GetPayment() {
                             </ul>
                         </div>
                     </div>
-                    {/* data */}
+                    {/* date */}
                     <div className='mb-2 flex items-center'>
                         <label className='mr-2 w-20 mb-2 text-lg font-medium text-gray-900 dark:text-white'>
                             Date:</label>
