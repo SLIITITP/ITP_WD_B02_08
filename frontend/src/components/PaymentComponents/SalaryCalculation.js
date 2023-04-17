@@ -9,36 +9,8 @@ function SalaryCalculation() {
     const [month, setMonth] = useState('');
     const [payments, setPayments] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
-
-    const handleSearch = async () => {
-        try {
-          const response = await axios.get('http://localhost:9090/api/payment/payHistory', {
-            params: {
-              subject,
-              grade,
-              month,
-            },
-          });
-      
-          const payments = response.data.filter(payment => payment.subjects.includes(subject));
-          setPayments(payments);
-      
-          const total = payments.reduce((acc, curr) => acc + curr.subjectAmount, 0);
-          setTotalAmount(total);
-      
-          const subjectData = await axios.get(`http://localhost:9090/api/subject/amount/${subjectID}`);
-          const subjectAmount = subjectData.data.subjectAmount || 0;
-          const totalSubjectAmount = payments.length * subjectAmount;
-          console.log('Total amount for the selected subject:', totalSubjectAmount);
-        } catch (error) {
-          console.log(error);
-          // add error handling for the axios request
-        }
-      };
-      
-
-
     const [subjectList, setSubjectList] = useState([]);
+
     useEffect(() => {
         const fetchSubjects = async () => {
             try {
@@ -46,11 +18,38 @@ function SalaryCalculation() {
                 setSubjectList(response.data);
             } catch (error) {
                 console.error(error);
-                // add error handling for the axios request
             }
         };
         fetchSubjects();
     }, []);
+
+    const handleSearch = async () => {
+        try {
+            const response = await axios.get('http://localhost:9090/api/payment/payHistory', {
+                params: {
+                    subjectID,
+                    subject,
+                    grade,
+                    month,
+                },
+            });
+
+            const payments = response.data.filter(payment => payment.subjectsIDs.includes(subjectID));
+            setPayments(payments);
+
+            // const total = payments.reduce((acc, curr) => acc + curr.subjectAmount, 0);
+            // setTotalAmount(total);
+
+            const subjectData = await axios.get(`http://localhost:9090/api/subject/amount/${subjectID}`);
+            const subjectAmount = subjectData.data.subjectAmount || 0;
+            const totalSubjectAmount = payments.length * subjectAmount;
+            setTotalAmount(totalSubjectAmount);
+            console.log('Total amount for the selected subject:', totalSubjectAmount);
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const grades = ['5', '6', '7', '8', '9', '10', '11', '13'];
     const months = moment.months();
@@ -59,20 +58,22 @@ function SalaryCalculation() {
         return moment(date).format('MMM DD, YYYY');
     };
 
-    console.log(subject)
-    console.log(subjectID)
-
-
     return (
         <div>
-            <h1>Payment History</h1>
+            {/* Subject selection */}
             <div>
                 <label htmlFor="subject">Subject:</label>
-                <select id='subject' value={subject.subjectName} onChange={(e) => {
-                    const selectedSubject = subjectList.find(sub => sub.subjectName === e.target.value);
-                    setSubject(selectedSubject.subjectName);
-                    setSubjectID(selectedSubject._id);
-                }}>
+                <select
+                    id="subject"
+                    value={subject.subjectName}
+                    onChange={(e) => {
+                        const selectedSubject = subjectList.find(
+                            (sub) => sub.subjectName === e.target.value
+                        );
+                        setSubject(selectedSubject.subjectName);
+                        setSubjectID(selectedSubject._id);
+                    }}
+                >
                     <option value="">Select Subject</option>
                     {subjectList.map((sub) => (
                         <option key={sub._id} value={sub.subjectName}>
@@ -81,9 +82,15 @@ function SalaryCalculation() {
                     ))}
                 </select>
             </div>
+
+            {/* Grade selection */}
             <div>
                 <label htmlFor="grade">Grade:</label>
-                <select id="grade" value={grade} onChange={(e) => setGrade(e.target.value)}>
+                <select
+                    id="grade"
+                    value={grade}
+                    onChange={(e) => setGrade(e.target.value)}
+                >
                     <option value="">Select a grade</option>
                     {grades.map((grade) => (
                         <option key={grade} value={grade}>
@@ -92,9 +99,15 @@ function SalaryCalculation() {
                     ))}
                 </select>
             </div>
+
+            {/* Month selection */}
             <div>
                 <label htmlFor="month">Month:</label>
-                <select id="month" value={month} onChange={(e) => setMonth(e.target.value)}>
+                <select
+                    id="month"
+                    value={month}
+                    onChange={(e) => setMonth(e.target.value)}
+                >
                     <option value="">Select a month</option>
                     {months.map((month) => (
                         <option key={month} value={month}>
@@ -103,10 +116,16 @@ function SalaryCalculation() {
                     ))}
                 </select>
             </div>
+
+            {/* Search button */}
             <button onClick={handleSearch}>Search</button>
+
+            {/* Total amount */}
             <div>
                 <p>Total amount: {totalAmount}</p>
             </div>
+
+            {/* Payment history table */}
             <table>
                 <thead>
                     <tr>
@@ -120,9 +139,9 @@ function SalaryCalculation() {
                 <tbody>
                     {payments.map((payment) => (
                         <tr key={payment._id}>
-                            <td>{payment.date}</td>
+                            <td>{formatDate(payment.date)}</td>
                             <td>{payment.studentId}</td>
-                            <td>{payment.subjects.join(', ')}</td>
+                            <td>{payment.subjects.join(", ")}</td>
                             <td>{payment.grade}</td>
                             <td>{payment.paidAmount}</td>
                         </tr>
@@ -131,8 +150,6 @@ function SalaryCalculation() {
             </table>
         </div>
     );
-
 }
 
 export default SalaryCalculation;
-
