@@ -76,7 +76,7 @@ function handleInputChange(event) {
           {renderInput("teacher", "Teacher", "Enter Teacher's Name")}
           {renderInput("hall", "Hall", "Enter Hall No")}
           {renderInput("date", "Date", "Enter Date")}
-          {renderInput("time", "Time", "Enter Time")}
+          {renderInput("time", "Time", "Enter Time  (HH.MM am/pm - HH.MM am/pm)")}
           {renderInput("fees", "Fees", "Enter Fees")}
 
           <button

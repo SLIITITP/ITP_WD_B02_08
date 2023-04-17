@@ -16,6 +16,9 @@ const subjectSchema = new mongoose.Schema({
   subjectTeacherID: {
     type: String,
     required: true
+  },subjectTeacherName: {
+    type: String,
+    required: true
   }
 });
 

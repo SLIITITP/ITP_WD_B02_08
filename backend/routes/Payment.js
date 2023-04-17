@@ -4,9 +4,9 @@ const Payment = require('../models/Payments');
 
 // POST /payments - create a new payment
 router.post('/add', (req, res) => {
-  const { studentId, date, month, subjects, grade, paidAmount } = req.body;
+  const { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID } = req.body;
 
-  const newPayment = new Payment({ studentId, date, month, subjects, grade, paidAmount });
+  const newPayment = new Payment({ studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID });
 
   newPayment.save()
     .then((payment) => {
@@ -32,11 +32,15 @@ router.get('/history/:studentId', async (req, res) => {
   }
 });
 
+//search history category wise
 router.get('/payHistory', async (req, res) => {
   try {
     const searchCriteria = {};
     if (req.query.subject) {
       searchCriteria.subjects = { $in: [req.query.subject] };
+    }
+    if (req.query.subjectID) {
+      searchCriteria.subjectsIDs = { $in: [req.query.subjectID] };
     }
     if (req.query.grade) {
       searchCriteria.grade = req.query.grade;
@@ -52,6 +56,46 @@ router.get('/payHistory', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send('Server Error');
+  }
+});
+
+
+//delete data using ID
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const payment = await Payment.findByIdAndDelete(req.params.id);
+
+    if (!payment) {
+      return res.status(404).send();
+    }
+
+    res.send(payment);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//for salary calculation get payment data
+router.get('/', async (req, res) => {
+  try {
+    const { grade, month, subject } = req.query;
+
+    const query = {};
+    if (grade) {
+      query.grade = grade;
+    }
+    if (month) {
+      query.month = month;
+    }
+    if (subject) {
+      query.subjects = { $in: [subject] };
+    }
+
+    const payments = await Payment.find(query);
+    res.json(payments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 

@@ -1,43 +1,147 @@
-import React, { useState } from 'react';
-import StripeCheckout from 'react-stripe-checkout';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import axios from 'axios';
 
-const Checkout = () => {
-  const [product, setProduct] = useState({
-    name: 'Example Product',
-    price: 10,
-    description: 'This is an example product.',
-  });
+function PaymentCheckout() {
 
-  const handleToken = async (token) => {
-    const response = await fetch('/api/payment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token,
-        product,
-      }),
-    });
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const data = await response.json();
-    console.log(data);
-  };
+    const [studentId] = useState(location.state.sId);
+    const [grade] = useState(location.state.sGrade);
+    const [subjects] = useState(location.state.sSubjects);
+    const [date] = useState(location.state.sDate);
+    const [paidAmount] = useState(location.state.sPaidAmount);
+    const [month] = useState(location.state.sMonth);
+    const [subjectsIDs] = useState(location.state.sSubIDs);
 
-  return (
-    <StripeCheckout
-      stripeKey="your_publishable_key"
-      token={handleToken}
-      name="Example Company"
-      description={product.description}
-      amount={product.price * 100}
-      currency="lkr"
-    >
-      <button>Pay ${product.price}</button>
-    </StripeCheckout>
-  );
-};
-//මේකට යටින් ගහන්න එපා මුකුත්
-// ගහන ඒවා උඩින් ගහන්න ( ගහලා)
+    const [success, setSuccess] = useState(false)
+    const stripe = useStripe();
+    const element = useElements();
 
-export default Checkout;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: "card",
+            card: element.getElement(CardElement)
+        })
+
+        if (!error) {
+            try {
+                const { id } = paymentMethod;
+                const response = await axios.post('http://localhost:9090/payment', {
+                    amount: paidAmount * 100,
+                    id
+                })
+
+                if (response.data.success) {
+                    console.log("payment succesfull")
+                    setSuccess(true);
+
+                    // Update database with payment information
+                    const paymentData = {
+                        studentId,
+                        grade,
+                        subjects,
+                        subjectsIDs,
+                        paidAmount,
+                        month,
+                        date,
+                        paymentID: id
+                    };
+                    const updateResponse = await axios.post('http://localhost:9090/api/payment/add', paymentData);
+                    console.log("Payment added to DB");
+                    navigate('/confirmPayment', {
+                        state: {
+                            studentId,
+                            grade,
+                            subjects,
+                            subjectsIDs,
+                            paidAmount,
+                            month,
+                            date,
+                            paymentID: id
+                        }
+                    });
+                }
+            } catch (error) {
+                console.log("error", error)
+            }
+        } else {
+            console.log(error.message)
+        }
+    }
+
+
+    const CARD_OPTIONS = {
+        iconStyle: "solid",
+        style: {
+            base: {
+                iconColor: "#000000",
+                color: "#000000",
+                fontWeight: 500,
+                fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+                fontSize: "16px",
+                fontSmoothing: "antialiased",
+                ":-webkit-autofill": { color: "#000000" },
+                "::placeholder": { color: "#000000" }
+            },
+            invalid: {
+                iconColor: "#ed0000",
+                color: "#ed0000"
+            }
+        }
+    }
+
+    return (
+
+        <>
+
+
+            {!success ?
+                <form onSubmit={handleSubmit}>
+                    <div className='container'>
+                        Confirm details & Pay
+                        <hr />
+                        <div>
+                            <label>
+                                Your Student ID : {studentId}
+                            </label><br />
+                            <label>
+                                Grade : {grade}
+                            </label><br />
+                            {subjects && (
+                                <label>
+                                    Subjects : {subjects.join(', ')}
+                                </label>
+                            )}<br />
+                            <label>
+                                Total Amount : {paidAmount}
+                            </label><br />
+                            <label>
+                                Month : {month}
+                            </label><br />
+                            <label>
+                                Payment Date : {date}
+                            </label><br />
+                        </div>
+                        <hr />
+                    </div>
+                    <fieldset className="FormGroup">
+                        <div className="FormRow">
+                            <CardElement options={CARD_OPTIONS} />
+                        </div>
+                    </fieldset>
+                    <button>Pay</button>
+                </form>
+                :
+                <div>
+                    <h2>You paid for fees</h2>
+                </div>
+            }
+        </>
+    )
+}
+
+export default PaymentCheckout;
