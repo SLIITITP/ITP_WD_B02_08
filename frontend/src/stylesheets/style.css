@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+body{
+    height: 100vh;
+    width: 100%;
+    
+}
+
+section{
+    display: flex;
+
+}
+
+.side-bar{
+    height: 100vh;
+    position: fixed;
+    width: 240px ;
+    min-width: 60px;
+    background-color: rgb(141, 217, 217);
+    transition: all .5s ease ;
+}
+
+.side-bar.active{
+    width: 60px;
+}
+
+.dashboard{
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    width: calc(100% - 240px);
+    left: 240px;
+    background-color: #fff;
+    transition: all .5s ease ;
+}
+
+.side-bar.active ~ .dashboard{
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
+/*==================*/
+/*==================*/
+
+.logo{
+    display: flex;
+    width: 100%;
+    height: 80px;
+    align-items: center;
+    
+}
+
+.logo span h1{
+    min-width: 60px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo h3{
+    margin-left:1rem ;
+}
+
+.links{
+    height: 100%;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.links .link{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    cursor: pointer;
+}
+
+.links .link:hover{
+    color: blueviolet;
+    font-size: 1.1rem;
+    transition: .3s;
+}
+
+.links .link .icon{
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+i{
+   font-size: 1.5rem;
+}
+
+.links .link .name{
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-left: 1rem;
+}
+
+.logout{
+    position: absolute;
+    bottom: 2%;
+    color: red;  
+}
+
+.navbar{
+   width: 100%;
+   height: 80px;
+   display: flex;
+   align-items: center; 
+   justify-content: space-between;
+   background-color: #fff;
+   transition: all .5s ease ;
+   
+}
+
+.navbar span{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 220px;
+    margin-left: 10px;
+}
+
+.navbar span h2{
+    margin-left: 1.5rem;
+    font-size: clamp(.2rem , 3.5vw, 1.2rem);
+}
+
+.navbar .search{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 50px;
+    position: relative;
+}
+
+.navbar .search input{
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    background-color: rgb(204, 209, 209);
+    padding-left: 20px;
+    border: none;
+}
+
+.navbar .search i{
+  position: absolute;
+  right: 3%;
+}
+
+.navbar .nav-btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 10px;
+    width: 150px;
+    margin-right: 1rem;
+    position: relative;
+    white-space: nowrap;
+}
+
+.navbar .profile-pic{
+    min-height: 60px;
+    min-width: 55px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+}
+
+.navbar .profile-pic img{
+    height: 60px;
+    width: 55px;
+}
+
+
+/*==============================*/
+/*==============================*/
+
+.summary{
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 5vw ;
+    position: relative;
+    top: 0;
+    right:0;
+}
+.box{
+    width: 18%;
+    min-width: 136px;
+    min-height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #fff;
+    margin-left: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.top{
+    display:flex;
+    align-items: center;
+    width: 95%;
+    justify-content: space-between;
+   
+}
+
+
+.left h2{
+    margin-left: 10px;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+}
+
+.right{
+    margin-right: 10px;
+}
+
+.bottom{
+    width: 95%;
+    text-align: left;
+    font-size:clamp(.5rem, 1vw, 2rem);
+    padding-left: 10px;
+}
+
+.box:nth-child(1){
+    background-color: #F59AA3;
+}
+
+.box:nth-child(2){
+    background-color: #557B83;
+}
+.box:nth-child(3){
+    background-color: #FFA931;
+}
+
+.box:nth-child(4){
+    background-color: #603601;
+    color: #fff;
+}
+
+/*==============================*/
+/*==============================*/
+.page-middle{
+    display: flex;
+}
+.sellings{
+    background-color: #fff;
+    width: 60%;
+    height: 65vh;
+    padding: 15px 10px;
+    margin: 20px 10px 10px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.sellings table{
+    width: 100%;
+    height: 90%;
+    border: none;
+}
+
+.sellings 
+th,
+.sellings 
+td{
+    text-align: left;
+    font-size: clamp(.8rem, 1.1vw , 2rem);
+}
+
+
+.orders{
+    background-color: #fff;
+    width: 35%;
+    height: 65vh;
+    padding: 15px 10px;
+    margin: 20px 10px 10px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.orders table{
+    width: 100%;
+    height: 90%;
+}
+
+.orders 
+th,
+.orders td{
+    text-align: left;
+    margin-right: 5px;
+    font-size: clamp(.8rem, 1.1vw , 2rem);
+}
+
+
+/*==============================*/
+/*======Toggle button ======*/
+
+input{
+
+    position: relative;
+    width: 40px;
+    height: 20px;
+    -webkit-appearance: none;
+    background: #fff;
+    outline: none;
+    border-radius: 20px;
+    transition: .5s;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+   
+}
+
+input:checked{
+    background-color: #fff;
+}
+
+input:before{
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    box-shadow:  0 2px 5px rgba(0,0,0,.5);
+    transition: .5s;
+}
+
+input:checked:before{
+    left: 20px;
+}
+
+
+/*==toggle button darkmode==*/
+.dark{
+    background-color: #292f45;
+    color: #fff;
+    transition: all .5s ease ;
+}
+
+.dark-dashboard{
+    background-color:#151d30;
+    transition: all .5s ease ;
+}
+
+.dark-sellings,
+.dark-orders{
+    background-color:#292f45;
+    color: #fff;
+    transition: all .5s ease ;
+} 
+
+.dark-sellings th,
+.dark-orders th{
+    color: aqua;
+    transition: all .5s ease ;
+}
+
+
+@media(max-width: 920px){
+
+    .summary{
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        grid-template-rows: 1fr 1fr;
+        width: 100%;
+        gap: 5px;
+        min-width: 356px;
+        overflow: scroll;
+    }
+
+    .box{
+        width: 100%;
+        margin-bottom: 15px;
+        min-width: 150px;
+        margin-right: 20px;
+    }
+
+    .page-middle{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 20px;
+        overflow-y: scroll;
+    }
+
+    .sellings{
+        width: clamp(370px, 100%, 650px);
+       
+    }
+
+    .orders{
+        width: clamp(370px, 100%, 650px);
+       
+    }
+
+}
+
+@media(max-width: 600px){
+    .summary{
+        display: flex;
+    }
+
+    .nav-btn{
+      display: none;   
+    }
+
+    .side-bar.active ~ .nav-btn{
+        visibility: visible;
+    }
+
+    .side-bar{
+        height: 100vh;
+    }
+
+    .dashboard{
+        height:  100vh;
+        overflow: scroll;
+    }
+
+    .navbar span{
+        display: flex;
+        align-items: center;
+        height: 50px;
+        width: 220px;
+        margin-left: 10px;
+    }
+    
+    .navbar span h2{
+        margin-left: .5rem;
+        margin-right: 10px;
+        font-size: clamp(.2rem , 3.5vw, 1.2rem);
+    }
+    
+    .navbar .search{
+        display: flex;
+        align-items: center;
+        width: 50%;
+        min-width: 95px;
+        height: 50px;
+        position: relative;
+    }
+    
+    .navbar .search input{
+        width: 100%;
+        height: 40px;
+        min-width: 95px;
+        font-size:  clamp(.2rem , 3.5vw, 1.2rem);
+        background-color: rgb(204, 209, 209);
+        padding-left: 20px;
+        border: none;
+    }
+    
+    .navbar .search i{
+      position: absolute;
+      right: 3%;
+      font-size:  clamp(.2rem , 3.5vw, 1.2rem);
+    }
+    
+    .navbar .nav-btn{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 10px;
+        width: 150px;
+        margin-right: 1rem;
+        position: relative;
+        white-space: nowrap;
+    }
+
+    .nav-btn i{
+        margin-right: 10px;
+    }
+    
+    .navbar .profile-pic{
+        min-height: 60px;
+        min-width: 55px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 1rem;
+    }
+    
+    .navbar .profile-pic img{
+        height: 60px;
+        width: 55px;
+    }
+
+}
+
+
+
+/* 460 responsive */
+
+
+
