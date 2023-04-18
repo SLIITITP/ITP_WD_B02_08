@@ -2,13 +2,15 @@ import React from 'react'
 import MaterialBg from '../assets/MaterialBg.jpg'
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useRef } from 'react';
+import ReactToPrint from 'react-to-print';
 
 export default function RecordMaterialCardStudent() {
 
   const { id } = useParams();
   const [record, setRecord] = useState('');
 
+  const componentRef = useRef();
 
   useEffect(() => {
     const fetchRecord = async () => {
@@ -23,6 +25,18 @@ export default function RecordMaterialCardStudent() {
   }, [id]);
   console.log('record', record);
 
+  const pageStyle = `
+  @page {
+    size: A4;
+    margin: 1cm;
+    @top-center {
+      content: "Thilina Institute Hanwella";
+      font-size: 28px;
+      font-weight: bold;
+    }
+`;
+
+
 
   return (
     <div>
@@ -31,7 +45,7 @@ export default function RecordMaterialCardStudent() {
     </div>
          <div  className='relative flex justify-center mt-8'>
 
-<div className='box-border md:box-content rounded-md h-auto w-auto p-4 drop-shadow-md md:drop-shadow-xl bg-white'>
+<div ref={componentRef} className='box-border md:box-content rounded-md h-auto w-auto p-4 drop-shadow-md md:drop-shadow-xl bg-white'>
 
  
 <div className="mb-4">
@@ -74,6 +88,14 @@ export default function RecordMaterialCardStudent() {
   <Link to="/fbs">
  <button type="submit" className="ml-2 mr-48 justify-center text-white bg-yellow-500 hover:shadow-xl hover:bg-yellow-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Feedback</button>
  </Link>
+
+ <ReactToPrint
+  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-3 mr-3 font-bold float-right p-2'>Download Report</button>}
+  content={() => componentRef.current}
+  documentTitle="Thilina institute Hanwella"
+  pageStyle={pageStyle}
+/>
+ 
 
  </div>
 

@@ -25,7 +25,7 @@ import AddClass from "./pages/admin/Timetable/AddClass";
 import MainTimetable from './pages/user/Timetable/MainTimetable'
 import MyTimetable from './pages/user/Timetable/MyTimetable'
 import AdminExamSchedule from "./pages/admin/Timetable/AdminExamSchedule";
-
+import ClassEnrolling from './pages/user/ClassEnrollment/classEnrolling';
 
 import AddPayment from './components/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -34,12 +34,15 @@ import OnlinePayment from './components/OnlinePayment'
 import Exams from './pages/admin/Exams'
 import AddEditExam from './pages/admin/Exams/AddEditExam'
 
+import {AuthorizeUser , ProtectRoute} from './middleware/auth'
 import Username from './components/Username';
 import Password from './components/Password';
 import Registers from './components/Registers';
 import Profile from './components/Profile';
 import Recovery from './components/Recovery';
-//import PageNotFoud from './components/PageNotFound';
+import TeaProfile from './components/TeaProfile';
+import TeaRegister from './components/TeaRegister'
+import AdminDash from './components/AdminDash'
 import Reset from './components/Reset';
 import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
@@ -136,6 +139,7 @@ import FeedBackStudent from './components/FeedBackStudent';
 import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
+import NipTest from './components/PaymentComponents/NipTest';
 
 
 /*
@@ -174,7 +178,7 @@ function App() {
         <Route path='/payment/addSubToTeachers' element={<AddSubToTeachers />} />
         <Route path='/subject/update' element={<SubListUpdate />} />
         <Route path='/salary/calculate' element={<SalaryCalculation />} />
-
+        <Route path='/niptest' element={<NipTest />} />
 
 
 
@@ -197,13 +201,18 @@ function App() {
         <Route path="/myTimetable" exact element={<TimetableSideNav>
           <MyTimetable />
         </TimetableSideNav>} />
+        <Route path="/user/classEnrolling" exact element={<ClassEnrolling />} />
+
 
         <Route path="/plogin" element={<Username />} />
-        <Route path="/password" element={<Password />} />
+        <Route path="/password" element={<ProtectRoute><Password /></ProtectRoute>} />
         <Route path="/registers" element={<Registers />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<AuthorizeUser><Profile /></AuthorizeUser> } />
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
+        <Route path="/tProfile" element={<TeaProfile/>}/> 
+        <Route path="/tRegister" element={<TeaRegister/>}/> 
+        <Route path="/adminDash" element={<AdminDash/>}/>
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 
@@ -271,7 +280,10 @@ function App() {
 
         <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
         <Route path="/editAss/:id" exact element={<EditAssignment />} />
+
         <Route path="/AssD" exact element={<AssignmentDetails />} />
+
+
 
 
         <Route exact path="/sm" element={<enrollPage />} />

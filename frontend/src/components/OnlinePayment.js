@@ -68,6 +68,8 @@ export default function OnlinePayment() {
             });
     }, [studentId]);
 
+    const subjectsIDs = [...selectedSubjects];
+
     //handleSubmit for pass data to checkout page
     const navigate = useNavigate();
 
@@ -79,7 +81,8 @@ export default function OnlinePayment() {
                 sSubjects: subjects,
                 sMonth: month,
                 sPaidAmount: paidAmount,
-                sDate: date
+                sDate: date,
+                sSubIDs: subjectsIDs,
             }
 
         });
@@ -156,7 +159,7 @@ export default function OnlinePayment() {
                                                 value={sub.subjectAmount}
                                                 checked={sub.checked}
                                                 onChange={(event) => handleCheckboxChange(event, sub)} />
-                                            {sub.subjectName} {sub.subjectTeacherID}
+                                            {sub.subjectName} {sub.subjectTeacherName}
                                         </label>
                                     </div>
                                 ))}

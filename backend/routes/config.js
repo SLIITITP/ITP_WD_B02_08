@@ -1,6 +1,6 @@
 module.exports={
 
-EMAIL: "cecil.jakubowski@ethereal.email",
-PASSWORD: "p5wRV6V1eqmdFSS4eD"
+EMAIL: "dayna24@ethereal.email",
+PASSWORD: "U5Ta8pU2JDpnX7BPtz"
 
 }

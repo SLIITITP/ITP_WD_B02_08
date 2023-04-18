@@ -1,10 +1,11 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from 'axios';
 
 function PaymentCheckout() {
 
+    const navigate = useNavigate();
     const location = useLocation();
 
     const [studentId] = useState(location.state.sId);
@@ -13,6 +14,7 @@ function PaymentCheckout() {
     const [date] = useState(location.state.sDate);
     const [paidAmount] = useState(location.state.sPaidAmount);
     const [month] = useState(location.state.sMonth);
+    const [subjectsIDs] = useState(location.state.sSubIDs);
 
     const [success, setSuccess] = useState(false)
     const stripe = useStripe();
@@ -24,24 +26,25 @@ function PaymentCheckout() {
             type: "card",
             card: element.getElement(CardElement)
         })
-    
+
         if (!error) {
             try {
                 const { id } = paymentMethod;
                 const response = await axios.post('http://localhost:9090/payment', {
-                    amount: paidAmount*100,
+                    amount: paidAmount * 100,
                     id
                 })
-    
+
                 if (response.data.success) {
                     console.log("payment succesfull")
                     setSuccess(true);
-    
+
                     // Update database with payment information
                     const paymentData = {
                         studentId,
                         grade,
                         subjects,
+                        subjectsIDs,
                         paidAmount,
                         month,
                         date,
@@ -49,6 +52,18 @@ function PaymentCheckout() {
                     };
                     const updateResponse = await axios.post('http://localhost:9090/api/payment/add', paymentData);
                     console.log("Payment added to DB");
+                    navigate('/confirmPayment', {
+                        state: {
+                            studentId,
+                            grade,
+                            subjects,
+                            subjectsIDs,
+                            paidAmount,
+                            month,
+                            date,
+                            paymentID: id
+                        }
+                    });
                 }
             } catch (error) {
                 console.log("error", error)
@@ -57,7 +72,7 @@ function PaymentCheckout() {
             console.log(error.message)
         }
     }
-    
+
 
     const CARD_OPTIONS = {
         iconStyle: "solid",

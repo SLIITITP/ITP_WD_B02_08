@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Payment = require('../models/Payments');
+const Subject = require('../models/Subjects');
 
 // POST /payments - create a new payment
 router.post('/add', (req, res) => {
-  const { studentId, date, month, subjects, grade, paidAmount, paymentID } = req.body;
+  const { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID } = req.body;
 
-  const newPayment = new Payment({ studentId, date, month, subjects, grade, paidAmount, paymentID });
+  const newPayment = new Payment({ studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID });
 
   newPayment.save()
     .then((payment) => {
@@ -38,6 +39,9 @@ router.get('/payHistory', async (req, res) => {
     const searchCriteria = {};
     if (req.query.subject) {
       searchCriteria.subjects = { $in: [req.query.subject] };
+    }
+    if (req.query.subjectID) {
+      searchCriteria.subjectsIDs = { $in: [req.query.subjectID] };
     }
     if (req.query.grade) {
       searchCriteria.grade = req.query.grade;
@@ -72,6 +76,8 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
+
+
 //for salary calculation get payment data
 router.get('/', async (req, res) => {
   try {
@@ -95,5 +101,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 module.exports = router;

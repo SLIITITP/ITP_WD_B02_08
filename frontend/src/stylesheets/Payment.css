@@ -31,7 +31,7 @@
     position: relative;
   }
   
-  .search-results {
+  /* .search-results {
     position: absolute;
     top: 100%;
     left: 0;
@@ -44,8 +44,16 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     list-style: none;
-    padding: 0;
-    margin: 0;
+  } */
+
+  .search-results {
+    position: absolute;
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    list-style: none;
   }
   
   .search-results li {

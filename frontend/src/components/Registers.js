@@ -1,30 +1,40 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../images/profile.png';
 import styles from '../stylesheets/Username.module.css'
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import {registerValdation } from '../validations/validate';
-import convertToBase64 from '../validations/convert'
-
+import convertToBase64 from '../validations/convert';
+import { registerUser } from '../apicalls/helper';
 
 
 export default function Register() {
+
+  const navigate = useNavigate();
 
     const [file , setFile] = useState()
       
     const formik = useFormik({
         initialValues : {
-           password : '',
+           email : '',
            username: '',
-           password: ''
+           password: '',
+           grade: ''
         },
         validate:registerValdation,                 //validate the input text box and return value
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values =>{                 //validate only after submitting button
             values = await Object.assign(values , {profile : file || ''})
-            console.log(values)
+           let registerPromise = registerUser(values)
+            toast.promise(registerPromise,{
+              loading: 'Creating...',
+              success: <b>Register Successfully...!</b>,
+              error: <b>Could not Register</b>
+            })
+
+            registerPromise.then(function(){navigate('/plogin')});
         }            
     })
 
@@ -62,7 +72,7 @@ export default function Register() {
             <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*'/>
             <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*'/>
             <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*'/>
-
+            <input {...formik.getFieldProps('grade')} className={styles.textbox} type="text" placeholder='Grade'/> 
               
               <button className={styles.btn} type='submit'>Register</button>
             </div>

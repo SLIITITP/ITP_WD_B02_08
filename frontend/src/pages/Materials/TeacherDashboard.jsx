@@ -112,23 +112,24 @@ export default function TeacherDashboard() {
          
    <img className=" w-auto h-52 float-left ml-16" src={baba} alt="description"/>
 
-      <p className=" text-4xl m-auto font-bold text-gray-800 dark:text-gray-500">WELCOME TO THILINI INSTITUTE</p>
+      <p className=" text-4xl m-auto font-bold text-gray-800 dark:text-gray-500">WELCOME TO THILINA INSTITUTE</p>
    
    </div>
 
 
    <div className="grid grid-cols-2 gap-6 mt-12">
       <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
-         <p className="text-3xl text-gray-700 dark:text-gray-500">PDF MATERIALS</p>
+      <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=10a6ea32-4bb0-4e12-a921-9f3f52a2032d&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
+ 
       </div>
       <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
-         <p className="text-3xl text-gray-700 dark:text-gray-500">NOTE MATERIALS</p>
+      <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=64386562-8ce8-4015-8220-daab98bbe856&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
       </div>
       <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
-         <p className="text-3xl text-gray-700 dark:text-gray-500">RECORD MATERIALS</p>
+      <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=0b8ba5b3-ccdf-4312-b18b-65e2d77ad98f&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
       </div>
       <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
-         <p className="text-3xl text-gray-700 dark:text-gray-500">RESEARCH MATERIALS</p>
+      <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=85a0617a-35dc-4ffb-b5c5-6938a6300d74&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
       </div>
    </div>
 

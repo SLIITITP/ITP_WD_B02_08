@@ -6,6 +6,7 @@ import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { getExamById } from "../../../apicalls/exams";
 import Instructions from "./Instructions";
 import { addReport } from "../../../apicalls/reports";
+import axios from 'axios';
 
 export default function WriteExam() {
   const [examData, setExamData] = React.useState(null);
@@ -113,8 +114,35 @@ export default function WriteExam() {
     if (timeUp && view === "questions") {
       clearInterval(intervalId);
       calculateResult();
+      sendEmail();
+      
     }
   }, [timeUp]);
+
+  const sendEmail = async () => {   //send email 
+
+    try {
+      const response = await axios.post('/api/reports/send-report-email', {
+        to: `${user?.email}`,
+        subject: 'Exam Result from Thilina Institute',
+        body: 
+        `RESULT\n 
+               Name:${user.name}\n
+               Subject:${examData.category}\n
+               Duration:${examData.duration}\n
+               Total Marks:${examData.totalMarks}\n
+               Passing Marks:${examData.passingMarks}\n
+              `,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+      //setError('Error sending email');
+    }
+
+    //setLoading(false);
+   }
+
 
   return (
     examData && (
@@ -201,12 +229,13 @@ export default function WriteExam() {
                 </button>
               )}
               {selectedQuestionIndex === questions.length - 1 && (
-                <button
+                <button  //when pressed submit button automatically show result page and send email 
                   className="primary-contained-btn"
                   onClick={() => {
                     calculateResult();
                     clearInterval(intervalId);
                     setTimeUp(true);
+                    sendEmail();
                   }}
                 >
                   Submit
@@ -246,7 +275,7 @@ export default function WriteExam() {
                       setView("instructions");
                       setSelectedQuestionIndex(0);
                       setSelectedOptions({});
-                      //   setSecondsLeft(examData.duration);
+                      setSecondsLeft(examData.duration);
                     }}
                   >
                     Retake Exam
@@ -332,7 +361,7 @@ export default function WriteExam() {
                   setView("instructions");
                   setSelectedQuestionIndex(0);
                   setSelectedOptions({});
-                  //   setSecondsLeft(examData.duration);
+                  setSecondsLeft(examData.duration);
                 }}
               >
                 Retake Exam
