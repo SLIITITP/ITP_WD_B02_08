@@ -50,7 +50,7 @@ app.listen(PORT, () => {
 })
 
 //import routes
-const classRouter = require('./routes/classes');
+
 const ticketRoutes = require('./routes/tickets');
 
 //assignment
@@ -68,6 +68,9 @@ const usersRoute = require("./routes/usersRoute");
 const examsRoute = require("./routes/examsRoute");
 const reportsRoute = require("./routes/reportsRoute");
 
+//Timetable Management
+const classRouter = require('./routes/classes');
+const enrollRouter = require('./routes/studentEnroll');
 
 //route middleware
 app.use('/api/payment', PaymentRouter);

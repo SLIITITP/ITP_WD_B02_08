@@ -25,7 +25,7 @@ import AddClass from "./pages/admin/Timetable/AddClass";
 import MainTimetable from './pages/user/Timetable/MainTimetable'
 import MyTimetable from './pages/user/Timetable/MyTimetable'
 import AdminExamSchedule from "./pages/admin/Timetable/AdminExamSchedule";
-
+import ClassEnrolling from './pages/user/ClassEnrollment/classEnrolling';
 
 import AddPayment from './components/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -199,6 +199,8 @@ function App() {
         <Route path="/myTimetable" exact element={<TimetableSideNav>
           <MyTimetable />
         </TimetableSideNav>} />
+        <Route path="/user/classEnrolling" exact element={<ClassEnrolling />} />
+
 
         <Route path="/plogin" element={<Username />} />
         <Route path="/password" element={<ProtectRoute><Password /></ProtectRoute>} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { getUserInfo } from "../../../apicalls/users";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,38 +45,21 @@ function MainTimetable() {
   });
 }
 
-{/*// handle register button click event
-const handleButtonClick = () => {
-
-};
-
-//Hide the register button when click outside
-const ref = useRef(null);
-const buttonRef = useRef(null);
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target)
-      ) {
-        setSelectedClass(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [ref, buttonRef]);
-*/}
-
-
 // handle register button click event
-const handleButtonClick = () => {
-  // Implement your logic for registering the user for the selected class here
+function handleEnrollClick (clz) {
+  navigate('/user/classEnrolling', {
+    state: {
+      cId: clz._id,
+      cGrade: clz.grade,
+      cSubject: clz.subject,
+      cTeacher: clz.teacher,
+      cHall: clz.hall,
+      cDate: clz.date,
+      cTime: clz.time,
+      cFees: clz.fees
+    }
+
+});
 };
 
 //Check whether the role is admin 
@@ -132,7 +115,7 @@ useEffect(() => {
 
 return (
 <div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
- {/*View timetable*/}
+{/*View timetable*/}
  <div class="col-11" >
  <h3 className="mb-4 text-center font-medium text-2xl text-gray-900 dark:text-white">Main Class Schedule</h3>
  <nav className="d-flex justify-content-center mb-4">
@@ -176,8 +159,8 @@ return (
              <td>Rs.{clz.fees}</td>
              {role !== "admin" && (
                <td>  
-                  <button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center'
-                   onClick={handleButtonClick}>Enroll</button>         
+                  <button key={clz.id} type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center'
+                   onClick={() => handleEnrollClick(clz)}>Enroll</button>         
                </td>
               )}
         </tr>
