@@ -3,7 +3,8 @@ const UserModel = require("../models/User.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const otpenerator = require("otp-generator");
-
+const StudenIds = require("../models/StudentId");
+const testStudent = require("../models/TestStudent")
 
 // // exports . loginForm = ( req, res ) => {
 // //     res. render ( 'login' , { title : 'Login' });
@@ -77,48 +78,55 @@ const otpenerator = require("otp-generator");
 // }
 // */
 
+// setUp ID for students
+async function setUpIds(req, res) {
+  try {
+    // const studentId = await StudenIds.find({});
+    const user = new StudenIds({
+      studentId: "stu_00001",
+    });
+    user
+      .save()
+      .then((result) =>
+        res.status(201).send({ msg: "User Id successfully saved" })
+      )
+      .catch((error) => res.status(500).send({ error }));
+  } catch (error) {}
+}
 
 /*get all user */
 async function getAllUsers(req, res) {
   try {
     const users = await UserModel.find({});
     if (!users) {
-      return res.status(404).json({ error: 'No Users Found' });
+      return res.status(404).json({ error: "No Users Found" });
     }
-    const userList = users.map(user => {
+    const userList = users.map((user) => {
       const { password, ...rest } = user.toObject();
       return rest;
     });
     return res.status(200).json(userList);
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ error: 'Server Error' });
-  }
-}
-
-
-
-//middleware for verify the user
-async function verifyUser(req, res, next){
-  try {
-      
-      const { username } = req.method == "GET" ? req.query : req.body;
-
-      // check the user existance
-      let exist = await UserModel.findOne({ username });
-      if(!exist) return res.status(404).send({ error : "Can't find User!"});
-      next();
-
-  } catch (error) {
-      return res.status(404).send({ error: "Authentication Error"});
+    return res.status(500).json({ error: "Server Error" });
   }
 }
 
+//middleware for verify the user
+async function verifyUser(req, res, next) {
+  try {
+    const { username } = req.method == "GET" ? req.query : req.body;
 
-
+    // check the user existance
+    let exist = await UserModel.findOne({ username });
+    if (!exist) return res.status(404).send({ error: "Can't find User!" });
+    next();
+  } catch (error) {
+    return res.status(404).send({ error: "Authentication Error" });
+  }
+}
 
 async function registers(req, res) {
-  console.log(req.body);
   try {
     const { username, password, profile, email } = req.body;
     //check the existing user
@@ -154,20 +162,51 @@ async function registers(req, res) {
           bcrypt
             .hash(password, 10)
             .then((hashedPassword) => {
-              const user = new UserModel({
-                username,
-                password: hashedPassword,
-                profile: profile || "",
-                email,
-              });
-
-              // return save result as a response
-              user
-                .save()
-                .then((result) =>
-                  res.status(201).send({ msg: "User Register Successfully" })
-                )
-                .catch((error) => res.status(500).send({ error }));
+              let number;
+              StudenIds.findById("643d69d5f591fe749708b625").then(
+                (result) => {
+                  let id = result.studentId;
+                  const parts = id.split("_");
+                  number = parseInt(parts[1]);
+                  ++number;
+                  id = "stu_"+number.toString()
+                  body ={
+                    studentId:id
+                  }
+                  StudenIds.updateOne({ _id: "643d69d5f591fe749708b625" }, body).then(
+                    (result)=>{
+                      const user = new UserModel({
+                        studentId:id||"0001",  
+                        username,
+                        password: hashedPassword,
+                        profile: profile || "",
+                        email,
+                      });
+                      console.log(user)
+                      // return save result as a response
+                      user
+                        .save()
+                        .then((result) =>
+                          {
+                            console.log(result)
+                            return res.status(201).send({ msg: "User Register Successfully" })
+                          }
+                        )
+                        .catch((error) => {
+                          console.log(error)
+                          res.status(500).send({ error })
+                        });
+                    },
+                    (err)=>{
+                      console.log(err)
+                    }
+                  )
+                },
+                (err) => {
+                  if (err) reject(new Error(err));
+                }
+              );
+              
             })
             .catch((error) => {
               return res.status(500).send({
@@ -198,7 +237,8 @@ module.exports = {
   verifyUser,
   deleteUser,
   updateTeacher,
-  tearegister
+  tearegister,
+  setUpIds,
 };
 
 /** POST: http://localhost:8080/api/login
@@ -209,60 +249,58 @@ module.exports = {
 */
 
 async function login(req, res) {
-  
   const { username, password } = req.body;
 
   try {
-      
-      UserModel.findOne({ username })
-          .then(user => {
-              bcrypt.compare(password, user.password)
-                  .then(passwordCheck => {
+    UserModel.findOne({ username })
+      .then((user) => {
+        bcrypt
+          .compare(password, user.password)
+          .then((passwordCheck) => {
+            if (!passwordCheck)
+              return res.status(400).send({ error: "Don't have Password" });
 
-                      if(!passwordCheck) return res.status(400).send({ error: "Don't have Password"});
+            // create jwt token
+            const token = jwt.sign(
+              {
+                userId: user._id,
+                username: user.username,
+              },
+              "secret",
+              { expiresIn: "24h" }
+            );
 
-                      // create jwt token
-                      const token = jwt.sign({
-                                      userId: user._id,
-                                      username : user.username
-                                  }, 'secret' , { expiresIn : "24h"});
-
-                      return res.status(200).send({
-                          msg: "Login Successful...!",
-                          username: user.username,
-                          token
-                      });                                    
-
-                  })
-                  .catch(error =>{
-                      return res.status(400).send({ error: "Password does not Match"})
-                  })
+            return res.status(200).send({
+              msg: "Login Successful...!",
+              username: user.username,
+              token,
+            });
           })
-          .catch( error => {
-              return res.status(404).send({ error : "Username not Found"});
-          })
-
+          .catch((error) => {
+            return res.status(400).send({ error: "Password does not Match" });
+          });
+      })
+      .catch((error) => {
+        return res.status(404).send({ error: "Username not Found" });
+      });
   } catch (error) {
-      return res.status(500).send({ error});
+    return res.status(500).send({ error });
   }
-
-
 }
 
 /** GET: http://localhost:8080/api/user/example123 */
 async function getUser(req, res) {
-  
   try {
     const { username } = req.params;
 
     if (!username) {
-      return res.status(400).json({ error: 'Invalid Username' });
+      return res.status(400).json({ error: "Invalid Username" });
     }
 
     const user = await UserModel.findOne({ username });
 
     if (!user) {
-      return res.status(404).json({ error: 'User Not Found' });
+      return res.status(404).json({ error: "User Not Found" });
     }
 
     const { password, ...rest } = user.toObject();
@@ -270,9 +308,8 @@ async function getUser(req, res) {
     return res.status(200).json(rest);
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ error: 'Server Error' });
+    return res.status(500).json({ error: "Server Error" });
   }
-
 }
 
 /** PUT: http://localhost:8080/api/updateuser
@@ -286,13 +323,13 @@ body: {
 }
 */
 
-async function updateUser(req, res){
+async function updateUser(req, res) {
   try {
     //const { userId } = req.user;
     const id = req.query.id;
-    console.log(id)
+    console.log(id);
     if (!id) {
-      return res.status(401).json({ error: 'User Not Found' });
+      return res.status(401).json({ error: "User Not Found" });
     }
 
     const body = req.body;
@@ -300,48 +337,51 @@ async function updateUser(req, res){
     // update the data
     await UserModel.updateOne({ _id: id }, body);
 
-    return res.status(200).json({ msg: 'Record Updated' });
+    return res.status(200).json({ msg: "Record Updated" });
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ error: 'Server Error' });
+    return res.status(500).json({ error: "Server Error" });
   }
-};
-
+}
 
 /** GET: http://localhost:8080/api/generateOTP */
 async function generateOTP(req, res) {
-  req.app.locals.OTP = await otpenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false})
-  res.status(201).send({ code: req.app.locals.OTP })
+  req.app.locals.OTP = await otpenerator.generate(6, {
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  });
+  res.status(201).send({ code: req.app.locals.OTP });
 }
 
 /** GET: http://localhost:8080/api/verifyOTP */
 async function verifyOTP(req, res) {
   const { code } = req.query;
-  if(parseInt(req.app.locals.OTP) === parseInt(code)){
-      req.app.locals.OTP = null; // reset the OTP value
-      req.app.locals.resetSession = true; // start session for reset password
-      return res.status(201).send({ msg: 'Verify Successsfully!'})
+  if (parseInt(req.app.locals.OTP) === parseInt(code)) {
+    req.app.locals.OTP = null; // reset the OTP value
+    req.app.locals.resetSession = true; // start session for reset password
+    return res.status(201).send({ msg: "Verify Successsfully!" });
   }
-  return res.status(400).send({ error: "Invalid OTP"});
+  return res.status(400).send({ error: "Invalid OTP" });
 }
 
 // successfully redirect user when OTP is valid
 /** GET: http://localhost:8080/api/createResetSession */
 async function createResetSession(req, res) {
-  if(req.app.locals.resetSession){
-      //allow access to this route only once 
-    return res.status(201).send({ flag: req.app.locals.resetSession})
-}
-return res.status(440).send({ error: "Session expired!"});
+  if (req.app.locals.resetSession) {
+    //allow access to this route only once
+    return res.status(201).send({ flag: req.app.locals.resetSession });
+  }
+  return res.status(440).send({ error: "Session expired!" });
 }
 
 // update the password when we have valid session
 /** PUT: http://localhost:8080/api/resetPassword */
 async function resetPassword(req, res) {
   try {
-     if (!req.app.locals.resetSession) {
-       return res.status(440).send({ error: "Session expired!" });
-     }
+    if (!req.app.locals.resetSession) {
+      return res.status(440).send({ error: "Session expired!" });
+    }
 
     const { username, password } = req.body;
 
@@ -353,7 +393,10 @@ async function resetPassword(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await UserModel.updateOne({ username: user.username }, { password: hashedPassword });
+    await UserModel.updateOne(
+      { username: user.username },
+      { password: hashedPassword }
+    );
 
     req.app.locals.resetSession = false; // reset session
 
@@ -364,36 +407,34 @@ async function resetPassword(req, res) {
   }
 }
 
-/delete user/
+/delete user/;
 async function deleteUser(req, res) {
   try {
     const id = req.query.id;
     console.log(id);
     if (!id) {
-      return res.status(401).json({ error: 'User Not Found' });
+      return res.status(401).json({ error: "User Not Found" });
     }
 
     // delete the user
     await UserModel.deleteOne({ _id: id });
 
-    return res.status(200).json({ msg: 'Record Deleted' });
+    return res.status(200).json({ msg: "Record Deleted" });
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ error: 'Server Error' });
+    return res.status(500).json({ error: "Server Error" });
   }
-};
-
-
+}
 
 //=================================Teacher=======================================
 
-async function updateTeacher(req, res){
+async function updateTeacher(req, res) {
   try {
     //const { userId } = req.user;
     const id = req.query.id;
-    console.log(id)
+    console.log(id);
     if (!id) {
-      return res.status(401).json({ error: 'User Not Found' });
+      return res.status(401).json({ error: "User Not Found" });
     }
 
     const body = req.body;
@@ -401,14 +442,12 @@ async function updateTeacher(req, res){
     // update the data
     await TeacherModel.updateOne({ _id: id }, body);
 
-    return res.status(200).json({ msg: 'Record Updated' });
+    return res.status(200).json({ msg: "Record Updated" });
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ error: 'Server Error' });
+    return res.status(500).json({ error: "Server Error" });
   }
-};
-
-
+}
 
 async function tearegister(req, res) {
   console.log(req.body);

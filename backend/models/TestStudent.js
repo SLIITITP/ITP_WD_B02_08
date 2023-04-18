@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
- const UserSchema = new mongoose.Schema({
+ const TestStudent = new mongoose.Schema({
     studentId:{
         type:String,
         required : [true, "Please provide unique Student"],
@@ -28,5 +28,5 @@ const mongoose = require('mongoose');
     profile: { type: String}
 });
 
-const Student = mongoose.model('Student', UserSchema);
-module.exports= Student;
+const testStudent = mongoose.model('TestStudent', TestStudent);
+module.exports= testStudent;
