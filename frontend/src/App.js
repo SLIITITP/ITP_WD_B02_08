@@ -2,7 +2,7 @@
 //import './App.css';
 
 
-import StripeContainer from './components/StripeContainer';
+import StripeContainer from './components/PaymentComponents/StripeContainer';
 
 import './stylesheets/theme.css'
 import './stylesheets/layout.css'
@@ -27,10 +27,10 @@ import MyTimetable from './pages/user/Timetable/MyTimetable'
 import AdminExamSchedule from "./pages/admin/Timetable/AdminExamSchedule";
 import ClassEnrolling from './pages/user/ClassEnrollment/classEnrolling';
 
-import AddPayment from './components/AddPayment'
+import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/common/Home'
-import OnlinePayment from './components/OnlinePayment'
+import OnlinePayment from './components/PaymentComponents/OnlinePayment'
 import Exams from './pages/admin/Exams'
 import AddEditExam from './pages/admin/Exams/AddEditExam'
 
@@ -81,8 +81,8 @@ import Submissions from './pages/user/Assignments/Submissions';
 
 
 
-import ViewPayment from './components/ViewPayment'
-import PaymentConfirm from './components/PaymentConfirm'
+import ViewPayment from './components/PaymentComponents/ViewPayment'
+import PaymentConfirm from './components/PaymentComponents/PaymentConfirm'
 
 import { Switch } from 'antd'
 
@@ -90,7 +90,7 @@ import WriteExam from './pages/user/WriteExam/WriteExam'
 import UserReports from './pages/user/UserReports/UserReports'
 
 
-import PaymentCheckout from './components/PaymentCheckout'
+import PaymentCheckout from './components/PaymentComponents/PaymentCheckout'
 
 
 //import main pages

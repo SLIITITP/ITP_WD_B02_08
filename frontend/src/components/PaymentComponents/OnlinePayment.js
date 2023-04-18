@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../stylesheets/Payment.css'
+import '../../stylesheets/Payment.css'
 import { Link, useNavigate } from 'react-router-dom';
 import PaymentCheckout from './PaymentCheckout';
 

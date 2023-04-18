@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import '../stylesheets/Payment.css'
+import '../../stylesheets/Payment.css'
 
 
 function ViewPayment() {
