@@ -44,7 +44,7 @@ const AssignmentForm1 = () => {
 
 
     <div className='container'>
-    <h2>Edit Assignment</h2>
+    <h2>Create Assignment</h2>
     <form onSubmit={handleSubmit}>
       <div className="form-group">
       <label>Assignment Type</label>

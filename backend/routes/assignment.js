@@ -58,9 +58,9 @@ router.get('/getAss', (req, res) => {
 router.get('/getAss/:id', (req, res) => {
   Assignment.findById(req.params.id)
     .then(assignment => {
-      if (!assignment) {
-        return res.status(404).json({ error: 'Assignment not found' });
-      }
+       if (!assignment) {
+         //return res.status(404).json({ error: 'Assignment not found' });
+       }
       res.json(assignment);
     })
     .catch(err => res.status(500).json({ error: err.message }));

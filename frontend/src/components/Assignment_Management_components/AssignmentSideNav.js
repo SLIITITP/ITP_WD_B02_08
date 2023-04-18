@@ -117,28 +117,28 @@ const { user } = useSelector((state) => state.users);
 
   const userMenu = [
     {
-      title: "Create Assignments",
-      paths: ["/AssignmentForm"],
+      title:"View Assignments",
+      paths: ["/ret"],
       icon: <i className="ri-calendar-todo-line"></i>,
-      onClick: () => navigate("/AssignmentForm"),
+      onClick: () => navigate("/ret"),
     },
     {
-      title: "My Class Schedule",
-      paths: ["/myTimetable"],
+      title: "Answer Submission",
+      paths: ["/sub"],
       icon: <i className="ri-table-line"></i>,
-      onClick: () => navigate("/myTimetable"),
+      onClick: () => navigate("/sub"),
     },
     {
-      title: "Exam Schedule",
-      paths: ["/profile"],
+      title: "Progress Reports",
+      paths: ["/pReport"],
       icon: <i className="ri-todo-line"></i>,
-      onClick: () => navigate("#/myExams"),
+      onClick: () => navigate("/pReport"),
     },
     {
-      title: "Online Classes",
+      title: "profile",
       paths: ["/profile"],
       icon: <i className="ri-global-line"></i>,
-      onClick: () => navigate("#/onlineClasses"),
+      onClick: () => navigate("/profile"),
     },
   ];
 
@@ -157,15 +157,15 @@ const { user } = useSelector((state) => state.users);
     },
     {
       title: "Reports",
-      paths: ["/addClass"],
+      paths: ["/Reports"],
       icon: <i className="ri-menu-add-fill"></i>,
-      onClick: () => navigate("/addClass"),
+      onClick: () => navigate("/Reports"),
     },
     {
       title: "Profile ",
-      paths: ["/allClasses","/updateClass/:id","/deleteClass/:id"],
+      paths: ["/ret","/updateClass/:id","/deleteClass/:id"],
       icon: <i className="ri-edit-box-line"></i>,
-      onClick: () => navigate("/allClasses"),
+      onClick: () => navigate("/ret"),
     },
   ];
 
@@ -206,8 +206,8 @@ const { user } = useSelector((state) => state.users);
       return true;
     } else {
       if (
-        activeRoute.includes("/timetable") &&
-        paths.includes("/allClasses")
+        activeRoute.includes("/ass") &&
+        paths.includes("/ret")
       ) {
         return true;
       }
@@ -256,7 +256,7 @@ const { user } = useSelector((state) => state.users);
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">Teacher Assignment Management</h1>
+            <h1 className="text-2xl text-white"> Assignment Management</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>

@@ -69,11 +69,13 @@ import Home1 from './components/Assignment_Management_components/pages/Home1';
 import Reports from './components/Assignment_Management_components/pages/Reports';
 import Products from './components/Assignment_Management_components/pages/Products';
 import AssignmentSideNav from './components/Assignment_Management_components/AssignmentSideNav';
+import AssignmentDetails from './components/Assignment_Management_components/AssignmentDetails';
 
 
 
 import AssignmentForm from './pages/user/Assignments/AssignmentForm';
 import GetAssignments from './pages/user/Assignments/GetAssignments';
+import Submissions from './pages/user/Assignments/Submissions';
 ///////////////////////////////////////////////////
 
 
@@ -262,7 +264,7 @@ function App() {
 
         {/*---------------------------- Assignmet Management--------------------------------------- */}
 
-        <Route path="/CreateAssignment" exact element={<AssignmentForm />} />
+        <Route path="/CreateAssignment" exact element={<AssignmentForm1 />} />
 
         <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
         <Route path="/editAss/:id" exact element={<EditAssignment />} />
@@ -278,7 +280,11 @@ function App() {
 
         <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
         <Route path="/editAss/:id" exact element={<EditAssignment />} />
-        
+
+        <Route path="/AssD" exact element={<AssignmentDetails />} />
+
+
+
 
         <Route exact path="/sm" element={<enrollPage />} />
         <Route exact path="/smt" element={<TeacherDashboard />} />
@@ -333,6 +339,9 @@ function App() {
         {/* User Routes for Timetable Management */}
         <Route path="/AssignmentForm" exact element={<TimetableSideNav>
           <AssignmentForm />
+        </TimetableSideNav>} />
+        <Route path="/sub" exact element={<TimetableSideNav>
+          <Submissions />
         </TimetableSideNav>} />
 
 
