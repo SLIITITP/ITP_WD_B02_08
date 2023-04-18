@@ -1,6 +1,8 @@
 import React from "react";
 import QRCode from "qrcode.react";
 
+
+
 // function QRCodeGenerator({ apiData }) {
 //   const qrValue = JSON.stringify(apiData);
 
@@ -30,16 +32,16 @@ function QRCodeGenerator({ apiData }) {
   
     // Concatenate the resulting QR codes together
     const qrValue = qrValues.join('');
-  
     return (
       <QRCode
         value={qrValue}
-        size={256}
+        size={128}
         fgColor="#000000"
         bgColor="#ffffff"
         level="L"
         renderAs="svg"
       />
+      
     );
   }
   
