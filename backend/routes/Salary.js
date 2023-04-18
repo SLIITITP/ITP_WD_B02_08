@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const TeacherSalary = require('../models/teacherSalary');
+const TeacherSalary = require('../models/Salarys');
 
 // Add teacher salary data
 router.post('/teacherSalary', async (req, res) => {
