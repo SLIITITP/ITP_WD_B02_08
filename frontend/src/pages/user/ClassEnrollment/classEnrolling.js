@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function ClassEnrolling() {
-  const [classData, setClassData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { id } = useParams(); 
 
   const location = useLocation();
 
@@ -18,51 +14,37 @@ function ClassEnrolling() {
   const [time] = useState(location.state.cTime);
   const [fees] = useState(location.state.cFees);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(`http://localhost:9090/class/getSpecificClass/${id}`);
-        if (response.data && response.data.id && response.data.grade && response.data.subject && response.data.teacher) {
-          setClassData(response.data);
-        } else {
-          setError('Invalid response from server'); 
-        }
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setError('Error fetching class data');
-        setLoading(false);
-      }
+  const handleEnroll = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:9090/enrollments", {
+        studentID: localStorage.getItem("studentID"), // Get the student ID from localStorage
+        classID: classId,
+      });
+      console.log('Enrollment response:', res.data);
+      alert("Enrollment successful!"); // Display a success message
+    } catch (err) {
+      console.error('Enrollment failed:', err);
+      alert("Enrollment failed. Please try again."); // Display an error message
     }
-    fetchData();
-  }, [id]);
-
-  console.log('loading:', loading);
-  console.log('error:', error);
-  console.log('classData:', classData);
+  };
 
   return (
     <div>
-      <p>{id}</p>
-      <p>{classData.subject}</p>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {classData && (
-        <div>
-          <h2>Class {classId}</h2>
-          <h3>Grade {grade}</h3>
-          <p>Subject {subject}</p>
-          <p>Teacher: {teacher}</p>
-          <p>Date: {date}</p>
-          <p>Time: {time}</p>
-          <p>Fees: {fees}</p>
-        </div>
-      )}
-      {!loading && !error && !classData && (
-        <p>No data found for class {id}</p>
-      )}
+      <h1>Enroll to the Class</h1>
+      <div>
+      {grade && (<p>Grade :{grade}</p>)}
+      {subject && (<p>Subject :{subject}</p>)}
+      {teacher && (<p>Teacher :{teacher}</p>)}
+      {date && (<p>Date :{date}</p>)}
+      {time && (<p>Time :{time}</p>)}
+      {fees && (<p>Fees : Rs.{fees}</p>)}
+      </div>
+      <button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
+       focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center'
+       onClick={handleEnroll}>Enroll</button>   
     </div>
   );
-}
 
+}
 export default ClassEnrolling;
