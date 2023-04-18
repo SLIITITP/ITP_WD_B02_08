@@ -16,16 +16,6 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
-
-// your routes and other middleware
-
-
-
-// app.listen(3000, () => {
-//  console.log('Server started on port 3000');
-// });
-
-
 //app middleware
 app.use(express.json());
 app.use(bodyParser.json());
@@ -59,9 +49,10 @@ const postRoutes = require('./routes/assignment');
 const teaRouter = require('./routes/teacher')
 const loginRouter = require('./routes/login');
 //Payment Management
-const SubjectRouter = require('./routes/Subject')
+const SubjectRouter = require('./routes/Subject');
 const NipunUserRouter = require('./routes/NipunUser');
-const PaymentRouter = require('./routes/Payment')
+const PaymentRouter = require('./routes/Payment');
+const SalaryRouter = require('./routes/Salary');
 
 
 const usersRoute = require("./routes/usersRoute");
@@ -76,6 +67,8 @@ const enrollRouter = require('./routes/studentEnroll');
 app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
+app.use('/api/salary', SalaryRouter);
+
 app.use(ticketRoutes);
 app.use(postRoutes);
 
