@@ -3,14 +3,42 @@ const Schema = mongoose.Schema;
 
 const TeacherSalarySchema = new Schema({
 
+    teacherID: {
+        type: String,
+        required: false
+    },
+    teacherName: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    netTotal: {
+        type: Number,
+        required: true
+    },
     commissionPercentage: {
         type: Number,
+        required: true
+    },
+    total: {
+        type: Number,
+        required: true
+    },
+    otherCharges: {
+        type: Number,
+        required: true
+    },
+    otherChargesNote: {
+        type: String,
         required: true
     },
     salaryData: {
         type: [{
             grade: {
-                type: Number,
+                type: String,
                 required: true
             },
             month: {
@@ -24,17 +52,9 @@ const TeacherSalarySchema = new Schema({
             paymentCount: {
                 type: Number,
                 required: true
-            },
+            }
         }],
         required: true
-    },
-    total: {
-        type: Number,
-        required: true
-    },
-    netTotal: {
-        type: Number,
-        required: false
     }
 });
 

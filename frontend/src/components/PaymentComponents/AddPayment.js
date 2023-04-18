@@ -1,9 +1,7 @@
-//latest Add payment
-
 //latest addPayment
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import '../stylesheets/Payment.css'
+import '../../stylesheets/Payment.css'
 
 function GetPayment() {
     //set values

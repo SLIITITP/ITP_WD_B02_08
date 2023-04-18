@@ -6,14 +6,19 @@ const TeacherSalary = require('../models/Salarys');
 router.post('/teacherSalary', async (req, res) => {
     try {
         // const { commissionPercentage, salaryData, total, netTotal } = req.body;
-        const { commissionPercentage, salaryData, total } = req.body;
+        const { teacherID, teacherName, date, netTotal, commissionPercentage, total, otherCharges, otherChargesNote, salaryData, } = req.body;
 
         // Create a new instance of the TeacherSalary model
         const newTeacherSalary = new TeacherSalary({
+            teacherID,
+            teacherName,
+            date,
+            netTotal,
             commissionPercentage,
-            salaryData,
             total,
-            // netTotal
+            otherCharges,
+            otherChargesNote,
+            salaryData,
         });
 
         // Save the new instance to the database
@@ -26,4 +31,24 @@ router.post('/teacherSalary', async (req, res) => {
     }
 });
 
+//get data
+router.get('/history', async (req, res) => {
+    try {
+        const teacherSalaries = await TeacherSalary.find();
+        res.json(teacherSalaries);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// GET route to retrieve all teacher salary entries
+router.get('/teachersalary', async (req, res) => {
+    try {
+      const teacherSalaries = await TeacherSalary.find();
+      res.json(teacherSalaries);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 module.exports = router;

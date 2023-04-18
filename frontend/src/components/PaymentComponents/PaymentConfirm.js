@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../stylesheets/Payment.css'
+import '../../stylesheets/Payment.css'
 
 export default function PaymentConfirm() {
 
