@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState ,useRef} from 'react'
 import { Link , useNavigate } from 'react-router-dom'
 import avatar from '../images/profile.png';
 import styles from '../stylesheets/Username.module.css'
@@ -32,7 +32,8 @@ export default function Profile() {
          mobile:apiData?.mobile || '',
          address:apiData?.address || '',
          profile:apiData?.profile || '',
-         id:apiData._id 
+         id:apiData._id ,
+         studentId:apiData?.studentId ||''
         })
        })
      
@@ -45,7 +46,8 @@ export default function Profile() {
          email :apiData?.email || '', 
          mobile:apiData?.mobile || '',
          address:apiData?.address || '',
-         profile:apiData?.profile || ''
+         profile:apiData?.profile || '',
+         studentId:apiData?.studentId ||''
       },
       enableReinitialize: true,
       validate:profileValidation,                 //validate the input text box and return value
@@ -106,6 +108,24 @@ function userLogout(){
   //if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
 //GPT
 
+
+///// QR code download
+
+// Create a ref to the QR code element
+const qrCodeRef = useRef(null);
+
+// Function to handle the download button click
+const handleDownloadClick = () => {
+  // Get the data URL of the QR code image
+  const qrCodeDataURL = qrCodeRef.current?.toDataURL("image/png");
+
+  const a = document.createElement("a");
+  a.href = qrCodeDataURL;
+  a.download = "qrcode.png";
+
+  a.click();
+};
+
   return (
     <div className={styles.body}>    
     <div className="container mx-auto">
@@ -115,9 +135,9 @@ function userLogout(){
       <div className='flex justify-center items-center h-screen' >
         <div className={`${styles.glass} ${extend.glass}`} style={{height: "98%"}}>
           <div className="title flex flex-col items-center">
-            <h4 className='text-5xl font-bold'> User Profile</h4>
+            <h4 className='text-5xl font-bold'> Student Profile</h4>
             <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
-              You can update the details
+              {apiData.studentId} - {username}
             </span>
           </div>
           <form className='py-1' onSubmit={formik.handleSubmit}>
@@ -130,12 +150,13 @@ function userLogout(){
           
             </div>
 
-            <div>
+            <div style={{float: 'right', marginTop: '20px'}}>
       {/* <h1>Login Page</h1> */}
       <QRCodeGenerator apiData={apiData} />
       {/* <p>{apiData.name}</p> */}
       {/* <p>{apiData.email}</p> */}
-      <p>{apiData.id}</p>
+      <p>{apiData.studentId}</p>
+      <button onClick={handleDownloadClick}>Download</button>
        </div>
 
 
@@ -149,6 +170,7 @@ function userLogout(){
                 <input {...formik.getFieldProps('email')} className={`${styles.textbox} ${extend.textbox}`} type="email" placeholder='Email Address*'/>
               </div>
               
+              <input {...formik.getFieldProps('studentId')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='studentId*' readOnly/>
                 <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address*'/>
                 <button className={styles.btn} type='submit' onClick={updateUser}>Update</button>
                 {/* <button className={styles.btn} type='submit' onClick={deleteUser}>Delete</button> */}
