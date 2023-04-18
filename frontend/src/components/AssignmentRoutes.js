@@ -41,9 +41,9 @@ function ProtectedRoute({ children }) {
     },
     {
         title: "Submissions",
-        paths: ["/profile"],
+        paths: ["/T/D"],
         icon: <i className="ri-user-line"></i>,
-        onClick: () => navigate("/profile"),
+        onClick: () => navigate("/T/D"),
       },
     {
       title: "Profile",
@@ -65,9 +65,9 @@ function ProtectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Assignments",
-      paths: ["/exams", "/user/write-exam"],
+      paths: ["/retriveAss", "/user/write-exam"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/exams"),
+      onClick: () => navigate("/retriveAss"),
     },
     {
       title: "Feedbacks",

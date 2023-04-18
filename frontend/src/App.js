@@ -62,7 +62,7 @@ import Gvideos from './components/GuideVideos';
 /////__________________Assignments___________________/////////////////////////////////////
 
 import AssignmentForm1 from './components/Assignment_Management_components/AssignmentForm1'
-
+import AssignmentRoute from "./components/AssignmentRoutes";
 import RetrieveAssignments from './components/Assignment_Management_components/RetrieveAssignments'
 import EditAssignment from './components/Assignment_Management_components/EditAssignment'
 import Details from './components/Assignment_Management_components/Details'
@@ -266,8 +266,9 @@ function App() {
         {/*---------------------------- Assignmet Management--------------------------------------- */}
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm1 />} />
-        <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
-        <Route path="/editAss/:id" exact element={<EditAssignment />} />
+        <Route path="/retriveAss" element={<AssignmentRoute><RetrieveAssignments /></AssignmentRoute>} />
+        <Route path="/editAss/:id" element={<AssignmentRoute><EditAssignment /></AssignmentRoute>} />
+        <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
 
         <Route path="/details" exact element={<Details />} />
 
@@ -276,8 +277,8 @@ function App() {
 
 
 
-        <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
-        <Route path="/editAss/:id" exact element={<EditAssignment />} />
+        {/* <Route path="/retriveAss" element={<AssignmentRoute><RetrieveAssignments /></AssignmentRoute>} />
+        <Route path="/editAss/:id" element={<AssignmentRoute><EditAssignment /></AssignmentRoute>} /> */}
 
         <Route path="/AssD" exact element={<AssignmentDetails />} />
 
@@ -351,7 +352,7 @@ function App() {
 
 
 
-        <Route exact path="/T/D" element={<TeacherD />} />
+        
 
 
 
