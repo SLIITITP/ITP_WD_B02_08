@@ -1,7 +1,6 @@
 import React,{ Component} from 'react';
 import axios from 'axios';
-
-
+import jsPDF from 'jspdf';
 
 export default class TicketList extends Component{
   constructor(props){
@@ -55,13 +54,22 @@ export default class TicketList extends Component{
 });
   }
 
- 
+  generatePDF = (ticket) => {
+    const doc = new jsPDF();
+    doc.text(`Registration Number: ${ticket.Rnumber}`, 20, 20);
+    doc.text(`Subject: ${ticket.subject}`, 20, 30);
+    doc.text(`Status: ${ticket.status}`, 20, 40);
+    doc.text(`Open Date: ${ticket.openAt}`, 20, 50);
+    doc.text(`message: ${ticket.message}`, 20, 60);
+    doc.save(`${ticket.Rnumber}.pdf`);
+  }
   
 
  render(){
   const pendingOperatorResponseCount = this.state.tickets.filter(ticket => ticket.status === "Pending operator response").length;
 
   return(
+    
     <div className="container">
     <div className="row">
       <div className="col-lg-9 mt-2 mb-2">
@@ -93,7 +101,7 @@ export default class TicketList extends Component{
 <br></br>
 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-xs text-white uppercase bg-black dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
                     ID
@@ -135,18 +143,18 @@ export default class TicketList extends Component{
             <a class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
              href="#" onClick={()=>this.onDelete(tickets._id)}>Delete</a>
          
-                   
+            <button className="btn btn-info" onClick={() => this.generatePDF(tickets)}>Download PDF</button>      
                 
                 </td>
             </tr>
             ))}
         </tbody>
     </table>
+    <br></br><br></br>
 </div>
         
-        
+      </div>
 
-    </div>
  
   
    )

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 
+
 const TicketDetails = () => {
   const [ticket, setTicket] = useState({});
   const { id} = useParams();
@@ -20,8 +21,11 @@ const TicketDetails = () => {
  
 
   return (
+<div>
 
-    <div>
+  <br></br>
+    <div style={{ backgroundColor: '#ADD8E6',padding: '20px',marginLeft:'40px',marginRight:'40px',borderRadius:'5px' }} >
+    
       <br></br>
    <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Subject :
    <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.subject}</small></h5>
@@ -40,9 +44,11 @@ const TicketDetails = () => {
    <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Reply </h5>
    <br></br>
    <h6 style={{marginLeft:'40px'}}><mark class="px-2 text-white bg-gray-500 rounded dark:bg-gray-400">{ticket.message}</mark></h6>
+
+   <br></br>
     </div>
   
-    
+    </div>
     
   );
   };
