@@ -1,6 +1,8 @@
 //import logo from './logo.svg';
 //import './App.css';
 
+import TeacherD from './components/Assignment_Management_components/TeacherD';
+
 
 import StripeContainer from './components/StripeContainer';
 
@@ -64,10 +66,9 @@ import AssignmentForm1 from './components/Assignment_Management_components/Assig
 import RetrieveAssignments from './components/Assignment_Management_components/RetrieveAssignments'
 import EditAssignment from './components/Assignment_Management_components/EditAssignment'
 import Details from './components/Assignment_Management_components/Details'
-import Navbar1 from './components/Assignment_Management_components/Navbar1'
-import Home1 from './components/Assignment_Management_components/pages/Home1';
-import Reports from './components/Assignment_Management_components/pages/Reports';
-import Products from './components/Assignment_Management_components/pages/Products';
+import Navbar1 from './components/Assignment_Management_components/Navbar1';
+
+
 import AssignmentSideNav from './components/Assignment_Management_components/AssignmentSideNav';
 import AssignmentDetails from './components/Assignment_Management_components/AssignmentDetails';
 
@@ -265,7 +266,6 @@ function App() {
         {/*---------------------------- Assignmet Management--------------------------------------- */}
 
         <Route path="/CreateAssignment" exact element={<AssignmentForm1 />} />
-
         <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
         <Route path="/editAss/:id" exact element={<EditAssignment />} />
 
@@ -274,8 +274,6 @@ function App() {
 
         <Route path="/nav" exact element={<Navbar1 />} />
 
-        <Route path="/reports" exact element={<Reports />} />
-        <Route path="/products" exact element={<Products />} />
 
 
         <Route path="/retriveAss" exact element={<RetrieveAssignments />} />
@@ -344,6 +342,16 @@ function App() {
           <Submissions />
         </TimetableSideNav>} />
 
+
+
+
+
+
+
+
+
+
+        <Route exact path="/T/D" element={<TeacherD />} />
 
 
 

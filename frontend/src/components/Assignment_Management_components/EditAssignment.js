@@ -1,55 +1,95 @@
-
-import React, { useState, useEffect } from 'react';
+/* import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const UpdateAssignment = () => {
-  const [assignment, setAssignment] = useState(null); // State to store assignment data
+const EditAssignment = () => {
+  const [assignment, setAssignment] = useState({});
 
-  // Fetch assignment data from API endpoint on component mount
+  const params = useParams();
+  console.log(params.id)
+  //const { assignmentId } = useParams().id;
+
+
+ 
+
+
   useEffect(() => {
-    // Fetch assignment data from API endpoint based on assignment ID
-    axios.get(`/getAss/${assignment}`) // Replace with your API endpoint for fetching assignment data
-      .then(res => {
-        // Update state with fetched assignment data
-        setAssignment(res.data);
-      })
-      .catch(err => console.log(err));
-  }, []);
+    const fetchAssignmentData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:9090/getAss/${params.id}`);
+        setAssignment(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  // Update assignment data to API endpoint
-  const onUpdate = async (updatedAssignmentData) => {
-    try {
-      await axios.put(`/updateAss/${assignment}`, updatedAssignmentData); // Replace with your API endpoint for updating assignment data
-      // Update assignment state after successful update
-      setAssignment(updatedAssignmentData);
-      // Perform any other actions after successful update
-      console.log('Assignment updated:', updatedAssignmentData);
-    } catch (error) {
-      console.error('Failed to update assignment:', error);
-    }
-  }
+    fetchAssignmentData();
+  }, [params.id]); 
 
-  // Render the UpdateAssignment form with assignment data
+
+
+  // Render the specific assignment data
   return (
     <div>
-      {/* Render the UpdateAssignment form with assignment data */}
-      {assignment && (
-        <form>
-          {/* Render the form fields with assignment data */}
-          <input type="text" value={assignment.type} onChange={(e) => setAssignment({ ...assignment, type: e.target.value })} />
-          <input type="text" value={assignment.grade} onChange={(e) => setAssignment({ ...assignment, grade: e.target.value })} />
-          <input type="text" value={assignment.guidelines} onChange={(e) => setAssignment({ ...assignment, guidelines: e.target.value })} />
-          <input type="text" value={assignment.deadline} onChange={(e) => setAssignment({ ...assignment, deadline: e.target.value })} />
-          <input type="file" value={assignment.image} onChange={(e) => setAssignment({ ...assignment, image: e.target.value })} />
-          
-          {/* Render the update button with onUpdate handler */}
-          <button onClick={() => onUpdate(assignment)}>Update</button>
-        </form>
-      )}
+      <h2>Edit Assignment</h2>
+      <p>Assignment ID: {assignment._id}</p>
+      <p>Assignment Type: {assignment.type}</p>
+      <p>Assignment Grade: {assignment.grade}</p>
+      <p>Assignment Guidelines: {assignment.guidelines}</p>
+      <p>Assignment Dealine: {assignment.deadline}</p>
+      
     </div>
   );
 }
 
-export default UpdateAssignment;
+export default EditAssignment;
+ */
 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
+const EditAssignment = () => {
+  const [assignment, setAssignment] = useState({});
+  const [imageData, setImageData] = useState('');
+
+  const params = useParams();
+  
+  useEffect(() => {
+    const fetchAssignmentData = async () => {
+      try {
+        const [assignmentResponse, imageResponse] = await Promise.all([
+          axios.get(`http://localhost:9090/getAss/${params.id}`),
+          axios.get(`http://localhost:9090/getAss/${params.id}`, {
+            responseType: 'arraybuffer'
+          }),
+        ]);
+
+        setAssignment(assignmentResponse.data);
+        setImageData(imageResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAssignmentData();
+  }, [params.id]); 
+
+  const imageUrl = imageData ? `data:image/jpeg;base64,${btoa(new Uint8Array(imageData).reduce((data, byte) => data + String.fromCharCode(byte), ''))}` : '';
+
+  return (
+    <div>
+      <h2>Edit Assignment</h2>
+      <p>Assignment ID: {assignment._id}</p>
+      <p>Assignment Type: {assignment.type}</p>
+      <p>Assignment Grade: {assignment.grade}</p>
+      <p>Assignment Guidelines: {assignment.guidelines}</p>
+      <p>Assignment Deadline: {assignment.deadline}</p>
+      <div className="image">
+        {imageUrl && <img src={imageUrl} alt="Assignment" style={{ width: '500px', height: 'auto' }} />}
+      </div>
+    </div>
+  );
+}
+
+export default EditAssignment;
