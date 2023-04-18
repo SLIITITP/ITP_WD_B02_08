@@ -130,7 +130,7 @@ function ViewPayment() {
 
 
 
-    const grades = ['5', '6', '7', '8', '9', '10', '11'];
+    const grades = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', 'Other'];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
 
 
@@ -244,7 +244,7 @@ function ViewPayment() {
                                 <td className="border px-4 py-2 ">{payment.subjects.join(", ")} [{payment.subjectsIDs.length}]</td>
                                 <td className="border px-4 py-2 text-red-600 font-semibold">
                                     <div>
-                                        <button onClick={() => handleDelete(payment._id)}>Delete</button>
+                                        <button onClick={() => handleDelete(payment._id)} className="bg-transparent text-red-600 font-semibold border border-red-600 rounded hover:bg-red-600 hover:text-red-900">Delete</button>
                                     </div>
                                 </td>
                             </tr>

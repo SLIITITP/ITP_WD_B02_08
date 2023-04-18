@@ -136,20 +136,66 @@ export default function SalaryCalculation() {
 
         doc.setFontSize(12);
         doc.setFont("helvetica", "bold");
-        doc.text(`Total Net Amount: ${netTotal}`, 14, 30)
+
+        doc.text(`Teacher Name: ${teacherName}`, 14, 30)
+        doc.text(`Date: ${formatDate(date)} `, 150, 30)
+        doc.text(`Total Net Amount: ${netTotal}`, 14, 37)
 
         doc.setFont("helvetica", "normal");
-        doc.text(`Total Amount: ${totalAmount} `, 14, 37)
-        doc.text(`Commission: ${commissionAmount} (${commissionPercentage}%)`, 14, 44)
-        doc.text(`Other Charges: ${otherCharges} (${otherChargesNote})`, 14, 51)
+        doc.text(`Payment Month: ${month} `, 150, 37)
+        doc.text(`Total Amount: ${totalAmount} `, 14, 44)
+        doc.text(`Commission: ${commissionAmount} (${commissionPercentage}%)`, 14, 51)
+        doc.text(`Other Charges: ${otherCharges} (${otherChargesNote})`, 14, 58)
 
         doc.autoTable({
-            startY: 56,
+            startY: 64,
             head: [columns],
             body: rows,
         });
         // Save the PDF file with the name
         doc.save(`Thilina Ins Salary.pdf`);
+    };
+
+    //adding to DB
+    const [formData, setFormData] = useState({
+        teacherID: '',
+        teacherName: '',
+        date: '',
+        netTotal: 0,
+        commissionPercentage: 0,
+        total: 0,
+        otherCharges: 0,
+        otherChargesNote: '',
+        salaryData: [],
+    });
+
+    useEffect(() => {
+        setFormData({
+            teacherID: '',
+            teacherName: teacherName,
+            date: date,
+            netTotal: netTotal,
+            commissionPercentage: commissionPercentage,
+            total: totalAmount,
+            otherCharges: otherCharges,
+            otherChargesNote: otherChargesNote,
+            salaryData: salarydata,
+        });
+    }, [subject, subjectID, grade, month, payments, tAmount, subjectList, teacherName, paymentCount, subjectAmount, totalAmount]);
+
+
+
+    const handleBillSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:9090/api/salary/teacherSalary', formData);
+            alert('Teacher salary data added successfully');
+        } catch (err) {
+            console.error(err);
+            alert('Error adding teacher salary data');
+        }
+        console.log(formData)
+        console.log(otherCharges)
     };
 
     return (
@@ -323,7 +369,11 @@ export default function SalaryCalculation() {
                                 <td className='border border-black p-1'>{item.teacherName}</td>
                                 <td className='border border-black p-1'>{item.subjectAmount}</td>
                                 <td className='border border-black p-1'>{item.paymentCount}</td>
-                                <td className='border border-black p-1'><button onClick={() => handleClearData(index)}>Clear</button></td>
+                                <td className='border border-black p-1'>
+                                    <button
+                                        onClick={() => handleClearData(index)}
+                                        className='bg-transparent text-red-600 font-semibold border border-red-600 rounded hover:bg-red-600 hover:text-red-900'
+                                    >Clear</button></td>
                             </tr>
                         ))}
                     </tbody>
@@ -345,8 +395,21 @@ export default function SalaryCalculation() {
                     // trigger={() => <button>Print</button>}
                     content={() => componentRef.current}
                 />
+                <div className='flex flex-wrap -mx-3 mb-2 p-2 text-md font-semibold'>
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <button onClick={(e) => {
+                            if (window.confirm("Are you sure you want to confirm?")) {
+                                handleBillSubmit(e);
+                            }
+                        }}
+                            className='w-full text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                        >CONFIRM</button>
+                    </div>
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <button onClick={handleDownload} className='w-full text-black bg-amber-500 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Download Receipt</button>
+                    </div>
 
-                <button onClick={handleDownload} className='text-black bg-amber-500 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Download Payment Receipt</button>
+                </div>
             </div>
         </div>
     );
