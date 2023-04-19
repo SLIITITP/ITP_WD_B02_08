@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
-const RetrieveAssignments = () => {
+const StudentView = () => {
+    const [searchGrade, setSearchGrade] = useState('');
   const [assignments, setAssignments] = useState([]);
   const navigate = useNavigate();
 
@@ -16,31 +17,26 @@ const RetrieveAssignments = () => {
       .catch(err => console.log(err));
   }, []);
 
-  // Define onDelete function
-  const onDelete = async (assignmentId) => {
-    try {
-      await axios.delete(`/deleteAss/${assignmentId}`); // Replace with your API endpoint for deleting assignments
-      // Update assignments state after successful deletion
-      setAssignments(assignments.filter(assignment => assignment._id !== assignmentId));
-    } catch (error) {
-      console.error('Failed to delete assignment:', error);
-    }
-  }
+ 
 
-  // Redirect to edit page with assignment ID as parameter
-  const onEdit = (assignmentId) => {
-    navigate(`/editAss/${assignmentId}`);
-    console.log(assignmentId)
-  }
 
-  // Redirect to create page
-  const onCreate = () => {
-    navigate('/createAssignment');
+
+  // Filter assignments by grade
+  const filterAssignments = assignment => {
+    return assignment.grade.toLowerCase().includes(searchGrade.toLowerCase());
   }
 
   return (
     <div className='container'>
       <h2><center> Assignments List </center></h2>
+
+         {/* Search bar to filter by grade */}
+         <input
+        type='text'
+        placeholder='Filter by Grade'
+        value={searchGrade}
+        onChange={e => setSearchGrade(e.target.value)}
+      />
       
       <table className="table table-striped">
         <thead className="thead-dark">
@@ -63,27 +59,14 @@ const RetrieveAssignments = () => {
               <td>{assignment.deadline}</td>
               <td>{assignment.image && <img src={assignment.image} alt="Assignment Image" />}</td>
 
-              <td>
-                <a className="btn btn-warning" onClick={() => onEdit(assignment._id)}>
-                  <i className="fas fa-edit"></i>&nbsp;Edit
-                </a>
-
-                &nbsp;
-                <a className="btn btn-danger" href="#" onClick={() => onDelete(assignment._id)}>
-                  <i className=" fas fa-trash-alt"></i>&nbsp;Delete
-                </a>
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Button to navigate to create page */}
-      <button className="btn btn-primary" onClick={onCreate}>
-        Create Assignment
-      </button>
+
     </div>
   );
 }
 
-export default RetrieveAssignments;
+export default StudentView;

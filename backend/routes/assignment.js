@@ -28,7 +28,8 @@ router.post('/upload', (req, res) => {
       const newImage = new Assignment({
         type: req.body.type,
         grade: req.body.grade,
-        guidelines: req.body.guidelines,
+        subject: req.body.subject,
+       guidelines: req.body.guidelines,
         deadline: req.body.deadline,
         image: {
           data: req.file.filename,
