@@ -30,6 +30,7 @@ const AssignmentForm1 = () => {
     const formData = new FormData();
     formData.append('type', assignment.type);
     formData.append('grade', assignment.grade);
+    formData.append('subject', assignment.subject);
     formData.append('guidelines', assignment.guidelines);
     formData.append('deadline', assignment.deadline);
     formData.append('testimage', assignment.image);
@@ -68,6 +69,12 @@ const AssignmentForm1 = () => {
             <option value="11">11</option>
           </select>
       </div>
+
+      <div className="form-group">
+        <label htmlFor="subject">Subject:</label>
+        <input type ="text" className="form-control" id="subject" name="subject" value={assignment.subject} onChange={handleInputChange} />
+      </div>
+
       <div className="form-group">
         <label htmlFor="guidelines">Guidelines:</label>
         <textarea className="form-control" id="guidelines" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />

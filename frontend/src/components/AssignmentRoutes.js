@@ -23,9 +23,9 @@ function ProtectedRoute({ children }) {
   const userMenu = [
     {
       title: "Assignments",
-      paths: ["/retriveAss" , "/editAss/:id"],
+      paths: ["/student/view" ],
       icon: <i class="ri-book-line"></i>,
-      onClick: () => navigate("/retriveAss"),
+      onClick: () => navigate("/student/view"),
     },
     {
       title: "Reports",
@@ -65,7 +65,7 @@ function ProtectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Assignments",
-      paths: ["/retriveAss", "/user/write-exam"],
+      paths: ["/retriveAss", "/editAss/:id"],
       icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/retriveAss"),
     },
@@ -185,7 +185,7 @@ function ProtectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">Thilina Institute Online Exam Portal</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Assignment Management</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>

@@ -5,6 +5,12 @@ const assignmentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+ 
+  subject: {
+    type: String,
+    required: true
+  },
+
   grade: {
     type: String,
     required: true
