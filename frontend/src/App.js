@@ -142,6 +142,7 @@ import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
 import NipTest from './components/PaymentComponents/NipTest';
+import WelcomePage from './pages/welcome/welcome';
 
 
 
@@ -166,6 +167,7 @@ function App() {
 
       {loading && <Loader />}
       <Routes>
+        <Route path='/' element={<WelcomePage />}/> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path='/getPayment' exact element={<GetPayment />} />
