@@ -25,7 +25,7 @@ export default function AddSubToTeachers() {
       setSubjectID('');
       setSubjectAmount(0);
       setSubjectTeacherID('');
-      setSubjectTeacherID('');
+      setSubjectTeacherName('');
     } catch (err) {
       console.error(err);
     }

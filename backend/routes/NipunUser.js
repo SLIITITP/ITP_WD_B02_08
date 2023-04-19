@@ -33,31 +33,40 @@ router.get('/search/:searchTerm', async (req, res) => {
     }
 });
 
+//checking for ID generate
+router.get('/checkID/:studentID', async (req, res) => {
+    const studentID = req.params.studentID;
+    try {
+        const student = await NipunUser.findOne({ studentID: studentID });
+        if (student) {
+            res.json({ exists: true });
+        } else {
+            res.json({ exists: false });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
-// Get NipunUser by ID
-// router.get('/search/:id', async (req, res) => {
-//     try {
-//         const nipunUser = await NipunUser.findOne({ studentID: req.params.id });
-//         if (nipunUser == null) {
-//             return res.status(404).json({ message: 'Cannot find User by ID' });
-//         }
-//         res.json(nipunUser);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
 
-// // Get NipunUser by Name
-// router.get('/search/:name', async (req, res) => {
-//     try {
-//         const nipunUser = await NipunUser.findOne({ name: req.params.name });
-//         if (nipunUser == null) {
-//             return res.status(404).json({ message: 'Cannot find User by Name' });
-//         }
-//         res.json(nipunUser);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
+router.get('/ccheckID/:studentID', async (req, res) => {
+    const { studentID } = req.body;
+
+    try {
+        const existingStudent = await NipunUser.findOne({ studentID });
+        if (existingStudent) {
+            res.json({ exists: true });
+            console.log("exist");
+        } else {
+            res.json({ exists: false });
+            console.log("Not exist");
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to check student ID.' });
+    }
+});
+
 
 module.exports = router;
