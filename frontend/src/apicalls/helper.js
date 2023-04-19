@@ -140,7 +140,7 @@ export async function resetPassword({ username, password }){
     }
 }
 
-export async function getProfile(userName){
+export async function getProfileTeacher(userName){
     
         try {
         
@@ -152,6 +152,20 @@ export async function getProfile(userName){
             return Promise.reject({ error })
         }
    
+}
+
+export async function getProfile(userName){
+    
+    try {
+    
+        const { data, status } = await axios.get(`/api/user/${userName}`);
+        //!query ? await axios.get(`/api/user/${username}`) :
+        return Promise.resolve({ data, status})
+
+    } catch (error) {
+        return Promise.reject({ error })
+    }
+
 }
 
 // /** delete user profile function */
