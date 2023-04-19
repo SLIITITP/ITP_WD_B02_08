@@ -67,6 +67,11 @@ import RetrieveAssignments from './components/Assignment_Management_components/R
 import EditAssignment from './components/Assignment_Management_components/EditAssignment'
 import StudentView from './components/Assignment_Management_components/StudentView';
 
+import FileUploader from './components/Assignment_Management_components/FileUploader';
+
+import SubjectRelated from './components/Assignment_Management_components/SubjectRelated';
+
+
 
 
 
@@ -142,6 +147,8 @@ import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
 import NipTest from './components/PaymentComponents/NipTest';
+
+
 
 
 
@@ -270,13 +277,24 @@ function App() {
         <Route path="/CreateAssignment" exact element={<AssignmentForm1 />} />
         <Route path="/retriveAss" element={<AssignmentRoute><RetrieveAssignments /></AssignmentRoute>} />
         <Route path="/editAss/:id" element={<AssignmentRoute><EditAssignment /></AssignmentRoute>} />
+
+
+{/*                      --------------------  User  ---------------------                  */}
+
+
         <Route path="/student/view" element={<AssignmentRoute><StudentView /></AssignmentRoute>} />
+        <Route path="/subR" element={<AssignmentRoute><SubjectRelated /></AssignmentRoute>} />
+       
 
 
 
         <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
 
         <Route path="/details" exact element={<Details />} />
+
+        <Route path="/sub" exact element={<FileUploader />} />
+        
+    
 
 
 

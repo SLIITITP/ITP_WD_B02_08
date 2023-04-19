@@ -36,13 +36,13 @@ function ProtectedRoute({ children }) {
     {
         title: "Feedback",
         paths: ["/user/reports"],
-        icon: <i className="ri-bar-chart-line"></i>,
+        icon: <i class="ri-feedback-line"></i>,
         onClick: () => navigate("/user/reports"),
     },
     {
         title: "Submissions",
-        paths: ["/T/D"],
-        icon: <i className="ri-user-line"></i>,
+        paths: ["/T/D","/subR"],
+        icon: <i class="ri-question-answer-line"></i>,
         onClick: () => navigate("/T/D"),
       },
     {

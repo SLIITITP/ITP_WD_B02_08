@@ -1,6 +1,22 @@
  import React from 'react'
+ import { useNavigate } from 'react-router-dom';
+import SubjectRelated from './SubjectRelated';
+
+
+
 
 export default function TeacherD() {
+
+    const navigate = useNavigate();
+
+    const handleSubjectRelatedClick = () => {
+        console.log('Subject Related clicked');
+        // Do whatever you want to do when the element is clicked
+        navigate('/subR');
+    }
+
+
+
     return (
         <div className ="container">
  <div ><h1><center><b>  Submit your Assignments Here  </b></center></h1>
@@ -14,7 +30,7 @@ export default function TeacherD() {
 
             <div class="col-6">
 
-                <div class="p-3 border bg-light">Subject Related</div>
+                <div class="p-3 border bg-light"  onClick={handleSubjectRelatedClick} >Subject Related</div>
             </div>
             <div class="col-6">
                 <div class="p-3 border bg-light">Home Work</div>
