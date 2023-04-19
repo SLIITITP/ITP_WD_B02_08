@@ -1,7 +1,6 @@
 import React from "react";
 import Styles from "../welcome/welcome.module.css";
 import { Link } from "react-router-dom";
-import path from "../../images/school3.jpg";
 function WelcomePage() {
   return (
     <div>

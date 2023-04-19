@@ -143,6 +143,7 @@ import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
 import NipTest from './components/PaymentComponents/NipTest';
 import WelcomePage from './pages/welcome/welcome';
+import TeacherLogin from './components/TeacherLogin';
 
 
 
@@ -218,6 +219,7 @@ function App() {
         <Route path="/tProfile" element={<TeaProfile/>}/> 
         <Route path="/tRegister" element={<TeaRegister/>}/> 
         <Route path="/adminDash" element={<AdminDash/>}/>
+        <Route path='/pteacherLogin' element={<TeacherLogin/>}/>
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 

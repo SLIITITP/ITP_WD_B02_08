@@ -21,6 +21,16 @@ export async function authenticate(username){
     }
 }
 
+export async function authenticateTeacher(username){
+    try {
+        return await axios.post('/api/authenticateTeacher', { username })
+    } catch (error) {
+        return { error : "Username doesn't exist...!"}
+    }
+}
+
+
+
 
 /** get User details */
 export async function getUser({ username }){
