@@ -1,77 +1,76 @@
-//teacher salary list
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import moment from 'moment';
 
-function TeacherSalaryList() {
-    const [teacherSalaries, setTeacherSalaries] = useState([]);
-
-    useEffect(() => {
-        async function fetchTeacherSalaries() {
-            const response = await axios.get('/api/salary/teachersalary');
-            setTeacherSalaries(response.data);
-        }
-        fetchTeacherSalaries();
-    }, []);
-
-    const formatDate = (date) => {
-        return moment(date).format('MMM DD, YYYY');
+function SalaryPaymentCount() {
+  const [teacherName, setTeacherName] = useState('');
+  const [grade, setGrade] = useState('');
+  const [month, setMonth] = useState('');
+  const [subject, setSubject] = useState('');
+  
+  const [totalPaymentCount, setTotalPaymentCount] = useState('');
+  useEffect(() => {
+    const fetchCountData = async () => {
+      try {
+        const response = await axios.get(`/api/salary/paymentcount?teacherName=${teacherName}&grade=${grade}&month=${month}&subject=${subject}`);
+        setTotalPaymentCount(response.data.paymentCount);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    return (
-        <table className="auto-table w-full border border-collapse border-green-600">
-            <thead>
-                <tr className="text-center bg-green-500 text-white">
-                    <th className="border border-green-600 p-2">Teacher Name</th>
-                    <th className="border border-green-600 p-2">Date</th>
-                    <th className="border border-green-600 p-2">Net Total</th>
-                    <th className="border border-green-600 p-2">Comm. (%)</th>
-                    <th className="border border-green-600 p-2">Total</th>
-                    <th className="border border-green-600 p-2">Other Charges</th>
-                    <th className="border border-green-600 p-2">OC Note</th>
-                    <th className="border border-green-600 p-2">Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                {teacherSalaries.map((teacherSalary) => (
-                    <tr key={teacherSalary._id}>
-                        <td className="border border-3 border-green-600 p-2">{teacherSalary.teacherName}</td>
-                        <td className="border border-3 border-green-600 p-2">{formatDate(teacherSalary.date)}</td>
-                        <td className="border border-3 border-green-600 p-2">{teacherSalary.netTotal}</td>
-                        <td className="border border-3 border-green-600 p-2">{teacherSalary.commissionPercentage}</td>
-                        <td className="border border-3 border-green-600 p-2">{teacherSalary.total}</td>
-                        <td className="border border-3 border-green-600 p-2">{teacherSalary.otherCharges}</td>
-                        <td className="border border-3 border-green-600 p-2">{teacherSalary.otherChargesNote}</td>
-                        <td className="border border-3 border-green-600 p-2">
-                            <table>
-                                <thead>
-                                    <tr className='text-center'>
-                                        <th className="border border-green-600 p-2">Grade</th>
-                                        <th className="border border-green-600 p-2">Month</th>
-                                        <th className="border border-green-600 p-2">Subject</th>
-                                        <th className="border border-green-600 p-2">Subject Amount</th>
-                                        <th className="border border-green-600 p-2">Payment Count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {teacherSalary.salaryData.map((salary) => (
-                                        <tr key={salary._id} className='text-center'>
-                                            <td className="border border-green-600">{salary.grade}</td>
-                                            <td className="border border-green-600">{salary.month}</td>
-                                            <td className="border border-green-600">{salary.subject}</td>
-                                            <td className="border border-green-600">{salary.subjectAmount}</td>
-                                            <td className="border border-green-600">{salary.paymentCount}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    );
+    if (teacherName && grade && month && subject) {
+      fetchCountData();
+    }
+  }, [teacherName, grade, month, subject]);
+
+  const handleTeacherNameChange = event => {
+    setTeacherName(event.target.value);
+  };
+
+  const handleGradeChange = event => {
+    setGrade(event.target.value);
+  };
+
+  const handleMonthChange = event => {
+    setMonth(event.target.value);
+  };
+
+  const handleSubjectChange = event => {
+    setSubject(event.target.value);
+  };
+
+  return (
+    <div>
+      <h1>Get Salary Payment Count</h1>
+      <form>
+        <label>
+          Teacher Name:
+          <input type="text" value={teacherName} onChange={handleTeacherNameChange} />
+        </label>
+        <br />
+        <label>
+          Grade:
+          <input type="text" value={grade} onChange={handleGradeChange} />
+        </label>
+        <br />
+        <label>
+          Month:
+          <input type="text" value={month} onChange={handleMonthChange} />
+        </label>
+        <br />
+        <label>
+          Subject:
+          <input type="text" value={subject} onChange={handleSubjectChange} />
+        </label>
+        <br />
+      </form>
+      {totalPaymentCount && (
+        <p>
+          Payment Count: {totalPaymentCount}
+        </p>
+      )}
+    </div>
+  );
 }
 
-export default TeacherSalaryList;
+export default SalaryPaymentCount;

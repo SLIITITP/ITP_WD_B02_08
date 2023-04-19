@@ -43,4 +43,23 @@ router.get('/teachersalary', async (req, res) => {
 });
 
 
+//route for get payment count
+router.get('/paymentcount', async (req, res) => {
+    try {
+        const { teacherName, grade, month, subject } = req.query;
+        const result = await TeacherSalary.aggregate([
+            { $match: { 'teacherName': teacherName } },
+            { $unwind: '$salaryData' },
+            { $match: { 'salaryData.grade': grade, 'salaryData.month': month, 'salaryData.subject': subject } },
+            { $group: { _id: null, totalPaymentCount: { $sum: '$salaryData.paymentCount' } } }
+        ]);
+        const paymentCount = result.length ? result[0].totalPaymentCount : 0;
+        res.send({ paymentCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 module.exports = router;
