@@ -145,6 +145,7 @@ import NipTest from './components/PaymentComponents/NipTest';
 import WelcomePage from './pages/welcome/welcome';
 import TeacherLogin from './components/TeacherLogin';
 import PasswordTeacher from './components/PasswordTeacher';
+import AdminLogin from './components/AdminLogin';
 
 
 
@@ -223,6 +224,7 @@ function App() {
         <Route path='/pteacherLogin' element={<TeacherLogin/>}/>
         <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
         <Route path='/teacherProfile' element={<TeaProfile/>}></Route>
+        <Route path='/adminLogin' element={<AdminLogin/>}></Route>
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 
