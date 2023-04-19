@@ -73,17 +73,11 @@ import StudentView from './components/Assignment_Management_components/StudentVi
 
 
 import Details from './components/Assignment_Management_components/Details'
-import Navbar1 from './components/Assignment_Management_components/Navbar1';
 
-
-import AssignmentSideNav from './components/Assignment_Management_components/AssignmentSideNav';
 import AssignmentDetails from './components/Assignment_Management_components/AssignmentDetails';
 
 
 
-import AssignmentForm from './pages/user/Assignments/AssignmentForm';
-import GetAssignments from './pages/user/Assignments/GetAssignments';
-import Submissions from './pages/user/Assignments/Submissions';
 ///////////////////////////////////////////////////
 
 
@@ -285,7 +279,6 @@ function App() {
         <Route path="/details" exact element={<Details />} />
 
 
-        <Route path="/nav" exact element={<Navbar1 />} />
 
 
 
