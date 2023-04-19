@@ -147,6 +147,8 @@ import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
 import NipTest from './components/PaymentComponents/NipTest';
+import SalaryHistory from './components/PaymentComponents/SalaryHistory';
+import NipTest2 from './components/PaymentComponents/NipTest2';
 
 
 
@@ -189,6 +191,9 @@ function App() {
         <Route path='/subject/update' element={<SubListUpdate />} />
         <Route path='/salary/calculate' element={<SalaryCalculation />} />
         <Route path='/niptest' element={<NipTest />} />
+        <Route path='/niptest2' element={<NipTest2 />} />
+        <Route path='/salary/history' element={<SalaryHistory />} />
+
 
 
 
