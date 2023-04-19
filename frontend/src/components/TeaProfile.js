@@ -9,7 +9,7 @@ import convertToBase64 from '../validations/convert';
 import extend from '../stylesheets/Profile.module.css'
 import useFetch from '../hooks/fetch.hook';
 import {useAuthStore} from '../redux/store1';
-import { updateUser,getProfile,deleteUser , updateTeacher } from '../apicalls/helper';
+import { updateUser,getProfileTeacher,deleteUser , updateTeacher } from '../apicalls/helper';
 
 export default function TeaProfile() {
 
@@ -22,7 +22,7 @@ export default function TeaProfile() {
   //  const [{isLoading , apiData , serverError}] = useFetch(`/user/${username}`)
    useEffect(()=>{
       console.log(username);
-       getProfile(username).then((results) =>{
+      getProfileTeacher(username).then((results) =>{
         let apiData = results.data;
         console.log(results)
          setApiData({firstName:apiData?.firstName || '',
