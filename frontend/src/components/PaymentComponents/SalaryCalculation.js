@@ -153,7 +153,7 @@ export default function SalaryCalculation() {
             body: rows,
         });
         // Save the PDF file with the name
-        doc.save(`Thilina Ins Salary.pdf`);
+        doc.save(`EIMS ${teacherName} ${formatDate(date)}.pdf`);
     };
 
     //adding to DB
@@ -199,7 +199,7 @@ export default function SalaryCalculation() {
     };
 
     return (
-        <div className="h-screen h-full  w-full flex text-md font-medium text-gray-900 dark:text-white">
+        <div className="h-full w-full flex text-md font-medium text-gray-900 dark:text-white">
             <div className='w-1/2 bg-gray-300 p-4 pt-2'>
                 {/* Subject selection */}
                 <div className='mb-2 flex items-center'>
@@ -406,7 +406,7 @@ export default function SalaryCalculation() {
                         >CONFIRM</button>
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <button onClick={handleDownload} className='w-full text-black bg-amber-500 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Download Receipt</button>
+                        <button onClick={handleDownload} className='w-full text-white bg-teal-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Download Receipt</button>
                     </div>
 
                 </div>

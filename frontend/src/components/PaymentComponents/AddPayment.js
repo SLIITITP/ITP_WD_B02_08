@@ -131,7 +131,11 @@ function GetPayment() {
         setSearchTerm(event.target.value);
     };
 
-
+    //nikn id eka ghuwama set une nathi hinda dektama call kala
+    const handleInputChange = (event) => {
+        handleStudentIdChange(event);
+        handleSearchTermChange(event);
+    };
 
     //search by ID or Name
     const handleClickOutside = (e) => {
@@ -169,7 +173,7 @@ function GetPayment() {
                                 className='border-none mt-1 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
                                 type="text"
                                 value={searchTerm}
-                                onChange={handleSearchTermChange}
+                                onChange={handleInputChange}
                                 placeholder="Search by ID or Name"
                             />
                             {showResults && searchTerm && (
@@ -246,21 +250,23 @@ function GetPayment() {
                         <div className='bg-gray-200 pl-5 pt-2 pb-2 rounded h-full'>
                             <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Subjects: {subjects.join(',  ')}</label>
                             <ul>
-                                {subjectList.map((sub) => (
-                                    <div key={sub._id}>
-                                        <label htmlFor={`subject-${sub._id}`} className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
-                                            <input
-                                                type='checkbox'
-                                                id={`subject-${sub._id}`}
-                                                value={sub.subjectAmount}
-                                                checked={sub.checked}
-                                                onChange={(event) => handleCheckboxChange(event, sub)}
-                                                className='w-4 h-4 mr-1 border-2 border-black-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
-                                            />
-                                            {sub.subjectName} | {sub.subjectTeacherName}
-                                        </label>
-                                    </div>
-                                ))}
+                                <div  className="grid grid-cols-2 gap-2 p-2 mt-2">
+                                    {subjectList.map((sub) => (
+                                        <div key={sub._id}>
+                                            <label htmlFor={`subject-${sub._id}`} className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
+                                                <input
+                                                    type='checkbox'
+                                                    id={`subject-${sub._id}`}
+                                                    value={sub.subjectAmount}
+                                                    checked={sub.checked}
+                                                    onChange={(event) => handleCheckboxChange(event, sub)}
+                                                    className='w-4 h-4 mr-1 border-2 border-black-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
+                                                />
+                                                {sub.subjectName} | {sub.subjectTeacherName}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
                             </ul>
                         </div>
                     </div>
