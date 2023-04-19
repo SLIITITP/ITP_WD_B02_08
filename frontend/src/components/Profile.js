@@ -150,7 +150,7 @@ const handleDownloadClick = () => {
           
             </div>
 
-            <div style={{float: 'right', marginTop: '20px'}}>
+            <div style={{float: 'right', marginTop: '-200px'}}>
       {/* <h1>Login Page</h1> */}
       <QRCodeGenerator apiData={apiData} />
       {/* <p>{apiData.name}</p> */}
