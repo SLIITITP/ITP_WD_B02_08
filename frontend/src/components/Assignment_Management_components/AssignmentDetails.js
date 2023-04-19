@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/* import React, { useState } from 'react';
 import axios from 'axios';
 
 const AssignmentDetails = ({ assignment, onClose, onSave }) => {
@@ -110,6 +110,24 @@ const AssignmentDetails = ({ assignment, onClose, onSave }) => {
 
         <button type="button" className="btn btn-secondary" onClick={onClose}>Close</button>
       </form>
+    </div>
+  );
+}
+
+export default AssignmentDetails;
+ */
+
+import React from 'react';
+
+const AssignmentDetails = ({ assignment }) => {
+  return (
+    <div>
+      <h2>{assignment.type}</h2>
+      <p><strong>Grade:</strong> {assignment.grade}</p>
+      <p><strong>Subject:</strong> {assignment.subject}</p>
+      <p><strong>Guidelines:</strong> {assignment.guidelines}</p>
+      <p><strong>Deadline:</strong> {assignment.deadline}</p>
+      {assignment.image && <img src={assignment.image} alt="Assignment Image" />}
     </div>
   );
 }
