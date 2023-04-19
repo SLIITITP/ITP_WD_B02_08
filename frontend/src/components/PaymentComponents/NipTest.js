@@ -1,56 +1,77 @@
-import React, { useState } from 'react';
+//teacher salary list
+
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
-function StudentIDForm() {
-    const [name, setName] = useState('');
-    const [grade, setGrade] = useState('');
-    const [generatedID, setGeneratedID] = useState('');
-    const [error, setError] = useState('');
+function TeacherSalaryList() {
+    const [teacherSalaries, setTeacherSalaries] = useState([]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        async function fetchTeacherSalaries() {
+            const response = await axios.get('/api/salary/teachersalary');
+            setTeacherSalaries(response.data);
+        }
+        fetchTeacherSalaries();
+    }, []);
 
-        let studentID = '';
-        let response = null;
-
-        do {
-            // Generate student ID
-            const year = new Date().getFullYear().toString().substr(-2);
-            const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            studentID = `STD${year}${grade}${randomNum}`;
-
-            // Check if ID exists in database
-            response = await axios.get(`/api/user/checkID/${studentID}`);
-        } while (response.data.exists === true);
-
-        // Save student info and ID to database
-        await axios.post('/api/user/add', { studentID, name });
-
-        // Display generated ID
-        setGeneratedID(studentID);
-        setError('');
+    const formatDate = (date) => {
+        return moment(date).format('MMM DD, YYYY');
     };
 
-
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Name:
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-                </label>
-                <br />
-                <label>
-                    Grade:
-                    <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} required />
-                </label>
-                <br />
-                <button type="submit">Generate ID</button>
-            </form>
-            {generatedID && <p>Generated ID: {generatedID}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-        </div>
+        <table className="auto-table w-full border border-collapse border-green-600">
+            <thead>
+                <tr className="text-center bg-green-500 text-white">
+                    <th className="border border-green-600 p-2">Teacher Name</th>
+                    <th className="border border-green-600 p-2">Date</th>
+                    <th className="border border-green-600 p-2">Net Total</th>
+                    <th className="border border-green-600 p-2">Comm. (%)</th>
+                    <th className="border border-green-600 p-2">Total</th>
+                    <th className="border border-green-600 p-2">Other Charges</th>
+                    <th className="border border-green-600 p-2">OC Note</th>
+                    <th className="border border-green-600 p-2">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {teacherSalaries.map((teacherSalary) => (
+                    <tr key={teacherSalary._id}>
+                        <td className="border border-3 border-green-600 p-2">{teacherSalary.teacherName}</td>
+                        <td className="border border-3 border-green-600 p-2">{formatDate(teacherSalary.date)}</td>
+                        <td className="border border-3 border-green-600 p-2">{teacherSalary.netTotal}</td>
+                        <td className="border border-3 border-green-600 p-2">{teacherSalary.commissionPercentage}</td>
+                        <td className="border border-3 border-green-600 p-2">{teacherSalary.total}</td>
+                        <td className="border border-3 border-green-600 p-2">{teacherSalary.otherCharges}</td>
+                        <td className="border border-3 border-green-600 p-2">{teacherSalary.otherChargesNote}</td>
+                        <td className="border border-3 border-green-600 p-2">
+                            <table>
+                                <thead>
+                                    <tr className='text-center'>
+                                        <th className="border border-green-600 p-2">Grade</th>
+                                        <th className="border border-green-600 p-2">Month</th>
+                                        <th className="border border-green-600 p-2">Subject</th>
+                                        <th className="border border-green-600 p-2">Subject Amount</th>
+                                        <th className="border border-green-600 p-2">Payment Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {teacherSalary.salaryData.map((salary) => (
+                                        <tr key={salary._id} className='text-center'>
+                                            <td className="border border-green-600">{salary.grade}</td>
+                                            <td className="border border-green-600">{salary.month}</td>
+                                            <td className="border border-green-600">{salary.subject}</td>
+                                            <td className="border border-green-600">{salary.subjectAmount}</td>
+                                            <td className="border border-green-600">{salary.paymentCount}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     );
 }
 
-export default StudentIDForm;
+export default TeacherSalaryList;

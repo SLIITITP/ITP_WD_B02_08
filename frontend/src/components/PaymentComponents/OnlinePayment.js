@@ -7,9 +7,11 @@ import PaymentCheckout from './PaymentCheckout';
 
 //added comment
 export default function OnlinePayment() {
-    const [studentID, setStudentID] = useState('')
+
+    const studentId = 'EM12345';
+
     const [grade, setGrade] = useState('');
-    const [subjects, setSubjects] = useState([]);
+    // const [subjects, setSubjects] = useState([]);
     const [month, setMonth] = useState('');
     const [paidAmount, setAmount] = useState(0);
 
@@ -37,16 +39,22 @@ export default function OnlinePayment() {
     }, []);
 
     //Sum the total of selecting
+    const [subWithID, setSubWithID] = useState([]);
+    const subjects = subWithID.map((subject) => subject.name);
+
     const handleCheckboxChange = (event, sub) => {
         if (event.target.checked) {
-            setSelectedSubjects([...selectedSubjects, sub]);
-            setAmount(prevAmount => prevAmount + sub.subjectAmount);
-            setSubjects(prevSubjects => [...prevSubjects, sub.subjectName]);
+          setSelectedSubjects([...selectedSubjects, sub]);
+          setAmount(prevAmount => prevAmount + sub.subjectAmount);
+          setSubWithID(prevSubjects => [...prevSubjects, { id: sub.subjectID, name: sub.subjectName }]);
+      
         } else {
-            setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
-            setAmount(prevAmount => prevAmount - sub.subjectAmount);
-            setSubjects(prevSubjects => prevSubjects.filter((s) => s !== sub.subjectName));
+          setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
+          setAmount(prevAmount => prevAmount - sub.subjectAmount);
+          setSubWithID(prevSubjects => prevSubjects.filter((s) => s.id !== sub.subjectID));
         }
+
+        // console.log(subjects); // ["Subject 1", "Subject 2", "Subject 3"]
 
         //logic for checkbox required
         const isChecked = event.target.checked;
@@ -59,18 +67,16 @@ export default function OnlinePayment() {
         }
     };
 
+
     //checkbox required logic
     const [numChecked, setNumChecked] = useState(0);
     const [submitted, setSubmitted] = useState(false);
-
 
     const totalAmount = selectedSubjects.reduce((total, sub) => total + sub.subjectAmount, 0);
 
     //Payment history fetching
     const [payments, setPayments] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-
-    const studentId = 'EM12345';
 
     useEffect(() => {
         fetch(`http://localhost:9090/api/payment/history/${studentId}`)
@@ -182,14 +188,14 @@ export default function OnlinePayment() {
                         <div className="grid grid-cols-2 gap-2 p-2 mt-2 bg-purple-600 rounded">
                             {subjectList.map((sub) => (
                                 <div key={sub._id} className='bg-gray-200 rounded'>
-                                    <label htmlFor={`subject-${sub._id}`} className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
+                                    <label htmlFor={`subject-${sub._id}`} className='block mb-1 mt-1 text-lg font-medium text-gray-900 dark:text-white'>
                                         <input
                                             type='checkbox'
                                             id={`subject-${sub._id}`}
                                             value={sub.subjectAmount}
                                             checked={sub.checked}
                                             onChange={(event) => handleCheckboxChange(event, sub)}
-                                            className='w-4 h-4 mr-1 ml-1 border-2 border-black-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
+                                            className='w-4 h-4 mr-1 ml-1 mb-1 border-2 border-black-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
                                         />
                                         {sub.subjectName} | {sub.subjectTeacherName}
                                     </label>
@@ -208,24 +214,24 @@ export default function OnlinePayment() {
                     <h4>Payment History for Student ID {studentId}</h4>
                     {errorMessage && <p>{errorMessage}</p>}
                     {payments.length > 0 ? (
-                        <table>
-                            <thead>
+                        <table className='border border-black p-1'>
+                            <thead className='border border-black p-1 text-center'>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Month</th>
-                                    <th>Subjects</th>
-                                    <th>Grade</th>
-                                    <th>Paid Amount</th>
+                                    <th className='border border-black p-1'>Date</th>
+                                    <th className='border border-black p-1'>Month</th>
+                                    <th className='border border-black p-1'>Subjects</th>
+                                    <th className='border border-black p-1'>Grade</th>
+                                    <th className='border border-black p-1'>Paid Amount</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='text-center'>
                                 {payments.map(payment => (
                                     <tr key={payment._id}>
-                                        <td>{payment.date}</td>
-                                        <td>{payment.month}</td>
-                                        <td>{payment.subjects.join(', ')}</td>
-                                        <td>{payment.grade}</td>
-                                        <td>{payment.paidAmount}</td>
+                                        <td  className='border border-black p-1'>{payment.date}</td>
+                                        <td  className='border border-black p-1 text-lg text-green-500'>{payment.month}</td>
+                                        <td  className='border border-black p-1'>{payment.subjects.join(', ')}</td>
+                                        <td  className='border border-black p-1'>{payment.grade}</td>
+                                        <td  className='border border-black p-1'>{payment.paidAmount}</td>
                                     </tr>
                                 ))}
                             </tbody>

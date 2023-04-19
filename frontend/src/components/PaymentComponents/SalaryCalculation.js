@@ -24,6 +24,10 @@ export default function SalaryCalculation() {
     const ltime = now.toLocaleTimeString('en-US', { hour12: false });
     const [date, setDate] = useState(`${ldate}T${ltime}`);
 
+    const formatDate = (date) => {
+        return moment(date).format('MMM DD, YYYY');
+    };
+
     useEffect(() => {
         const fetchSubjects = async () => {
             try {
@@ -67,9 +71,6 @@ export default function SalaryCalculation() {
     const grades = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', 'Other'];
     const months = moment.months();
 
-    const formatDate = (date) => {
-        return moment(date).format('MMM DD, YYYY');
-    };
 
     //store data to a varibale for total salary
     const [salarydata, setsalaryData] = useState([]);
@@ -92,7 +93,7 @@ export default function SalaryCalculation() {
     //commsion and net total calculation
     const [commissionPercentage, setCommissionPercentage] = useState(0);
     const [otherCharges, setOtherCharges] = useState(0);
-    const [otherChargesNote, setOtherChargesNote] = useState("");
+    const [otherChargesNote, setOtherChargesNote] = useState('');
 
     // Calculate the commission amount based on the total amount and the percentage value
     const commissionAmount = totalAmount * (commissionPercentage / 100);
@@ -142,7 +143,6 @@ export default function SalaryCalculation() {
         doc.text(`Total Net Amount: ${netTotal}`, 14, 37)
 
         doc.setFont("helvetica", "normal");
-        doc.text(`Payment Month: ${month} `, 150, 37)
         doc.text(`Total Amount: ${totalAmount} `, 14, 44)
         doc.text(`Commission: ${commissionAmount} (${commissionPercentage}%)`, 14, 51)
         doc.text(`Other Charges: ${otherCharges} (${otherChargesNote})`, 14, 58)
@@ -190,16 +190,18 @@ export default function SalaryCalculation() {
         try {
             await axios.post('http://localhost:9090/api/salary/teacherSalary', formData);
             alert('Teacher salary data added successfully');
+            window.location.reload(); // Reloads the page after successful submission
         } catch (err) {
             console.error(err);
             alert('Error adding teacher salary data');
         }
+        handleDownload();
         console.log(formData)
         console.log(otherCharges)
     };
 
     return (
-        <div className="h-full w-full flex text-md font-medium text-gray-900 dark:text-white">
+        <div className="h-full h-screen w-full flex text-md font-medium text-gray-900 dark:text-white">
             <div className='w-1/2 bg-gray-300 p-4 pt-2'>
                 {/* Subject selection */}
                 <div className='mb-2 flex items-center'>
