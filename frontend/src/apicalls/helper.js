@@ -74,6 +74,17 @@ export async function verifyPassword({ username, password }){
     }
 }
 
+export async function verifyPasswordTeacher({ username, password }){
+    try {
+        if(username){
+            const { data } = await axios.post('/api/teacherLogin', { username, password })
+            return Promise.resolve({ data });
+        }
+    } catch (error) {
+        return Promise.reject({ error : "Password doesn't Match...!"})
+    }
+}
+
 
 /** update user profile function */
 export async function updateUser(response,id){
@@ -133,7 +144,7 @@ export async function getProfile(userName){
     
         try {
         
-            const { data, status } = await axios.get(`/api/user/${userName}`);
+            const { data, status } = await axios.get(`/api/teacher/${userName}`);
             //!query ? await axios.get(`/api/user/${username}`) :
             return Promise.resolve({ data, status})
 

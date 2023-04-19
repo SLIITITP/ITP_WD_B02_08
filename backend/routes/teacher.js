@@ -10,8 +10,11 @@ const registerMail = require('../controller/mailer.js')
 
 
 router.post('/authenticateTeacher',controller.verifyUser,((req, res) => res.send()));
+router.post("/teacherLogin",controller.verifyUser, controller.login);
 router.put("/updateteacher",controller.updateTeacher);
 router.post("/registerTeacher",controller.tearegister);
+
+router.get("/teacher/:username" ,controller.getUser);
 // router
 
 module.exports = router;

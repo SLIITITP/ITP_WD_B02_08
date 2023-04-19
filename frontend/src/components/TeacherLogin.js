@@ -26,7 +26,7 @@ function TeacherLogin() {
         validateOnChange: false,
         onSubmit : async values =>{                //validate only after submitting button
             setUsername(values.username);
-            navigate('/password')
+            navigate('/passwordTeacher')
         }            
     })
   return (

@@ -144,6 +144,7 @@ import SalaryCalculation from './components/PaymentComponents/SalaryCalculation'
 import NipTest from './components/PaymentComponents/NipTest';
 import WelcomePage from './pages/welcome/welcome';
 import TeacherLogin from './components/TeacherLogin';
+import PasswordTeacher from './components/PasswordTeacher';
 
 
 
@@ -220,6 +221,8 @@ function App() {
         <Route path="/tRegister" element={<TeaRegister/>}/> 
         <Route path="/adminDash" element={<AdminDash/>}/>
         <Route path='/pteacherLogin' element={<TeacherLogin/>}/>
+        <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
+        <Route path='/teacherProfile' element={<TeaProfile/>}></Route>
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 
