@@ -12,6 +12,6 @@ const registerMail = require('../controller/mailer.js')
 
 router.put("/updateteacher",controller.updateTeacher);
 router.post("/registerTeacher",controller.tearegister);
-
+// router
 
 module.exports = router;

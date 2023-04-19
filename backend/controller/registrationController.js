@@ -169,7 +169,15 @@ async function registers(req, res) {
                   const parts = id.split("_");
                   number = parseInt(parts[1]);
                   ++number;
-                  id = "stu_"+number.toString()
+                  if(number<9){
+                    id = "STU_000"+number.toString()
+                  }else if(number<99 && number>=10){
+                    id = "STU_00"+number.toString()
+                  }else if(number<999 && number>100){
+                    id = "STU_0"+number.toString()
+                  }else{
+                    id = "STU_"+number.toString()
+                  }
                   body ={
                     studentId:id
                   }

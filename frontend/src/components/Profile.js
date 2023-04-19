@@ -12,6 +12,7 @@ import {useAuthStore} from '../redux/store1';
 import { updateUser,getProfile,deleteUser } from '../apicalls/helper';
 import QRCodeGenerator from './QRCodeGenerator';
 
+
 export default function Profile() {
 
   const navigate = useNavigate()
@@ -119,10 +120,10 @@ const handleDownloadClick = () => {
   // Get the data URL of the QR code image
   const qrCodeDataURL = qrCodeRef.current?.toDataURL("image/png");
 
+
   const a = document.createElement("a");
   a.href = qrCodeDataURL;
   a.download = "qrcode.png";
-
   a.click();
 };
 
