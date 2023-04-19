@@ -337,37 +337,6 @@ function App() {
 
 
 
-        <Route path="/ass" exact element={<AssignmentSideNav />} />
-
-         {/* Admin Routes for Timetable Management */}
-         
-        <Route path="/ret" exact element={<TimetableSideNav>
-          <GetAssignments />
-        </TimetableSideNav>} />
-
-
-        
-        {/* User Routes for Timetable Management */}
-        <Route path="/AssignmentForm" exact element={<TimetableSideNav>
-          <AssignmentForm />
-        </TimetableSideNav>} />
-        <Route path="/sub" exact element={<TimetableSideNav>
-          <Submissions />
-        </TimetableSideNav>} />
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
       </Routes>
     </BrowserRouter>
   );
