@@ -6,6 +6,7 @@ const otpenerator = require("otp-generator");
 const StudenIds = require("../models/StudentId");
 const testStudent = require("../models/TestStudent")
 
+
 // // exports . loginForm = ( req, res ) => {
 // //     res. render ( 'login' , { title : 'Login' });
 // // };
@@ -94,6 +95,9 @@ async function setUpIds(req, res) {
   } catch (error) {}
 }
 
+
+
+
 /*get all user */
 async function getAllUsers(req, res) {
   try {
@@ -170,13 +174,13 @@ async function registers(req, res) {
                   number = parseInt(parts[1]);
                   ++number;
                   if(number<9){
-                    id = "STU_000"+number.toString()
+                    id = "STU000"+number.toString()
                   }else if(number<99 && number>=10){
-                    id = "STU_00"+number.toString()
+                    id = "STU00"+number.toString()
                   }else if(number<999 && number>100){
-                    id = "STU_0"+number.toString()
+                    id = "STU0"+number.toString()
                   }else{
-                    id = "STU_"+number.toString()
+                    id = "STU"+number.toString()
                   }
                   body ={
                     studentId:id

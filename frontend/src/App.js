@@ -71,6 +71,8 @@ import FileUploader from './components/Assignment_Management_components/FileUplo
 
 import SubjectRelated from './components/Assignment_Management_components/SubjectRelated';
 
+import DownloadAllFilesButton from './components/Assignment_Management_components/DownloadAllFilesButton';
+
 
 
 
@@ -153,7 +155,7 @@ import PasswordTeacher from './components/PasswordTeacher';
 import AdminLogin from './components/AdminLogin';
 import SalaryHistory from './components/PaymentComponents/SalaryHistory';
 import NipTest2 from './components/PaymentComponents/NipTest2';
-
+import AdminSideNav from './components/AdminSideNav';
 
 
 
@@ -232,7 +234,8 @@ function App() {
         <Route path="/reset" element={<Reset />} />
         <Route path="/tProfile" element={<TeaProfile/>}/> 
         <Route path="/tRegister" element={<TeaRegister/>}/> 
-        <Route path="/adminDash" element={<AdminDash/>}/>
+        {/* <Route path="/adminDash" element={<AdminDash/>}/> */}
+        <Route path="/adminDash" element={<AdminSideNav><AdminDash/></AdminSideNav>}/>
         <Route path='/pteacherLogin' element={<TeacherLogin/>}/>
         <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
         <Route path='/teacherProfile' element={<TeaProfile/>}></Route>
@@ -307,7 +310,8 @@ function App() {
         <Route path="/details" exact element={<Details />} />
 
         <Route path="/sub" exact element={<FileUploader />} />
-        
+
+          <Route path="/all" exact element={<DownloadAllFilesButton />} />
     
 
 
