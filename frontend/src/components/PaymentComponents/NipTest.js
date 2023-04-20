@@ -1,120 +1,118 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function AddAmNip() {
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [subjectID, setSubjectID] = useState('');
-  const [studentID, setStudentID] = useState('');
-  const [subjects, setSubjects] = useState([]);
-  const [students, setStudents] = useState([]);
+const SearchForm = () => {
 
-  // Fetch subjects and students on component mount
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // Fetch subjects
-        const subjectResponse = await fetch('/api/subject/subjects');
-        const subjectData = await subjectResponse.json();
-        setSubjects(subjectData);
 
-        // Fetch students
-        const studentResponse = await fetch('/api/user/list');
-        const studentData = await studentResponse.json();
-        setStudents(studentData);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    const [subjects, setSubjects] = useState([]);
+    const [students, setStudents] = useState([]);
 
-    fetchData();
-  }, []);
+    // Fetch subjects and students on component mount
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                // Fetch subjects
+                const subjectResponse = await fetch('/api/subject/subjects');
+                const subjectData = await subjectResponse.json();
+                setSubjects(subjectData);
 
-  // Handle form submission
-  async function handleSubmit(event) {
-    event.preventDefault();
+                // Fetch students
+                const studentResponse = await fetch('/api/user/list');
+                const studentData = await studentResponse.json();
+                // console.log(studentData);
+                // console.log(typeof studentData);
+                setStudents(studentData);
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
-    try {
-      // Send POST request to add AmNip data
-      const response = await fetch('/api/amnip/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          date,
-          time,
-          subjectID,
-          studentID
-        })
-      });
+        fetchData();
+    }, []);
 
-      // Handle response
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="date">Date:</label>
-        <input
-          type="date"
-          id="date"
-          value={date}
-          onChange={(event) => setDate(event.target.value)}
-          required
-        />
-      </div>
+    const [searchQuery, setSearchQuery] = useState({
+        grade: '',
+        subject: '',
+        date: '',
+        studentID: ''
+    });
 
-      <div>
-        <label htmlFor="time">Time:</label>
-        <input
-          type="time"
-          id="time"
-          value={time}
-          onChange={(event) => setTime(event.target.value)}
-          required
-        />
-      </div>
+    const [searchResults, setSearchResults] = useState([]);
 
-      <div>
-        <label htmlFor="subject">Subject:</label>
-        <select
-          id="subject"
-          value={subjectID}
-          onChange={(event) => setSubjectID(event.target.value)}
-          required
-        >
-          <option value="">-- Select a subject --</option>
-          {subjects.map((subject) => (
-            <option key={subject._id} value={subject.subjectID}>
-              {subject.subjectName}
-            </option>
-          ))}
-        </select>
-      </div>
+    const handleChange = (e) => {
+        setSearchQuery({
+            ...searchQuery,
+            [e.target.name]: e.target.value
+        });
+    };
 
-      <div>
-        <label htmlFor="student">Student:</label>
-        <select
-          id="student"
-          value={studentID}
-          onChange={(event) => setStudentID(event.target.value)}
-          required
-        >
-          <option value="">-- Select a student --</option>
-          {students.map((student) => (
-            <option key={student._id} value={student.studentID}>
-              {student.studentName}
-            </option>
-          ))}
-        </select>
-      </div>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-      <button type="submit">Add AmNip Data</button>
-    </form>
-  );
-}
+        try {
+            const response = await axios.get('/api/amnip/search', {
+                params: searchQuery
+            });
+            setSearchResults(response.data.attendance);
 
-export default AddAmNip;
+        } catch (error) {
+            console.error(error);
+        }
+        
+        console.log(searchResults);
+    };
+
+    return (
+        <div>
+            <h2>Search Attendance</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="grade">Grade:</label>
+                    <input type="text" id="grade" name="grade" onChange={handleChange} />
+                </div>
+                <div>
+                    <label htmlFor="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" onChange={handleChange} />
+                </div>
+                <div>
+                    <label htmlFor="date">Date:</label>
+                    <input type="date" id="date" name="date" onChange={handleChange} />
+                </div>
+                <div>
+                    <label htmlFor="studentID">Student ID:</label>
+                    <input type="text" id="studentID" name="studentID" onChange={handleChange} />
+                </div>
+                <button type="submit">Search</button>
+            </form>
+            {searchResults.length > 0 && (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Student</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {searchResults.map((attendance) => (
+                            <tr key={attendance._id}>
+                                <td>{new Date(attendance.date).toLocaleDateString()}</td>
+                                <td>{attendance.time}</td>
+                                <td>{attendance.subject.subjectName}</td>
+                                <td>{attendance.teacher}</td>
+                                <td>{attendance.student.name}</td>
+                                <td>{attendance.grade}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+};
+
+export default SearchForm;
