@@ -1,13 +1,13 @@
-//latest addPayment
+//latest AddPayment
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../../stylesheets/Payment.css'
 
-function GetPayment() {
+function AddPayment() {
     //set values
     const [studentId, setStudentId] = useState('');
     const [grade, setGrade] = useState('');
-    const [subjects, setSubjects] = useState([]);
+    // const [subjects, setSubjects] = useState([]);
     const [month, setMonth] = useState('');
     const [paidAmount, setAmount] = useState(0);
     //set subject list getting from DB
@@ -38,16 +38,22 @@ function GetPayment() {
 
 
     //Sum the total of selecting
+    const [subWithID, setSubWithID] = useState([]);
+    const subjects = subWithID.map((subject) => subject.name);
+
     const handleCheckboxChange = (event, sub) => {
         if (event.target.checked) {
-            setSelectedSubjects([...selectedSubjects, sub]);
-            setAmount(prevAmount => prevAmount + sub.subjectAmount);
-            setSubjects(prevSubjects => [...prevSubjects, sub.subjectName]);
+          setSelectedSubjects([...selectedSubjects, sub]);
+          setAmount(prevAmount => prevAmount + sub.subjectAmount);
+          setSubWithID(prevSubjects => [...prevSubjects, { id: sub.subjectID, name: sub.subjectName }]);
+      
         } else {
-            setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
-            setAmount(prevAmount => prevAmount - sub.subjectAmount);
-            setSubjects(prevSubjects => prevSubjects.filter((s) => s !== sub.subjectName));
+          setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
+          setAmount(prevAmount => prevAmount - sub.subjectAmount);
+          setSubWithID(prevSubjects => prevSubjects.filter((s) => s.id !== sub.subjectID));
         }
+
+        // console.log(subjects); // ["Subject 1", "Subject 2", "Subject 3"]
 
         //logic for checkbox required
         const isChecked = event.target.checked;
@@ -248,19 +254,19 @@ function GetPayment() {
                     {/* Subject */}
                     <div className='mb-2'>
                         <div className='bg-gray-200 pl-5 pt-2 pb-2 rounded h-full'>
-                            <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Subjects: {subjects.join(',  ')}</label>
+                            <label className='block text-lg font-medium text-gray-900 dark:text-white'>Subjects: {subjects.join(',  ')}</label>
                             <ul>
-                                <div  className="grid grid-cols-2 gap-2 p-2 mt-2">
+                                <div  className="grid grid-cols-2 gap-2 p-2 mt-1">
                                     {subjectList.map((sub) => (
                                         <div key={sub._id}>
-                                            <label htmlFor={`subject-${sub._id}`} className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
+                                            <label htmlFor={`subject-${sub._id}`} className='block mb-1 mt-1 text-lg font-medium text-gray-900 dark:text-white'>
                                                 <input
                                                     type='checkbox'
                                                     id={`subject-${sub._id}`}
                                                     value={sub.subjectAmount}
                                                     checked={sub.checked}
                                                     onChange={(event) => handleCheckboxChange(event, sub)}
-                                                    className='w-4 h-4 mr-1 border-2 border-black-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
+                                                    className='w-4 h-4 mr-1 mb-1 border-2 border-black-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
                                                 />
                                                 {sub.subjectName} | {sub.subjectTeacherName}
                                             </label>
@@ -321,4 +327,4 @@ function GetPayment() {
     );
 }
 
-export default GetPayment;
+export default AddPayment;

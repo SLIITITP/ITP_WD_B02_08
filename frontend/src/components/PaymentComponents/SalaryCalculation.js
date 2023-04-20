@@ -14,15 +14,23 @@ export default function SalaryCalculation() {
     const [tAmount, settAmount] = useState(0);
     const [subjectList, setSubjectList] = useState([]);
     const [teacherName, setTeacherName] = useState('');
-    const [paymentCount, setPaymentCount] = useState(0);
+    // const [paymentCount, setPaymentCount] = useState(0);
     const [subjectAmount, setSubjectAmount] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
+    const [newPaymentCount, setNewPaymentCount] = useState(0);
+
+    //set from getting db count
+    const [totalPaymentCount, setTotalPaymentCount] = useState('');
 
 
     const now = new Date();
     const ldate = now.toLocaleDateString('en-CA');
     const ltime = now.toLocaleTimeString('en-US', { hour12: false });
     const [date, setDate] = useState(`${ldate}T${ltime}`);
+
+    const formatDate = (date) => {
+        return moment(date).format('MMM DD, YYYY');
+    };
 
     useEffect(() => {
         const fetchSubjects = async () => {
@@ -37,7 +45,8 @@ export default function SalaryCalculation() {
     }, []);
 
 
-    const handleSearch = async () => {
+    const handleSearch = async (e) => {
+        e.preventDefault();
         try {
             const response = await axios.get('http://localhost:9090/api/payment/payHistory', {
                 params: {
@@ -55,7 +64,7 @@ export default function SalaryCalculation() {
             const subjectAmount = subjectData.data.subjectAmount || 0;
             const totalSubjectAmount = payments.length * subjectAmount;
             setSubjectAmount(subjectAmount);
-            setPaymentCount(payments.length);
+            setNewPaymentCount(payments.length);
             settAmount(totalSubjectAmount);
             console.log('Total amount for the selected subject:', totalSubjectAmount);
 
@@ -67,9 +76,8 @@ export default function SalaryCalculation() {
     const grades = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', 'Other'];
     const months = moment.months();
 
-    const formatDate = (date) => {
-        return moment(date).format('MMM DD, YYYY');
-    };
+
+    const paymentCount = newPaymentCount - totalPaymentCount;
 
     //store data to a varibale for total salary
     const [salarydata, setsalaryData] = useState([]);
@@ -92,7 +100,7 @@ export default function SalaryCalculation() {
     //commsion and net total calculation
     const [commissionPercentage, setCommissionPercentage] = useState(0);
     const [otherCharges, setOtherCharges] = useState(0);
-    const [otherChargesNote, setOtherChargesNote] = useState("");
+    const [otherChargesNote, setOtherChargesNote] = useState('');
 
     // Calculate the commission amount based on the total amount and the percentage value
     const commissionAmount = totalAmount * (commissionPercentage / 100);
@@ -142,7 +150,6 @@ export default function SalaryCalculation() {
         doc.text(`Total Net Amount: ${netTotal}`, 14, 37)
 
         doc.setFont("helvetica", "normal");
-        doc.text(`Payment Month: ${month} `, 150, 37)
         doc.text(`Total Amount: ${totalAmount} `, 14, 44)
         doc.text(`Commission: ${commissionAmount} (${commissionPercentage}%)`, 14, 51)
         doc.text(`Other Charges: ${otherCharges} (${otherChargesNote})`, 14, 58)
@@ -190,89 +197,117 @@ export default function SalaryCalculation() {
         try {
             await axios.post('http://localhost:9090/api/salary/teacherSalary', formData);
             alert('Teacher salary data added successfully');
+            window.location.reload(); // Reloads the page after successful submission
         } catch (err) {
             console.error(err);
             alert('Error adding teacher salary data');
         }
+        handleDownload();
         console.log(formData)
         console.log(otherCharges)
     };
 
+
+    //Get total payment count for selected grade, subject, month
+    useEffect(() => {
+        const fetchCountData = async () => {
+            try {
+                const response = await axios.get(`/api/salary/paymentcount?teacherName=${teacherName}&grade=${grade}&month=${month}&subject=${subject}`);
+                setTotalPaymentCount(response.data.paymentCount);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (teacherName && grade && month && subject) {
+            fetchCountData();
+        }
+    }, [teacherName, grade, month, subject]);
+
+
     return (
-        <div className="h-full w-full flex text-md font-medium text-gray-900 dark:text-white">
+        <div className="h-full h-screen w-full flex text-md font-medium text-gray-900 dark:text-white">
             <div className='w-1/2 bg-gray-300 p-4 pt-2'>
-                {/* Subject selection */}
-                <div className='mb-2 flex items-center'>
-                    <label htmlFor="subject" className='mr-2 mb-2 text-md font-medium text-gray-900 dark:text-white w-20'>Subject:</label>
-                    <select
-                        id="subject"
-                        value={subject._id}
-                        onChange={(e) => {
-                            const selectedSubject = subjectList.find(
-                                (sub) => sub._id === e.target.value
-                            );
-                            //console.log(selectedSubject)
-                            setSubject(selectedSubject.subjectName);
-                            setSubjectID(selectedSubject._id);
-                            setTeacherName(selectedSubject.subjectTeacherName)
-                        }}
-                        className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
-                    >
-                        <option value="">Select Subject</option>
-                        {subjectList.map((sub) => (
-                            <option key={sub._id} value={sub._id}>
-                                {sub.subjectName} {sub.subjectTeacherName}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <form onSubmit={handleSearch}>
+                    {/* Subject selection */}
+                    <div className='mb-2 flex items-center'>
+                        <label htmlFor="subject" className='mr-2 mb-2 text-md font-medium text-gray-900 dark:text-white w-20'>Subject:</label>
+                        <select
+                            id="subject"
+                            value={subject._id}
+                            onChange={(e) => {
+                                const selectedSubject = subjectList.find(
+                                    (sub) => sub._id === e.target.value
+                                );
+                                //console.log(selectedSubject)
+                                setSubject(selectedSubject.subjectName);
+                                setSubjectID(selectedSubject._id);
+                                setTeacherName(selectedSubject.subjectTeacherName)
+                            }}
+                            required
+                            className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
+                        >
+                            <option value="">Select Subject</option>
+                            {subjectList.map((sub) => (
+                                <option key={sub._id} value={sub._id}>
+                                    {sub.subjectName} {sub.subjectTeacherName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                {/* Grade selection */}
-                <div className='mb-2 flex items-center'>
-                    <label htmlFor="grade" className='mr-2 mb-2 text-md font-medium text-gray-900 dark:text-white w-20'>Grade:</label>
-                    <select
-                        id="grade"
-                        value={grade}
-                        onChange={(e) => setGrade(e.target.value)}
-                        className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
-                    >
-                        <option value="">Select a grade</option>
-                        {grades.map((grade) => (
-                            <option key={grade} value={grade}>
-                                {grade}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                    {/* Grade selection */}
+                    <div className='mb-2 flex items-center'>
+                        <label htmlFor="grade" className='mr-2 mb-2 text-md font-medium text-gray-900 dark:text-white w-20'>Grade:</label>
+                        <select
+                            id="grade"
+                            value={grade}
+                            onChange={(e) => setGrade(e.target.value)}
+                            required
+                            className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
+                        >
+                            <option value="">Select a grade</option>
+                            {grades.map((grade) => (
+                                <option key={grade} value={grade}>
+                                    {grade}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                {/* Month selection */}
-                <div className='mb-2 flex items-center'>
-                    <label htmlFor="month" className='mr-2 mb-2 text-md font-medium text-gray-900 dark:text-white w-20'>Month:</label>
-                    <select
-                        id="month"
-                        value={month}
-                        onChange={(e) => setMonth(e.target.value)}
-                        className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
-                    >
-                        <option value="">Select a month</option>
-                        {months.map((month) => (
-                            <option key={month} value={month}>
-                                {month}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                    {/* Month selection */}
+                    <div className='mb-2 flex items-center'>
+                        <label htmlFor="month" className='mr-2 mb-2 text-md font-medium text-gray-900 dark:text-white w-20'>Month:</label>
+                        <select
+                            id="month"
+                            value={month}
+                            onChange={(e) => setMonth(e.target.value)}
+                            required
+                            className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
+                        >
+                            <option value="">Select a month</option>
+                            {months.map((month) => (
+                                <option key={month} value={month}>
+                                    {month}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    {/* Search button */}
+                    <button type='submit' className='mr-2 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'>Search</button>
+                    {/* Add button */}
+                    <button onClick={handleSalaryData} className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Add</button>
 
-                {/* Search button */}
-                <button onClick={handleSearch} className='mr-2 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'>Search</button>
-                <button onClick={handleSalaryData} className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Add</button>
+                </form>
 
                 {/* Total amount */}
                 <div className='mr-2 mb-2 pt-2 text-md font-medium text-gray-900 dark:text-white w-full'>
                     <p className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
                     >Total amount: {tAmount}</p>
                 </div>
-
+                <p className='mb-2'>
+                    Total Paid Count: {totalPaymentCount} <br /> Total Count : {newPaymentCount}
+                </p>
                 {/* Payment history table */}
                 <table className="table-auto">
                     <thead>

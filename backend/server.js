@@ -6,6 +6,7 @@ const app = express();
 const multer = require('multer')
 require("dotenv").config()
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
+
 //study material routes
 const Study = require('./routes/study.routes');
 
@@ -45,6 +46,11 @@ const ticketRoutes = require('./routes/tickets');
 
 //assignment
 const postRoutes = require('./routes/assignment');
+
+const itemsRouter = require("./routes/items")
+
+app.use("/items",itemsRouter)
+
 
 const teaRouter = require('./routes/teacher')
 const loginRouter = require('./routes/login');

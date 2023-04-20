@@ -1,9 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../../stylesheets/Payment.css'
+import ReactToPrint from 'react-to-print';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import moment from 'moment';
 
 
 function ViewPayment() {
+
+
+    const now = new Date();
+    const ldate = now.toLocaleDateString('en-CA');
+    const ltime = now.toLocaleTimeString('en-US', { hour12: false });
+    const [date, setDate] = useState(`${ldate}T${ltime}`);
+
+    const formatDate = (date) => {
+        return moment(date).format('MMM DD, YYYY');
+    };
 
 
     const [searchCriteria, setSearchCriteria] = useState({
@@ -128,11 +142,71 @@ function ViewPayment() {
         }
     };
 
-
-
     const grades = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', 'Other'];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
 
+    //pdf printing parts
+    const componentRef = useRef();
+
+    const matchingSubject = subjectList.find(subject => subject._id === searchCriteria.subjectID);
+    const subjectNametoPrint = matchingSubject ? matchingSubject.subjectName : null;
+
+    // console.log(subjectNametoPrint); // print the subjectName of the matching subject, or null if no match is found
+
+    const handleDownload = () => {
+        // Create a new jsPDF instance
+        const doc = new jsPDF();
+
+        // Set the title of the PDF document
+        doc.setProperties({
+            title: 'THILINA INS PAYMENTS',
+            subject: 'Payment',
+            author: 'Thilina Institute',
+            keywords: '',
+            creator: 'Nipun'
+        });
+
+        // Define the table columns
+        const columns = ['Student ID', 'Paid Amount', 'Date', 'Month', 'Grade', 'Subjects'];
+
+        // Define the table rows
+        const rows = payments.map((payment) => [
+            payment.studentId,
+            payment.paidAmount,
+            payment.date,
+            payment.month,
+            payment.grade,
+            payment.subjects.join(", "),
+        ]);
+
+        // Set the font size and style for the table header
+        doc.setFontSize(20);
+        doc.setFont("courier", "bold");
+
+        // Draw the table content
+        doc.text('Payment Records', 14, 20);
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+
+        doc.text(`Subject Name: ${subjectNametoPrint || "all"}`, 14, 30)
+        doc.text(`Date: ${formatDate(date)} `, 150, 30)
+        doc.text(`Subject ID : ${searchCriteria.subjectID || "--"}`, 14, 37)
+
+        doc.setFont("helvetica", "normal");
+        doc.text(``, 150, 37)
+        doc.text(`Grade : ${searchCriteria.grade || "all"} `, 14, 44)
+        doc.text(`Month : ${searchCriteria.month || "all"} `, 14, 51)
+        doc.text(`--`, 14, 58)
+
+        doc.autoTable({
+            startY: 64,
+            head: [columns],
+            body: rows,
+        });
+        // Save the PDF file with the name
+        doc.save(`EIMS ${formatDate(date)}.pdf`);
+    };
 
     return (
         <div className="flex flex-wrap -mx-3 mb-2 p-3 text-md font-semibold" >
@@ -220,24 +294,31 @@ function ViewPayment() {
                     )}
                 </div>
             </div>
+            <div className='get-center mt-2'>
+                <ReactToPrint
+                    // trigger={() => <button>Print</button>}
+                    content={() => componentRef.current}
+                />
+                <button onClick={handleDownload} className='justify-center text-white bg-teal-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Download Payment Data</button>
+            </div>
             <div className='p-2'>
-                <table className="table-auto">
+                <table ref={componentRef} className="table-auto border border-black border-2" >
                     <thead>
                         <tr>
-                            <th className="px-4 py-2">Student ID</th>
-                            <th className="px-4 py-2">Paid Amount</th>
-                            <th className="px-4 py-2">Date</th>
-                            <th className="px-4 py-2">Month</th>
-                            <th className="px-4 py-2">Grade</th>
-                            <th className="px-4 py-2">Subjects</th>
-                            <th className="px-4 py-2">Options</th>
+                            <th className="border px-4 py-2">Student ID</th>
+                            <th className="border px-4 py-2">Paid Amount</th>
+                            <th className="border px-4 py-2">Date</th>
+                            <th className="border px-4 py-2">Month</th>
+                            <th className="border px-4 py-2">Grade</th>
+                            <th className="border px-4 py-2">Subjects</th>
+                            <th className="border px-4 py-2">Options</th>
                         </tr>
                     </thead>
                     <tbody className='text-black-900 text-md'>
                         {payments.map((payment) => (
                             <tr key={payment._id}>
                                 <td className="border px-4 py-2">{payment.studentId}</td>
-                                <td className="border px-4 py-2">{payment.paidAmount}</td>
+                                <td className="border px-4 py-2">{payment.paidAmount} <p className='inline-block text-green-500' title={payment.paymentID}>{payment.paymentID ? 'Online' : ''}</p></td>
                                 <td className="border px-4 py-2">{payment.date}</td>
                                 <td className="border px-4 py-2">{payment.month}</td>
                                 <td className="border px-4 py-2">{payment.grade}</td>

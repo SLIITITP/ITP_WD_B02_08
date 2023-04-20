@@ -33,7 +33,7 @@ const TeacherSalarySchema = new Schema({
     },
     otherChargesNote: {
         type: String,
-        required: true
+        required: false
     },
     salaryData: {
         type: [{
@@ -42,6 +42,10 @@ const TeacherSalarySchema = new Schema({
                 required: true
             },
             month: {
+                type: String,
+                required: true
+            },
+            subject: {
                 type: String,
                 required: true
             },
