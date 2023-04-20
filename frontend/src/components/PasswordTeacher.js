@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import { passwordValidate } from "../validations/validate";
 import useFetch from "../hooks/fetch.hook";
 import { useAuthStore } from "../redux/store1";
-import { verifyPasswordTeacher, getProfile } from "../apicalls/helper";
+import { verifyPasswordTeacher, getProfileTeacher } from "../apicalls/helper";
 
 const PasswordTeacher = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const PasswordTeacher = () => {
 
   useEffect(() => {
     console.log(username);
-    getProfile(username).then((results) => {
+    getProfileTeacher(username).then((results) => {
       let apiData = results.data;
       setApiData({
         firstName: apiData?.firstName || "",

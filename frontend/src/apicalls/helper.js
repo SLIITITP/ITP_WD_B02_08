@@ -22,6 +22,7 @@ export async function authenticate(username){
 }
 
 export async function authenticateTeacher(username){
+    console.log(username)
     try {
         return await axios.post('/api/authenticateTeacher', { username })
     } catch (error) {
@@ -93,7 +94,6 @@ export async function updateUser(response,id){
         const token = await localStorage.getItem('token');
         console.log(token)
         const data = await axios.put('/api/updateuser?id='+id, response, { headers : { "Authorization" : `Bearer ${token}`}});
-
         return Promise.resolve({ data })
     } catch (error) {
         return Promise.reject({ error : "Couldn't Update Profile...!"})
@@ -168,18 +168,18 @@ export async function getProfile(userName){
 
 }
 
-// /** delete user profile function */
-// export async function deleteUser(id) {
-//     try {
-//       const token = await localStorage.getItem('token');
-//       console.log(token);
-//       const data = await axios.delete(`/api/deleteuser?id=${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+/** delete user profile function */
+export async function deleteUser(id) {
+    try {
+      const token = await localStorage.getItem('token');
+      console.log(id);
+      const data = await axios.delete(`/api/deleteuser?id=${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
   
-//       return Promise.resolve({ data });
-//     } catch (error) {
-//       return Promise.reject({ error: "Couldn't Delete User...!" });
-//     }
-//   }
+      return Promise.resolve({ data });
+    } catch (error) {
+      return Promise.reject({ error: "Couldn't Delete User...!" });
+    }
+  }
 
 
 //===========================================================================================================
