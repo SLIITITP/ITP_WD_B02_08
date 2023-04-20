@@ -2,6 +2,7 @@ const TeacherModel = require('../models/teacher.model')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const otpenerator = require("otp-generator");
+const TeacherIds = require("../models/TeacherId")
 
 module.exports = {
 
@@ -9,9 +10,29 @@ module.exports = {
     tearegister,
     verifyUser,
     login,
-    getUser
+    getUser,
+    setUpTeacherIds
 
 }
+
+
+async function setUpTeacherIds(req, res) {
+  try {
+    
+    const user = new TeacherIds ({
+      teacherId: "TCH_00001",
+    });
+    user
+      .save()
+      .then((result) =>
+        res.status(201).send({ msg: "Teacher Id successfully saved" })
+      )
+      .catch((error) => res.status(500).send({ error }));
+  } catch (error) {}
+}
+
+
+
 
 async function verifyUser(req, res, next) {
   try {
@@ -117,7 +138,6 @@ async function updateTeacher(req, res){
   
   
   async function tearegister(req, res) {
-    console.log(req.body);
     try {
       const { username, password, profile, email } = req.body;
       //check the existing user
@@ -153,20 +173,59 @@ async function updateTeacher(req, res){
             bcrypt
               .hash(password, 10)
               .then((hashedPassword) => {
-                const user = new TeacherModel({
-                  username,
-                  password: hashedPassword,
-                  profile: profile || "",
-                  email,
-                });
-  
-                // return save result as a response
-                user
-                  .save()
-                  .then((result) =>
-                    res.status(201).send({ msg: "Teacher Register Successfully" })
-                  )
-                  .catch((error) => res.status(500).send({ error }));
+                let number;
+                TeacherIds.findById("6440fa188e07596f5cb75934").then(
+                  (result) => {
+                    let id = result.teacherId;
+                    const parts = id.split("_");
+                    number = parseInt(parts[1]);
+                    ++number;
+                    if(number<9){
+                      id = "TCH000"+number.toString()
+                    }else if(number<99 && number>=10){
+                      id = "TCH00"+number.toString()
+                    }else if(number<999 && number>100){
+                      id = "TCH0"+number.toString()
+                    }else{
+                      id = "TCH"+number.toString()
+                    }
+                    body ={
+                      teacherId:id
+                    }
+                    TeacherIds.updateOne({ _id: "6440fa188e07596f5cb75934" }, body).then(
+                      (result)=>{
+                        const user = new TeacherModel({
+                          teacherId:id||"0001",  
+                          username,
+                          password: hashedPassword,
+                          profile: profile || "",
+                          email,
+                        });
+                        console.log(user)
+                        // return save result as a response
+                        user
+                          .save()
+                          .then((result) =>
+                            {
+                              console.log(result)
+                              return res.status(201).send({ msg: "Teacher Register Successfully" })
+                            }
+                          )
+                          .catch((error) => {
+                            console.log(error)
+                            res.status(500).send({ error })
+                          });
+                      },
+                      (err)=>{
+                        console.log(err)
+                      }
+                    )
+                  },
+                  (err) => {
+                    if (err) reject(new Error(err));
+                  }
+                );
+                
               })
               .catch((error) => {
                 return res.status(500).send({
