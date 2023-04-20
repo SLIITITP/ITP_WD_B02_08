@@ -1,10 +1,39 @@
-import React, { useState} from 'react';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { getUserInfo } from "../../.././apicalls/users";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { SetUser } from "../../.././redux/usersSlice.js";
+import { message } from "antd";
 function ClassEnrolling() {
-
   const location = useLocation();
+
+  const { user } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const getUserData = async () => {
+    try {
+      const response = await getUserInfo();
+      if (response.success) {
+        dispatch(SetUser(response.data));
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getUserData();
+    } else {
+      navigate("/login"); //if there is problem with token user navigate login
+    }
+  }, []);
+
+  const stdID = user?._id;
 
   const [classId] = useState(location.state.cId);
   const [grade] = useState(location.state.cGrade);
@@ -15,36 +44,54 @@ function ClassEnrolling() {
   const [fees] = useState(location.state.cFees);
 
   const handleEnroll = async (e) => {
+
+    console.log(typeof(classId))
+    const token = localStorage.getItem("token");
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:9090/enrollments", {
-        studentID: localStorage.getItem("studentID"), // Get the student ID from localStorage
-        classID: classId,
-      });
-      console.log('Enrollment response:', res.data);
-      alert("Enrollment successful!"); // Display a success message
-    } catch (err) {
-      console.error('Enrollment failed:', err);
-      alert("Enrollment failed. Please try again."); // Display an error message
-    }
+   
+     await axios.post(
+        `http://localhost:9090/api/enroll/enrollments`,
+         {
+          "studentID": stdID,
+          "classID":classId
+      } ,
+        { headers }
+      ).then(response=>{
+        console.log(response)
+        alert("Enrolled Successfully")
+      },error=>{
+        console.log(error)
+        alert("Enrollment failed.")
+      })
+      
+    
   };
 
   return (
     <div>
       <h1>Enroll to the Class</h1>
       <div>
-      {grade && (<p>Grade :{grade}</p>)}
-      {subject && (<p>Subject :{subject}</p>)}
-      {teacher && (<p>Teacher :{teacher}</p>)}
-      {date && (<p>Date :{date}</p>)}
-      {time && (<p>Time :{time}</p>)}
-      {fees && (<p>Fees : Rs.{fees}</p>)}
+        {grade && <p>Grade :{grade}</p>}
+        {subject && <p>Subject :{subject}</p>}
+        {teacher && <p>Teacher :{teacher}</p>}
+        {date && <p>Date :{date}</p>}
+        {time && <p>Time :{time}</p>}
+        {fees && <p>Fees : Rs.{fees}</p>}
+        <p>studentID: {stdID}</p>
+        <p>classID: {classId}</p>
       </div>
-      <button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
-       focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center'
-       onClick={handleEnroll}>Enroll</button>   
+      <button
+        type="submit"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
+       focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center"
+        onClick={handleEnroll}
+      >
+        Enroll
+      </button>
     </div>
   );
-
 }
 export default ClassEnrolling;
