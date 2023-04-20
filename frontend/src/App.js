@@ -67,6 +67,11 @@ import RetrieveAssignments from './components/Assignment_Management_components/R
 import EditAssignment from './components/Assignment_Management_components/EditAssignment'
 import StudentView from './components/Assignment_Management_components/StudentView';
 
+import FileUploader from './components/Assignment_Management_components/FileUploader';
+
+import SubjectRelated from './components/Assignment_Management_components/SubjectRelated';
+
+
 
 
 
@@ -146,6 +151,10 @@ import WelcomePage from './pages/welcome/welcome';
 import TeacherLogin from './components/TeacherLogin';
 import PasswordTeacher from './components/PasswordTeacher';
 import AdminLogin from './components/AdminLogin';
+import SalaryHistory from './components/PaymentComponents/SalaryHistory';
+import NipTest2 from './components/PaymentComponents/NipTest2';
+
+
 
 
 
@@ -187,6 +196,9 @@ function App() {
         <Route path='/subject/update' element={<SubListUpdate />} />
         <Route path='/salary/calculate' element={<SalaryCalculation />} />
         <Route path='/niptest' element={<NipTest />} />
+        <Route path='/niptest2' element={<NipTest2 />} />
+        <Route path='/salary/history' element={<SalaryHistory />} />
+
 
 
 
@@ -279,13 +291,24 @@ function App() {
         <Route path="/CreateAssignment" exact element={<AssignmentForm1 />} />
         <Route path="/retriveAss" element={<AssignmentRoute><RetrieveAssignments /></AssignmentRoute>} />
         <Route path="/editAss/:id" element={<AssignmentRoute><EditAssignment /></AssignmentRoute>} />
+
+
+{/*                      --------------------  User  ---------------------                  */}
+
+
         <Route path="/student/view" element={<AssignmentRoute><StudentView /></AssignmentRoute>} />
+        <Route path="/subR" element={<AssignmentRoute><SubjectRelated /></AssignmentRoute>} />
+       
 
 
 
         <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
 
         <Route path="/details" exact element={<Details />} />
+
+        <Route path="/sub" exact element={<FileUploader />} />
+        
+    
 
 
 
