@@ -156,6 +156,8 @@ import AdminLogin from './components/AdminLogin';
 import SalaryHistory from './components/PaymentComponents/SalaryHistory';
 import NipTest2 from './components/PaymentComponents/NipTest2';
 import AdminSideNav from './components/AdminSideNav';
+import GetAm from './components/AMFunction/GetAm';
+import CheckAm from './components/AMFunction/CheckAm';
 
 
 
@@ -200,6 +202,10 @@ function App() {
         <Route path='/niptest' element={<NipTest />} />
         <Route path='/niptest2' element={<NipTest2 />} />
         <Route path='/salary/history' element={<SalaryHistory />} />
+        <Route path='/am/add' element={<GetAm />} />
+        <Route path='/am/check' element={<CheckAm />} />
+
+
 
 
 
