@@ -1,86 +1,82 @@
-/* import React, { useState, useEffect, useRef } from "react";
 
-import axios from "axios";
 
-const FileUploader = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const fileInputRef = useRef(null);
-  const [name, setName] = useState("");
+import React from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios';
+import { useState,useRef} from 'react';
+//import ReactToPrint from 'react-to-print';
 
-  const getItems = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get("http://localhost:9090/getItems/items");
-      setItems(res.data.items);
-      setLoading(false);
-      console.log(res.data.items);
-    } catch (error) {
-      console.log(error);
-    }
+export default function FileUploader() {
+
+  const [name, setName] = useState('');
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setFile(file);
   };
+  
+  //const componentRef = useRef();
 
-  const addItem = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("file", fileInputRef.current.files[0]);
-      const res = await axios.post(
-        "http://localhost:9090/addItems/items",
-        formData
-      );
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const handleFormSubmit = async (event) => {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('file', file);
 
-  const downloadFile = async (id) => {
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/v1/items/download/${id}`,
-        { responseType: "blob" }
-      );
-      const blob = new Blob([res.data], { type: res.data.type });
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "file.pdf";
-      // link.download = res.headers["content-disposition"].split("filename=")[1];
-      link.click();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    
+      event.preventDefault();
+      try {
+        const Pdf = await axios.post('http://localhost:9090/items/addItems', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        console.log(Pdf.data);
+       
+        setName('');
+        setFile(null);
+        event.target.reset(); // clear the form inputs, including the file input
+       
+      } catch (error) {
+        console.log(error.Pdf.data);
+      }
+    };
 
-  useEffect(() => {
-    getItems();
-  }, []);
+    return(
+      <div>
+      
+      
+      <form onSubmit={handleFormSubmit}>
+      
+      <div className="mb-6">
+          <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+          <input type="text" value={name} onChange={(event) => setName(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="name.."required/>
+        </div>
+      
+      
+      
+      
+      
+        
+       
+      <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
+      <input  type="file" onChange={handleFileChange}className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size"/>
+      
+      
+      
+        <div className="mt-16">
+       
+        
+        <button type="submit" className=" float-right px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">UPLOAD</button>
+        </div>
+      </form>
 
-  return (
-    <div>
-      <div className="addItems">
-        <input
-          type="text"
-          placeholder="add name"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input type="file" ref={fileInputRef} />
-        <button onClick={addItem}>Add</button>
-      </div>
-      <div className="items">
-        {items &&
-          items.map((item) => (
-            <div className="item" key={item._id}>
-              <h3>{item.name}</h3>
-              <button onClick={() => downloadFile(item._id)}>
-                Download File
-              </button>
-            </div>
-          ))}
-      </div>
-    </div>
-  );
-};
+      
+            
+          </div>
+          
+      
+ 
+    )
 
-export default FileUploader; */
+  }
