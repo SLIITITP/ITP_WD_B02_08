@@ -211,7 +211,6 @@ function App() {
 
 
         {/* Admin Routes for Timetable Management */}
-        <Route path="/timetable" exact element={<TimetableSideNav />} />
         <Route path="/allClasses" exact element={<TimetableSideNav>
           <AdminEditSchedule />
         </TimetableSideNav>} />

@@ -87,7 +87,7 @@ app.use("/api/reports", reportsRoute);
 
 //route middleware
 app.use("/class",classRouter);
-
+app.use("/api/enroll",enrollRouter);
 
 
 app.use("/api",loginRouter);
