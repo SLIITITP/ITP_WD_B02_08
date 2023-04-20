@@ -71,6 +71,8 @@ import FileUploader from './components/Assignment_Management_components/FileUplo
 
 import SubjectRelated from './components/Assignment_Management_components/SubjectRelated';
 
+import DownloadAllFilesButton from './components/Assignment_Management_components/DownloadAllFilesButton';
+
 
 
 
@@ -298,7 +300,8 @@ function App() {
         <Route path="/details" exact element={<Details />} />
 
         <Route path="/sub" exact element={<FileUploader />} />
-        
+
+          <Route path="/all" exact element={<DownloadAllFilesButton />} />
     
 
 
