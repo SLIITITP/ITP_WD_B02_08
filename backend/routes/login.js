@@ -38,5 +38,4 @@ router.get("/getAllUsers", controller.getAllUsers);
 
 router.post("/setupId",controller.setUpIds);
 
-
 module.exports = router;

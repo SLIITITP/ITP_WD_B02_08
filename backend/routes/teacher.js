@@ -15,6 +15,7 @@ router.put("/updateteacher",controller.updateTeacher);
 router.post("/registerTeacher",controller.tearegister);
 
 router.get("/teacher/:username" ,controller.getUser);
+router.post("/setUpTeacherId",controller.setUpTeacherIds);
 // router
 
 module.exports = router;

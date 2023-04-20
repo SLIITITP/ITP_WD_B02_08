@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
  const TeacherSchema = new mongoose.Schema({
+    teacherId:{
+        type:String,
+        required : [true, "Please provide unique Teacher"],
+        unique: [true, "TeacherId Exist"]
+    },
     username : {
         type: String,
         required : [true, "Please provide unique Username"],
