@@ -335,7 +335,7 @@ async function updateUser(req, res) {
   try {
     //const { userId } = req.user;
     const id = req.query.id;
-    console.log(id);
+    console.log(req.query);
     if (!id) {
       return res.status(401).json({ error: "User Not Found" });
     }

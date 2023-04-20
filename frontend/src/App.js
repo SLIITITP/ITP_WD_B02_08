@@ -147,6 +147,10 @@ import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
 import NipTest from './components/PaymentComponents/NipTest';
+import WelcomePage from './pages/welcome/welcome';
+import TeacherLogin from './components/TeacherLogin';
+import PasswordTeacher from './components/PasswordTeacher';
+import AdminLogin from './components/AdminLogin';
 import SalaryHistory from './components/PaymentComponents/SalaryHistory';
 import NipTest2 from './components/PaymentComponents/NipTest2';
 
@@ -175,6 +179,7 @@ function App() {
 
       {loading && <Loader />}
       <Routes>
+        <Route path='/' element={<WelcomePage />}/> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path='/getPayment' exact element={<GetPayment />} />
@@ -228,6 +233,10 @@ function App() {
         <Route path="/tProfile" element={<TeaProfile/>}/> 
         <Route path="/tRegister" element={<TeaRegister/>}/> 
         <Route path="/adminDash" element={<AdminDash/>}/>
+        <Route path='/pteacherLogin' element={<TeacherLogin/>}/>
+        <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
+        <Route path='/teacherProfile' element={<TeaProfile/>}></Route>
+        <Route path='/adminLogin' element={<AdminLogin/>}></Route>
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 
