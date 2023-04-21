@@ -90,7 +90,7 @@ export default class StudentTicket extends Component{
                     ID
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Reg.Number
+                    Student Id
                 </th>
                 <th scope="col" className="px-6 py-3">
                     Subject
