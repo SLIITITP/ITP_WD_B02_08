@@ -71,15 +71,15 @@ function ProtectedRoute({ children }) {
     },
     {
       title: "Feedbacks",
-      paths: ["/admin/exams", "/admin/exams/add"],
+      paths: ["/viewFeed","/emailAss"],
       icon: <i className="ri-file-list-line"></i>,
-      onClick: () => navigate("/admin/exams"),
+      onClick: () => navigate("/viewFeed","/emailAss"),
     },
     {
       title: "Evaluations",
-      paths: ["/admin/reports"],
+      paths: ["/test"],
       icon: <i className="ri-bar-chart-line"></i>,
-      onClick: () => navigate("/admin/reports"),
+      onClick: () => navigate("/test"),
     },
     {
       title: "Profile",

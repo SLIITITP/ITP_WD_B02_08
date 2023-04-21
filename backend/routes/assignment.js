@@ -102,24 +102,7 @@ router.delete('/deleteAss/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }));
 });
 
-/* router.get('/downloadAss/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const assignment = await Assignment.findById(id);
-    if (!assignment) {
-      return res.status(404).json({ error: 'Assignment not found' });
-    }
-    const buffer = assignment.image.data;
-    const contentType = assignment.image.contentType;
-    const fileName = `${assignment.type}.${contentType.split('/')[1]}`;
-    res.setHeader('Content-Type', 'image/jpeg','image/png');
-    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-    res.send(buffer);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ msg: 'Error occurred on server' });
-  }
-}); */
+/* 
 
 router.get('/downloadAss/:id', async (req, res) => {
   try {
@@ -141,7 +124,23 @@ router.get('/downloadAss/:id', async (req, res) => {
     res.status(500).send({ msg: 'Error occurred on server' });
   }
 });
+ */
 
+
+
+router.get('/assignments/image/:id', async (req, res) => {
+  try {
+    const assignment = await Assignment.findById(req.params.id);
+    if (!assignment) {
+      return res.status(404).json({ error: 'Assignment not found' });
+    }
+    res.set('Content-Type', assignment.image.contentType);
+    res.sendFile(assignment.image.path);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
+});
 
 
 module.exports = router;

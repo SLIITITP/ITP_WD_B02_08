@@ -48,10 +48,12 @@ const ticketRoutes = require('./routes/tickets');
 const postRoutes = require('./routes/assignment');
 
 const itemsRouter = require("./routes/items");
+const assignmentRouter = require("./routes/AssignmentRoue")
 const FeedbackAssignmentRouter = require("./routes/assignmentFeedback")
 
 app.use("/feed",FeedbackAssignmentRouter)
 app.use("/items",itemsRouter)
+app.use("/as",assignmentRouter)
 
 
 const teaRouter = require('./routes/teacher')

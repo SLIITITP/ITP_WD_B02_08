@@ -19,18 +19,23 @@ export default function AllFilesList() {
   }, []);
 
   return (
-    <div>
-      <h1>List of Uploaded Files</h1>
+    <div class="container">
+    <h1>Students Answers</h1>
+    <div class="row">
       {files.map((file) => (
-        <div key={file._id}>
-          <p>{file.name}</p>
-          <p>{file.description}</p>
-          <a href={`http://localhost:9090/items/getAll/${file._id}`} download>
-            Download
-          </a>
+        <div class="col-md-6 mb-4" key={file._id}>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{file.name}</h5>
+              <p class="card-text">{file.description}</p>
+              <a href={`http://localhost:9090/items/getAll/${file._id}`} class="btn btn-primary" download>Download</a>
+            </div>
+          </div>
         </div>
       ))}
     </div>
+  </div>
+  
   );
 }
 

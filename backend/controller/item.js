@@ -27,10 +27,6 @@ const DownloadAssignments = async (req, res) => {
 
 
 
-
-
-
-
 const getItems = async (req, res) => {
   try {
     const items = await Item.find();

@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const AssignmentDetails = ({ assignment }) => {
+const AssignmentDetails = ({ assignment}) => {
   return (
     <div>
       <h2>{assignment.type}</h2>

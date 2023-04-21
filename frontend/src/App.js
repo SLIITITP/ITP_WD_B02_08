@@ -36,7 +36,7 @@ import OnlinePayment from './components/PaymentComponents/OnlinePayment'
 import Exams from './pages/admin/Exams'
 import AddEditExam from './pages/admin/Exams/AddEditExam'
 
-import {AuthorizeUser , ProtectRoute} from './middleware/auth'
+import { AuthorizeUser, ProtectRoute } from './middleware/auth'
 import Username from './components/Username';
 import Password from './components/Password';
 import Registers from './components/Registers';
@@ -87,6 +87,8 @@ import AssignmentDetails from './components/Assignment_Management_components/Ass
 
 
 import AllFilesList from './components/Assignment_Management_components/AllFilesList';
+
+import ViewFeedbacks from './components/Assignment_Management_components/ViewFeedbacks';
 
 
 
@@ -167,6 +169,14 @@ import GetAm from './components/AMFunction/GetAm';
 import CheckAm from './components/AMFunction/CheckAm';
 
 
+//------------------------------------------/////////////////////////////////////////
+
+
+import AssignmentForm from './components/Assignment_Management_components/AssignmentForm';
+
+
+
+
 
 
 
@@ -243,9 +253,14 @@ function App() {
         <Route path="/plogin" element={<Username />} />
         <Route path="/password" element={<ProtectRoute><Password /></ProtectRoute>} />
         <Route path="/registers" element={<Registers />} />
-        <Route path="/profile" element={<AuthorizeUser><Profile /></AuthorizeUser> } />
+        <Route path="/profile" element={<AuthorizeUser><Profile /></AuthorizeUser>} />
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
+
+        <Route path="/tProfile" element={<TeaProfile />} />
+        <Route path="/tRegister" element={<TeaRegister />} />
+        <Route path="/adminDash" element={<AdminDash />} />
+
         <Route path="/tProfile" element={<TeaProfile/>}/> 
         <Route path="/tRegister" element={<TeaRegister/>}/> 
         {/* <Route path="/adminDash" element={<AdminDash/>}/> */}
@@ -254,6 +269,7 @@ function App() {
         <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
         <Route path='/teacherProfile' element={<TeaProfile/>}></Route>
         <Route path='/adminLogin' element={<AdminLogin/>}></Route>
+
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 
@@ -305,33 +321,47 @@ function App() {
 
         {/*---------------------------- Assignmet Management--------------------------------------- */}
 
-       
+
+        {/*                      -------------------- Admin   ---------------------                  */}
+
+
+
         <Route path="/retriveAss/CreateAssignment" element={<AssignmentRoute><AssignmentForm1 /></AssignmentRoute>} />
         <Route path="/retriveAss" element={<AssignmentRoute><RetrieveAssignments /></AssignmentRoute>} />
         <Route path="/editAss/:id" element={<AssignmentRoute><EditAssignment /></AssignmentRoute>} />
+        <Route path="/viewFeed" element={<AssignmentRoute><ViewFeedbacks /></AssignmentRoute>} />
+        <Route path="/emailAss" element={<AssignmentRoute><EmailSend /></AssignmentRoute>} />
+        <Route path="/test" element={<AssignmentRoute><AllFilesList /></AssignmentRoute>} />
 
 
-{/*                      --------------------  User  ---------------------                  */}
+
+
+
+        {/*                      --------------------  User  ---------------------                  */}
 
 
         <Route path="/student/view" element={<AssignmentRoute><StudentView /></AssignmentRoute>} />
         <Route path="/sub" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
-       
-        <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback/></AssignmentRoute>} />
+
+        <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback /></AssignmentRoute>} />
 
 
         <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
 
         <Route path="/details" exact element={<Details />} />
 
-       
 
-          <Route path="/all" exact element={<DownloadAllFilesButton />} />
-          <Route path="/emailAss" exact element={<EmailSend />} />
 
-          <Route path="/test" exact element={<AllFilesList />} />
+        <Route path="/all" exact element={<DownloadAllFilesButton />} />
 
-          
+
+    
+
+
+
+
+
+
 
 
 
@@ -382,6 +412,25 @@ function App() {
         <Route exact path="/rmpRe/s/:id" element={<RecordMaterialCardStudent />} />
 
         <Route exact path="/fbs/t/:id" element={<EditFeedBackPage />} />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <Route path="/a1" exact element={<AssignmentForm />} />
+
 
 
 
