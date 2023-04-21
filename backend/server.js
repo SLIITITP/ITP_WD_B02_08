@@ -47,8 +47,10 @@ const ticketRoutes = require('./routes/tickets');
 //assignment
 const postRoutes = require('./routes/assignment');
 
-const itemsRouter = require("./routes/items")
+const itemsRouter = require("./routes/items");
+const FeedbackAssignmentRouter = require("./routes/assignmentFeedback")
 
+app.use("/feed",FeedbackAssignmentRouter)
 app.use("/items",itemsRouter)
 
 

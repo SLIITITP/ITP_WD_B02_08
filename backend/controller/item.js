@@ -1,35 +1,30 @@
 const Item = require("../models/item");
 const path = require("path");
 const asyncWrapper = require("../middlewares/asyncWrapper");
-
-const fs = require('fs');
-const archiver = require('archiver');
+const item = require("../models/item");
 
 
-const downloadAllFiles = async (req, res) => {
-  try {
-    const items = await Item.find();
-    const zipFileName = `all-files-${new Date().getTime()}.zip`;
+//download 
+const DownloadAssignments = async (req, res) => {//exporting the download method
+    try {
+     
+      //finding the note using id
+      const item = await Item.find()
+      //checking the Note is available or not
+      if (!this.item) {
+        return res.status(404).json({ error: 'Note not found' });//send the error msg
+      } 
+      //getting the file path
+      const filePath = path.resolve('uploads','answers',Item.file);
+      //sending the file as response
+      res.download(filePath);
+    } catch (error) {//catching the errors
+      console.log(error);
+      res.status(500).send({ msg: 'Error occurred on server' });//send the error msg
+    }
+  };
 
-    const archive = archiver('zip', { zlib: { level: 9 } });
-    const output = fs.createWriteStream(zipFileName);
-    archive.pipe(output);
 
-    items.forEach((item) => {
-      const filePath = path.join(__dirname, '..', item.file);
-      archive.file(filePath, { name: item.name });
-    });
-
-    archive.finalize();
-    output.on('close', () => {
-      res.download(zipFileName);
-      fs.unlinkSync(zipFileName);
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
 
 
 
@@ -59,6 +54,6 @@ const addItem = asyncWrapper(async (req, res) => {
 module.exports = {
   getItems,
   addItem,
-  downloadAllFiles
+  DownloadAssignments
   
 };
