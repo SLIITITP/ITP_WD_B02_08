@@ -19,6 +19,17 @@ router.post('/add', async (req, res) => {
     }
 });
 
+//get lsit of students
+router.get('/list', async (req, res) => {
+    try {
+        const students = await NipunUser.find();
+        res.json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 
 // GET /api/search/:searchTerm
 router.get('/search/:searchTerm', async (req, res) => {

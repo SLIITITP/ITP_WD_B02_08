@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const Class = require("../models/class");
+const User = require("../models/userModel");
 const Enrollment = require("../models/classEnroll");
+const authMiddleware = require("../middlewares/authMiddleware");
 
-// Add Enrollment
-router.post("/enrollments", async (req, res) => {
+ {/*// Add Enrollment
+  router.post("/enrollments", async (req, res) => {
   try {
     const enrollment = new Enrollment({
       studentID: req.body.studentID,
@@ -15,47 +18,42 @@ router.post("/enrollments", async (req, res) => {
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
-});
+  });*/}
 
-{/*// Get All Enrollments
-router.get("/enrollments", async (req, res) => {
+
+// enroll student
+router.post("/enrollments", authMiddleware, async (req, res) => {
   try {
-    const enrollments = await Enrollment.find();
-    res.json(enrollments);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const newEnroll = new Enrollment(req.body);
+    console.log(req.body)
+    await newEnroll.save();
+    res.send({
+      message: "enrolled successfully",
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      data: error,
+      success: false,
+    });
   }
 });
 
-// Get Single Enrollment
-router.get("/enrollments/:id", getEnrollment, (req, res) => {
-  res.json(res.enrollment);
-});
 
-// Delete Enrollment
-router.delete("/enrollments/:id", getEnrollment, async (req, res) => {
-  try {
-    await res.enrollment.remove();
-    res.json({ message: "Enrollment deleted" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
-// Middleware function to get a single enrollment by ID
-async function getEnrollment(req, res, next) {
-  let enrollment;
-  try {
-    enrollment = await Enrollment.findById(req.params.id);
-    if (enrollment == null) {
-      return res.status(404).json({ message: "Enrollment not found" });
+router.post('/test',(req,res)=>{
+ 
+  const newEnroll = new Enrollment(req.body);
+  // newEnroll.save(())
+  newEnroll.save().then(
+    (result)=>{
+      res.send(result);
     }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-
-  res.enrollment = enrollment;
-  next();
-}             */}
+    ,(eror)=>{
+      res.send(eror);
+    }
+  )
+})
 
 module.exports = router;

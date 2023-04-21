@@ -1,81 +1,82 @@
-import React, { useEffect, useState ,useRef} from 'react'
-import { Link , useNavigate } from 'react-router-dom'
-import avatar from '../images/profile.png';
-import styles from '../stylesheets/Username.module.css'
-import toast,{ Toaster } from 'react-hot-toast';
-import { useFormik } from 'formik';
-import {profileValidation} from '../validations/validate' 
-import convertToBase64 from '../validations/convert';
-import extend from '../stylesheets/Profile.module.css'
-import useFetch from '../hooks/fetch.hook';
-import {useAuthStore} from '../redux/store1';
-import { updateUser,getProfile,deleteUser } from '../apicalls/helper';
-import QRCodeGenerator from './QRCodeGenerator';
-
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import avatar from "../images/profile.png";
+import styles from "../stylesheets/Username.module.css";
+import toast, { Toaster } from "react-hot-toast";
+import { useFormik } from "formik";
+import { profileValidation } from "../validations/validate";
+import convertToBase64 from "../validations/convert";
+import extend from "../stylesheets/Profile.module.css";
+import useFetch from "../hooks/fetch.hook";
+import { useAuthStore } from "../redux/store1";
+import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
+import QRCodeGenerator from "./QRCodeGenerator";
+import Modal from 'react-modal';
 
 export default function Profile() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [deleteit, setDeleteit] = useState(false);
 
   // let apiData = {}
-  const [apiData,setApiData] = useState({})
-  const [file , setFile] = useState();
-  const {username}=useAuthStore(state => state.auth)
+  const [apiData, setApiData] = useState({});
+  const [file, setFile] = useState();
+  const { username } = useAuthStore((state) => state.auth);
   //  const [{isLoading , apiData , serverError}] = useFetch(`/user/${username}`)
-   useEffect(()=>{
-      console.log(username);
-       getProfile(username).then((results) =>{
-        let apiData = results.data;
-        console.log(results)
-         setApiData({firstName:apiData?.firstName || '',
-         lastName:apiData?.lastName || '',
-         email :apiData?.email || '', 
-         mobile:apiData?.mobile || '',
-         address:apiData?.address || '',
-         profile:apiData?.profile || '',
-         id:apiData._id ,
-         studentId:apiData?.studentId ||''
-        })
-       })
-     
-   },[])
-  //console.log(apiData1)  
+  useEffect(() => {
+    console.log(username);
+    getProfile(username).then((results) => {
+      let apiData = results.data;
+      console.log(results);
+      setApiData({
+        firstName: apiData?.firstName || "",
+        lastName: apiData?.lastName || "",
+        email: apiData?.email || "",
+        mobile: apiData?.mobile || "",
+        address: apiData?.address || "",
+        profile: apiData?.profile || "",
+        id: apiData._id,
+        studentId: apiData?.studentId || "",
+      });
+    });
+  }, []);
+  //console.log(apiData1)
   const formik = useFormik({
-      initialValues : {
-         firstName:apiData?.firstName || '',
-         lastName:apiData?.lastName || '',
-         email :apiData?.email || '', 
-         mobile:apiData?.mobile || '',
-         address:apiData?.address || '',
-         profile:apiData?.profile || '',
-         studentId:apiData?.studentId ||''
-      },
-      enableReinitialize: true,
-      validate:profileValidation,                 //validate the input text box and return value
-      validateOnBlur: false,
-      validateOnChange: false,
-      onSubmit : async values =>{                 //validate only after submitting button
-          values = await Object.assign(values , {profile : apiData.profile ||'' })
+    initialValues: {
+      firstName: apiData?.firstName || "",
+      lastName: apiData?.lastName || "",
+      email: apiData?.email || "",
+      mobile: apiData?.mobile || "",
+      address: apiData?.address || "",
+      profile: apiData?.profile || "",
+      studentId: apiData?.studentId || "",
+    },
+    enableReinitialize: true,
+    validate: profileValidation, //validate the input text box and return value
+    validateOnBlur: false,
+    validateOnChange: false,
+    onSubmit: async (values) => {
+      //validate only after submitting button
+      values = await Object.assign(values, { profile: apiData.profile || "" });
 
-          let updatePromise = updateUser(values,apiData.id);
+      let updatePromise = updateUser(values, apiData.id);
 
-          toast.promise(updatePromise, {
-            loading: 'Updating...',
-            success: <b>Update Sucessfully...!</b>,
-            error: <b>Could Not Update!</b>
-          });
+      toast.promise(updatePromise, {
+        loading: "Updating...",
+        success: <b>Update Sucessfully...!</b>,
+        error: <b>Could Not Update!</b>,
+      });
 
-        //  updatePromise.then(res => {
-          
-        //     navigate('/plogin')
-        //   })
-      },
-      
+      //  updatePromise.then(res => {
+
+      //     navigate('/plogin')
+      //   })
+    },
+
     //   onSubmit : async values =>{                 //validate only after submitting button
     //     //values = await Object.assign(values , {profile : apiData.profile ||'' })
 
     //     let deletePromise = deleteUser(apiData.id);
-        
 
     //     toast.promise(deletePromise, {
     //       loading: 'Deleting...',
@@ -85,107 +86,191 @@ export default function Profile() {
     //     });
 
     //     // deletePromise.then(res => {
-          
+
     //     //   navigate('/registers')
     //     // })
     // }
+  });
 
-  })
+  //cretae file upload handler
+  const onUpload = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setFile(base64);
+  };
 
-//cretae file upload handler
-const onUpload = async e =>{
-  const base64 = await convertToBase64(e.target.files[0]);
-  setFile(base64);
-  
-}
+  //logout handler function
+  function userLogout() {
+    localStorage.removeItem("token");
+    navigate("/plogin");
+  }
 
-//logout handler function
-function userLogout(){
-  localStorage.removeItem('token');
-  navigate('/plogin')
-}
-
- //if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
+  //if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
   //if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
-//GPT
+  //GPT
 
+  ///// QR code download
 
-///// QR code download
+  // Create a ref to the QR code element
+  const qrCodeRef = useRef(null);
 
-// Create a ref to the QR code element
-const qrCodeRef = useRef(null);
+  // Function to handle the download button click
+  const handleDownloadClick = () => {
+    // Get the data URL of the QR code image
+    const qrCodeDataURL = qrCodeRef.current?.toDataURL("image/png");
 
-// Function to handle the download button click
-const handleDownloadClick = () => {
-  // Get the data URL of the QR code image
-  const qrCodeDataURL = qrCodeRef.current?.toDataURL("image/png");
-
-
-  const a = document.createElement("a");
-  a.href = qrCodeDataURL;
-  a.download = "qrcode.png";
-  a.click();
-};
+    const a = document.createElement("a");
+    a.href = qrCodeDataURL;
+    a.download = "qrcode.png";
+    a.click();
+  };
 
   return (
-    <div className={styles.body}>    
-    <div className="container mx-auto">
+    <div className={styles.body}>
+      <Modal
+        isOpen={deleteit}
+        onRequestClose={() => {
+          setDeleteit(false);
+        }}
+      >
+        <h2>Dialog Title</h2>
+        <p>Dialog content goes here.</p>
+        <button
+          onClick={() => {
+            setDeleteit(false);
+          }}
+        >
+          Close
+        </button>
+      </Modal>
+      <div className="container mx-auto">
+        <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-            <Toaster position='top-center' reverseOrder={false}></Toaster>
+        <div className="flex justify-center items-center h-screen">
+          <div
+            className={`${styles.glass} ${extend.glass}`}
+            style={{ height: "98%" }}
+          >
+            <div className="title flex flex-col items-center">
+              <h4 className="text-5xl font-bold"> Student Profile</h4>
+              <span className="py-4 text-xl w-2/3 text-center text-gray-500">
+                {apiData.studentId} - {username}
+              </span>
+            </div>
+            <form className="py-1" onSubmit={formik.handleSubmit}>
+              <div className="profile flex justify-center py-4">
+                <label htmlFor="profile">
+                  <img
+                    src={apiData?.profile || file || avatar}
+                    className={`${styles.profile_img} ${extend.profile_img}`}
+                    alt="avatar"
+                  ></img>
+                </label>
 
-      <div className='flex justify-center items-center h-screen' >
-        <div className={`${styles.glass} ${extend.glass}`} style={{height: "98%"}}>
-          <div className="title flex flex-col items-center">
-            <h4 className='text-5xl font-bold'> Student Profile</h4>
-            <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
-              {apiData.studentId} - {username}
-            </span>
+                <input
+                  onChange={onUpload}
+                  type="file"
+                  id="profile"
+                  name="profile"
+                ></input>
+              </div>
+
+              <div style={{ float: "right", marginTop: "-200px" }}>
+                {/* <h1>Login Page</h1> */}
+                <QRCodeGenerator apiData={apiData} />
+                {/* <p>{apiData.name}</p> */}
+                {/* <p>{apiData.email}</p> */}
+                <p>{apiData.studentId}</p>
+                <button onClick={handleDownloadClick}>Download</button>
+              </div>
+
+              <div className="textbox flex flex-col items-center gap-6">
+                <div className="name flex w-3/4 gap-10">
+                  <input
+                    {...formik.getFieldProps("firstName")}
+                    className={`${styles.textbox} ${extend.textbox}`}
+                    type="text"
+                    placeholder="FirstName*"
+                  />
+                  <input
+                    {...formik.getFieldProps("lastName")}
+                    className={`${styles.textbox} ${extend.textbox}`}
+                    type="text"
+                    placeholder="LastName*"
+                  />
+                </div>
+                <div className="name flex w-3/4 gap-10">
+                  <input
+                    {...formik.getFieldProps("mobile")}
+                    className={`${styles.textbox} ${extend.textbox}`}
+                    type="text"
+                    placeholder="Contact No*"
+                  />
+                  <input
+                    {...formik.getFieldProps("email")}
+                    className={`${styles.textbox} ${extend.textbox}`}
+                    type="email"
+                    placeholder="Email Address*"
+                  />
+                </div>
+
+                <input
+                  {...formik.getFieldProps("studentId")}
+                  className={`${styles.textbox} ${extend.textbox}`}
+                  type="text"
+                  placeholder="studentId*"
+                  readOnly
+                />
+                <input
+                  {...formik.getFieldProps("address")}
+                  className={`${styles.textbox} ${extend.textbox}`}
+                  type="text"
+                  placeholder="Address*"
+                />
+                <button
+                  className={styles.btn}
+                  type="submit"
+                  onClick={updateUser}
+                >
+                  Update
+                </button>
+              </div>
+              <div className="text-center py-2 px-3.5">
+                <span className="text-gray-500">
+                  Come back later?{" "}
+                  <button
+                    onClick={userLogout}
+                    className="text-red-500"
+                    to="/plogin"
+                  >
+                    Logout
+                  </button>
+                </span>
+              </div>
+            </form>
+            <button
+              className={styles.btn}
+              onClick={() => {
+                setDeleteit(true);
+                // toast.promise(
+                //   deleteUser(apiData.id).then((res) => {
+                //     console.log(res);
+                //     if (res.data.status === 200) {
+                //       navigate("/");
+                //     }
+                //   }),
+                //   {
+                //     loading: "Delelting...",
+                //     success: <b>Delete Sucessfully...!</b>,
+                //     error: <b>Could Not Delete!</b>,
+                //   }
+                // );
+              }}
+            >
+              Delete
+            </button>
           </div>
-          <form className='py-1' onSubmit={formik.handleSubmit}>
-            <div className='profile flex justify-center py-4'>
-              <label htmlFor='profile'>
-              <img src={apiData?.profile || file ||avatar} className={`${styles.profile_img} ${extend.profile_img}`} alt='avatar'></img>
-              </label>
-
-              <input onChange={onUpload} type='file' id='profile' name='profile'></input>
-          
-            </div>
-
-            <div style={{float: 'right', marginTop: '-200px'}}>
-      {/* <h1>Login Page</h1> */}
-      <QRCodeGenerator apiData={apiData} />
-      {/* <p>{apiData.name}</p> */}
-      {/* <p>{apiData.email}</p> */}
-      <p>{apiData.studentId}</p>
-      <button onClick={handleDownloadClick}>Download</button>
-       </div>
-
-
-            <div className="textbox flex flex-col items-center gap-6">
-              <div className="name flex w-3/4 gap-10">
-                <input {...formik.getFieldProps('firstName')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='FirstName*'/>
-                <input {...formik.getFieldProps('lastName')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='LastName*'/>
-              </div>
-              <div className="name flex w-3/4 gap-10">
-                <input {...formik.getFieldProps('mobile')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Contact No*'/>
-                <input {...formik.getFieldProps('email')} className={`${styles.textbox} ${extend.textbox}`} type="email" placeholder='Email Address*'/>
-              </div>
-              
-              <input {...formik.getFieldProps('studentId')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='studentId*' readOnly/>
-                <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address*'/>
-                <button className={styles.btn} type='submit' onClick={updateUser}>Update</button>
-                {/* <button className={styles.btn} type='submit' onClick={deleteUser}>Delete</button> */}
-              
-            </div>
-            <div className="text-center py-2 px-3.5">
-              <span className='text-gray-500'>Come back later? <button onClick={userLogout}  className='text-red-500' to='/plogin' >Logout</button></span>
-            </div>
-          </form>
         </div>
-
       </div>
     </div>
-    </div>
-
-)
+  );
 }

@@ -63,6 +63,7 @@ const SubjectRouter = require('./routes/Subject');
 const NipunUserRouter = require('./routes/NipunUser');
 const PaymentRouter = require('./routes/Payment');
 const SalaryRouter = require('./routes/Salary');
+const AmNipRouter = require('./routes/AmNip')
 
 
 const usersRoute = require("./routes/usersRoute");
@@ -78,6 +79,7 @@ app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
 app.use('/api/salary', SalaryRouter);
+app.use('/api/amnip', AmNipRouter);
 
 app.use(ticketRoutes);
 app.use(postRoutes);
@@ -89,7 +91,7 @@ app.use("/api/reports", reportsRoute);
 
 //route middleware
 app.use("/class",classRouter);
-
+app.use("/api/enroll",enrollRouter);
 
 
 app.use("/api",loginRouter);
@@ -110,12 +112,12 @@ app.use("/study",Study);
 // ගහන ඒවා උඩින් ගහන්න (Enter ගහලා)
 //API for PAYMENT
 app.post("/payment", cors(), async (req, res) => {
-	let { amount, id } = req.body
+	let { amount, id, studentId } = req.body
 	try {
 		const payment = await stripe.paymentIntents.create({
 			amount,
 			currency: "lkr",
-			description: "Thilina Institute",
+			description: `${studentId}`,
 			payment_method: id,
 			confirm: true
 		})

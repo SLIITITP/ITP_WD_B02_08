@@ -34,7 +34,7 @@ export default function TeaRegister() {
               error: <b>Could not Register</b>
             })
 
-            registerPromise.then(function(){navigate('/plogin')});
+            registerPromise.then(function(){navigate('/pteacherLogin')});
         }            
     })
 

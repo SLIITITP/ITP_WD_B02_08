@@ -16,7 +16,9 @@ function PaymentCheckout() {
     const [month] = useState(location.state.sMonth);
     const [subjectsIDs] = useState(location.state.sSubIDs);
 
-    const [success, setSuccess] = useState(false)
+    const [email, setEmail] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [paymentID, setPaymentID] = useState('');
     const stripe = useStripe();
     const element = useElements();
 
@@ -32,7 +34,8 @@ function PaymentCheckout() {
                 const { id } = paymentMethod;
                 const response = await axios.post('http://localhost:9090/payment', {
                     amount: paidAmount * 100,
-                    id
+                    id,
+                    studentId
                 })
 
                 if (response.data.success) {
@@ -50,6 +53,8 @@ function PaymentCheckout() {
                         date,
                         paymentID: id
                     };
+
+                    setPaymentID(id)
                     const updateResponse = await axios.post('http://localhost:9090/api/payment/add', paymentData);
                     console.log("Payment added to DB");
                     navigate('/confirmPayment', {
@@ -64,6 +69,8 @@ function PaymentCheckout() {
                             paymentID: id
                         }
                     });
+                    setPaymentID(id)
+                    sendEmail();
                 }
             } catch (error) {
                 console.log("error", error)
@@ -96,6 +103,33 @@ function PaymentCheckout() {
                 color: "#ed0000"
             }
         }
+    }
+
+    //sending mail
+    const sendEmail = async () => {   //send email 
+
+        try {
+            const response = await axios.post('/api/reports/send-report-email', {
+                to: `${email}`,
+                // to: `${user?.email}`,
+                subject: `Thilina Institute Payment Confirmation`,
+                body:
+                    `Payment Confirmation ${studentId}\n 
+                    Grade:${grade}\n
+                    Subjects:${subjects.join(', ')}\n
+                    Amount:${paidAmount}\n
+                    Month :${month}\n
+                    Date:${date}\n
+                    Payment ID:${paymentID}\n
+                  `,
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            //setError('Error sending email');
+        }
+
+        //setLoading(false);
     }
 
     return (
@@ -133,6 +167,17 @@ function PaymentCheckout() {
                                     </div>
                                 </div>
                                 <hr />
+                            </div>
+                            <div className='m-2'>
+                                <label>Email</label>
+                                <input
+                                    className=''
+                                    name='email'
+                                    type='email'
+                                    value={email}
+                                    placeholder='email to get reciept'
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                             </div>
                             <div className='m-2'>
                                 <p className='mb-2'>Enter Card details</p>

@@ -6,11 +6,11 @@ const enrollmentSchema = new mongoose.Schema({
     ref: "users",
     required: true,
   },
-  classID: {
+  classID:[ {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Class",
-    required: true,
-  },
+    required: false,
+  } ],
 });
 
 const Enrollment = mongoose.model("Enrollment", enrollmentSchema);

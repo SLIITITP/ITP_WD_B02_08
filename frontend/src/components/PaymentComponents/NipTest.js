@@ -1,76 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react'
+import { Link} from 'react-router-dom';
 
-function SalaryPaymentCount() {
-  const [teacherName, setTeacherName] = useState('');
-  const [grade, setGrade] = useState('');
-  const [month, setMonth] = useState('');
-  const [subject, setSubject] = useState('');
-  
-  const [totalPaymentCount, setTotalPaymentCount] = useState('');
-  useEffect(() => {
-    const fetchCountData = async () => {
-      try {
-        const response = await axios.get(`/api/salary/paymentcount?teacherName=${teacherName}&grade=${grade}&month=${month}&subject=${subject}`);
-        setTotalPaymentCount(response.data.paymentCount);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    if (teacherName && grade && month && subject) {
-      fetchCountData();
-    }
-  }, [teacherName, grade, month, subject]);
+export default function NipTest() {
 
-  const handleTeacherNameChange = event => {
-    setTeacherName(event.target.value);
-  };
-
-  const handleGradeChange = event => {
-    setGrade(event.target.value);
-  };
-
-  const handleMonthChange = event => {
-    setMonth(event.target.value);
-  };
-
-  const handleSubjectChange = event => {
-    setSubject(event.target.value);
-  };
 
   return (
-    <div>
-      <h1>Get Salary Payment Count</h1>
-      <form>
-        <label>
-          Teacher Name:
-          <input type="text" value={teacherName} onChange={handleTeacherNameChange} />
-        </label>
-        <br />
-        <label>
-          Grade:
-          <input type="text" value={grade} onChange={handleGradeChange} />
-        </label>
-        <br />
-        <label>
-          Month:
-          <input type="text" value={month} onChange={handleMonthChange} />
-        </label>
-        <br />
-        <label>
-          Subject:
-          <input type="text" value={subject} onChange={handleSubjectChange} />
-        </label>
-        <br />
-      </form>
-      {totalPaymentCount && (
-        <p>
-          Payment Count: {totalPaymentCount}
-        </p>
-      )}
+    <div>NipTest<br/>
+      <Link to={'/viewPayment'}><button>ViewPayment</button><br/></Link>
+      <Link to={'/addPayment'}><button>AddPayment</button><br/></Link>
+      <Link to={'/salary/calculate'}><button>SalaryCalculation</button><br/></Link>
+      <Link to={'/salary/history'}><button>SalaryHistory</button><br/></Link>
+      <Link to={'/am/add'}><button>AM add</button><br/></Link>
+      <Link to={'/am/check'}><button>AM check</button><br/></Link>
+      <Link to={'/payment/addSubToTeachers'}><button>SUBJECT ADDING</button><br/></Link>
+      <Link to={'/subject/update'}><button>SUBJECT UPDATING</button><br/></Link>
+      <Link to={'/payOnline'}><button>PAY ONLINE</button><br/></Link>
     </div>
-  );
+  )
 }
-
-export default SalaryPaymentCount;

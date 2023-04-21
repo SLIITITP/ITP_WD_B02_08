@@ -21,6 +21,17 @@ export async function authenticate(username){
     }
 }
 
+export async function authenticateTeacher(username){
+    console.log(username)
+    try {
+        return await axios.post('/api/authenticateTeacher', { username })
+    } catch (error) {
+        return { error : "Username doesn't exist...!"}
+    }
+}
+
+
+
 
 /** get User details */
 export async function getUser({ username }){
@@ -64,6 +75,17 @@ export async function verifyPassword({ username, password }){
     }
 }
 
+export async function verifyPasswordTeacher({ username, password }){
+    try {
+        if(username){
+            const { data } = await axios.post('/api/teacherLogin', { username, password })
+            return Promise.resolve({ data });
+        }
+    } catch (error) {
+        return Promise.reject({ error : "Password doesn't Match...!"})
+    }
+}
+
 
 /** update user profile function */
 export async function updateUser(response,id){
@@ -72,7 +94,6 @@ export async function updateUser(response,id){
         const token = await localStorage.getItem('token');
         console.log(token)
         const data = await axios.put('/api/updateuser?id='+id, response, { headers : { "Authorization" : `Bearer ${token}`}});
-
         return Promise.resolve({ data })
     } catch (error) {
         return Promise.reject({ error : "Couldn't Update Profile...!"})
@@ -119,11 +140,11 @@ export async function resetPassword({ username, password }){
     }
 }
 
-export async function getProfile(userName){
+export async function getProfileTeacher(userName){
     
         try {
         
-            const { data, status } = await axios.get(`/api/user/${userName}`);
+            const { data, status } = await axios.get(`/api/teacher/${userName}`);
             //!query ? await axios.get(`/api/user/${username}`) :
             return Promise.resolve({ data, status})
 
@@ -133,18 +154,32 @@ export async function getProfile(userName){
    
 }
 
-// /** delete user profile function */
-// export async function deleteUser(id) {
-//     try {
-//       const token = await localStorage.getItem('token');
-//       console.log(token);
-//       const data = await axios.delete(`/api/deleteuser?id=${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+export async function getProfile(userName){
+    
+    try {
+    
+        const { data, status } = await axios.get(`/api/user/${userName}`);
+        //!query ? await axios.get(`/api/user/${username}`) :
+        return Promise.resolve({ data, status})
+
+    } catch (error) {
+        return Promise.reject({ error })
+    }
+
+}
+
+/** delete user profile function */
+export async function deleteUser(id) {
+    try {
+      const token = await localStorage.getItem('token');
+      console.log(id);
+      const data = await axios.delete(`/api/deleteuser?id=${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
   
-//       return Promise.resolve({ data });
-//     } catch (error) {
-//       return Promise.reject({ error: "Couldn't Delete User...!" });
-//     }
-//   }
+      return Promise.resolve({ data });
+    } catch (error) {
+      return Promise.reject({ error: "Couldn't Delete User...!" });
+    }
+  }
 
 
 //===========================================================================================================
