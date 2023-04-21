@@ -1,34 +1,72 @@
-import React, { useState } from "react";
-import axios from 'axios'
- 
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+
+
 const EmailSend = () => {
-  
+
   const [msg,setMsg] = useState('');
   const [user, setUser] = useState({
     to: "",
     subject: "",
     description: ""
   });
- 
+
   const { to, subject, description} = user;
   const onInputChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
- 
+
+
+  const [email, setEmail] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const email = searchParams.get('email');
+    setEmail(email);
+  }, [location]);
+
+
   const onSubmit = async e => {
-    e.preventDefault();
-    await axios.post("http://localhost:5000/users/",user)
-   .then(response => setMsg(response.data.respMesg));
+
+
+    console.log("To:", email);
+    console.log("Subject:", subject);
+    console.log("Description:", description);
+   
+
+    try {
+      const response = await axios.post('/api/reports/send-report-email', {
+        to: `${email}`,
+        subject: `${subject}`,
+        body: `${description}`
+       
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+      //setError('Error sending email');
+    }
+
+
+    
   };
+
+
+  
+
+
+
+
   return (
     <div className="container">
-         <h3 className="text-center text-success mb-2 mt-4">Email Send using React and Node </h3>
-         <h6 className="text-secondary text-center mb-4 mt-1">By Improve Programming Logic</h6>
-      <div class="row">  
-      
-       <div className="col-sm-4 mx-auto shadow p-5">
-        <h4 className="text-center mb-2">Send E Mail </h4>
-           <p class="mb-3 mt-2" style={{color:"green",marginLeft:"57px"}}><b>{msg}</b></p>
+      <div class="row">
+        <div className="col-sm-4 mx-auto shadow p-5">
+          <h4 className="text-center mb-2">Send E Mail </h4>
+          <p class="mb-3 mt-2" style={{ color: "green", marginLeft: "57px" }}><b>{msg}</b></p>
           <div className="form-group mb-3">
             <input
               type="text"
@@ -36,7 +74,7 @@ const EmailSend = () => {
               placeholder="To"
               name="to"
               onChange={onInputChange}
-              value={user.to}
+              value={email}
             />
           </div>
           <div className="form-group  mb-4 ">
@@ -59,13 +97,12 @@ const EmailSend = () => {
               value={description}
             />
           </div>
-          
-          <button onClick={onSubmit} className="btn btn-primary btn-block " style={{marginLeft:"100px"}}>Send Mail</button>
-       
+          <button onClick={onSubmit} className="btn btn-primary btn-block " style={{ marginLeft: "100px" }}>Send Mail</button>
+        </div>
       </div>
     </div>
-  </div>  
   );
 };
- 
+
 export default EmailSend;
+

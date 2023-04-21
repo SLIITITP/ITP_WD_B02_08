@@ -1,9 +1,9 @@
 const multer = require('multer');
 
-const AnswerStorage = multer.diskStorage({
+const AssignmentStorage = multer.diskStorage({
   destination: function (req, file, cb) {
 
-      cb(null,'uploads/answers');
+      cb(null,'uploads/Assignments');
   },
   filename: ((req,file,cb)=>{
 
@@ -13,7 +13,7 @@ const AnswerStorage = multer.diskStorage({
 });
 
 
-const fileFilterAnswers = (req, file, cb) => {
+const fileFilterAssignments = (req, file, cb) => {
   const allowedTypes = ['image/jpeg', 'image/png' ,'application/pdf'];
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
@@ -22,6 +22,6 @@ const fileFilterAnswers = (req, file, cb) => {
   }
 };
 
-const uploadAnswers = multer({ storage: AnswerStorage, fileFilter:fileFilterAnswers }).single('file');
+const uploadAssignments = multer({ storage: AssignmentStorage, fileFilter:fileFilterAssignments }).single('file');
 
-module.exports = {uploadAnswers};
+module.exports = {uploadAssignments};

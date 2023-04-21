@@ -18,7 +18,7 @@ const AssignmentFeedback = () => {
       message
     };
 
-    axios.post('/addFeedback', newFeedback)
+    axios.post('feed/addFeedback', newFeedback)
       .then(res => console.log(res.data))
       .catch(err => console.log('Error: ' + err));
 

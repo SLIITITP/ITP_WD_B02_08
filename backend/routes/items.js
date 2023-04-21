@@ -13,6 +13,7 @@ router.route('/addItems').post(uploadAnswers, addItem);
 
 router.route('/getItems').get( getItems);
 
+//route for download item
 router.route('/getAll/:id').get(DownloadAssignments);
 
 
