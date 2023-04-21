@@ -13,16 +13,22 @@ function GetAm() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [payments, setPayments] = useState([]);
+    const [currMonth, setCurrMonth] = useState('');
+    const [paidForMonth, setPaidForMonth] = useState(false);
 
     // Set date and time automatically
     useEffect(() => {
         const now = new Date();
         setDate(now.toISOString().slice(0, 10));
-        setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        const hours = ('0' + now.getHours()).slice(-2);
+        const minutes = ('0' + now.getMinutes()).slice(-2);
+        setTime(`${hours}:${minutes}`);
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const currentMonth = monthNames[now.getMonth()];
+        setCurrMonth(currentMonth);
     }, []);
 
-    // create a ref for the student input field
-    const studentRef = useRef(null);
 
     // Fetch subjects and students on component mount
     useEffect(() => {
@@ -36,8 +42,6 @@ function GetAm() {
                 // Fetch students
                 const studentResponse = await fetch('/api/user/list');
                 const studentData = await studentResponse.json();
-                // console.log(studentData);
-                // console.log(typeof studentData);
                 setStudents(studentData);
             } catch (error) {
                 console.error(error);
@@ -46,6 +50,35 @@ function GetAm() {
 
         fetchData();
     }, []);
+
+    console.log('--------------------------------------')
+    //get SubID by searching subjectID
+    const subID = subjects.find(subject => subject.subjectID === subjectID);
+
+    const handleSearch = (studentID) => {
+        fetch(`http://localhost:9090/api/payment/history/${studentID}`)
+            .then(response => response.json())
+            .then(data => {
+                setPayments(data);
+                // console.log(data);
+                const paymentForSubject = data.filter(payment => payment.subjectsIDs.includes(subID._id));
+                // console.log('payments for selected subject',paymentForSubject);
+                const filterGrade = paymentForSubject.filter(payment => payment.grade.includes(grade));
+                console.log(filterGrade)
+                const pm = filterGrade.filter(payment => payment.month.includes(currMonth));
+                // console.log(pm);
+                if (pm.length > 0) {
+                    setPaidForMonth(true);
+                } else {
+                    setPaidForMonth(false);
+                }
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+    console.log(subjectID)
 
     // Handle form submission
     async function handleSubmit(event) {
@@ -74,7 +107,7 @@ function GetAm() {
                 setErrorMessage('');
                 setSuccessMessage('Attendance Added');
                 // Reset student input field
-                studentRef.current.value = '';
+                setSearchTerm('');
             }
 
         } catch (error) {
@@ -89,6 +122,7 @@ function GetAm() {
         setSearchTerm(student.studentID);
         setShowDropdown(false);
         setStudentID(student.studentID)
+        handleSearch(student.studentID);
     };
 
     const filteredStudents = students.filter((student) => {
@@ -97,6 +131,7 @@ function GetAm() {
             student.studentID.toLowerCase().includes(searchTerm.toLowerCase())
         );
     });
+
 
     return (
         <div>
@@ -170,13 +205,12 @@ function GetAm() {
                         <input
                             id="search"
                             type="text"
-                            defaultValue={searchTerm}
+                            value={searchTerm}
                             onChange={(event) => {
                                 setSearchTerm(event.target.value);
                                 setShowDropdown(true);
                                 setSelectedStudent(null);
                             }}
-                            ref={studentRef} // add the ref to the student input field
                         />
                         {showDropdown && (
                             <ul className="search-results">
@@ -199,7 +233,45 @@ function GetAm() {
                 <button type="submit">Add Attendance</button>
             </form>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            {successMessage && <p style={{ color: 'success' }}>{successMessage}</p>}
+            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            <div>
+                {paidForMonth ? (
+                    <h1 style={{ color: 'green' }}>Paid for selected subject, grade & month</h1>
+                ) : (
+                    <h1 style={{ color: 'red' }}>NOT PAID</h1>
+                )}
+            </div>
+            <div>
+                <div>
+                    <h4>Payment History for Student ID {studentID}</h4>
+                    {payments.length > 0 ? (
+                        <table className='border border-black p-1'>
+                            <thead className='border border-black p-1 text-center'>
+                                <tr>
+                                    <th className='border border-black p-1'>Date</th>
+                                    <th className='border border-black p-1'>Month</th>
+                                    <th className='border border-black p-1'>Subjects</th>
+                                    <th className='border border-black p-1'>Grade</th>
+                                    <th className='border border-black p-1'>Paid Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody className='text-center'>
+                                {payments.map(payment => (
+                                    <tr key={payment._id}>
+                                        <td className='border border-black p-1'>{payment.date}</td>
+                                        <td className='border border-black p-1 text-lg text-green-500'>{payment.month}</td>
+                                        <td className='border border-black p-1'>{payment.subjects.join(', ')}</td>
+                                        <td className='border border-black p-1'>{payment.grade}</td>
+                                        <td className='border border-black p-1'>{payment.paidAmount}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>No payment history found for student ID {studentID}</p>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
