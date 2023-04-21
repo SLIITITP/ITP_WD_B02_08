@@ -1,6 +1,9 @@
-const express = require('express');
+ const express = require('express');
 const multer = require('multer');
 const Assignment = require('../models/assignment');
+
+//download assignment
+const path = require('path');
 
 const router = express.Router();
 
@@ -98,6 +101,47 @@ router.delete('/deleteAss/:id', (req, res) => {
     })
     .catch(err => res.status(500).json({ error: err.message }));
 });
+
+/* router.get('/downloadAss/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const assignment = await Assignment.findById(id);
+    if (!assignment) {
+      return res.status(404).json({ error: 'Assignment not found' });
+    }
+    const buffer = assignment.image.data;
+    const contentType = assignment.image.contentType;
+    const fileName = `${assignment.type}.${contentType.split('/')[1]}`;
+    res.setHeader('Content-Type', 'image/jpeg','image/png');
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.send(buffer);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ msg: 'Error occurred on server' });
+  }
+}); */
+
+router.get('/downloadAss/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const assignment = await Assignment.findById(id);
+    if (!assignment) {
+      return res.status(404).json({ error: 'Assignment not found' });
+    }
+    const buffer = assignment.image.data;
+    const contentType = assignment.image.contentType;
+    const ext = contentType.split('/')[1];
+    const fileName = `${assignment.type}.${ext}`;
+    const mimeType = ext === 'jpg' ? 'image/jpeg' : 'image/png';
+    res.setHeader('Content-Type', mimeType);
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.send(buffer);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ msg: 'Error occurred on server' });
+  }
+});
+
 
 
 module.exports = router;

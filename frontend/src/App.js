@@ -86,6 +86,11 @@ import Details from './components/Assignment_Management_components/Details'
 import AssignmentDetails from './components/Assignment_Management_components/AssignmentDetails';
 
 
+import AllFilesList from './components/Assignment_Management_components/AllFilesList';
+
+
+
+
 
 ///////////////////////////////////////////////////
 
@@ -160,6 +165,7 @@ import NipTest2 from './components/PaymentComponents/NipTest2';
 import AdminSideNav from './components/AdminSideNav';
 import GetAm from './components/AMFunction/GetAm';
 import CheckAm from './components/AMFunction/CheckAm';
+
 
 
 
@@ -323,6 +329,7 @@ function App() {
           <Route path="/all" exact element={<DownloadAllFilesButton />} />
           <Route path="/emailAss" exact element={<EmailSend />} />
 
+          <Route path="/test" exact element={<AllFilesList />} />
 
           
 
