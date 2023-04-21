@@ -35,13 +35,13 @@ function ProtectedRoute({ children }) {
     },
     {
         title: "Feedback",
-        paths: ["/user/reports"],
+        paths: ["/FeedbackAss"],
         icon: <i class="ri-feedback-line"></i>,
-        onClick: () => navigate("/user/reports"),
+        onClick: () => navigate("/FeedbackAss"),
     },
     {
         title: "Submissions",
-        paths: ["/T/D","/subR"],
+        paths: ["/T/D","/sub"],
         icon: <i class="ri-question-answer-line"></i>,
         onClick: () => navigate("/T/D"),
       },
@@ -65,7 +65,7 @@ function ProtectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Assignments",
-      paths: ["/retriveAss", "/editAss/:id"],
+      paths: ["/retriveAss","/retriveAss/CreateAssignment" ,"/editAss/:id"],
       icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/retriveAss"),
     },
@@ -135,14 +135,15 @@ function ProtectedRoute({ children }) {
       return true;
     } else {
       if (
-        activeRoute.includes("/admin/exams/edit") &&
-        paths.includes("/admin/exams")
+        activeRoute.includes("/retriveAss/CreateAssignment") &&
+        
+        paths.includes("/retriveAss")
       ) {
         return true;
       }
       if (
-        activeRoute.includes("/user/write-exam") &&
-        paths.includes("/user/write-exam")
+        activeRoute.includes("/editAss") &&
+        paths.includes("/retriveAss")
       ) {
         return true;
       }

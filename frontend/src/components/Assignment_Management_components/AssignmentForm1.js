@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PageTitle from '../PageTitle';
 
 const AssignmentForm1 = () => {
   const [assignment, setAssignment] = useState({
@@ -42,54 +43,61 @@ const AssignmentForm1 = () => {
   return (
    
 
+<div className="container">
 
-
-    <div className='container'>
-    <h2>Create Assignment</h2>
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-      <label>Assignment Type</label>
-          <select name="type" id="type" className="form-control" value={assignment.type} onChange={handleInputChange}>
-            <option value="">Select Assignment Type</option>
-            <option value="Home Work">Home Work</option>
-            <option value="Group Work">Group Work</option>
-            <option value="Subject Related">Subject Related</option>
-            <option value="Extra Work">Extra Work</option>
-          </select>
-      </div>
-      <div className="form-group">
-      <label>Grade</label>
-          <select name="grade" id="grade" className="form-control" value={assignment.grade} onChange={handleInputChange}>
-            <option value="">Select grade</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-          </select>
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="subject">Subject:</label>
-        <input type ="text" className="form-control" id="subject" name="subject" value={assignment.subject} onChange={handleInputChange} />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="guidelines">Guidelines:</label>
-        <textarea className="form-control" id="guidelines" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="deadline">Deadline:</label>
-        <input type="date" className="form-control" id="deadline" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="image">Image:</label>
-        <input type="file" className="form-control" id="image" name="image" onChange={handleFileChange} />
-      </div>
-      <button type="submit" className="btn btn-primary">Submit</button>
-    </form>
+<div className="flex justify-between mt-2 items-end">
+          <PageTitle title="Create Assignment" />
   </div>
+
+
+
+  <form onSubmit={handleSubmit}>
+    <div className="form-group">
+      <label>Assignment Type</label>
+      <select name="type" id="type" className="form-control" value={assignment.type} onChange={handleInputChange}>
+        <option value="">Select Assignment Type</option>
+        <option value="Home Work">Home Work</option>
+        <option value="Group Work">Group Work</option>
+        <option value="Subject Related">Subject Related</option>
+        <option value="Extra Work">Extra Work</option>
+      </select>
+    </div>
+    <div className="form-group">
+      <label>Grade</label>
+      <select name="grade" id="grade" className="form-control" value={assignment.grade} onChange={handleInputChange}>
+        <option value="">Select grade</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+      </select>
+    </div>
+
+    <div className="form-group">
+      <label htmlFor="subject">Subject:</label>
+      <input type="text" className="form-control" id="subject" name="subject" value={assignment.subject} onChange={handleInputChange} />
+    </div>
+
+    <div className="form-group">
+      <label htmlFor="guidelines">Guidelines:</label>
+      <textarea className="form-control" id="guidelines" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
+    </div>
+
+    <div className="form-group">
+      <label htmlFor="deadline">Deadline:</label>
+      <input type="date" className="form-control" id="deadline" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
+    </div>
+
+    <div className="form-group">
+      <label htmlFor="image">Image:</label>
+      <input type="file" className="form-control-file" id="image" name="image" onChange={handleFileChange} />
+    </div>
+
+    <button type="submit" className="btn btn-primary">Submit</button>
+  </form>
+</div>
 
 
   );

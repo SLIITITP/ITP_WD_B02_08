@@ -9,10 +9,10 @@ export default function TeacherD() {
 
     const navigate = useNavigate();
 
-    const handleSubjectRelatedClick = () => {
+    const handleClick = () => {
         console.log('Subject Related clicked');
         // Do whatever you want to do when the element is clicked
-        navigate('/subR');
+        navigate('/sub');
     }
 
 
@@ -30,16 +30,16 @@ export default function TeacherD() {
 
             <div class="col-6">
 
-                <div class="p-3 border bg-light"  onClick={handleSubjectRelatedClick} >Subject Related</div>
+                <div class="p-3 border bg-light"  onClick={handleClick} >Subject Related</div>
             </div>
             <div class="col-6">
-                <div class="p-3 border bg-light">Home Work</div>
+                <div class="p-3 border bg-light" onClick={handleClick}  >Home Work</div>
             </div>
             <div class="col-6">
-                <div class="p-3 border bg-light">Group Work</div>
+                <div class="p-3 border bg-light" onClick={handleClick} >Group Work</div>
             </div>
             <div class="col-6">
-                <div class="p-3 border bg-light">Extra Work</div>
+                <div class="p-3 border bg-light" onClick={handleClick} >Extra Work</div>
             </div>
         </div>
     </div>

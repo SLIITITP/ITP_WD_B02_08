@@ -73,7 +73,9 @@ import SubjectRelated from './components/Assignment_Management_components/Subjec
 
 import DownloadAllFilesButton from './components/Assignment_Management_components/DownloadAllFilesButton';
 
+import EmailSend from './components/Assignment_Management_components/EmailSend';
 
+import AssignmentFeedback from './components/Assignment_Management_components/AssignmentFeedback';
 
 
 
@@ -158,6 +160,7 @@ import NipTest2 from './components/PaymentComponents/NipTest2';
 import AdminSideNav from './components/AdminSideNav';
 import GetAm from './components/AMFunction/GetAm';
 import CheckAm from './components/AMFunction/CheckAm';
+
 
 
 
@@ -296,7 +299,8 @@ function App() {
 
         {/*---------------------------- Assignmet Management--------------------------------------- */}
 
-        <Route path="/CreateAssignment" exact element={<AssignmentForm1 />} />
+       
+        <Route path="/retriveAss/CreateAssignment" element={<AssignmentRoute><AssignmentForm1 /></AssignmentRoute>} />
         <Route path="/retriveAss" element={<AssignmentRoute><RetrieveAssignments /></AssignmentRoute>} />
         <Route path="/editAss/:id" element={<AssignmentRoute><EditAssignment /></AssignmentRoute>} />
 
@@ -305,19 +309,22 @@ function App() {
 
 
         <Route path="/student/view" element={<AssignmentRoute><StudentView /></AssignmentRoute>} />
-        <Route path="/subR" element={<AssignmentRoute><SubjectRelated /></AssignmentRoute>} />
+        <Route path="/sub" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
        
-
+        <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback/></AssignmentRoute>} />
 
 
         <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
 
         <Route path="/details" exact element={<Details />} />
 
-        <Route path="/sub" exact element={<FileUploader />} />
+       
 
           <Route path="/all" exact element={<DownloadAllFilesButton />} />
-    
+          <Route path="/emailAss" exact element={<EmailSend />} />
+
+
+          
 
 
 

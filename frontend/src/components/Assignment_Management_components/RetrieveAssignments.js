@@ -35,7 +35,7 @@ const RetrieveAssignments = () => {
 
   // Redirect to create page
   const onCreate = () => {
-    navigate('/createAssignment');
+    navigate('/retriveAss/CreateAssignment');
   }
 
   return (
