@@ -110,12 +110,12 @@ app.use("/study",Study);
 // ගහන ඒවා උඩින් ගහන්න (Enter ගහලා)
 //API for PAYMENT
 app.post("/payment", cors(), async (req, res) => {
-	let { amount, id } = req.body
+	let { amount, id, studentId } = req.body
 	try {
 		const payment = await stripe.paymentIntents.create({
 			amount,
 			currency: "lkr",
-			description: "Thilina Institute",
+			description: `${studentId}`,
 			payment_method: id,
 			confirm: true
 		})
