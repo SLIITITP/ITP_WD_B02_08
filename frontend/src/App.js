@@ -86,6 +86,11 @@ import Details from './components/Assignment_Management_components/Details'
 import AssignmentDetails from './components/Assignment_Management_components/AssignmentDetails';
 
 
+import AllFilesList from './components/Assignment_Management_components/AllFilesList';
+
+
+
+
 
 ///////////////////////////////////////////////////
 
@@ -153,6 +158,7 @@ import SalaryCalculation from './components/PaymentComponents/SalaryCalculation'
 import NipTest from './components/PaymentComponents/NipTest';
 import SalaryHistory from './components/PaymentComponents/SalaryHistory';
 import NipTest2 from './components/PaymentComponents/NipTest2';
+
 
 
 
@@ -308,6 +314,7 @@ function App() {
           <Route path="/all" exact element={<DownloadAllFilesButton />} />
           <Route path="/emailAss" exact element={<EmailSend />} />
 
+          <Route path="/test" exact element={<AllFilesList />} />
 
           
 

@@ -1,19 +1,18 @@
 import axios from 'axios';
 
-export default function DownloadAllFilesButton() {
 
 
+export default function DownloadAllFilesButton({ id }) {
   const handleDownloadAllFiles = async () => {
-    
     try {
-      const response = await axios.get('http://localhost:9090/items/downloadAllFiles', {
+      const response = await axios.get(`http://localhost:9090/items/getAll/${id}`, {
         responseType: 'blob',
       });
-      const blob = new Blob([response.data], { type: 'application/zip' });
+      const blob = new Blob([response.data], { type: 'application/pdf' || 'image/png'});
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'all-files.zip';
+      a.download = `${id}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
@@ -22,6 +21,6 @@ export default function DownloadAllFilesButton() {
   };
 
   return (
-    <button onClick={handleDownloadAllFiles}>Download All Files</button>
+    <button onClick={handleDownloadAllFiles}>Download File</button>
   );
 }
