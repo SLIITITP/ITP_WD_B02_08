@@ -110,6 +110,12 @@ export default function SalaryCalculation() {
     const componentRef = useRef();
 
     const handleDownload = () => {
+
+        if (salarydata.length === 0) {
+            alert('No salary data available!');
+            return;
+        }
+
         // Create a new jsPDF instance
         const doc = new jsPDF();
 
@@ -437,13 +443,21 @@ export default function SalaryCalculation() {
                                 handleBillSubmit(e);
                             }
                         }}
-                            className='w-full text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                            className='w-full disabled:bg-gray-400  text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                            disabled={salarydata.length === 0}
                         >CONFIRM</button>
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <button onClick={handleDownload} className='w-full text-white bg-teal-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Download Receipt</button>
+                        <button onClick={handleDownload}
+                            className='w-full disabled:bg-gray-400 text-white bg-teal-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                            disabled={salarydata.length === 0}
+                        >Download Receipt</button>
                     </div>
-
+                    <div className='mt-3 get-center'>
+                        {salarydata.length === 0 && (
+                            <p className='text-red-600'>No added data to confirm or Download</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
