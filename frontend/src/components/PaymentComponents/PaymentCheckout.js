@@ -54,7 +54,6 @@ function PaymentCheckout() {
                         paymentID: id
                     };
 
-                    setPaymentID(id)
                     const updateResponse = await axios.post('http://localhost:9090/api/payment/add', paymentData);
                     console.log("Payment added to DB");
                     navigate('/confirmPayment', {
