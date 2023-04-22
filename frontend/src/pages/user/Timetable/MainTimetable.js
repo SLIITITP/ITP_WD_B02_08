@@ -123,7 +123,7 @@ return (
         {gradeButtons.map((button) => (
             <li className="nav-item" key={button.grade}>
               <button
-                className={`nav-link ${activeGrade === button.grade ? 'active' : ''}`}
+                className={`nav-link btn ${activeGrade === button.grade ? 'active' : ''}`}
                 onClick={() => handleGradeClick(button.grade)}
               >
                 {button.label}
