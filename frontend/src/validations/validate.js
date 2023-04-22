@@ -1,5 +1,5 @@
 import { toast } from "react-hot-toast";
-import {authenticate} from '../apicalls/helper'
+import {authenticate, authenticateTeacher} from '../apicalls/helper'
 
 //validate login page username
 export async function usernameValidate(values){
@@ -16,6 +16,23 @@ export async function usernameValidate(values){
   }
 
     return errors;
+}
+
+
+export async function teacherUsernameValidate(values){
+  const errors = usernameVerify({}, values);
+
+  if(values.username){
+    // check user exist or not
+    const { status } = await authenticateTeacher(values.username);
+    
+    if(status !== 200){
+        errors.exist = toast.error('User does not exist...!')
+    }
+
+}
+
+  return errors;
 }
 
 

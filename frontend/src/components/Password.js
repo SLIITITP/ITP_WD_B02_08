@@ -28,6 +28,7 @@ useEffect(()=>{
      email :apiData?.email || '', 
      mobile:apiData?.mobile || '',
      address:apiData?.address || '',
+     profile:apiData?.profile || '',
     // id:apiData._id
     })
    })

@@ -158,9 +158,15 @@ import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
 import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
 import NipTest from './components/PaymentComponents/NipTest';
+import WelcomePage from './pages/welcome/welcome';
+import TeacherLogin from './components/TeacherLogin';
+import PasswordTeacher from './components/PasswordTeacher';
+import AdminLogin from './components/AdminLogin';
 import SalaryHistory from './components/PaymentComponents/SalaryHistory';
 import NipTest2 from './components/PaymentComponents/NipTest2';
-
+import AdminSideNav from './components/AdminSideNav';
+import GetAm from './components/AMFunction/GetAm';
+import CheckAm from './components/AMFunction/CheckAm';
 
 
 //------------------------------------------/////////////////////////////////////////
@@ -196,6 +202,7 @@ function App() {
 
       {loading && <Loader />}
       <Routes>
+        <Route path='/' element={<WelcomePage />}/> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path='/getPayment' exact element={<GetPayment />} />
@@ -214,12 +221,15 @@ function App() {
         <Route path='/niptest' element={<NipTest />} />
         <Route path='/niptest2' element={<NipTest2 />} />
         <Route path='/salary/history' element={<SalaryHistory />} />
+        <Route path='/am/add' element={<GetAm />} />
+        <Route path='/am/check' element={<CheckAm />} />
+
+
 
 
 
 
         {/* Admin Routes for Timetable Management */}
-        <Route path="/timetable" exact element={<TimetableSideNav />} />
         <Route path="/allClasses" exact element={<TimetableSideNav>
           <AdminEditSchedule />
         </TimetableSideNav>} />
@@ -246,9 +256,20 @@ function App() {
         <Route path="/profile" element={<AuthorizeUser><Profile /></AuthorizeUser>} />
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
+
         <Route path="/tProfile" element={<TeaProfile />} />
         <Route path="/tRegister" element={<TeaRegister />} />
         <Route path="/adminDash" element={<AdminDash />} />
+
+        <Route path="/tProfile" element={<TeaProfile/>}/> 
+        <Route path="/tRegister" element={<TeaRegister/>}/> 
+        {/* <Route path="/adminDash" element={<AdminDash/>}/> */}
+        <Route path="/adminDash" element={<AdminSideNav><AdminDash/></AdminSideNav>}/>
+        <Route path='/pteacherLogin' element={<TeacherLogin/>}/>
+        <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
+        <Route path='/teacherProfile' element={<TeaProfile/>}></Route>
+        <Route path='/adminLogin' element={<AdminLogin/>}></Route>
+
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
 
