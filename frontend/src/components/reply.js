@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom'
 import ViewReply from './ViewReply';
 
-export default function Reply(props) {
+ function Reply(props) {
   const [message, setmessage] = useState("");
   const [status, setstatus] = useState("");
 
@@ -84,3 +84,5 @@ export default function Reply(props) {
     </div>
   );
   }
+
+  export default Reply;

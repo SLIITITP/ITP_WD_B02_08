@@ -49,6 +49,7 @@ import Reset from './components/Reset';
 import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
 
+import TicketsSideNav from "./components/TicketsSideNav";
 import StudentTicket from './components/StudentTicket'
 import AddTicket from './components/AddTicket'
 import EditTicket from './components/EditTicket'
@@ -309,13 +310,29 @@ function App() {
         </ProtectedRoute>} />
 
 
+       {/* support Service Routes*/}
 
-        <Route path="/STickets" exact element={<StudentTicket />} />
-        <Route path="/addTicket" exact element={<AddTicket />} />
-        <Route path="/edit/:id" exact element={<EditTicket />} />
-        <Route path="/ticketlist" exact element={<TicketList />} />
-        <Route path="/vreply/:id" exact element={<ViewReply />} />
-        <Route path="/reply/:id" exact element={<Reply />} />
+        <Route path="/ticket" exact element={<TicketsSideNav/>} />
+        <Route path="/Stickets" exact element={<TicketsSideNav>
+          <StudentTicket />
+        </TicketsSideNav>} />
+        <Route path="/ticketlist" exact element={<TicketsSideNav>
+          <TicketList />
+        </TicketsSideNav>} />
+        <Route path="/addTicket" exact element={<TicketsSideNav>
+          <AddTicket />
+        </TicketsSideNav>} />
+        <Route path="/reply/:id" exact element={<TicketsSideNav>
+          <Reply />
+        </TicketsSideNav>} />
+        <Route path="/vreply/:id" exact element={<TicketsSideNav>
+          <ViewReply />
+        </TicketsSideNav>} />
+        <Route path="/edit/:id" exact element={<TicketsSideNav >
+        <EditTicket />
+        </TicketsSideNav>}/>
+        
+      
         <Route path="/faq" exact element={<FAQ />} />
         <Route path="/gvideos" element={<Gvideos />} />
 

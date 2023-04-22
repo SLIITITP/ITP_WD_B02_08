@@ -14,6 +14,16 @@ root.render(
     <App />
   </Provider>
 );
+const script = document.createElement('script');
+script.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
+document.head.appendChild(script);
+
+const dfMessenger = document.createElement('df-messenger');
+dfMessenger.setAttribute('intent', 'WELCOME');
+dfMessenger.setAttribute('chat-title', 'Thilina institute chat-bot1');
+dfMessenger.setAttribute('agent-id', 'f94893e9-e673-4e56-810d-36b100bc91e0');
+dfMessenger.setAttribute('language-code', 'en');
+document.body.appendChild(dfMessenger);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
