@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react'
+import { useState } from 'react';
+import { InformationCircleIcon } from '@heroicons/react/solid';
 
-function EmailSender() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSent, setIsSent] = useState(false);
-
-  const handleClick = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get('/api/send-emails');
-      setIsLoading(false);
-      setIsSent(true);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
+function App() {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div>
-      <button onClick={handleClick} disabled={isLoading || isSent}>
-        {isLoading ? 'Sending...' : isSent ? 'Sent!' : 'Send Emails'}
-      </button>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <div
+        className="w-8 h-8 cursor-pointer"
+        onClick={() => setIsOpen(true)}
+      >
+        <InformationCircleIcon className="w-full h-full text-blue-500" />
+      </div>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
+          <div className="z-50 w-1/2 max-w-md p-6 bg-white rounded-lg shadow-lg">
+            <h2 className="text-lg font-medium mb-4">Popup Title</h2>
+            <p className="mb-4">This is the content of the popup box.</p>
+            <button
+              className="px-4 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+              onClick={() => setIsOpen(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-export default EmailSender;
+export default App;

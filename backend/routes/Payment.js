@@ -5,9 +5,9 @@ const Subject = require('../models/Subjects');
 
 // POST /payments - create a new payment
 router.post('/add', (req, res) => {
-  const { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID } = req.body;
+  const { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID, notice } = req.body;
 
-  const newPayment = new Payment({ studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID });
+  const newPayment = new Payment({ studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID, notice });
 
   newPayment.save()
     .then((payment) => {

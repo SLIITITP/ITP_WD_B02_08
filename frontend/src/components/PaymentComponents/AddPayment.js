@@ -9,6 +9,7 @@ function AddPayment() {
     const [grade, setGrade] = useState('');
     // const [subjects, setSubjects] = useState([]);
     const [month, setMonth] = useState('');
+    const [notice, setNotice] = useState('');
     const [paidAmount, setAmount] = useState(0);
     //set subject list getting from DB
     const [subjectList, setSubjectList] = useState([]);
@@ -43,14 +44,14 @@ function AddPayment() {
 
     const handleCheckboxChange = (event, sub) => {
         if (event.target.checked) {
-          setSelectedSubjects([...selectedSubjects, sub]);
-          setAmount(prevAmount => prevAmount + sub.subjectAmount);
-          setSubWithID(prevSubjects => [...prevSubjects, { id: sub.subjectID, name: sub.subjectName }]);
-      
+            setSelectedSubjects([...selectedSubjects, sub]);
+            setAmount(prevAmount => prevAmount + sub.subjectAmount);
+            setSubWithID(prevSubjects => [...prevSubjects, { id: sub.subjectID, name: sub.subjectName }]);
+
         } else {
-          setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
-          setAmount(prevAmount => prevAmount - sub.subjectAmount);
-          setSubWithID(prevSubjects => prevSubjects.filter((s) => s.id !== sub.subjectID));
+            setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
+            setAmount(prevAmount => prevAmount - sub.subjectAmount);
+            setSubWithID(prevSubjects => prevSubjects.filter((s) => s.id !== sub.subjectID));
         }
 
         // console.log(subjects); // ["Subject 1", "Subject 2", "Subject 3"]
@@ -74,16 +75,13 @@ function AddPayment() {
     const [submitted, setSubmitted] = useState(false);
 
 
-
-
-
     //handleSubmit for Adding payemnts
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSubmitted(true);
 
         try {
-            await axios.post('http://localhost:9090/api/payment/add', { studentId, date, month, subjects, subjectsIDs, grade, paidAmount });
+            await axios.post('http://localhost:9090/api/payment/add', { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, notice });
             alert('Payment added successfully!');
             window.location.reload(); // Reloads the page after successful submission
         } catch (error) {
@@ -176,7 +174,8 @@ function AddPayment() {
                         </label>
                         <div ref={searchBoxRef} className="search-box mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light" onClick={() => setShowResults(true)}>
                             <input
-                                className='border-none mt-1 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
+                                // className='border-none mt-1 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
+                                className='border-none w-full'
                                 type="text"
                                 value={searchTerm}
                                 onChange={handleInputChange}
@@ -194,69 +193,70 @@ function AddPayment() {
                             )}
                         </div>
                     </div>
+                    <div className='mb-2 flex items-center'>
+                        <div className="w-full md:w-1/3 mb-6 mr-1 md:mb-0">
+                            {/*grade */}
+                            <label className='mr-2 text-lg font-medium text-gray-900 dark:text-white w-20'>
+                                Grade:
+                            </label>
+                            <select value={grade} onChange={(e) => setGrade(e.target.value)} required className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
+                            >
+                                <option value="">--Select Grade--</option>
+                                <option value="1">Grade 1</option>
+                                <option value="2">Grade 2</option>
+                                <option value="3">Grade 3</option>
+                                <option value="4">Grade 4</option>
+                                <option value="5">Grade 5</option>
+                                <option value="6">Grade 6</option>
+                                <option value="7">Grade 7</option>
+                                <option value="8">Grade 8</option>
+                                <option value="9">Grade 9</option>
+                                <option value="10">Grade 10</option>
+                                <option value="11">Grade 11</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div className="w-full md:w-1/3 mb-6 ml-1 mr-1 md:mb-0">
+                            {/* month */}
+                            <label className='mr-2 text-lg font-medium text-gray-900 dark:text-white w-20'>
+                                Month:</label>
+                            <select value={month} onChange={(e) => setMonth(e.target.value)} required className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'>
+                                <option value="">--Select Month--</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                            </select>
+                        </div>
+                        {/* Amount */}
+                        <div className="w-full md:w-1/3 mb-6 ml-1 md:mb-0">
+                            <label className='mr-2 text-lg font-medium text-gray-900 dark:text-white w-20'>
+                                Amount:
+                            </label>
+                            <input
+                                type='number'
+                                value={totalAmount}
+                                readOnly
+                                className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
+                            />
+                        </div>
+                    </div>
 
-                    {/*grade */}
-                    <div className='mb-2 flex items-center'>
-                        <label className='mr-2 mb-2 text-lg font-medium text-gray-900 dark:text-white w-20'>
-                            Grade:
-                        </label>
-                        <select value={grade} onChange={(e) => setGrade(e.target.value)} required className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
-                        >
-                            <option value="">--Select Grade--</option>
-                            <option value="1">Grade 1</option>
-                            <option value="2">Grade 2</option>
-                            <option value="3">Grade 3</option>
-                            <option value="4">Grade 4</option>
-                            <option value="5">Grade 5</option>
-                            <option value="6">Grade 6</option>
-                            <option value="7">Grade 7</option>
-                            <option value="8">Grade 8</option>
-                            <option value="9">Grade 9</option>
-                            <option value="10">Grade 10</option>
-                            <option value="11">Grade 11</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    {/* month */}
-                    <div className='mb-2 flex items-center'>
-                        <label className='mr-2 mb-2 text-lg font-medium text-gray-900 dark:text-white w-20'>
-                            Month:</label>
-                        <select value={month} onChange={(e) => setMonth(e.target.value)} required className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'>
-                            <option value="">--Select Month--</option>
-                            <option value="January">January</option>
-                            <option value="February">February</option>
-                            <option value="March">March</option>
-                            <option value="April">April</option>
-                            <option value="May">May</option>
-                            <option value="June">June</option>
-                            <option value="July">July</option>
-                            <option value="August">August</option>
-                            <option value="September">September</option>
-                            <option value="October">October</option>
-                            <option value="November">November</option>
-                            <option value="December">December</option>
-                        </select>
-
-                    </div>
-                    {/* Amount */}
-                    <div className='mb-2 flex items-center'>
-                        <label className='mr-2 text-lg font-medium text-gray-900 dark:text-white w-20'>
-                            Amount:
-                        </label>
-                        <input
-                            type='number'
-                            value={totalAmount}
-                            readOnly
-                            className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light'
-                        />
-                    </div>
 
                     {/* Subject */}
                     <div className='mb-2'>
                         <div className='bg-gray-200 pl-5 pt-2 pb-2 rounded h-full'>
                             <label className='block text-lg font-medium text-gray-900 dark:text-white'>Subjects: {subjects.join(',  ')}</label>
                             <ul>
-                                <div  className="grid grid-cols-2 gap-2 p-2 mt-1">
+                                <div className="grid grid-cols-2 gap-2 p-2 mt-1">
                                     {subjectList.map((sub) => (
                                         <div key={sub._id}>
                                             <label htmlFor={`subject-${sub._id}`} className='block mb-1 mt-1 text-lg font-medium text-gray-900 dark:text-white'>
@@ -281,6 +281,11 @@ function AddPayment() {
                         <label className='mr-2 w-20 mb-2 text-lg font-medium text-gray-900 dark:text-white'>
                             Date:</label>
                         <input type="datetime-local" id="date" value={date} onChange={(event) => setDate(event.target.value)} required className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light' />
+                    </div>
+                    <div className='mb-2 flex items-center'>
+                        <label className='mr-2 w-20 mb-2 text-lg font-medium text-gray-900 dark:text-white'>
+                            Note:</label>
+                        <input type="text" id="notice" value={notice} onChange={(event) => setNotice(event.target.value)} placeholder='Add note (If any)' className='mt-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:mt-1 shadow-sm-light' />
                     </div>
                     <button type="submit" disabled={numChecked === 0} className='disabled:bg-gray-400 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full'>CONFIRM</button>
                     {submitted && numChecked === 0 && (
