@@ -1,43 +1,29 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function WarningMessage({ deadline }) {
-  const [showWarning, setShowWarning] = useState(false);
+function EmailSender() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
-  useEffect(() => {
-    const now = new Date();
-    const diffInMs = deadline - now;
-    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-    if (diffInDays <= 5) {
-      setShowWarning(true);
+  const handleClick = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get('/api/send-emails');
+      setIsLoading(false);
+      setIsSent(true);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
     }
-  }, [deadline]);
-
-  return (
-    <>
-      {showWarning && (
-        <div className="warning">
-          Deadline approaching! Please complete your task soon.
-        </div>
-      )}
-    </>
-  );
-}
-
-function App() {
-  const [deadline, setDeadline] = useState('');
-
-  const handleInputChange = (event) => {
-    setDeadline(event.target.value);
   };
 
   return (
     <div>
-      <h1>Task Deadline Checker</h1>
-      <label htmlFor="deadline">Enter task deadline:</label>
-      <input type="date" id="deadline" name="deadline" onChange={handleInputChange} />
-      <WarningMessage deadline={new Date(deadline)} />
+      <button onClick={handleClick} disabled={isLoading || isSent}>
+        {isLoading ? 'Sending...' : isSent ? 'Sent!' : 'Send Emails'}
+      </button>
     </div>
   );
 }
 
-export default App;
+export default EmailSender;
