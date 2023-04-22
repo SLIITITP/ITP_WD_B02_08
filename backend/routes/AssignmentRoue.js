@@ -19,10 +19,10 @@ router.route('/getAssignments').get( getAssignments);
 router.route('/getAssignments/:id').get(getAssignmentById);
 
 //update
-router.route('/updateAssignments/:id').get(updateAssignment);
+router.route('/updateAssignments/:id').put(updateAssignment);
 
 //delete
-router.route('/deleteAssignments/:id').get(deleteAssignment);
+router.route('/deleteAssignments/:id').delete(deleteAssignment);
 
 //route for download item
 router.route('/DownloadAss/:id').get(Download);

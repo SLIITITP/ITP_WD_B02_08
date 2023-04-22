@@ -76,7 +76,7 @@ const deleteAssignment = async (req, res) => {
     if (!assignment) {
       return res.status(404).json({ error: 'Assignment not found' });
     }
-    await assignment.remove();
+    await assignment.deleteOne();
     res.status(200).json({ message: 'Assignment deleted successfully' });
   } catch (error) {
     console.log(error);
