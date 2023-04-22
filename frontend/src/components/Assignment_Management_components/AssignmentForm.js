@@ -40,32 +40,57 @@ function AssignmentForm({ onSubmit }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Type:
-        <input type="text" name="type" value={assignment.type} onChange={handleInputChange} />
-      </label>
-      <label>
-        Subject:
-        <input type="text" name="subject" value={assignment.subject} onChange={handleInputChange} />
-      </label>
-      <label>
-        Grade:
-        <input type="text" name="grade" value={assignment.grade} onChange={handleInputChange} />
-      </label>
-      <label>
-        Guidelines:
-        <input type="text" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
-      </label>
-      <label>
-        Deadline:
-        <input type="text" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
-      </label>
-      <label>
+    <div className="form-group">
+      <label>Assignment Type</label>
+      <select name="type" id="type" className="form-control" value={assignment.type} onChange={handleInputChange}>
+
+        <option value="">Select Assignment Type</option>
+        <option value="Home Work">Home Work</option>
+        <option value="Group Work">Group Work</option>
+        <option value="Subject Related">Subject Related</option>
+        <option value="Extra Work">Extra Work</option>
+      </select>
+    </div>
+    <div className="form-group">
+      <label>Grade</label>
+      <select name="grade" id="grade" className="form-control" value={assignment.grade} onChange={handleInputChange}>
+        <option value="">Select grade</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+      </select>
+    </div>
+
+    <div className="form-group">
+      <label htmlFor="subject">Subject:</label>
+      <input type="text" className="form-control" id="subject" name="subject" value={assignment.subject} onChange={handleInputChange} />
+    </div>
+
+    <div className="form-group">
+      <label htmlFor="guidelines">Guidelines:</label>
+      <textarea className="form-control" id="guidelines" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
+    </div>
+
+    <div className="form-group">
+      <label htmlFor="deadline">Deadline:</label>
+      <input type="date" className="form-control" id="deadline" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
+    </div>
+
+{/* <label>
         File:
         <input type="file" name="file" onChange={handleFileChange} />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+      </label> */}
+
+    <div className="form-group">
+      <label htmlFor="file">File</label>
+      <input type="file" className="form-control-file" id="file" name="file" onChange={handleFileChange} />
+    </div>
+
+    <button type="submit" className="btn btn-primary">Submit</button>
+  </form>
   );
 }
 

@@ -23,9 +23,9 @@ function ProtectedRoute({ children }) {
   const userMenu = [
     {
       title: "Assignments",
-      paths: ["/student/view" ],
+      paths: ["/s1" ],
       icon: <i class="ri-book-line"></i>,
-      onClick: () => navigate("/student/view"),
+      onClick: () => navigate("/s1"),
     },
     {
       title: "Reports",
@@ -65,9 +65,9 @@ function ProtectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Assignments",
-      paths: ["/retriveAss","/retriveAss/CreateAssignment" ,"/editAss/:id"],
+      paths: ["/a2","/a1"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/retriveAss"),
+      onClick: () => navigate("/a2"),
     },
     {
       title: "Feedbacks",
@@ -135,9 +135,9 @@ function ProtectedRoute({ children }) {
       return true;
     } else {
       if (
-        activeRoute.includes("/retriveAss/CreateAssignment") &&
+        activeRoute.includes("/a2/a1") &&
         
-        paths.includes("/retriveAss")
+        paths.includes("/a2")
       ) {
         return true;
       }

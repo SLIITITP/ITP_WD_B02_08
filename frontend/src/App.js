@@ -61,15 +61,14 @@ import Gvideos from './components/GuideVideos';
 
 /////__________________Assignments___________________/////////////////////////////////////
 
-import AssignmentForm1 from './components/Assignment_Management_components/AssignmentForm1'
+
 import AssignmentRoute from "./components/AssignmentRoutes";
-import RetrieveAssignments from './components/Assignment_Management_components/RetrieveAssignments'
-import EditAssignment from './components/Assignment_Management_components/EditAssignment'
-import StudentView from './components/Assignment_Management_components/StudentView';
+
+
 
 import FileUploader from './components/Assignment_Management_components/FileUploader';
 
-import SubjectRelated from './components/Assignment_Management_components/SubjectRelated';
+
 
 import DownloadAllFilesButton from './components/Assignment_Management_components/DownloadAllFilesButton';
 
@@ -173,6 +172,9 @@ import CheckAm from './components/AMFunction/CheckAm';
 
 
 import AssignmentForm from './components/Assignment_Management_components/AssignmentForm';
+import AllAssignments from './components/Assignment_Management_components/AllAssignments';
+import AssignmentEdit from './components/Assignment_Management_components/AssignmentEdit';
+import StudentAssignments from './components/Assignment_Management_components/StudentAssignments';
 
 
 
@@ -326,12 +328,16 @@ function App() {
 
 
 
-        <Route path="/retriveAss/CreateAssignment" element={<AssignmentRoute><AssignmentForm1 /></AssignmentRoute>} />
-        <Route path="/retriveAss" element={<AssignmentRoute><RetrieveAssignments /></AssignmentRoute>} />
-        <Route path="/editAss/:id" element={<AssignmentRoute><EditAssignment /></AssignmentRoute>} />
+        <Route path="/a1" element={<AssignmentRoute><AssignmentForm /></AssignmentRoute>} />
+        <Route path="/a2" element={<AssignmentRoute><AllAssignments /></AssignmentRoute>} />
+        <Route path="/a3/:id" element={<AssignmentRoute><AssignmentEdit /></AssignmentRoute>} />
         <Route path="/viewFeed" element={<AssignmentRoute><ViewFeedbacks /></AssignmentRoute>} />
         <Route path="/emailAss" element={<AssignmentRoute><EmailSend /></AssignmentRoute>} />
         <Route path="/test" element={<AssignmentRoute><AllFilesList /></AssignmentRoute>} />
+
+    
+        
+
 
 
 
@@ -339,8 +345,8 @@ function App() {
 
         {/*                      --------------------  User  ---------------------                  */}
 
-
-        <Route path="/student/view" element={<AssignmentRoute><StudentView /></AssignmentRoute>} />
+        <Route path="/s1" element={<AssignmentRoute><StudentAssignments/></AssignmentRoute>} />
+    
         <Route path="/sub" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
 
         <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback /></AssignmentRoute>} />
@@ -426,10 +432,6 @@ function App() {
 
 
 
-
-
-
-        <Route path="/a1" exact element={<AssignmentForm />} />
 
 
 

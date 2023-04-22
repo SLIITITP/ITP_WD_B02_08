@@ -45,7 +45,7 @@ app.listen(PORT, () => {
 const ticketRoutes = require('./routes/tickets');
 
 //assignment
-const postRoutes = require('./routes/assignment');
+
 
 const itemsRouter = require("./routes/items");
 const assignmentRouter = require("./routes/AssignmentRoue")
@@ -82,7 +82,7 @@ app.use('/api/salary', SalaryRouter);
 app.use('/api/amnip', AmNipRouter);
 
 app.use(ticketRoutes);
-app.use(postRoutes);
+
 
 
 app.use("/api/users", usersRoute);
