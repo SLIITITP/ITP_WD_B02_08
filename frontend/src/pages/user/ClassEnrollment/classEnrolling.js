@@ -64,7 +64,11 @@ function ClassEnrolling() {
         alert("Enrolled Successfully")
       },error=>{
         console.log(error)
-        alert("Enrollment failed.")
+        if (error.response && error.response.status === 400 && error.response.data.message === "Already enrolled") {
+          alert("You have already enrolled in this class.");
+        } else {
+          alert("Enrollment failed.");
+        }
       })
       
     
@@ -72,26 +76,32 @@ function ClassEnrolling() {
 
   return (
     <div>
-      <h1>Enroll to the Class</h1>
-      <div>
-        {grade && <p>Grade :{grade}</p>}
-        {subject && <p>Subject :{subject}</p>}
-        {teacher && <p>Teacher :{teacher}</p>}
-        {date && <p>Date :{date}</p>}
-        {time && <p>Time :{time}</p>}
-        {fees && <p>Fees : Rs.{fees}</p>}
-        <p>studentID: {stdID}</p>
-        <p>classID: {classId}</p>
-      </div>
-      <button
-        type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
-       focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center"
-        onClick={handleEnroll}
-      >
+      <h3 className="mb-4 mt-12 text-center font-medium text-2xl text-gray-900 dark:text-white">Enroll to the Class</h3>
+      <div className="d-flex justify-content-center ">
+      <div className="col-lg-3" >
+        <div className="card mt-6" style={{ width: "400px" , height:"300px"}}>
+          <div className="card-body mt-6 ml-6 " style={{ fontSize: "18px" }}>
+            {grade && <p>Grade: {grade}</p>}
+            {subject && <p>Subject: {subject}</p>}
+            {teacher && <p>Teacher: {teacher}</p>}
+            {date && <p>Date: {date}</p>}
+            {time && <p>Time: {time}</p>}
+            {fees && <p>Fees: Rs.{fees}</p>}
+          </div>
+        <button
+          type="submit"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mr-6 ml-6 mb-4
+          focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center "
+          onClick={handleEnroll}
+        >
         Enroll
-      </button>
+       </button>
+       </div>
+       </div>
+      </div>
     </div>
+
   );
+  
 }
 export default ClassEnrolling;

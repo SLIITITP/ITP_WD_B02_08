@@ -72,27 +72,16 @@ router.route("/deleteClass/:id").delete(async(req,res)=>{
     })
 })
 
-//retrieve specifc classes
-router.route("/getSpecificClass/:id").get(async(req,res)=>{
+//get class by id
+router.route("/getClassById/:id").get(async(req,res)=>{
     let classId = req.params.id;
-    const SpecificClass = await Class.findById(classId)
-    .then((speClass)=>{
-        res.status(200).send({status: "user fetched",speClass});
+    await Class.findById(classId)
+    .then((selectedClass)=>{
+        res.status(200).send({status: "Class found", selectedClass});
     }).catch((err) =>{
         console.log(err.message);
-        res.status(500).send({status: "Error with get class", error: err.message});
+        res.status(500).send({status: "Error with finding class", error: err.message});
     })
 })
 
-/*retrieve class details by day
-router.get('/schedule/:day', async (req, res) => {
-    try {
-      const schedule = await Class.find({ day: req.params.date });
-      res.json(schedule);
-    } catch (err) {
-        console.log(err.message);
-        res.status(500).send({status: "Error with get class", error: err.message});
-    }
- });
-*/
 module.exports = router;
