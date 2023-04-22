@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'
 
-export default function EditTicket(props) {
+function EditTicket(props) {
   const [Rnumber, setRnumber] = useState("");
   const [subject, setsubject] = useState("");
   const [issueDate, setissueDate] = useState("");
@@ -112,3 +112,5 @@ export default function EditTicket(props) {
 
   );
 }
+
+export default EditTicket;
