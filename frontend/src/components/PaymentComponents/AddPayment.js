@@ -1,6 +1,7 @@
 //latest AddPayment
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { InformationCircleIcon } from '@heroicons/react/solid';
 import '../../stylesheets/Payment.css'
 
 function AddPayment() {
@@ -18,6 +19,7 @@ function AddPayment() {
     //search student details
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
 
     const now = new Date();
     const ldate = now.toLocaleDateString('en-CA');
@@ -315,7 +317,29 @@ function AddPayment() {
                                     {payments.map((payment) => (
                                         <tr key={payment._id} style={{ border: "1px solid black" }}>
                                             <td style={{ border: "1px solid black" }}>{new Date(payment.date).toLocaleDateString()}</td>
-                                            <td className="px-3 py-2 text-lg font-medium text-green-700" style={{ border: "1px solid black" }}>{payment.month}</td>
+                                            <td className="px-3 py-2 text-lg font-medium text-green-700" style={{ border: "1px solid black" }}><span className="mr-2">{payment.month}</span>
+                                                {payment.notice && (
+                                                    <>
+                                                        <div className="inline-block cursor-pointer" onClick={() => setIsOpen(true)}>
+                                                            <InformationCircleIcon className="w-5 h-5 text-blue-500" />
+                                                        </div>
+                                                        {isOpen && (
+                                                            <div className="fixed inset-0 z-50 flex items-center justify-center">
+                                                                <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
+                                                                <div className="z-50 w-1/2 max-w-md p-6 bg-white rounded-lg shadow-lg">
+                                                                    <h2 className="text-lg font-medium mb-4">Payment Notice</h2>
+                                                                    <p className="mb-4">{payment.notice}</p>
+                                                                    <button
+                                                                        className="px-4 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+                                                                        onClick={() => setIsOpen(false)}
+                                                                    >
+                                                                        Close
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                )}</td>
                                             <td style={{ border: "1px solid black" }}>{payment.subjects.join(',  ')}</td>
                                             <td style={{ border: "1px solid black" }}>{payment.grade}</td>
                                             <td style={{ border: "1px solid black" }}>{payment.paidAmount}</td>

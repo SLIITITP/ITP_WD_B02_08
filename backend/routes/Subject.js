@@ -3,16 +3,29 @@ const router = express.Router();
 const Subject = require('../models/Subjects');
 
 // POST /api/subjects
+// router.post('/add', async (req, res) => {
+//     try {
+//         const { subjectName,  subjectAmount, subjectTeacherID, subjectTeacherName } = req.body;
+//         const newSubject = new Subject({ subjectName, subjectAmount, subjectTeacherID, subjectTeacherName });
+//         await newSubject.save();
+//         res.status(201).json(newSubject);
+//     } catch (err) {
+//         res.status(400).json({ message: err.message });
+//     }
+// });
+
 router.post('/add', async (req, res) => {
     try {
-        const { subjectName, subjectID, subjectAmount, subjectTeacherID, subjectTeacherName } = req.body;
-        const newSubject = new Subject({ subjectName, subjectID, subjectAmount, subjectTeacherID, subjectTeacherName });
-        await newSubject.save();
-        res.status(201).json(newSubject);
+      const { subjectName, subjectAmount, subjectTeacherID, subjectTeacherName } = req.body;
+      const subject = new Subject({ subjectName, subjectAmount, subjectTeacherID, subjectTeacherName });
+      await subject.save();
+      res.status(201).json(subject);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
     }
-});
+  });
+  
 
 // Update a subject by subjectID
 router.put('/update/:_id', async (req, res) => {

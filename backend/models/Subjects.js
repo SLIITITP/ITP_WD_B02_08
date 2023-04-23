@@ -7,7 +7,7 @@ const subjectSchema = new mongoose.Schema({
   },
   subjectID: {
     type: String,
-    required: true
+    unique: true
   },
   subjectAmount: {
     type: Number,
@@ -20,6 +20,17 @@ const subjectSchema = new mongoose.Schema({
   subjectTeacherName: {
     type: String,
     required: true
+  }
+});
+
+subjectSchema.pre('save', async function (next) {
+  try {
+    const prefix = this.subjectName.substring(0, 3).toUpperCase();
+    const count = await this.constructor.countDocuments({ subjectID: new RegExp(`^${prefix}`) });
+    this.subjectID = `${prefix}${(count + 1).toString().padStart(3, '0')}`;
+    next();
+  } catch (err) {
+    next(err);
   }
 });
 
