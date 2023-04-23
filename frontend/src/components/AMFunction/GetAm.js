@@ -51,7 +51,6 @@ function GetAm() {
         fetchData();
     }, []);
 
-    console.log('--------------------------------------')
     //get SubID by searching subjectID
     const subID = subjects.find(subject => subject.subjectID === subjectID);
 
@@ -64,7 +63,7 @@ function GetAm() {
                 const paymentForSubject = data.filter(payment => payment.subjectsIDs.includes(subID._id));
                 // console.log('payments for selected subject',paymentForSubject);
                 const filterGrade = paymentForSubject.filter(payment => payment.grade.includes(grade));
-                console.log(filterGrade)
+                // console.log(filterGrade)
                 const pm = filterGrade.filter(payment => payment.month.includes(currMonth));
                 // console.log(pm);
                 if (pm.length > 0) {

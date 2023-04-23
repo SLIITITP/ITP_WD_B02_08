@@ -1,11 +1,14 @@
 import React ,{useState,useEffect} from 'react'
-import {useParams } from 'react-router-dom';
+import {useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MaterialBg from '../assets/MaterialBg.jpg';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function PdfMaterialCardTeacher() {
 
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [title, setTitle] = useState('');
@@ -55,9 +58,32 @@ export default function PdfMaterialCardTeacher() {
       });
       console.log(response.data);
       // do something with the updated note data
+      toast.success('PDF Material updated successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+     
+       // Delay navigation by 2 second
+    setTimeout(() => {
+      navigate('/smP');
+    }, 2000);
+      
     } catch (error) {
       console.error(error);
       // handle error
+      toast.error('PDF Material updated unsuccess, please try Again!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme:'colored'
+      });
     }
   };
 
@@ -65,8 +91,30 @@ export default function PdfMaterialCardTeacher() {
     try {
       await axios.delete(`http://localhost:9090/study/deletePdf/${id}`);
       console.log('pdf deleted successfully');
+      toast.success('PDF Material deleted successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+          // Delay navigation by 1 second
+    setTimeout(() => {
+      navigate('/smP');
+    }, 1000);
+
     } catch (error) {
       console.log(error.response.data);
+      toast.error('Error Occurred!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -79,6 +127,7 @@ export default function PdfMaterialCardTeacher() {
 
   return (
     <div>
+      <ToastContainer/>
       <div className="opacity-50 absolute">
       <img src={MaterialBg} alt="logo" />
     </div>
@@ -123,8 +172,8 @@ export default function PdfMaterialCardTeacher() {
         <input  Value = {file} className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="text"/>
 
 
-        <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add file here</label>
-        <input type ="file" onChange={(event) => setFile(event.target.files[0])} className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" />
+        <label for="file" className=" mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add file here</label>
+        <input type ="file" onChange={(event) => setFile(event.target.files[0])} className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" />
 
         <div className="mt-10">
       

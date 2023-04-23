@@ -1,9 +1,14 @@
 import React ,{useState,useEffect} from 'react'
-import {  useParams } from 'react-router-dom';
+import {  useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MaterialBg from '../assets/MaterialBg.jpg';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function ResearchMaterialCardTeacher() {
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [title, setTitle] = useState('');
@@ -48,15 +53,50 @@ export default function ResearchMaterialCardTeacher() {
       });
       console.log(response.data);
       // do something with the updated note data
+      toast.success('Research Material updated successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+     
+       // Delay navigation by 2 second
+    setTimeout(() => {
+      navigate('/smR');
+    }, 2000);
     } catch (error) {
       console.error(error);
       // handle error
+      toast.error('Research Material updated unsuccess, please try Again!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme:'colored'
+      });
     }
   };
   const deleteResearch = async () => {
     try {
       await axios.delete(`http://localhost:9090/study/deleteResearch/${id}`);
-      console.log('Note deleted successfully');
+      console.log('research deleted successfully');
+      toast.success('Research Material deleted successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+          // Delay navigation by 1 second
+    setTimeout(() => {
+      navigate('/smR');
+    }, 1000);
       
     } catch (error) {
       console.log(error.response.data);
@@ -75,6 +115,7 @@ export default function ResearchMaterialCardTeacher() {
 
   return (
     <div>
+      <ToastContainer/>
       <div className="opacity-50 absolute">
       <img src={MaterialBg} alt="logo" />
     </div>
@@ -107,8 +148,8 @@ export default function ResearchMaterialCardTeacher() {
  </div>
 
  
- <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
- <input type="file" onChange={(event) => setFile(event.target.files[0])}className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" />
+ <label for="file" className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
+ <input type="file" onChange={(event) => setFile(event.target.files[0])}className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" />
 
  <div className="mt-10">
  <button type="submit" className="ml-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">EDIT MATERIAL</button>
