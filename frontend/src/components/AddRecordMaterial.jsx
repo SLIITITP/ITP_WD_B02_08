@@ -17,7 +17,7 @@ export default function AddRecordMaterial() {
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
-  const [web, setWeb] = useState('');
+ // const [web, setWeb] = useState('');
   const [file, setFile] = useState(null);
   
   const handleFileChange = (event) => {
@@ -37,7 +37,7 @@ export default function AddRecordMaterial() {
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
-    formData.append('web', web);
+   // formData.append('web', web);
     
     if (file !== null) {
       formData.append('file', file);
@@ -57,7 +57,7 @@ export default function AddRecordMaterial() {
       setGrade('');
       setSubject('');
       setTeacher('');
-      setWeb('');
+      //setWeb('');
       setFile(null);
       event.target.reset(); // clear the form inputs, including the file input
       toast.success('Record added successfully', {
