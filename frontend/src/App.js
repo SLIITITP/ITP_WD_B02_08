@@ -366,7 +366,7 @@ function App() {
     
         
 
-        <Route path="/charts" element={<ChartJsExample />} />
+     
 
 
 
@@ -381,6 +381,8 @@ function App() {
 
 
         <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
+        <Route exact path="/charts" element={<AssignmentRoute><ChartJsExample /></AssignmentRoute>} />
+     
 
         <Route path="/details" exact element={<Details />} />
 
