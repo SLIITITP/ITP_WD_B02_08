@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function EditFeedBackPage() {
     const { id } = useParams();
@@ -50,17 +54,54 @@ export default function EditFeedBackPage() {
     const updateFeedback = async (teacherName, reply) => {
       try {
         const response = await axios.put(`http://localhost:9090/study/updateFeedback/${id}`, { teacherName, reply });
-        console.log(response.data)
         setTeacherName('');
         setReply('');
+        console.log(response.data)
+        toast.success('Feedback submitted successfully', {
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        window.location.reload();
        
       } catch (err) {
         console.error(err);
+        toast.error('Error submitting feedback',{
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    };
+
+    const deleteFeedback = async (id) => {
+      try {
+        const response = await axios.delete(`http://localhost:9090/study/deleteFeedback/${id}`);
+        console.log(response.data);
+        toast.success('Feedback deleted successfully', {
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        window.location.reload();
+      } catch (err) {
+        console.error(err);
+
       }
     };
   
   return (
     <>
+    <ToastContainer/>
     
     <div className="opacity-50 absolute">
       <img src={Cover} alt="logo" />
@@ -94,12 +135,12 @@ export default function EditFeedBackPage() {
       
         <div className="mb-4">
           <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
-          <input type='text'value={teacherName} onChange={(e) => setTeacherName(e.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Your Name...'/>
+          <input type='text'value={teacherName} onChange={(e) => setTeacherName(e.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Your Name...'required/>
         </div>
 
         <div className="mb-4">
           <label for="Description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Reply</label>
-          <textarea value={reply} onChange={(e) => setReply(e.target.value)}class=" h-20 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Reply here...'/>
+          <textarea value={reply} onChange={(e) => setReply(e.target.value)}class=" h-20 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Reply here...'required/>
         </div>
 
         
@@ -143,7 +184,7 @@ export default function EditFeedBackPage() {
                 <th scope="col" className="px-6 py-3">
                     Reply
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className=" px-28 py-3">
                     Action
                 </th>
                 
@@ -151,7 +192,7 @@ export default function EditFeedBackPage() {
             </tr>
         </thead>
         <tbody>
-        {feedbacks.map((feedback, index) => (
+        {feedbacks.map((feedback, _index) => (
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {feedback.Name}
@@ -177,11 +218,17 @@ export default function EditFeedBackPage() {
         ))}
                 </td>
 
-                <td className="px-3 py-4" >
+                <td className="px-3 py-4 " >
                     <Link to={`/fbs/t/${feedback._id}`}>
-                <button type="button" className="text-white bg-indigo-600 hover:bg-indigo-400 outline-black hover:shadow-lg hover:stroke-white font-medium rounded-full text-sm px-5 py-2.5 mr-1 mb-1">  
+                <button type="button" className=" ml-8 text-white bg-indigo-600 hover:bg-indigo-400 outline-black hover:shadow-lg hover:stroke-white font-medium rounded-full text-sm px-5 py-2.5 mr-1 mb-1">  
                     reply </button></Link>
+
+                    <button type="button" onClick={() => deleteFeedback(feedback._id)}  className="text-white bg-red-600 hover:bg-red-700 outline-black hover:shadow-lg border-2 border-black font-medium rounded-full text-sm px-3 gap-0 py-2.5 mr-1 mb-1">  
+                    delete </button>
                 </td>
+           
+               
+                
               
             </tr>
             

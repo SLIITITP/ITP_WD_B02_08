@@ -1,11 +1,18 @@
 import React from 'react';
 import MaterialBg from '../assets/MaterialBg.jpg'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState,useEffect,useRef } from 'react';
 import ReactToPrint from 'react-to-print';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 export default function MaterialCardStudent() {
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [note, setNote] = useState('');
@@ -32,8 +39,28 @@ export default function MaterialCardStudent() {
       const file = new Blob([response.data], { type: response.headers['content-type'] });
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
+      toast.promise('File download complete!', {
+        position: 'top-center',
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setTimeout(() => {
+        navigate('/nmp');
+      }, 5000);
     } catch (error) {
       console.log(error);
+      toast.error('Error occurred while downloading file!', {
+        position: 'top-center',
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -51,6 +78,7 @@ export default function MaterialCardStudent() {
 
   return (
     <div>
+      <ToastContainer/>
 
 <div className="opacity-50 absolute">
       <img src={MaterialBg} alt="logo" />

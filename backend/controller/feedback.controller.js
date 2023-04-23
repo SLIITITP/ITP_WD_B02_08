@@ -75,7 +75,7 @@ exports.updateFeedback = async (req, res) => { //exporting update method
     }
   };
 
-//delete feedback
+
 //delete feedback
 exports.DeleteFeedback = async (req,res)=>{// exporting the delete method
     try {

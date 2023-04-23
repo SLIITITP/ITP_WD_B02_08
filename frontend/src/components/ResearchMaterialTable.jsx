@@ -46,7 +46,7 @@ export default function ResearchMaterialTable() {
                 <th scope="col" className="px-6 py-3">
                     teacher
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-16 py-3">
                     action
                 </th>
                 

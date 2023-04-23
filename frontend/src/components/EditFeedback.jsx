@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function EditFeedback() {
 
@@ -29,15 +33,36 @@ export default function EditFeedback() {
     try {
       const response = await axios.put(`http://localhost:9090/study/updateFeedback/${id}`, { teacherName, reply });
       console.log(response.data)
+      toast.success('Feedback submitted successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      window.location.reload();
      
     } catch (err) {
       console.error(err);
+      toast.error('Error submitting feedback',{
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
 
+  
+
+
   return (
     <div>
+      <ToastContainer/>
         <div className='class=" w-auto h-auto flex flex-col items-center bg-white backdrop-blur-lg border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"'>
           <img className = ' w-auto m-auto h-48' src={bg} alt='feedback'/>
         
@@ -61,12 +86,12 @@ export default function EditFeedback() {
 
         <div className="mb-4">
           <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
-          <input type='text'value={teacherName} onChange={(e) => setTeacherName(e.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Your Name...'/>
+          <input type='text'value={teacherName} onChange={(e) => setTeacherName(e.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Your Name...' required/>
         </div>
 
         <div className="mb-4">
           <label for="Description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Reply</label>
-          <textarea value={reply} onChange={(e) => setReply(e.target.value)}class=" h-20 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Reply here...'/>
+          <textarea value={reply} onChange={(e) => setReply(e.target.value)}class=" h-20 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"placeholder='Reply here...'required/>
         </div>
 
         
@@ -78,6 +103,8 @@ export default function EditFeedback() {
         </Link>
        
        <button type="submit"onClick={() => updateFeedback(teacherName, reply)} className=" mr-8 float-right text-white bg-black hover:shadow-lg hover:bg-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Submit Here</button>
+       
+       
         </div>
       </div>
     </div>  

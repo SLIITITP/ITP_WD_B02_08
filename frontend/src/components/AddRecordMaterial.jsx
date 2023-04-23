@@ -1,11 +1,15 @@
 import React, { useState,useRef} from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import ReactToPrint from 'react-to-print';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 export default function AddRecordMaterial() {
+
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -56,9 +60,29 @@ export default function AddRecordMaterial() {
       setWeb('');
       setFile(null);
       event.target.reset(); // clear the form inputs, including the file input
-  
+      toast.success('Record added successfully', {
+        position: 'top-center',
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      setTimeout(() => {
+        navigate('/smRe');
+      }, 2000);
+     
+
     } catch (error) {
       console.log(error.response.data);
+      toast.error(error.response.data, {
+        position: 'top-center',
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
     
   };
@@ -79,6 +103,7 @@ export default function AddRecordMaterial() {
 
   return (
     <div>
+      <ToastContainer/>
    
       <div  ref={componentRef} className='box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
       
@@ -128,11 +153,11 @@ export default function AddRecordMaterial() {
           <label for="teacher" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
           <input type="text" value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."required/>
         </div>
-      
+      {/* 
         <div className="mb-6">
           <label for="web" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Url Here</label>
           <input type="text" value ={web} onChange={(event)=> setWeb(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."required/>
-        </div>
+        </div> */}
        
       <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File  here</label>
       <input type="file" onChange={handleFileChange} className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size"/>
