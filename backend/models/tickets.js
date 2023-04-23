@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const ticketSchema = new mongoose.Schema({
 
   
-  Rnumber: {
+  StudentId: {
     type: String,
     required: true,
     default: "",

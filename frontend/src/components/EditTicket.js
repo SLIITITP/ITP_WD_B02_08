@@ -2,19 +2,20 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 function EditTicket(props) {
-  const [Rnumber, setRnumber] = useState("");
+  const [StudentId, setStudentId] = useState("");
   const [subject, setsubject] = useState("");
   const [issueDate, setissueDate] = useState("");
   const [details, setdetails] = useState("");
-
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
     axios.get(`http://localhost:9090/ticket/${id}`).then((res)=>{
       if(res.data.success){
-        setRnumber(res.data.ticket.Rnumber);
+        setStudentId(res.data.ticket.StudentId);
         setsubject(res.data.ticket.subject);
         setissueDate(res.data.ticket.issueDate);
         setdetails(res.data.ticket.details);
@@ -25,8 +26,8 @@ function EditTicket(props) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "Rnumber") {
-      setRnumber(value);
+    if (name === "StudentId") {
+      setStudentId(value);
     } else if (name === "subject") {
       setsubject(value);
     } else if (name === "issueDate") {
@@ -40,7 +41,7 @@ function EditTicket(props) {
     e.preventDefault();
     
     const data = {
-      Rnumber:Rnumber,
+      StudentId:StudentId,
       subject:subject,
       issueDate:issueDate,
       details:details,
@@ -49,10 +50,11 @@ function EditTicket(props) {
     axios.put(`http://localhost:9090/ticket/update/${id}`, data).then((res) => {
       if (res.data.success) {
         alert("Ticket Update Successfully");
-        setRnumber("");
+        setStudentId("");
         setsubject("");
         setissueDate("");
         setdetails("");
+        navigate('/Stickets');
       }
     });
   };
@@ -66,11 +68,11 @@ function EditTicket(props) {
 
 <form style={{padding: '50px'}} >
   <div class="mb-6">
-    <label for="Rnumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Student Id</label>
-    <input type="text" id="Rnumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="Rnumber"
-              placeholder="Enter Reg number"
-              value={Rnumber}
+    <label for="StudentId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Student Id</label>
+    <input type="text" id="StudentId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="StudentId"
+              placeholder="Enter Student Id"
+              value={StudentId}
               onChange={handleInputChange} required></input>
   </div>
   <div class="mb-6">

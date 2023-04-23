@@ -2,11 +2,12 @@ import React, { useState, useEffect}  from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'
 import ViewReply from './ViewReply';
+import { useNavigate } from "react-router-dom";
 
  function Reply(props) {
+  const navigate = useNavigate();
   const [message, setmessage] = useState("");
   const [status, setstatus] = useState("");
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -40,6 +41,7 @@ import ViewReply from './ViewReply';
       if (res.data.success) {
         alert("Reply message Successfully");
         setmessage("");
+        navigate('/ticketlist');
       }
     });
   }

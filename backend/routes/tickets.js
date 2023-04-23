@@ -97,6 +97,22 @@ router.get('/ticket/:id', (req, res) => {
       });
   });
   
+  //get tickets for a specific student
+router.get('/tickets/:StudentId',(req,res)=>{
+  const StudentId = req.params.StudentId;
+  tickets.find({ StudentId: StudentId })
+  .then((tickets)=>{
+      return res.status(200).json({
+          success: true,
+          existingTickets: tickets
+          });
+      })
+      .catch((error) => {
+          return res.status(400).json({
+            error: error
+      });
+  });
+});
   
   
   

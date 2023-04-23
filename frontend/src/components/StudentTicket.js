@@ -9,17 +9,16 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
 
  function StudentTicket() {
 
+  
   const [tickets, setTickets] = useState([]);
   const [role, setRole] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.users.user);
+  //const [TicketId,setTicketId] = useState([]);
   
-
-  useEffect(() => {
-    retrieveTickets();
-  }, []);
-
+  //const StudentId = "644293c422e13dce0575499e";
+  const StudentId = user?.name;
   const getUserData = async (dispatch) => {
     try {
       dispatch(ShowLoading());
@@ -29,6 +28,8 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
         dispatch(SetUser(response.data));
         const role = response.data.isAdmin ? "admin" : "user";
         setRole(role);
+
+        
         return role;
       } else {
         message.error(response.message);
@@ -56,8 +57,13 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
     fetchData();
   }, [dispatch, navigate]);
   
-  const retrieveTickets = () => {
-    axios.get("http://localhost:9090/tickets").then(res => {
+
+
+  useEffect(() => {
+    retrieveTickets(StudentId);
+    }, [StudentId]);
+  const retrieveTickets = (StudentId) => {
+  axios.get(`http://localhost:9090/tickets/${StudentId}`).then(res => {
       if (res.data.success) {
         setTickets(res.data.existingTickets);
         console.log(tickets);
@@ -68,13 +74,13 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
   const onDelete = (id) => {
     axios.delete(`http://localhost:9090/ticket/delete/${id}`).then((res) => {
       alert("Delete Successfully");
-      retrieveTickets();
+      retrieveTickets(StudentId);
     });
   };
 
   const filterData = (tickets, searchKey) => {
     const result = tickets.filter((ticket) =>
-      ticket.Rnumber.toLowerCase().includes(searchKey) ||
+      ticket.StudentId.toLowerCase().includes(searchKey) ||
       ticket.subject.toLowerCase().includes(searchKey) ||
       ticket.openAt.toLowerCase().includes(searchKey) ||
       ticket.status.toLowerCase().includes(searchKey)
@@ -84,7 +90,7 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
 
   const handleSearchArea = (e) => {
     const searchKey = e.currentTarget.value;
-    axios.get("http://localhost:9090/tickets").then(res => {
+    axios.get(`http://localhost:9090/tickets/${StudentId}`).then(res => {
       if (res.data.success) {
         filterData(res.data.existingTickets, searchKey);
       }
@@ -146,7 +152,7 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
                      <th scope="row"  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index+1} </th>
                   <td class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                     <a href={ `/vreply/${tickets._id}`} style={{textDecoration:'none'}}>
-                    {tickets.Rnumber}
+                    {tickets.StudentId}
                     </a>
                   </td>
                   <td>{tickets.subject}</td>
