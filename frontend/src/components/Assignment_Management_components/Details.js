@@ -1,35 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+/* import React from 'react';
+import { useState } from 'react';
+import ChartJsExample from './ChartJsExample';
 
-const Details = ({ assignmentId }) => {
-  const [assignment, setAssignment] = useState(null);
 
-  useEffect(() => {
-    // Fetch assignment data from API endpoint using assignmentId
-    axios.get(`http://localhost:9090/getAss/${assignmentId}`)
-      .then(res => {
-        // Update state with fetched assignment data
-        setAssignment(res.data);
-      })
-      .catch(err => console.log(err));
-  }, [assignmentId]);
 
-  if (!assignment) {
-    return <div>Loading...</div>; // Add a loading state while fetching data
-  }
+export default function Details() {
+  const [checkboxes, setCheckboxes] = useState({
+    checkbox1: false,
+    checkbox2: false,
+    checkbox3: false
+  });
+
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setCheckboxes({ ...checkboxes, [name]: checked });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const clickedCheckboxes = Object.keys(checkboxes).filter((key) => checkboxes[key]);
+    console.log(clickedCheckboxes);
+    // Pass clickedCheckboxes data to another component
+    setClickedCheckboxes(clickedCheckboxes);
+  };
+
+  const [clickedCheckboxes, setClickedCheckboxes] = useState([]);
 
   return (
-    <div className='container'>
-      <h2>Assignment Details</h2>
+    <form onSubmit={handleSubmit}>
       <div>
-        <h4>Type: {assignment.type}</h4>
-        <p>Grade: {assignment.grade}</p>
-        <p>Guidelines: {assignment.guidelines}</p>
-        <p>Deadline: {assignment.deadline}</p>
-        {assignment.image && <img src={assignment.image} alt="Assignment Image" />}
+        <label>
+          Checkbox 1
+          <input
+            type="checkbox"
+            name="checkbox1"
+            checked={checkboxes.checkbox1}
+            onChange={handleCheckboxChange}
+          />
+        </label>
+        <label>
+          Checkbox 2
+          <input
+            type="checkbox"
+            name="checkbox2"
+            checked={checkboxes.checkbox2}
+            onChange={handleCheckboxChange}
+          />
+        </label>
+        <label>
+          Checkbox 3
+          <input
+            type="checkbox"
+            name="checkbox3"
+            checked={checkboxes.checkbox3}
+            onChange={handleCheckboxChange}
+          />
+        </label>
       </div>
-    </div>
+      <button type="submit">Submit</button>
+      <ChartJsExample clickedCheckboxes={clickedCheckboxes} />
+    </form>
   );
 }
-
-export default Details;
+ */

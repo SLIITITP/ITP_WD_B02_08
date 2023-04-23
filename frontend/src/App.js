@@ -94,6 +94,9 @@ import ViewFeedbacks from './components/Assignment_Management_components/ViewFee
 
 
 
+
+
+
 ///////////////////////////////////////////////////
 
 
@@ -176,8 +179,9 @@ import AssignmentForm from './components/Assignment_Management_components/Assign
 import AllAssignments from './components/Assignment_Management_components/AllAssignments';
 import AssignmentEdit from './components/Assignment_Management_components/AssignmentEdit';
 import StudentAssignments from './components/Assignment_Management_components/StudentAssignments';
+import ChartJsExample from './components/Assignment_Management_components/ChartJsExample';
 
-
+import getSubjects from './components/Assignment_Management_components/getSubjects';
 
 
 
@@ -355,7 +359,7 @@ function App() {
     
         
 
-
+        <Route path="/charts" element={<ChartJsExample />} />
 
 
 
@@ -376,6 +380,8 @@ function App() {
 
 
         <Route path="/all" exact element={<DownloadAllFilesButton />} />
+
+        <Route path="/in/get" exact element={<getSubjects/>} />
 
 
     
@@ -435,18 +441,6 @@ function App() {
         <Route exact path="/rmpRe/s/:id" element={<RecordMaterialCardStudent />} />
 
         <Route exact path="/fbs/t/:id" element={<EditFeedBackPage />} />
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
