@@ -9,7 +9,7 @@ Please go under edit and edit this file as needed for your project
 ### Member 5 - IT21704970 - Lokuge P.P ()
 ### Member 6 - IT21228926 - Perera G.R.S ()
 ### Member 7 - IT21273094 - Ediriwickrama E.A.K.V ()
-### Member 8 - IT21360978 - Serasinghe G.P.G.Y ()
+### Member 8 - IT21360978 - Serasinghe G.P.G.Y (Study-Material-Management)
 
 #### Brief Description of Project - Our project proposal outlines the development of an Educational Institute Management System, which is designed to simplify and enhance the management activities for users. This system helps to manage different processes through a web-based interface. We will create a system very efficient and user-friendly for all stakeholders of this system.
 
