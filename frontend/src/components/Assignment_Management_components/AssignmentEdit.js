@@ -66,33 +66,34 @@ const AssignmentEdit = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Edit Assignment</h1>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label htmlFor="type">Type:</label>
-          <input type="text" id="type" value={type} onChange={handleTypeChange} />
+          <input type="text" id="type" className="form-control" value={type} onChange={handleTypeChange} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="subject">Subject:</label>
-          <input type="text" id="subject" value={subject} onChange={handleSubjectChange} />
+          <input type="text" id="subject" className="form-control" value={subject} onChange={handleSubjectChange} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="grade">Grade:</label>
-          <input type="text" id="grade" value={grade} onChange={handleGradeChange} />
+          <input type="text" id="grade" className="form-control" value={grade} onChange={handleGradeChange} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="guidelines">Guidelines:</label>
-          <textarea id="guidelines" value={guidelines} onChange={handleGuidelinesChange} />
+          <textarea id="guidelines" className="form-control" value={guidelines} onChange={handleGuidelinesChange} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="deadline">Deadline:</label>
-          <input type="date" id="deadline" value={deadline} onChange={handleDeadlineChange} />
+          <input type="date" id="deadline" className="form-control" value={deadline} onChange={handleDeadlineChange} />
         </div>
-        <button type="submit">Save</button>
+        <button type="submit" className="btn btn-primary">Save</button>
       </form>
     </div>
   );
+  
 };
 
 export default AssignmentEdit;
