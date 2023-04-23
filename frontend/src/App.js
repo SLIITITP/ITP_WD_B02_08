@@ -178,6 +178,9 @@ import AssignmentEdit from './components/Assignment_Management_components/Assign
 import StudentAssignments from './components/Assignment_Management_components/StudentAssignments';
 
 
+import QRScanner from './components/QRScanner';
+
+
 
 
 
@@ -435,6 +438,9 @@ function App() {
         <Route exact path="/rmpRe/s/:id" element={<RecordMaterialCardStudent />} />
 
         <Route exact path="/fbs/t/:id" element={<EditFeedBackPage />} />
+
+
+        <Route path='/qrgen' exact element={<QRScanner/>}></Route>
 
 
 
