@@ -29,9 +29,9 @@ function ProtectedRoute({ children }) {
     },
     {
       title: "Reports",
-      paths: ["/user/reports"],
+      paths: ["/charts"],
       icon: <i className="ri-bar-chart-line"></i>,
-      onClick: () => navigate("/user/reports"),
+      onClick: () => navigate("/charts"),
     },
     {
         title: "Feedback",
