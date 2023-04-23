@@ -1,11 +1,16 @@
 import React ,{useState,useEffect} from 'react'
-import {  useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MaterialBg from '../assets/MaterialBg.jpg';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
 export default function MaterialCard() {
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [title, setTitle] = useState('');
@@ -55,19 +60,63 @@ export default function MaterialCard() {
         }
       });
       console.log(response.data);
+      toast.success('NoteMaterial updated successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+     
+       // Delay navigation by 2 second
+    setTimeout(() => {
+      navigate('/smN');
+    }, 2000);
+      
+      
       // do something with the updated note data
     } catch (error) {
       console.error(error);
+      toast.error('NoteMaterial updated unsuccess, please try Again!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme:'colored'
+      });
       // handle error
     }
   };
   const deleteNote = async () => {
     try {
       await axios.delete(`http://localhost:9090/study/deleteNote/${id}`);
-      console.log('Note deleted successfully');
+      toast.success('NoteMaterial deleted successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+          // Delay navigation by 1 second
+    setTimeout(() => {
+      navigate('/smN');
+    }, 1000);
       
     } catch (error) {
       console.log(error.response.data);
+      toast.error('Error Occurred!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -80,6 +129,7 @@ export default function MaterialCard() {
 
   return (
     <>
+     <ToastContainer />
      <div className="opacity-50 absolute">
       <img src={MaterialBg} alt="logo" />
     </div>
@@ -125,8 +175,8 @@ export default function MaterialCard() {
         <input Value = {file} className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="text"/>
 
 
-        <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add file here</label>
-        <input onChange={(event) => setFile(event.target.files[0])} className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file"/>
+        <label for="file" className=" mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add file here</label>
+        <input onChange={(event) => setFile(event.target.files[0])} className=" !block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file"/>
 
         <div className="mt-10">
       

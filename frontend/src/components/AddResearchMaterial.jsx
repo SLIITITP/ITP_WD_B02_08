@@ -1,11 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { useState,useRef} from 'react';
 import ReactToPrint from 'react-to-print';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function AddResearchMaterial() {
+
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -43,9 +47,29 @@ export default function AddResearchMaterial() {
         setTeacher('');
         setFile(null);
         event.target.reset(); // clear the form inputs, including the file input
+        toast.success('Research added successfully', {
+          position: 'top-center',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setTimeout(() => {
+          navigate('/smR');
+        }, 2000);
+
        
       } catch (error) {
         console.log(error.Research.data);
+        toast.error('Research added failed', {
+          position: 'top-center',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     };
 
@@ -66,6 +90,7 @@ export default function AddResearchMaterial() {
 
   return (
     <>
+    <ToastContainer/>
        <div ref={componentRef} className='box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
       
       <form onSubmit={handleFormSubmit}>

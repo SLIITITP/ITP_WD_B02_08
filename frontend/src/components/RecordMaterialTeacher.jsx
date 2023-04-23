@@ -1,9 +1,16 @@
 import React ,{useState,useEffect} from 'react'
-import {  useParams } from 'react-router-dom';
+import {  useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MaterialBg from '../assets/MaterialBg.jpg';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 export default function RecordMaterialTeacher() {
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [title, setTitle] = useState('');
@@ -57,15 +64,51 @@ export default function RecordMaterialTeacher() {
       });
       console.log(response.data);
       // do something with the updated note data
+      toast.success('Record Material updated successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+     
+       // Delay navigation by 2 second
+    setTimeout(() => {
+      navigate('/smRe');
+    }, 2000);
+      
     } catch (error) {
       console.error(error);
       // handle error
+      toast.error('Record Material updated unsuccess, please try Again!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme:'colored'
+      });
     }
   };
   const deleteNote = async () => {
     try {
       await axios.delete(`http://localhost:3000/study/deleteRecord/${id}`);
-      console.log('Note deleted successfully');
+      console.log('record deleted successfully');
+      toast.success('Record Material deleted successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+          // Delay navigation by 1 second
+    setTimeout(() => {
+      navigate('/smRe');
+    }, 1000);
       
     } catch (error) {
       console.log(error.response.data);
@@ -84,6 +127,7 @@ export default function RecordMaterialTeacher() {
 
   return (
     <div>
+      <ToastContainer/>
       <div className="opacity-50 absolute">
       <img src={MaterialBg} alt="logo" />
     </div>
@@ -124,14 +168,14 @@ export default function RecordMaterialTeacher() {
    <input type='text'value={teacher} onChange={(event) => setTeacher(event.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
  </div>
 
- <div className="mb-4">
+{/*  <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recording URL</label>
    <input type='text'value={material} onChange={(event) => setMaterial(event.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
- </div>
+ </div> */}
 
 
- <label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
- <input onChange={(event) => setFile(event.target.files[0])} className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file"/>
+ <label for="file" className=" mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
+ <input onChange={(event) => setFile(event.target.files[0])} className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file"/>
 
  <div className="mt-10">
  <button type="submit" className="ml-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">EDIT MATERIAL</button>

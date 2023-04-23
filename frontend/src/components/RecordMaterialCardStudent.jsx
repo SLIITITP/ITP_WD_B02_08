@@ -1,11 +1,19 @@
 import React from 'react'
 import MaterialBg from '../assets/MaterialBg.jpg'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState,useEffect,useRef } from 'react';
 import ReactToPrint from 'react-to-print';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
 
 export default function RecordMaterialCardStudent() {
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [record, setRecord] = useState('');
@@ -17,8 +25,29 @@ export default function RecordMaterialCardStudent() {
       try {
         const response = await axios.get(`http://localhost:9090/study/viewRecord/${id}`);
         setRecord(response.data);
+        toast.success('retrieved file!', {
+          position: 'top-center',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        setTimeout(() => {
+          navigate('/rmpRe');
+        }, 5000);
+        
       } catch (error) {
         console.log(error.response.data);
+        toast.error('Error occurred while retrieving file!', {
+          position: 'top-center',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     };
     fetchRecord();
@@ -40,6 +69,7 @@ export default function RecordMaterialCardStudent() {
 
   return (
     <div>
+      <ToastContainer/>
          <div className="opacity-50 absolute">
       <img src={MaterialBg} alt="logo" />
     </div>
@@ -79,10 +109,10 @@ export default function RecordMaterialCardStudent() {
    <input type='text' value={record.teacher} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"disabled/>
  </div>
 
- <div className="mb-4">
+{/*  <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">recording URL</label>
    <input type='text' className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"disabled/>
- </div>
+ </div> */}
 
  <div className="mt-10">
   <Link to="/fbs">

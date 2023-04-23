@@ -37,6 +37,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
     "react-to-print": "^2.14.12",
+    "react-toastify": "^9.1.2",
     "redux": "^4.2.1",
     "web-vitals": "^2.1.4",
     "zustand": "^4.3.7"
