@@ -4,6 +4,7 @@
     "formik": "^2.2.9",
     "react-hot-toast": "^2.4.0",
     "react-router-dom": "^6.10.0",
+    "react-toastify": "^9.1.2",
     "stripe": "^12.0.0",
     "useref": "^1.4.4"
   }
