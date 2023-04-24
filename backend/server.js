@@ -81,7 +81,7 @@ app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
 app.use('/api/salary', SalaryRouter);
 app.use('/api/amnip', AmNipRouter);
-app.use('/api/teasub', teachRoute)
+app.use('/', teachRoute)
 
 app.use(ticketRoutes);
 
