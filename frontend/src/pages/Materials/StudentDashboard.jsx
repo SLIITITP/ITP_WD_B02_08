@@ -5,9 +5,11 @@ import {GrNotes} from 'react-icons/gr'
 import {GrDocumentPdf} from 'react-icons/gr'
 import {GrDocumentVideo} from 'react-icons/gr'
 import {GiArchiveResearch} from 'react-icons/gi'
-import {BsRobot} from 'react-icons/bs'
+/* import {BsRobot} from 'react-icons/bs'
 import {TbHandClick} from 'react-icons/tb'
-import {VscFeedback} from 'react-icons/vsc'
+import {VscFeedback} from 'react-icons/vsc' */
+//import StudyMaterialRoute from '../../components/StudyMaterialRoute'
+
 
 
 
@@ -17,8 +19,7 @@ export default function StudentDashboard() {
 
       
 
-
-<aside id="default-sidebar" className="fixed top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+  {/*<aside id="default-sidebar" className="fixed top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
 
    <div className="h-full px-3 py-4 overflow-y-auto bg-indigo-500 dark:bg-gray-800">
       <div className="space-y-2 font-medium">
@@ -74,12 +75,14 @@ export default function StudentDashboard() {
           
         
     </div> 
+ 
 
    
   
-</aside>
+</aside> */}
 
-<div className="p-8 sm:ml-80">
+
+<div className= ' h-screen'>
    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
 
    <div className="flex h-52 mb-4 rounded bg-green-300 border-black border-2 dark:bg-gray-800">
@@ -90,7 +93,7 @@ export default function StudentDashboard() {
          
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mt-12">
+      <div className="grid grid-cols-2 gap-4 mt-4">
          <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
          <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=10a6ea32-4bb0-4e12-a921-9f3f52a2032d&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
          </div>
@@ -106,12 +109,12 @@ export default function StudentDashboard() {
       </div>
 
 
-      <div className="grid grid-cols-4 gap-4 mt-12">
-         <div className="flex flex-col items-center justify-center h-80 w-auto rounded bg-white shadow-lg border-2 dark:bg-gray-800">
+      <div className="!grid grid-cols-4 gap-4 mt-4">
+         <div className="!flex flex-col items-center justify-center h-80 w-auto rounded bg-white shadow-lg border-2 dark:bg-gray-800">
             <Link to="/nmp">
-            <p className=' text-8xl ml-12' ><GrNotes/></p>
-            <button className=" mt-12 relative inline-flex items-center justify-center p-0.5 mb-2  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-orange-300 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            <p className=' !text-8xl ml-12' ><GrNotes/></p>
+            <button className="! mt-12 relative inline-flex items-center justify-center p-0.5 mb-2  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+            <span className="!relative px-5 py-2.5 transition-all ease-in duration-75 bg-orange-300 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                   Select Notes
             </span>
             </button>

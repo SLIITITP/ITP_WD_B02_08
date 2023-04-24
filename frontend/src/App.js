@@ -122,6 +122,7 @@ import TeacherNotePage from './pages/Materials/TeacherNotePage';
 import TeacherPdfPage from './pages/Materials/TeacherPdfPage';
 import TeacherResearchPage from './pages/Materials/TeacherResearchPage';
 import TeacherRecordPage from './pages/Materials/TeacherRecordPage';
+import StudyLogin from './pages/common/Login/StudyLogin';
 
 //import student main pages
 import NoteMaterialPage from './pages/Materials/NoteMaterialPage';
@@ -148,6 +149,7 @@ import NoteMaterialCardTeacher from './components/NoteMaterialCardTeacher';
 import PdfMaterialCardTeacher from './components/PdfMaterialCardTeacher';
 import ResearchMaterialCardTeacher from './components/ResearchMaterialCardTeacher';
 import RecordMaterialTeacher from './components/RecordMaterialTeacher';
+import StudyMaterialRoute from './components/StudyMaterialRoute';
 
 
 
@@ -414,43 +416,43 @@ function App() {
 
 
 
-        {/* <Route exact path="/sm" element={<EnrollPage />} /> */}
-        <Route exact path="/smt" element={<TeacherDashboard />} />
-        <Route exact path="/sms" element={<StudentDashboard />} />
-        <Route exact path="/smN" element={<TeacherNotePage />} />
-        <Route exact path="/smP" element={<TeacherPdfPage />} />
-        <Route exact path="/smR" element={<TeacherResearchPage />} />
-        <Route exact path="/smRe" element={<TeacherRecordPage />} />
-        <Route exact path="/nmp" element={<NoteMaterialPage />} />
-        <Route exact path="/pmp" element={<PdfMaterialPage />} />
-        <Route exact path="/rmp" element={<ResearchMaterialPage />} />
-        <Route exact path="/rmpRe" element={<RecordMaterialPage />} />
-        <Route exact path="/fbs" element={<FeedbackPage />} />
+         <Route  path="/sm"  exact element={<StudyLogin/>} /> 
+        <Route  path="/smt"  exact element={<StudyMaterialRoute><TeacherDashboard /></StudyMaterialRoute>} />
+        <Route  path="/sms"  exact element={<StudyMaterialRoute><StudentDashboard /></StudyMaterialRoute>} />
+        <Route  path="/smN"  exact element={<StudyMaterialRoute><TeacherNotePage /></StudyMaterialRoute>} />
+        <Route  path="/smP"  exact element={<StudyMaterialRoute><TeacherPdfPage /></StudyMaterialRoute>} />
+        <Route  path="/smR"  exact element={<StudyMaterialRoute><TeacherResearchPage /></StudyMaterialRoute>} />
+        <Route  path="/smRe"  exact element={<StudyMaterialRoute><TeacherRecordPage /></StudyMaterialRoute>} />
+        <Route  path="/nmp"  exact element={<StudyMaterialRoute><NoteMaterialPage /></StudyMaterialRoute>} />
+        <Route  path="/pmp"  exact element={<StudyMaterialRoute><PdfMaterialPage /></StudyMaterialRoute>} />
+        <Route  path="/rmp"  exact element={<StudyMaterialRoute><ResearchMaterialPage /></StudyMaterialRoute>} />
+        <Route  path="/rmpRe"  exact element={<StudyMaterialRoute><RecordMaterialPage /></StudyMaterialRoute>} />
+        <Route  path="/fbs"  exact element={<FeedbackPage />} />
 
-        <Route exact path="/smN/add" element={<NotesAdd />} />
-        <Route exact path="/smP/add" element={<AddPdf />} />
-        <Route exact path="/smR/add" element={<AddResearch />} />
-        <Route exact path="/smRe/add" element={<AddRecords />} />
-        <Route exact path="/ef" element={<EditFeedBackPage />} />
+        <Route  path="/smN/add"  exact element={<NotesAdd />} />
+        <Route  path="/smP/add"  exact element={<AddPdf />} />
+        <Route  path="/smR/add"  exact element={<AddResearch />} />
+        <Route  path="/smRe/add"  exact element={<AddRecords />} />
+        <Route  path="/ef"  exact element={<EditFeedBackPage />} />
 
-        <Route exact path="/smN/a" element={<AddNoteMaterial />} />
-        <Route exact path="/smP/a" element={<AddPdfMaterial />} />
-        <Route exact path="/smR/a" element={<AddResearchMaterial />} />
-        <Route exact path="/smRe/a" element={<AddRecordMaterial />} />
-        <Route exact path="/fbs/a" element={<FeedBackStudent />} />
-        <Route exact path="/fbs/e" element={<EditFeedBackPage />} />
+        <Route  path="/smN/a"  exact element={<AddNoteMaterial />} />
+        <Route  path="/smP/a"  exact element={<AddPdfMaterial />} />
+        <Route  path="/smR/a"  exact element={<AddResearchMaterial />} />
+        <Route  path="/smRe/a"  exact element={<AddRecordMaterial />} />
+        <Route  path="/fbs/a"  exact element={<FeedBackStudent />} />
+        <Route  path="/fbs/e"  exact element={<StudyMaterialRoute><EditFeedBackPage /></StudyMaterialRoute>} />
 
-        <Route exact path="/smN/t/:id" element={<NoteMaterialCardTeacher />} />
-        <Route exact path="/smP/t/:id" element={<PdfMaterialCardTeacher />} />
-        <Route exact path="/smR/t/:id" element={<ResearchMaterialCardTeacher />} />
-        <Route exact path="/smRe/t/:id" element={<RecordMaterialTeacher />} />
+        <Route  path="/smN/t/:id"  exact element={<NoteMaterialCardTeacher />} />
+        <Route  path="/smP/t/:id"  exact element={<PdfMaterialCardTeacher />} />
+        <Route  path="/smR/t/:id"  exact element={<ResearchMaterialCardTeacher />} />
+        <Route  path="/smRe/t/:id"  exact element={<RecordMaterialTeacher />} />
 
-        <Route exact path="/nmp/s/:id" element={<NoteMaterialCardStudent />} />
-        <Route exact path="/pmp/s/:id" element={<PdfMaterialCardStudent />} />
-        <Route exact path="/rmp/s/:id" element={<ResearchMaterialCardStudent />} />
-        <Route exact path="/rmpRe/s/:id" element={<RecordMaterialCardStudent />} />
+        <Route  path="/nmp/s/:id"  exact element={<NoteMaterialCardStudent />} />
+        <Route  path="/pmp/s/:id"  exact element={<PdfMaterialCardStudent />} />
+        <Route  path="/rmp/s/:id"  exact element={<ResearchMaterialCardStudent />} />
+        <Route  path="/rmpRe/s/:id"  exact element={<RecordMaterialCardStudent />} />
 
-        <Route exact path="/fbs/t/:id" element={<EditFeedBackPage />} />
+        <Route  path="/fbs/t/:id"  exact element={<EditFeedBackPage />} />
 
 
         <Route path='/qrgen' exact element={<QRScanner/>}></Route>
