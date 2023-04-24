@@ -8,7 +8,7 @@ function AdminDash() {
 
   const [Userdata,setUserData] = useState([]);
   const [search,setSearch] = useState("");
-  const columnsPDF = [{ Username:'Username',Email:'Email' }]
+  const columnsPDF = [{ Username:'Username',Email:'Email',studentId:'StudentID' }]
 
   useEffect(() => {
     axios.get("http://localhost:9090/api/getAllUsers").then((res) => {
@@ -37,7 +37,8 @@ function AdminDash() {
         Userdata.map(m => ({
           Username: m.username,
           Email: m.email,
-          mobile:m.mobile
+          //mobile:m.mobile
+          studentId: m.studentId
       }
   )), columnsPDF, false, 'All Users')}>
     Download</button>
@@ -48,7 +49,7 @@ function AdminDash() {
           <tr>
             <th>Username</th>
             <th>Email</th>
-            <th>Mobile No</th>
+            <th>Student ID</th>
             <th>Delete</th>
           </tr>
             {Userdata.filter((element) => {
@@ -61,7 +62,7 @@ function AdminDash() {
                 <tr key = {i}  style={{textAlign : 'center',fontWeight : '400'}}>
                         <td>{elm.username}</td>
                         <td>{elm.email}</td>
-                        <td>{elm.mobile}</td>
+                        <td>{elm.studentId}</td>
                         
                         <td><button>Delete</button></td>
                     </tr>
