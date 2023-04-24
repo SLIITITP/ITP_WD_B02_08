@@ -13,4 +13,14 @@ router.get('/all', async (req, res) => {
   }
 });
 
+// Get all teachers
+router.get('/alltt', async (req, res) => {
+    try {
+      const teachers = await Teacher.find();
+      res.json(teachers);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+
 module.exports = router;
