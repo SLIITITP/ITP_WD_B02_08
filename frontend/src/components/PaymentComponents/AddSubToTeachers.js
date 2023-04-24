@@ -26,7 +26,7 @@ function App() {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [subjectID, setSubjectID] = useState('');
 
-  //Updating Subject
+  //fetching Subject
   useEffect(() => {
     const fetchSubjects = async () => {
       const response = await axios.get('/api/subject/subjects');
