@@ -1,67 +1,71 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default function SubAddingNew() {
+function AddSubjectForm() {
+  const [subjectName, setSubjectName] = useState('');
+  const [subjectAmount, setSubjectAmount] = useState('');
+  const [teacherOptions, setTeacherOptions] = useState([]);
+  const [selectedTeacherId, setSelectedTeacherId] = useState('');
+  const [subjectAdded, setSubjectAdded] = useState(false);
+
+  useEffect(() => {
+    // Load all teachers and set them as options in the dropdown
+    axios.get('/api/teacher/all')
+      .then(response => {
+        const teachers = response.data;
+        const options = teachers.map(teacher => ({ value: teacher.teacherId, label: `${teacher.firstName} ${teacher.lastName}` }));
+        setTeacherOptions(options);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  const handleTeacherChange = selectedOption => {
+    // When a teacher is selected, set their ID as the selectedTeacherId state
+    setSelectedTeacherId(selectedOption.value);
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    // Create a new subject with the entered details and the selected teacher ID
+    const newSubject = {
+      subjectName,
+      subjectAmount,
+      subjectTeacherID: selectedTeacherId
+    };
+    // Send a POST request to the server to add the new subject
+    axios.post('/api/subjects', newSubject)
+      .then(response => {
+        setSubjectName('');
+        setSubjectAmount('');
+        setSelectedTeacherId('');
+        setSubjectAdded(true);
+      })
+      .catch(error => console.log(error));
+  };
+
   return (
-    <div>SubAddingNew</div>
-  )
+    <div>
+      {subjectAdded ? (
+        <p>Subject added successfully!</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <label>
+            Subject name:
+            <input type="text" value={subjectName} onChange={event => setSubjectName(event.target.value)} />
+          </label>
+          <label>
+            Subject amount:
+            <input type="number" value={subjectAmount} onChange={event => setSubjectAmount(event.target.value)} />
+          </label>
+          <label>
+            Subject teacher:
+            <Select options={teacherOptions} onChange={handleTeacherChange} />
+          </label>
+          <button type="submit">Add subject</button>
+        </form>
+      )}
+    </div>
+  );
 }
 
-
-
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { useForm } from 'react-hook-form';
-// import { Teacher } from './Teacher'; // import the Teacher model
-
-// export const SubAddingNew = () => {
-//   const { register, handleSubmit, formState: { errors } } = useForm();
-//   const [teachers, setTeachers] = useState([]);
-  
-//   // Fetch the list of teachers from the server
-//   useEffect(() => {
-//     axios.get('/api/teachers')
-//       .then(response => setTeachers(response.data))
-//       .catch(error => console.log(error));
-//   }, []);
-
-//   const onSubmit = (data) => {
-//     const { subjectName, subjectAmount, subjectTeacherID } = data;
-
-//     // Find the teacher by ID to get the name
-//     const teacher = teachers.find(t => t.teacherId === subjectTeacherID);
-//     const subjectTeacherName = teacher ? `${teacher.firstName} ${teacher.lastName}` : '';
-
-//     // Create a new subject document using the Subject model
-//     axios.post('/api/subjects', { subjectName, subjectAmount, subjectTeacherID, subjectTeacherName })
-//       .then(response => console.log(response.data))
-//       .catch(error => console.log(error));
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       <div>
-//         <label htmlFor="subjectName">Subject Name</label>
-//         <input type="text" id="subjectName" {...register('subjectName', { required: true })} />
-//         {errors.subjectName && <span>This field is required</span>}
-//       </div>
-//       <div>
-//         <label htmlFor="subjectAmount">Subject Amount</label>
-//         <input type="number" id="subjectAmount" {...register('subjectAmount', { required: true })} />
-//         {errors.subjectAmount && <span>This field is required</span>}
-//       </div>
-//       <div>
-//         <label htmlFor="subjectTeacherID">Subject Teacher</label>
-//         <select id="subjectTeacherID" {...register('subjectTeacherID', { required: true })}>
-//           <option value="">--Select Teacher--</option>
-//           {teachers.map(teacher => (
-//             <option key={teacher.teacherId} value={teacher.teacherId}>
-//               {`${teacher.firstName} ${teacher.lastName}`}
-//             </option>
-//           ))}
-//         </select>
-//         {errors.subjectTeacherID && <span>This field is required</span>}
-//       </div>
-//       <button type="submit">Add Subject</button>
-//     </form>
-//   );
-// };
+export default AddSubjectForm;
