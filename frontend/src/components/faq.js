@@ -18,11 +18,7 @@ export default class FAQ extends Component{
       
       <br></br>
 
-     {/*} <div className="opacity-50 absolute">
-      <img src={bac2} alt="logo" style={{marginTop:'-200px'}} />
-      </div>*/}
-         
-   <div class="accordion accordion-flush" id="accordionFlushExample" style={{marginLeft:'20px'}} >
+   <div class="accordion accordion-flush" id="accordionFlushExample" style={{padding:'30px'}} >
     
    <div className="opacity-50 absolute">
       <img src={bac2} alt="logo" style={{marginTop:'-20px' ,width:'1600px',height:'700px'}}  />

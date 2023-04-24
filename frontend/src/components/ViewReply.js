@@ -41,9 +41,9 @@ const TicketDetails = () => {
    <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.details}</small></h5>
 
     <br></br>
-   <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Reply </h5>
+   <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Reply: </h5>
    <br></br>
-   <h6 style={{marginLeft:'40px'}}><mark class="px-2 text-white bg-gray-500 rounded dark:bg-gray-400">{ticket.message}</mark></h6>
+   <h6 style={{marginLeft:'40px'}} class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.message}</h6>
 
    <br></br>
     </div>
