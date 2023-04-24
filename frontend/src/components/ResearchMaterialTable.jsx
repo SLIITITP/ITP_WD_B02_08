@@ -71,7 +71,7 @@ export default function ResearchMaterialTable() {
                 </td>
                 <td className="px-3 py-4" >
                     <Link to={`/smR/t/${research._id}`}>
-                <button type="submit" onClick={() => handleView(research)} className="text-white bg-orange-600 outline-black hover:shadow-lg hover:stroke-white font-medium rounded-full text-sm px-5 py-2.5 mr-1 mb-1">  
+                <button type="submit" onClick={() => handleView(research)} className="text-white bg-indigo-600 outline-black hover:shadow-lg hover:stroke-white font-medium rounded-full text-sm px-5 py-2.5 mr-1 mb-1 hover:bg-indigo-500">  
                 View Details</button></Link>
 
                 

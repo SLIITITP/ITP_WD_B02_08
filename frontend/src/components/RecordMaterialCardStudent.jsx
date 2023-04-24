@@ -120,7 +120,7 @@ export default function RecordMaterialCardStudent() {
  </Link>
 
  <ReactToPrint
-  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-3 mr-3 font-bold float-right p-2'>Download Report</button>}
+  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-3 mr-3 font-bold float-right p-2 hover:bg-yellow-300'>Download Report</button>}
   content={() => componentRef.current}
   documentTitle="Thilina institute Hanwella"
   pageStyle={pageStyle}

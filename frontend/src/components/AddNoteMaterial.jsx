@@ -101,24 +101,24 @@ export default function AddNoteMaterial() {
   return (
     <>
      <ToastContainer />
-    <div ref={componentRef} className='box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
+    <div ref={componentRef} className='!box-border md:box-content rounded-md h-3/4 w-3/5 p-4 drop-shadow-md md:drop-shadow-xl backdrop-blur-lg opacity-200'>
       
 <form  onSubmit={handleFormSubmit}>
 
 <div className="mb-6">
-    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-    <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Title of lesson..." required/>
+    <label for="title" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+    <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Title of lesson..." required/>
   </div>
 
 
   <div className="mb-6">
-    <label for="Description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-    <textarea id="description" value={description} onChange={(event)=> setDescription(event.target.value)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Description of material..." required/>
+    <label for="Description" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+    <textarea id="description" value={description} onChange={(event)=> setDescription(event.target.value)} className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Description of material..." required/>
   </div>
 
   <div className="mb-6">
-    <label for="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-    <select id="category"onChange={(event)=> setCategory(event.target.value)} required className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+    <label for="category" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+    <select id="category"onChange={(event)=> setCategory(event.target.value)} required className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
       <option value="notes">Notes</option>
       <option value="pdf">Pdf documents</option>
       <option value= "recordings" >recordings</option>
@@ -127,8 +127,8 @@ export default function AddNoteMaterial() {
   </div>
 
   <div className="mb-6">
-    <label for="grade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade</label>
-    <select id="grade"  onChange={(event)=> setGrade(event.target.value)} required className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+    <label for="grade" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade</label>
+    <select id="grade"  onChange={(event)=> setGrade(event.target.value)} required className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
       <option value= "grade 6">grade 6</option>
       <option value="grade 7">grade 7</option>
       <option value="grade 8">grade 8</option>
@@ -141,35 +141,35 @@ export default function AddNoteMaterial() {
   </div>
 
   <div className="mb-6">
-    <label for="subject" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject</label>
-    <input type="text" value={subject} onChange={(event)=>setSubject(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Subject of  notes..."required/>
+    <label for="subject" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject</label>
+    <input type="text" value={subject} onChange={(event)=>setSubject(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Subject of  notes..."required/>
   </div>
 
   <div className="mb-6">
-    <label for="teacher" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
-    <input type="text" value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..." required/>
+    <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
+    <input type="text" value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..." required/>
   </div>
 
   
  
-<label for="file" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
+<label for="file" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>
 <input id="files"  onChange={handleFileChange} className= " !block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type='file'/>
 
 
 
   <div className="mt-16">
     <Link to="/smN">
-  <button type="button" className="px-5 py-3 text-base font-medium text-center text-blue-800 stroke-black bg-white hover:stroke-blue-600 hover:shadow-lg rounded-lg  focus:ring-4 focus:outline-none">CANCEL</button>
+  <button type="button" className="!px-5 py-3 text-base font-medium text-center text-blue-800 stroke-black bg-white hover:stroke-blue-600 hover:shadow-lg rounded-lg  focus:ring-4 focus:outline-none">CANCEL</button>
   </Link>
   
-  <button type="submit" className=" float-right px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">UPLOAD</button>
+  <button type="submit" className="!float-right px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">UPLOAD</button>
   
   
   </div>
 </form>
 
 <ReactToPrint
-  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-1 font-bold float-right p-2'>Download Report</button>}
+  trigger={() => <button className='bg-yellow-400 border-2 border-black mt-1 font-bold float-right p-2 hover:bg-yellow-300'>Download Report</button>}
   content={() => componentRef.current}
   documentTitle="Thilina institute Hanwella"
   pageStyle={pageStyle}
