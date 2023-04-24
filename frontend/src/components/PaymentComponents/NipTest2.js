@@ -124,11 +124,11 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-300 justify-center h-screen">
+    <div className="flex flex-col items-center bg-gradient-to-r from-purple-400 to-pink-200 justify-center h-screen">
       <div className="border-b-2 border-gray-300 mb-8">
-        <ul className="flex justify-center">
-          <li className={`${activeTab === 'add' ? 'bg-gray-200' : ''} px-4 py-2 cursor-pointer`} onClick={() => handleTabClick('add')}>Add Subject</li>
-          <li className={`${activeTab === 'update' ? 'bg-gray-200' : ''} px-4 py-2 cursor-pointer`} onClick={() => handleTabClick('update')}>Update Subject</li>
+        <ul className="flex justify-center rounded-lg bg-white">
+          <li className={`${activeTab === 'add' ? 'bg-purple-500 font-bold text-white' : ''} px-4 py-2 cursor-pointer rounded-lg`} onClick={() => handleTabClick('add')}>Add Subject</li>
+          <li className={`${activeTab === 'update' ? 'bg-purple-500 font-bold text-white' : ''} px-4 py-2 cursor-pointer rounded-lg`} onClick={() => handleTabClick('update')}>Update Subject</li>
         </ul>
       </div>
 
