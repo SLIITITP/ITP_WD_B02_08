@@ -4,6 +4,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+
 const AllAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [searchGrade, setSearchGrade] = useState("");
@@ -62,8 +64,11 @@ const AllAssignments = () => {
           placeholder="Serch By Grade"
           id="searchGrade"
           value={searchGrade}
-          onChange={handleSearch}
-        />
+          onChange={handleSearch}>
+         
+          </input>
+
+       
       </div>
 
 
@@ -102,7 +107,7 @@ const AllAssignments = () => {
               </td>
               <td>
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-warning"
                   onClick={() => handleEdit(assignment._id)}
                 >
                   Edit
@@ -136,8 +141,8 @@ const AllAssignments = () => {
         </tbody>
       </table>
   
-      <button className="btn btn-primary" onClick={() => navigate("/a1")}>
-        Create
+      <button className="btn btn-success" onClick={() => navigate("/a1")}>
+        Create Assignment
       </button>
   
     </div>
