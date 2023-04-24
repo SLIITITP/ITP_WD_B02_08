@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef} from 'react';
 import axios from 'axios';
 import { getUserInfo } from "../../.././apicalls/users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../../.././redux/usersSlice.js";
 import { message } from "antd";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 function MyTimetable() {
 //view timetabe 
 const [classes=[], setClasses] = useState([]);
@@ -123,7 +126,70 @@ useEffect(() => {
   fetchEnrolledClasses();
 }, [enrolledClassIds]);
 
+const tableRef = useRef();
 
+
+//Download timetable as a pdf
+function handlePrintClick() {
+  const doc = new jsPDF({ orientation: 'landscape' });
+  const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  // Restructure the data to group classes by day
+  const classesByDay = {};
+  enrolledClassesData.forEach(clz => {
+    if (!classesByDay[clz.date]) {
+      classesByDay[clz.date] = [];
+    }
+    classesByDay[clz.date].push(clz);
+  });
+
+// Add table to PDF for each day of the week
+const tableHeaders = ['Day','Time','Subject', 'Grade',  'Teacher'];
+doc.autoTable({
+  head: [tableHeaders],
+  styles: { 
+    cellPadding: 3, 
+    valign: 'left',
+    halign: 'left',
+    overflow: 'linebreak',
+    fontSize: 12
+  },
+  columnStyles: {
+    0: { align: 'left' }, // Day column aligned to the left
+    1: { align: 'left' }, // Time column aligned to the left
+    2: { align: 'left' }, // Subject column aligned to the left
+    3: { align: 'left' }, // Grade column centered
+    4: { align: 'left' }, // Teacher column aligned to the left
+  }});
+weekdays.forEach((day, index) => {
+  const classRows = classesByDay[day];
+  if (classRows) {    
+    const tableRows = classRows.map(clz => [clz.date, clz.time, clz.subject, clz.grade,  clz.teacher]);
+    doc.setFontSize(18);
+    doc.autoTable({
+      body: tableRows,
+      margin: { top: 10 },
+      tableWidth: 'auto',
+      theme: 'striped',
+      styles: { 
+        cellPadding: 3, 
+        valign: 'left',
+        halign: 'left',
+        overflow: 'linebreak',
+        fontSize: 10
+      },
+      columnStyles: {
+        0: { align: 'left' }, // Date column aligned to the left
+        1: { align: 'left' }, // Time column aligned to the left
+        2: { align: 'left' }, // Subject column aligned to the left
+        3: { align: 'left' }, // Grade column centered
+        4: { align: 'left' }, // Teacher column aligned to the left
+      }
+    });
+  }
+});
+  doc.save('class-schedule.pdf');
+}
 
 return (
 <div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
@@ -145,7 +211,7 @@ return (
       </ul>
     </nav>
 <div className="table-responsive">
-<table className="table table-striped table-hover">
+<table className="table table-striped table-hover" ref={tableRef}>
   <thead className="text-center">
     <tr>
       <th>Time</th>
@@ -171,6 +237,9 @@ return (
     
   </tbody>
 </table>
+<button className="btn btn-primary" onClick={handlePrintClick}>
+        Print PDF
+</button>
 </div> 
 </div>
   </div>
