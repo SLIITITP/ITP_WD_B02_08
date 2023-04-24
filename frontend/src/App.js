@@ -229,7 +229,7 @@ function App() {
         <Route path='/viewPayment' exact element={<ViewPayment />} />
         <Route path='/confirmPayment' exact element={<PaymentConfirm />} />
         <Route path='/payment/checkout' exact element={<StripeContainer />} />
-        <Route path='/payment/addSubToTeachers' element={<AddSubToTeachers />} />
+        <Route path='/subject/addOrUpdate' element={<AddSubToTeachers />} />
         <Route path='/subject/update' element={<SubListUpdate />} />
         <Route path='/salary/calculate' element={<SalaryCalculation />} />
         <Route path='/niptest' element={<NipTest />} />
