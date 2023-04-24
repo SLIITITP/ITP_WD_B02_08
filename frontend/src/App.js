@@ -115,7 +115,7 @@ import PaymentCheckout from './components/PaymentComponents/PaymentCheckout'
 
 
 //import main pages
-//import enrollPage from './pages/Materials/enrollPage';
+//import EnrollPage from './pages/Materials/enrollPage';
 import StudentDashboard from './pages/Materials/StudentDashboard';
 import TeacherDashboard from './pages/Materials/TeacherDashboard';
 import TeacherNotePage from './pages/Materials/TeacherNotePage';
@@ -414,7 +414,7 @@ function App() {
 
 
 
-        <Route exact path="/sm" element={<enrollPage />} />
+        {/* <Route exact path="/sm" element={<EnrollPage />} /> */}
         <Route exact path="/smt" element={<TeacherDashboard />} />
         <Route exact path="/sms" element={<StudentDashboard />} />
         <Route exact path="/smN" element={<TeacherNotePage />} />
