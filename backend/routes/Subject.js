@@ -65,5 +65,19 @@ router.get('/amount/:_id', async (req, res) => {
     }
 });
 
+// DELETE subject by ID
+router.delete('/delete/:id', async (req, res) => {
+    try {
+      const deletedSubject = await Subject.findByIdAndDelete(req.params.id);
+      if (!deletedSubject) {
+        return res.status(404).send('Subject not found');
+      }
+      res.send('Subject deleted successfully');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
 
 module.exports = router;

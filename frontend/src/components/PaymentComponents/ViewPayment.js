@@ -321,7 +321,7 @@ function ViewPayment() {
                         {payments.map((payment) => (
                             <tr key={payment._id}>
                                 <td className="flex items-center border px-4 py-4">
-                                    <span className="mr-2">{payment.studentId}</span>
+                                    <span className="mr-2">{payment.studentId}{payment.notice}</span>
                                     {payment.notice && (
                                         <>
                                             <div className="inline-block cursor-pointer" onClick={() => setIsOpen(true)}>
@@ -345,8 +345,6 @@ function ViewPayment() {
                                         </>
                                     )}
                                 </td>
-
-
                                 <td className="border px-4 py-2">{payment.paidAmount} <p className='inline-block text-green-500' title={payment.paymentID}>{payment.paymentID ? 'Online' : ''}</p></td>
                                 <td className="border px-4 py-2">{payment.date}</td>
                                 <td className="border px-4 py-2">{payment.month}</td>
