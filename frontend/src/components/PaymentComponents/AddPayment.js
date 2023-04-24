@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { InformationCircleIcon } from '@heroicons/react/solid';
 import '../../stylesheets/Payment.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddPayment() {
     //set values
@@ -84,11 +86,11 @@ function AddPayment() {
 
         try {
             await axios.post('http://localhost:9090/api/payment/add', { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, notice });
-            alert('Payment added successfully!');
+            toast.success('Payment added successfully!');
             window.location.reload(); // Reloads the page after successful submission
         } catch (error) {
             console.error(error);
-            alert('Failed to add Payment!');
+            toast.error(error.response.data.error); // Displays the error message from the server
         }
     };
 
@@ -350,8 +352,8 @@ function AddPayment() {
                         </div>
                     )}
                 </div>
-
             </div>
+            <ToastContainer />
         </div >
     );
 }
