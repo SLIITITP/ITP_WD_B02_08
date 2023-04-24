@@ -187,6 +187,7 @@ import getSubjects from './components/Assignment_Management_components/getSubjec
 
 import QRScanner from './components/QRScanner';
 import FinanceProtectRoute from './components/FinanceProtectRoute';
+import SubAddingNew from './components/PaymentComponents/SubAddingNew';
 
 
 
@@ -238,6 +239,7 @@ function App() {
         <Route path='/niptest2' element={<NipTest2 />} />
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
+        <Route path='/subaddn' element={<SubAddingNew />} />
 
 
 
