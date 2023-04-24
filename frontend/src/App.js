@@ -186,7 +186,7 @@ import getSubjects from './components/Assignment_Management_components/getSubjec
 
 
 import QRScanner from './components/QRScanner';
-
+import FinanceProtectRoute from './components/FinanceProtectRoute';
 
 
 
@@ -224,17 +224,18 @@ function App() {
         <Route path='/t1' element={<T1 />} />
 
         {/* Financial Management Routes */}
-        <Route path='/addPayment' exact element={<AddPayment />} />
-        <Route path='/payOnline' exact element={<OnlinePayment />} />
-        <Route path='/viewPayment' exact element={<ViewPayment />} />
+        <Route path='/addPayment' exact element={<FinanceProtectRoute><AddPayment /></FinanceProtectRoute>} />
+        <Route path='/viewPayment' exact element={<FinanceProtectRoute><ViewPayment /></FinanceProtectRoute>} />
+        <Route path='/salary/calculate' element={<FinanceProtectRoute><SalaryCalculation /></FinanceProtectRoute>} />
+        <Route path='/salary/history' element={<FinanceProtectRoute><SalaryHistory /></FinanceProtectRoute>} />
+        <Route path='/subject/addOrUpdate' element={<FinanceProtectRoute><AddSubToTeachers /></FinanceProtectRoute>} />
+
         <Route path='/confirmPayment' exact element={<PaymentConfirm />} />
         <Route path='/payment/checkout' exact element={<StripeContainer />} />
-        <Route path='/subject/addOrUpdate' element={<AddSubToTeachers />} />
+        <Route path='/payOnline' exact element={<OnlinePayment />} />
         <Route path='/subject/update' element={<SubListUpdate />} />
-        <Route path='/salary/calculate' element={<SalaryCalculation />} />
         <Route path='/niptest' element={<NipTest />} />
         <Route path='/niptest2' element={<NipTest2 />} />
-        <Route path='/salary/history' element={<SalaryHistory />} />
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
 
