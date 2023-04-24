@@ -27,11 +27,13 @@ const StudentAssignments = () => {
     link.parentNode.removeChild(link);
   };
 
- 
   return (
-    <div>
-      <h1>All Assignments</h1>
-      <table>
+    <div className="container">
+     
+      <h1 className="text-center my-5" style={{ fontSize: '2rem' }}>
+        All Assignments
+      </h1>
+      <table className="table">
         <thead>
           <tr>
             <th>Type</th>
@@ -40,7 +42,6 @@ const StudentAssignments = () => {
             <th>Guidelines</th>
             <th>Deadline</th>
             <th>Resources</th>
-          
           </tr>
         </thead>
         <tbody>
@@ -54,6 +55,7 @@ const StudentAssignments = () => {
               <td>
                 {assignment.file && (
                   <button
+                    className="btn btn-primary"
                     onClick={() => {
                       downloadFile(assignment._id, assignment.file);
                     }}
@@ -62,17 +64,13 @@ const StudentAssignments = () => {
                   </button>
                 )}
               </td>
-            
-              
             </tr>
           ))}
         </tbody>
       </table>
-
-   
-
     </div>
   );
+  
 };
 
 export default StudentAssignments;
