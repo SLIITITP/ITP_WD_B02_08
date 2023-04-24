@@ -94,6 +94,9 @@ import ViewFeedbacks from './components/Assignment_Management_components/ViewFee
 
 
 
+
+
+
 ///////////////////////////////////////////////////
 
 
@@ -176,6 +179,14 @@ import AssignmentForm from './components/Assignment_Management_components/Assign
 import AllAssignments from './components/Assignment_Management_components/AllAssignments';
 import AssignmentEdit from './components/Assignment_Management_components/AssignmentEdit';
 import StudentAssignments from './components/Assignment_Management_components/StudentAssignments';
+import ChartJsExample from './components/Assignment_Management_components/ChartJsExample';
+
+
+import getSubjects from './components/Assignment_Management_components/getSubjects';
+
+
+import QRScanner from './components/QRScanner';
+
 
 
 
@@ -355,7 +366,7 @@ function App() {
     
         
 
-
+     
 
 
 
@@ -370,12 +381,16 @@ function App() {
 
 
         <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
+        <Route exact path="/charts" element={<AssignmentRoute><ChartJsExample /></AssignmentRoute>} />
+     
 
         <Route path="/details" exact element={<Details />} />
 
 
 
         <Route path="/all" exact element={<DownloadAllFilesButton />} />
+
+        <Route path="/in/get" exact element={<getSubjects/>} />
 
 
     
@@ -437,16 +452,7 @@ function App() {
         <Route exact path="/fbs/t/:id" element={<EditFeedBackPage />} />
 
 
-
-
-
-
-
-
-
-
-
-
+        <Route path='/qrgen' exact element={<QRScanner/>}></Route>
 
 
 
