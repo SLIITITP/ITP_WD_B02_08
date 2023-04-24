@@ -164,19 +164,20 @@ export default class TicketList extends Component{
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
-import { getUserInfo } from "../apicalls/users";
-import { useDispatch, useSelector } from "react-redux";
-import { SetUser } from "../redux/usersSlice.js";
-import { parsePath, useNavigate } from "react-router-dom";
-import { message } from "antd";
-import { HideLoading, ShowLoading } from "../redux/loaderSlice";
+//import { getUserInfo } from "../apicalls/users";
+//import { useDispatch, useSelector } from "react-redux";
+//import { SetUser } from "../redux/usersSlice.js";
+//import { parsePath, useNavigate } from "react-router-dom";
+//import { message } from "antd";
+//import { HideLoading, ShowLoading } from "../redux/loaderSlice";
 
 
 
  function TicketList() {
   const [tickets, setTickets] = useState([]);
   const [searchKey, setSearchKey] = useState('');
-  const [role, setRole] = useState("");
+
+  {/*const [role, setRole] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.users.user);
@@ -217,7 +218,7 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
       }
     };
     fetchData();
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate]);*/}
   
   useEffect(() => {
     retrieveTickets();

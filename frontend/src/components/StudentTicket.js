@@ -15,10 +15,10 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.users.user);
-  //const [TicketId,setTicketId] = useState([]);
   
   //const StudentId = "644293c422e13dce0575499e";
   const StudentId = user?.name;
+
   const getUserData = async (dispatch) => {
     try {
       dispatch(ShowLoading());
@@ -28,8 +28,6 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
         dispatch(SetUser(response.data));
         const role = response.data.isAdmin ? "admin" : "user";
         setRole(role);
-
-        
         return role;
       } else {
         message.error(response.message);
