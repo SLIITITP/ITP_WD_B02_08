@@ -64,6 +64,7 @@ const NipunUserRouter = require('./routes/NipunUser');
 const PaymentRouter = require('./routes/Payment');
 const SalaryRouter = require('./routes/Salary');
 const AmNipRouter = require('./routes/AmNip')
+const teachRoute = require('./routes/teacherRoute')
 
 
 const usersRoute = require("./routes/usersRoute");
@@ -80,6 +81,7 @@ app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
 app.use('/api/salary', SalaryRouter);
 app.use('/api/amnip', AmNipRouter);
+app.use('/api/teacher', teachRoute)
 
 app.use(ticketRoutes);
 
