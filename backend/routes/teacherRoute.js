@@ -3,7 +3,7 @@ const router = express.Router();
 const Teacher = require('../models/teacher.model');
 
 // Route to get all teachers
-router.get('/teachers', async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
     const teachers = await Teacher.find({});
     res.status(200).json(teachers);
