@@ -32,7 +32,9 @@ input[type='file']{
 
 .body{
     background: #dcdce6;
-    background-image: url('../images/Background.png');
+    background-image: url('../images/teaProfile.jpg');
+    background-size: contain;
+    background-position: center;
   }
 
 

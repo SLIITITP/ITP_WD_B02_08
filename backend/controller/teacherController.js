@@ -181,11 +181,11 @@ async function updateTeacher(req, res){
                     number = parseInt(parts[1]);
                     ++number;
                     if(number<9){
-                      id = "TCH000"+number.toString()
+                      id = "TCH_000"+number.toString()
                     }else if(number<99 && number>=10){
-                      id = "TCH00"+number.toString()
+                      id = "TCH_00"+number.toString()
                     }else if(number<999 && number>100){
-                      id = "TCH0"+number.toString()
+                      id = "TCH_0"+number.toString()
                     }else{
                       id = "TCH"+number.toString()
                     }

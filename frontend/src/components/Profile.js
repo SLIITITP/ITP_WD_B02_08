@@ -150,7 +150,7 @@ export default function Profile() {
             className={`${styles.glass} ${extend.glass}`}
             style={{ height: "98%" }}
           >
-            <div className="title flex flex-col items-center">
+            <div className="title flex flex-col items-center ">
               <h4 className="text-5xl font-bold"> Student Profile</h4>
               <span className="py-4 text-xl w-2/3 text-center text-gray-500">
                 {apiData.studentId} - {username}
@@ -247,23 +247,23 @@ export default function Profile() {
                 </span>
               </div>
             </form>
-            <button
-              className={styles.btn}
+            <button 
+              className={styles.btn} 
               onClick={() => {
-                setDeleteit(true);
-                // toast.promise(
-                //   deleteUser(apiData.id).then((res) => {
-                //     console.log(res);
-                //     if (res.data.status === 200) {
-                //       navigate("/");
-                //     }
-                //   }),
-                //   {
-                //     loading: "Delelting...",
-                //     success: <b>Delete Sucessfully...!</b>,
-                //     error: <b>Could Not Delete!</b>,
-                //   }
-                // );
+                // setDeleteit(true);
+                toast.promise(
+                  deleteUser(apiData.id).then((res) => {
+                    console.log(res);
+                    if (res.data.status === 200) {
+                      navigate("/");
+                    }
+                  }),
+                  {
+                    loading: "Delelting...",
+                    success: <b>Delete Sucessfully...!</b>,
+                    error: <b>Could Not Delete!</b>,
+                  }
+                );
               }}
             >
               Delete
