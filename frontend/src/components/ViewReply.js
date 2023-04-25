@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+import bac4 from '../assets/bac4.jpg'
 
 
 const TicketDetails = () => {
@@ -24,7 +24,7 @@ const TicketDetails = () => {
 <div>
 
   <br></br>
-    <div style={{ backgroundColor: '#ADD8E6',padding: '20px',marginLeft:'40px',marginRight:'40px',borderRadius:'5px' }} >
+    <div style={{ backgroundColor: '#cdcdcd',padding: '20px',marginLeft:'40px',marginRight:'40px',borderRadius:'5px' }} >
     
       <br></br>
    <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Subject :
@@ -47,7 +47,9 @@ const TicketDetails = () => {
 
    <br></br>
     </div>
-  
+    <div className="opacity-50 absolute">
+      <img src={bac4} alt="logo" style={{marginTop:'0px' ,width:'1600px',height:'400px'}}  />
+      </div>
     </div>
     
   );

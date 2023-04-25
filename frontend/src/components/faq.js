@@ -57,46 +57,36 @@ export default class FAQ extends Component{
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefour" aria-expanded="false" aria-controls="flush-collapsefour">
-      How do I apply for registration?
+      What payment methods do you accept?
       </button>
     </h2>
     <div id="flush-collapsefour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">To apply for registration, please fill out the registration form available on our website and submit it. Once your request is approved, you will receive a confirmation email.</div>
+      <div class="accordion-body">We accept credit/debit cards and bank transfers as payment methods. Please choose the option that works best for you.</div>
     </div>
   </div>
 
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefive" aria-expanded="false" aria-controls="flush-collapsefive">
-      How do I apply for registration?
+      How can I view my timetable?
       </button>
     </h2>
     <div id="flush-collapsefive" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">To apply for registration, please fill out the registration form available on our website and submit it. Once your request is approved, you will receive a confirmation email.</div>
+      <div class="accordion-body">To view your timetable, log into your account on our website and select the "Timetable" option.</div>
     </div>
   </div>
 
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsesix" aria-expanded="false" aria-controls="flush-collapsesix">
-      How do I apply for registration?
+      How can I access Download study materials?
       </button>
     </h2>
     <div id="flush-collapsesix" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">To apply for registration, please fill out the registration form available on our website and submit it. Once your request is approved, you will receive a confirmation email.</div>
+      <div class="accordion-body">Additional study materials may be available on our website or through the course syllabus.</div>
     </div>
   </div>
 </div>
-{/*<div>
-
-    <br></br>    
-<center>
-<iframe width="450" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/f94893e9-e673-4e56-810d-36b100bc91e0"></iframe>
-</center>
-
-<br></br>
-</div>*/}
-
 
 </div>
 

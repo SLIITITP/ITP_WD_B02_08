@@ -3,18 +3,29 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom'
 import ViewReply from './ViewReply';
 import { useNavigate } from "react-router-dom";
+import bac4 from '../assets/bac4.jpg'
 
  function Reply(props) {
   const navigate = useNavigate();
   const [message, setmessage] = useState("");
   const [status, setstatus] = useState("");
   const { id } = useParams();
+  const [ticket, setTicket] = useState({});
 
   useEffect(() => {
     axios.get(`http://localhost:9090/ticket/${id}`).then((res)=>{
       if(res.data.success){
         setmessage(res.data.ticket.message);
         setstatus(res.data.ticket.status)
+      }
+    });
+  }, [id]);
+
+
+  useEffect(() => {
+    axios.get(`http://localhost:9090/ticket/${id}`).then((res) => {
+      if (res.data.success) {
+        setTicket(res.data.ticket);
       }
     });
   }, [id]);
@@ -43,12 +54,41 @@ import { useNavigate } from "react-router-dom";
       }
     });
   }
+ 
+    useEffect(() => {
+      axios.get(`http://localhost:9090/ticket/${id}`).then((res) => {
+        if (res.data.success) {
+          setTicket(res.data.ticket);
+        }
+      });
+    }, [id]);
   
 
   return (
-    <div>
+    
       <div>
-      <ViewReply />
+      <br></br>
+    <div style={{ backgroundColor: '#cdcdcd',padding: '20px',marginLeft:'40px',marginRight:'40px',borderRadius:'5px' }} >
+      <br></br>
+   <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Subject :
+   <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.subject}</small></h5>
+
+    <br></br>
+      
+   <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Date :
+   <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.openAt}</small></h5>
+    
+    <br></br>
+      
+   <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Ticket Details :
+   <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.details}</small></h5>
+
+    <br></br>
+   <h5 class="text-l font-extrabold dark:text-white" style={{marginLeft:'40px'}}>Reply: </h5>
+   <br></br>
+   <h6 style={{marginLeft:'40px'}} class="ml-2 font-semibold text-gray-500 dark:text-gray-400">{ticket.message}</h6>
+
+   <br></br>
     </div>
       <div className="col-lg-9 mt-2 mb-2">
       {/*<h5 className="text-2xl font-bold dark:text-white" style={{marginLeft:'40px'}}> Reply</h5>*/}
@@ -70,6 +110,7 @@ import { useNavigate } from "react-router-dom";
 
       <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={onSubmit}>Submit</button>
     </form>
+   
   </div>
   );
   }

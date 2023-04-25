@@ -6,6 +6,8 @@ import { SetUser } from "../redux/usersSlice.js";
 import { parsePath, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
+import bac3 from '../assets/bac3.jpg'
+
 
  function StudentTicket() {
 
@@ -79,9 +81,7 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
   const filterData = (tickets, searchKey) => {
     const result = tickets.filter((ticket) =>
       ticket.StudentId.toLowerCase().includes(searchKey) ||
-      ticket.subject.toLowerCase().includes(searchKey) ||
-      ticket.openAt.toLowerCase().includes(searchKey) ||
-      ticket.status.toLowerCase().includes(searchKey)
+      ticket.subject.toLowerCase().includes(searchKey) 
     );
     setTickets(result);
   };
@@ -112,22 +112,24 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
         </div>
       </div>
 
+     
+      <div className="opacity-50 absolute">
+      <img src={bac3} alt="logo" style={{marginTop:'20px' ,width:'1600px',height:'700px'}}  />
+      </div>
+
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <center>
         <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           href="/addTicket" >Add new Ticket</a>
       </center>
       <br></br>
-
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-white uppercase bg-black dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
                 ID
               </th>
-              <th scope="col" className="px-6 py-3">
-                Student Id
-              </th>
+      
               <th scope="col" className="px-6 py-3">
                 Subject
               </th>
@@ -150,10 +152,9 @@ import { HideLoading, ShowLoading } from "../redux/loaderSlice";
                      <th scope="row"  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index+1} </th>
                   <td class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                     <a href={ `/vreply/${tickets._id}`} style={{textDecoration:'none'}}>
-                    {tickets.StudentId}
+                    {tickets.subject}
                     </a>
                   </td>
-                  <td>{tickets.subject}</td>
                   <td>{tickets.status}</td>
                   <td>{tickets.openAt}</td>
                   <td> 
