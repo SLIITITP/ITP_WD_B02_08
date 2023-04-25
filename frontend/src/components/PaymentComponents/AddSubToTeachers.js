@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import Select from 'react-select';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -36,31 +37,48 @@ function App() {
   }, []);
 
   //adding subject data
-  const handleSubmit = async (event) => {
+  const [teacherOptions, setTeacherOptions] = useState([]);
+  const [selectedTeacherId, setSelectedTeacherId] = useState('');
+  const [selectedTeacherName, setSelectedTeacherName] = useState('');
+  const [subjectAdded, setSubjectAdded] = useState(false);
+
+  useEffect(() => {
+    // Load all teachers and set them as options in the dropdown
+    axios.get('/api/teasub/alltt')
+      .then(response => {
+        const teachers = response.data;
+        const options = teachers.map(teacher => ({ value: teacher._id, label: `${teacher.firstName} ${teacher.lastName}` }));
+        setTeacherOptions(options);
+        console.log(options)
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  const handleTeacherChange = selectedOption => {
+    // When a teacher is selected, set their ID as the selectedTeacherId state
+    setSelectedTeacherId(selectedOption.value);
+    setSelectedTeacherName(selectedOption.label);
+    console.log(selectedOption.label)
+  };
+
+  const handleSubmit = event => {
     event.preventDefault();
-
-    try {
-      const response = await axios.post('/api/subject/add', {
-        subjectName,
-        subjectAmount,
-        subjectTeacherID,
-        subjectTeacherName,
-      });
-      // console.log(response.data);
-      toast.success("Subject added successfully!");
-      setSubjectName('');
-      setSubjectID('');
-      setSubjectAmount(0);
-      setSubjectTeacherID('');
-      setSubjectTeacherName('');
-
-      // fetch the updated list of subjects
-      const updatedResponse = await axios.get('/api/subject/subjects');
-      setSubjects(updatedResponse.data);
-    } catch (error) {
-      console.error(error);
-      toast.error("Subject Adding Error!");
-    }
+    // Create a new subject with the entered details and the selected teacher ID
+    const newSubject = {
+      subjectName,
+      subjectAmount,
+      subjectTeacherID: selectedTeacherId,
+      subjectTeacherName: selectedTeacherName
+    };
+    // Send a POST request to the server to add the new subject
+    axios.post('/api/subject/add', newSubject)
+      .then(response => {
+        setSubjectName('');
+        setSubjectAmount('');
+        setSelectedTeacherId('');
+        setSubjectAdded(true);
+      })
+      .catch(error => console.log(error));
   };
 
   const handleSubjectChange = (e) => {
@@ -138,19 +156,19 @@ function App() {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="subjectName" className="block text-gray-700 font-medium mb-2">Subject Name:</label>
-              <input type="text" value={subjectName} onChange={(e) => setSubjectName(e.target.value)} required className="border border-gray-400 p-2 w-full rounded" />
+              <input type="text" value={subjectName} onChange={event => setSubjectName(event.target.value)} required className="border border-gray-400 p-2 w-full rounded" />
             </div>
             <div className="mb-4">
               <label htmlFor="subjectAmount" className="block text-gray-700 font-medium mb-2">Subject Amount:</label>
-              <input type="number" value={subjectAmount} onChange={(e) => setSubjectAmount(e.target.value)} required className="border border-gray-400 p-2 w-full rounded" />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="subjectTeacherID" className="block text-gray-700 font-medium mb-2">Subject Teacher ID:</label>
-              <input type="text" value={subjectTeacherID} onChange={(e) => setSubjectTeacherID(e.target.value)} required className="border border-gray-400 p-2 w-full rounded" />
+              <input type="number" value={subjectAmount} onChange={event => setSubjectAmount(event.target.value)} required className="border border-gray-400 p-2 w-full rounded" />
             </div>
             <div className="mb-4">
               <label htmlFor="subjectTeacherName" className="block text-gray-700 font-medium mb-2">Subject Teacher Name:</label>
-              <input type="text" value={subjectTeacherName} onChange={(e) => setSubjectTeacherName(e.target.value)} required className="border border-gray-400 p-2 w-full rounded" />
+              <Select options={teacherOptions} onChange={handleTeacherChange} required className="border border-gray-400 p-2 w-full rounded" />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="subjectTeacherID" className="block text-gray-700 font-medium mb-2">Subject Teacher ID:</label>
+              <input type="text" value={selectedTeacherId} readOnly required className="border border-gray-400 p-2 w-full rounded" />
             </div>
             <div className='flex justify-center'>
               <button className="px-4 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600">Add Subject</button>

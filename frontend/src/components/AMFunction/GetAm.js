@@ -134,141 +134,143 @@ function GetAm() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="date">Date:</label>
-                    <input
-                        type="date"
-                        id="date"
-                        value={date}
-                        onChange={(event) => setDate(event.target.value)}
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="time">Time:</label>
-                    <input
-                        type="time"
-                        id="time"
-                        value={time}
-                        onChange={(event) => setTime(event.target.value)}
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="subject">Subject:</label>
-                    <select
-                        id="subject"
-                        value={subjectID}
-                        onChange={(event) => setSubjectID(event.target.value)}
-                        required
-                    >
-                        <option value="">-- Select a subject --</option>
-                        {subjects.map((subject) => (
-                            <option key={subject._id} value={subject.subjectID}>
-                                {subject.subjectName} {subject.subjectTeacherName}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div>
-                    <label htmlFor="grade">Grade:</label>
-                    <select
-                        id="grade"
-                        value={grade}
-                        onChange={(event) => setGrade(event.target.value)}
-                        required
-                    >
-                        <option value="">-- Select a grade --</option>
-                        <option value="1">Grade 1</option>
-                        <option value="2">Grade 2</option>
-                        <option value="3">Grade 3</option>
-                        <option value="4">Grade 4</option>
-                        <option value="5">Grade 5</option>
-                        <option value="6">Grade 6</option>
-                        <option value="7">Grade 7</option>
-                        <option value="8">Grade 8</option>
-                        <option value="9">Grade 9</option>
-                        <option value="10">Grade 10</option>
-                        <option value="11">Grade 11</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label htmlFor="search">Search:</label>
-                    <div className="search-box">
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label htmlFor="date">Date:</label>
                         <input
-                            id="search"
-                            type="text"
-                            value={searchTerm}
-                            onChange={(event) => {
-                                setSearchTerm(event.target.value);
-                                setShowDropdown(true);
-                                setSelectedStudent(null);
-                            }}
+                            type="date"
+                            id="date"
+                            value={date}
+                            onChange={(event) => setDate(event.target.value)}
+                            required
                         />
-                        {showDropdown && (
-                            <ul className="search-results">
-                                {filteredStudents.map((student) => (
-                                    <li key={student._id} onClick={() => handleSelectStudent(student)}>
-                                        {student.name} ({student.studentID})
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        {selectedStudent && (
-                            <div>
-                                <p>{selectedStudent.name}</p>
-                                <p>{selectedStudent.studentID}</p>
-                            </div>
+                    </div>
+
+                    <div>
+                        <label htmlFor="time">Time:</label>
+                        <input
+                            type="time"
+                            id="time"
+                            value={time}
+                            onChange={(event) => setTime(event.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="subject">Subject:</label>
+                        <select
+                            id="subject"
+                            value={subjectID}
+                            onChange={(event) => setSubjectID(event.target.value)}
+                            required
+                        >
+                            <option value="">-- Select a subject --</option>
+                            {subjects.map((subject) => (
+                                <option key={subject._id} value={subject.subjectID}>
+                                    {subject.subjectName} {subject.subjectTeacherName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label htmlFor="grade">Grade:</label>
+                        <select
+                            id="grade"
+                            value={grade}
+                            onChange={(event) => setGrade(event.target.value)}
+                            required
+                        >
+                            <option value="">-- Select a grade --</option>
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4">Grade 4</option>
+                            <option value="5">Grade 5</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label htmlFor="search">Search:</label>
+                        <div className="search-box">
+                            <input
+                                id="search"
+                                type="text"
+                                value={searchTerm}
+                                onChange={(event) => {
+                                    setSearchTerm(event.target.value);
+                                    setShowDropdown(true);
+                                    setSelectedStudent(null);
+                                }}
+                            />
+                            {showDropdown && (
+                                <ul className="search-results">
+                                    {filteredStudents.map((student) => (
+                                        <li key={student._id} onClick={() => handleSelectStudent(student)}>
+                                            {student.name} ({student.studentID})
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            {selectedStudent && (
+                                <div>
+                                    <p>{selectedStudent.name}</p>
+                                    <p>{selectedStudent.studentID}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <button type="submit">Add Attendance</button>
+                </form>
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+                <div>
+                    {paidForMonth ? (
+                        <h1 style={{ color: 'green' }}>Paid for selected subject, grade & month</h1>
+                    ) : (
+                        <h1 style={{ color: 'red' }}>NOT PAID</h1>
+                    )}
+                </div>
+                <div>
+                    <div>
+                        <h4>Payment History for Student ID {studentID}</h4>
+                        {payments.length > 0 ? (
+                            <table className='border border-black p-1'>
+                                <thead className='border border-black p-1 text-center'>
+                                    <tr>
+                                        <th className='border border-black p-1'>Date</th>
+                                        <th className='border border-black p-1'>Month</th>
+                                        <th className='border border-black p-1'>Subjects</th>
+                                        <th className='border border-black p-1'>Grade</th>
+                                        <th className='border border-black p-1'>Paid Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='text-center'>
+                                    {payments.map(payment => (
+                                        <tr key={payment._id}>
+                                            <td className='border border-black p-1'>{payment.date}</td>
+                                            <td className='border border-black p-1 text-lg text-green-500'>{payment.month}</td>
+                                            <td className='border border-black p-1'>{payment.subjects.join(', ')}</td>
+                                            <td className='border border-black p-1'>{payment.grade}</td>
+                                            <td className='border border-black p-1'>{payment.paidAmount}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>No payment history found for student ID {studentID}</p>
                         )}
                     </div>
-                </div>
-
-                <button type="submit">Add Attendance</button>
-            </form>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            <div>
-                {paidForMonth ? (
-                    <h1 style={{ color: 'green' }}>Paid for selected subject, grade & month</h1>
-                ) : (
-                    <h1 style={{ color: 'red' }}>NOT PAID</h1>
-                )}
-            </div>
-            <div>
-                <div>
-                    <h4>Payment History for Student ID {studentID}</h4>
-                    {payments.length > 0 ? (
-                        <table className='border border-black p-1'>
-                            <thead className='border border-black p-1 text-center'>
-                                <tr>
-                                    <th className='border border-black p-1'>Date</th>
-                                    <th className='border border-black p-1'>Month</th>
-                                    <th className='border border-black p-1'>Subjects</th>
-                                    <th className='border border-black p-1'>Grade</th>
-                                    <th className='border border-black p-1'>Paid Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody className='text-center'>
-                                {payments.map(payment => (
-                                    <tr key={payment._id}>
-                                        <td className='border border-black p-1'>{payment.date}</td>
-                                        <td className='border border-black p-1 text-lg text-green-500'>{payment.month}</td>
-                                        <td className='border border-black p-1'>{payment.subjects.join(', ')}</td>
-                                        <td className='border border-black p-1'>{payment.grade}</td>
-                                        <td className='border border-black p-1'>{payment.paidAmount}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>No payment history found for student ID {studentID}</p>
-                    )}
                 </div>
             </div>
         </div>
