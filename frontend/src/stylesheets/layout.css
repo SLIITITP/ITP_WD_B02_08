@@ -44,3 +44,8 @@
 .header i{
     color: white !important;
 }
+.content {
+    height: 90%; /* fixed height */
+    overflow-y: scroll; /* enable vertical scrollbar */
+  }
+  
