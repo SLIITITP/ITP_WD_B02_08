@@ -58,6 +58,7 @@ import AddTicket from './components/AddTicket'
 import EditTicket from './components/EditTicket'
 import TicketList from './components/TicketList';
 import ViewReply from './components/ViewReply';
+import TicketsReport from './components/TicketsReport';
 import Reply from './components/reply';
 import FAQ from './components/faq';
 import Gvideos from './components/GuideVideos';
@@ -360,7 +361,9 @@ function App() {
         <Route path="/edit/:id" exact element={<TicketsSideNav >
         <EditTicket />
         </TicketsSideNav>}/>
-        
+        <Route path="tReport" exact element={<TicketsSideNav >
+        <TicketsReport />
+        </TicketsSideNav>}/>
       
         <Route path="/faq" exact element={<FAQ />} />
         <Route path="/gvideos" element={<Gvideos />} />
