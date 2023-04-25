@@ -114,7 +114,7 @@ function TeacherTimetableSideNav({ children }){
           }
           if (
             activeRoute.includes("#/") &&
-            paths.includes("#")
+            paths.includes("#/")
           ) {
             return true;
           }
