@@ -5,12 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
+import {GrNotes} from 'react-icons/gr'
+import {GrDocumentPdf} from 'react-icons/gr'
+import {GrDocumentVideo} from 'react-icons/gr'
+import {GiArchiveResearch} from 'react-icons/gi'
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
 import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
+
+
 
 function SProtectedRoute({ children }) {
   const { user } = useSelector((state) => state.users);
@@ -65,25 +71,25 @@ function SProtectedRoute({ children }) {
     {
       title: "NOTES",
       paths: ["/smN","/smN/add"],
-      icon: <i className="ri-bar-chart-line"></i>,
+      icon: <GrNotes className="ri-bar-chart-line bg-white"></GrNotes>,
       onClick: () => navigate("/smN"),
     },
     {
         title: " PDF",
         paths: ["/smP","/smP/add"],
-        icon: <i className="ri-bar-chart-line"></i>,
+        icon: <GrDocumentPdf className="ri-bar-chart-line bg-white"></GrDocumentPdf>,
         onClick: () => navigate("/smP"),
       },
       {
         title: "RECORDS",
         paths: ["/smRe","/smRe/add"],
-        icon: <i className="ri-bar-chart-line"></i>,
+        icon: <GrDocumentVideo className="ri-bar-chart-line bg-white"></GrDocumentVideo>,
         onClick: () => navigate("/smRe"),
       },
       {
         title: "RESEARCH",
         paths: ["/smR","/smR/add"],
-        icon: <i className="ri-bar-chart-line"></i>,
+        icon: <GiArchiveResearch className="ri-bar-chart-line"></GiArchiveResearch>,
         onClick: () => navigate("/smR"),
       },
     {
@@ -196,7 +202,7 @@ function SProtectedRoute({ children }) {
                 <i class="ri-user-line"></i>
                 <h1 className="text-md text-white underline">{user?.name}</h1>
               </div>
-              <span>Role : {user?.isAdmin ? "Admin" : "User"}</span>
+              <span className=" text-white">Role : {user?.isAdmin ? "Admin" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>

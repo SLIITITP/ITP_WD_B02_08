@@ -36,7 +36,7 @@ export default function RecordMaterialCardStudent() {
 
         setTimeout(() => {
           navigate('/rmpRe');
-        }, 5000);
+        }, 10000);
         
       } catch (error) {
         console.log(error.response.data);
@@ -109,15 +109,26 @@ export default function RecordMaterialCardStudent() {
    <input type='text' value={record.teacher} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"disabled/>
  </div>
 
-{/*  <div className="mb-4">
+ <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">recording URL</label>
-   <input type='text' className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"disabled/>
- </div> */}
+   <input type='text'value={record.fileLink} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"disabled/>
+ </div> 
 
  <div className="mt-10">
   <Link to="/fbs">
  <button type="submit" className="ml-2 mr-48 justify-center text-white bg-yellow-500 hover:shadow-xl hover:bg-yellow-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Feedback</button>
  </Link>
+
+ <a href={record.fileLink} target="_blank">
+  <button
+    type="submit"
+    className="float-right mr-2 text-white bg-green-700 hover:shadow-xl hover:bg-green-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+  >
+    View Recording
+  </button>
+</a>
+
+ </div>
 
  <ReactToPrint
   trigger={() => <button className='bg-yellow-400 border-2 border-black mt-3 mr-3 font-bold float-right p-2 hover:bg-yellow-300'>Download Report</button>}
@@ -127,7 +138,7 @@ export default function RecordMaterialCardStudent() {
 />
  
 
- </div>
+ 
 
  
  

@@ -19,7 +19,7 @@ export default function RecordMaterialTeacher() {
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
-  const [material, setMaterial] = useState('');
+  const [fileLink, setFileLink] = useState('');
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function RecordMaterialTeacher() {
         setGrade(response.data.grade);
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
-        setMaterial(response.data.material);
+        setFileLink(response.data.fileLink);
         // set any other fields you need to update
       } catch (error) {
         console.error(error);
@@ -53,7 +53,7 @@ export default function RecordMaterialTeacher() {
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
-    formData.append('material', material);
+    formData.append('fileLink', fileLink);
     formData.append('file', file);
 
     try {
@@ -168,10 +168,15 @@ export default function RecordMaterialTeacher() {
    <input type='text'value={teacher} onChange={(event) => setTeacher(event.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
  </div>
 
-{/*  <div className="mb-4">
+  <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recording URL</label>
-   <input type='text'value={material} onChange={(event) => setMaterial(event.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
- </div> */}
+   <input type='text'value={fileLink} onChange={(event) => setFileLink(event.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
+   {fileLink && (
+  <a href={fileLink} target="_blank" rel="noopener noreferrer" className=' text-blue-950 font-bold mt-2 bg-gray-400'>{fileLink}</a>
+    )}
+
+ 
+ </div> 
 
 
  <label for="file" className=" mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">File here</label>

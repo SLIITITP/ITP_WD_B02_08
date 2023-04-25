@@ -482,7 +482,7 @@ exports.Record = async (req, res) => {
         return res.status(400).json({ error: 'Bad Request' });
       }
       // getting the title, description, category, grade, subject, teacher, location from the body
-      const { title, description, category, grade, subject, teacher,} = req.body;
+      const { title, description, category, grade, subject, teacher,fileLink} = req.body;
       // getting the file from the request
       const { filename, mimetype } = req.file;
   
@@ -495,6 +495,7 @@ exports.Record = async (req, res) => {
         grade: grade,
         subject: subject,
         teacher: teacher,
+        fileLink:fileLink,
         file: filename,
         mimetype: mimetype
       });
@@ -553,7 +554,7 @@ exports.updateRecord = async (req, res) => {//exporting the update method
       //getting the id as a parameter
       const { id } = req.params;
       //getting the title, description, category, grade, subject, teacher from the body
-      const { title, description, category, grade, subject, teacher } = req.body;
+      const { title, description, category, grade, subject, teacher,fileLink } = req.body;
      
       //creating the updatedRecord object
     const updatedRecord =
@@ -564,6 +565,7 @@ exports.updateRecord = async (req, res) => {//exporting the update method
           grade: grade,
           subject: subject,
           teacher: teacher,
+          fileLink:fileLink
         }
         //checking the file is attached or not
         if (req.file) {
