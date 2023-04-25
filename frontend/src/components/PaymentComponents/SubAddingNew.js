@@ -8,15 +8,17 @@ function AddSubjectForm() {
   const [subjectAmount, setSubjectAmount] = useState('');
   const [teacherOptions, setTeacherOptions] = useState([]);
   const [selectedTeacherId, setSelectedTeacherId] = useState('');
+  const [selectedTeacherName, setSelectedTeacherName] = useState('');
   const [subjectAdded, setSubjectAdded] = useState(false);
 
   useEffect(() => {
     // Load all teachers and set them as options in the dropdown
-    axios.get('/api/teacher/all')
+    axios.get('/api/teasub/alltt')
       .then(response => {
         const teachers = response.data;
-        const options = teachers.map(teacher => ({ value: teacher.teacherId, label: `${teacher.firstName} ${teacher.lastName}` }));
+        const options = teachers.map(teacher => ({ value: teacher._id, label: `${teacher.firstName} ${teacher.lastName}` }));
         setTeacherOptions(options);
+        console.log(options)
       })
       .catch(error => console.log(error));
   }, []);
@@ -24,6 +26,8 @@ function AddSubjectForm() {
   const handleTeacherChange = selectedOption => {
     // When a teacher is selected, set their ID as the selectedTeacherId state
     setSelectedTeacherId(selectedOption.value);
+    setSelectedTeacherName(selectedOption.label);
+    console.log(selectedOption.label)
   };
 
   const handleSubmit = event => {
@@ -32,10 +36,11 @@ function AddSubjectForm() {
     const newSubject = {
       subjectName,
       subjectAmount,
-      subjectTeacherID: selectedTeacherId
+      subjectTeacherID: selectedTeacherId,
+      subjectTeacherName: selectedTeacherName
     };
     // Send a POST request to the server to add the new subject
-    axios.post('/api/subjects', newSubject)
+    axios.post('/api/subject/add', newSubject)
       .then(response => {
         setSubjectName('');
         setSubjectAmount('');
@@ -59,7 +64,7 @@ function AddSubjectForm() {
             Subject amount:
             <input type="number" value={subjectAmount} onChange={event => setSubjectAmount(event.target.value)} />
           </label>
-          <label>
+          <label className=''>
             Subject teacher:
             <Select options={teacherOptions} onChange={handleTeacherChange} />
           </label>
