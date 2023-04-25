@@ -33,8 +33,21 @@ input[type='file']{
 .body{
     background: #dcdce6;
     background-image: url('../images/teaProfile.jpg');
-    background-size: contain;
-    background-position: center;
+    background-size: 100% 120%;
+    object-fit:contain;
+    width: 100%;
+  }
+
+
+  .textStyle{
+    width: 100%;
+    background-color: rebeccapurple;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }
+  element.style{
+    text-align: center;
   }
 
 

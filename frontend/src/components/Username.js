@@ -29,6 +29,7 @@ export default function Username() {
         validateOnChange: false,
         onSubmit : async values =>{                //validate only after submitting button
             setUsername(values.username);
+            localStorage.setItem("userName",values.username)
             navigate('/password')
         }            
     })
