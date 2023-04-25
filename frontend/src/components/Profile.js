@@ -11,7 +11,7 @@ import useFetch from "../hooks/fetch.hook";
 import { useAuthStore } from "../redux/store1";
 import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
 import QRCodeGenerator from "./QRCodeGenerator";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -24,8 +24,9 @@ export default function Profile() {
   const { username } = useAuthStore((state) => state.auth);
   //  const [{isLoading , apiData , serverError}] = useFetch(`/user/${username}`)
   useEffect(() => {
-    console.log(username);
-    getProfile(username).then((results) => {
+    let usernameFrom = localStorage.getItem("userName");
+    console.log(usernameFrom);
+    getProfile(usernameFrom).then((results) => {
       let apiData = results.data;
       console.log(results);
       setApiData({
@@ -150,11 +151,13 @@ export default function Profile() {
             className={`${styles.glass} ${extend.glass}`}
             style={{ height: "98%" }}
           >
-            <div className="title flex flex-col items-center ">
-              <h4 className="text-5xl font-bold"> Student Profile</h4>
-              <span className="py-4 text-xl w-2/3 text-center text-gray-500">
-                {apiData.studentId} - {username}
-              </span>
+            <div className="flex justify-center" >
+              <div className="title flex flex-col items-center">
+                <h4 className="text-5xl font-bold"> Student Profile</h4>
+                <span className="py-4 text-xl w-2/3 text-center text-gray-500">
+                  {apiData.studentId} - {username}
+                </span>
+              </div>
             </div>
             <form className="py-1" onSubmit={formik.handleSubmit}>
               <div className="profile flex justify-center py-4">
@@ -247,8 +250,9 @@ export default function Profile() {
                 </span>
               </div>
             </form>
-            <button 
-              className={styles.btn} 
+            <button
+              className={styles.btn}
+              style={{margin:'auto 12.5%',background:'rgba(155,12,20,0.5)'}}
               onClick={() => {
                 // setDeleteit(true);
                 toast.promise(
