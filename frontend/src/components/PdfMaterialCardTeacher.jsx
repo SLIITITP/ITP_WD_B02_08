@@ -22,13 +22,14 @@ export default function PdfMaterialCardTeacher() {
   useEffect(() => {
     const fetchPdf = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/study/viewPdf/${id}`);
+        const response = await axios.get(`http://localhost:9090/study/viewPdf/${id}`);
         setTitle(response.data.title);
         setDescription(response.data.description);
         setCategory(response.data.category);
         setGrade(response.data.grade);
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
+        setFile(response.data.file);
       } catch (error) {
         console.error(error);
         // handle error

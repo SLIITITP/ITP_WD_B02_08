@@ -17,7 +17,7 @@ export default function AddRecordMaterial() {
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
- // const [web, setWeb] = useState('');
+  const [fileLink, setFileLink] = useState('');
   const [file, setFile] = useState(null);
   
   const handleFileChange = (event) => {
@@ -37,7 +37,7 @@ export default function AddRecordMaterial() {
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
-   // formData.append('web', web);
+    formData.append('fileLink', fileLink);
     
     if (file !== null) {
       formData.append('file', file);
@@ -57,7 +57,7 @@ export default function AddRecordMaterial() {
       setGrade('');
       setSubject('');
       setTeacher('');
-      //setWeb('');
+      setFileLink('');
       setFile(null);
       event.target.reset(); // clear the form inputs, including the file input
       toast.success('Record added successfully', {
@@ -153,11 +153,11 @@ export default function AddRecordMaterial() {
           <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
           <input type="text" value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."required/>
         </div>
-      {/* 
+      
         <div className="mb-6">
           <label for="web" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Url Here</label>
-          <input type="text" value ={web} onChange={(event)=> setWeb(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."required/>
-        </div> */}
+          <input type="text" value ={fileLink} onChange={(event)=> setFileLink(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."required/>
+        </div>
        
       <label for="file" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">File  here</label>
       <input type="file" onChange={handleFileChange} className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size"/>

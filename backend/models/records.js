@@ -33,6 +33,11 @@ teacher:{
     required:true
   },
 
+  fileLink:{
+    type:String,
+    required:true
+},
+
 file:{
     type:String,
     required:false
