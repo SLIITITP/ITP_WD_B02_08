@@ -8,6 +8,7 @@ import { passwordValidate } from '../validations/validate';
 import useFetch from '../hooks/fetch.hook';
 import {useAuthStore} from '../redux/store1';
 import {verifyPassword, getProfile} from '../apicalls/helper'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export default function Password() {
 
@@ -18,6 +19,11 @@ export default function Password() {
 const [apiData,setApiData] = useState({})
 const [file , setFile] = useState();
 const {username}=useAuthStore(state => state.auth)
+// const [showPassword, setShowPassword] = useState(false);
+
+// const handleTogglePassword = () => {
+//   setShowPassword(!showPassword);
+// };
 
 useEffect(()=>{
   console.log(username);
@@ -64,6 +70,7 @@ useEffect(()=>{
         }            
     })
 
+
    // if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
    // if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
 
@@ -89,8 +96,9 @@ useEffect(()=>{
                {/* src={apiData?.profile || avatar} */}
             </div>
             <div className="textbox flex flex-col items-center gap-6">
-            <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password'/>
-              
+            <input {...formik.getFieldProps('password')} className={styles.textbox} type='password' placeholder='Password'/>
+    
+      
               <button className={styles.btn} type='submit'>Log in</button>
             </div>
             <div className="text-center py-2 px-3.5">

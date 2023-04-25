@@ -27,6 +27,7 @@ export default function Register() {
         validateOnChange: false,
         onSubmit : async values =>{                 //validate only after submitting button
             values = await Object.assign(values , {profile : file || ''})
+            console.log(values);
            let registerPromise = registerUser(values)
             toast.promise(registerPromise,{
               loading: 'Creating...',
@@ -72,7 +73,15 @@ export default function Register() {
             <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*'/>
             <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*'/>
             <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*'/>
-            <input {...formik.getFieldProps('grade')} className={styles.textbox} type="text" placeholder='Grade'/> 
+            <select {...formik.getFieldProps('grade')} className={styles.textbox} >
+              <option value="" >Select Grade</option>
+              <option value="6" >Grade 6</option>
+              <option value="7" >Grade 7</option>
+              <option value="8" >Grade 8</option>
+              <option value="9" >Grade 9</option>
+              <option value="10" >Grade 10</option>
+              <option value="11" >Grade 11</option>
+            </select>
               
               <button className={styles.btn} type='submit'>Register</button>
             </div>

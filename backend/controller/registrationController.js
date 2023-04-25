@@ -132,7 +132,8 @@ async function verifyUser(req, res, next) {
 
 async function registers(req, res) {
   try {
-    const { username, password, profile, email } = req.body;
+    console.log(req.body);
+    const { username, password, profile, email ,grade } = req.body;
     //check the existing user
     const existUsername = new Promise((resolve, reject) => {
       console.log(resolve);
@@ -174,11 +175,11 @@ async function registers(req, res) {
                   number = parseInt(parts[1]);
                   ++number;
                   if(number<9){
-                    id = "STU000"+number.toString()
+                    id = "STU_000"+number.toString()
                   }else if(number<99 && number>=10){
-                    id = "STU00"+number.toString()
+                    id = "STU_00"+number.toString()
                   }else if(number<999 && number>100){
-                    id = "STU0"+number.toString()
+                    id = "STU_0"+number.toString()
                   }else{
                     id = "STU"+number.toString()
                   }
@@ -193,6 +194,7 @@ async function registers(req, res) {
                         password: hashedPassword,
                         profile: profile || "",
                         email,
+                        grade
                       });
                       console.log(user)
                       // return save result as a response
