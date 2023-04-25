@@ -11,7 +11,7 @@ function WelcomePage() {
         <div className={Styles.rightSide}>
           <div className={Styles.selectionBlock}>
             <div className={Styles.detailBox}>
-              <h1 className={Styles.headingTitle}>Hello to institute</h1>
+              <h1 className={Styles.headingTitle}>Welcome to Thilina Institute</h1>
               <h3 className={Styles.subHead}>choose your destination</h3>
               <br></br>
               <div className={Styles.btnContainer}>
