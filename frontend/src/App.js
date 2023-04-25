@@ -28,6 +28,9 @@ import MainTimetable from './pages/user/Timetable/MainTimetable'
 import MyTimetable from './pages/user/Timetable/MyTimetable'
 import AdminExamSchedule from "./pages/admin/Timetable/AdminExamSchedule";
 import ClassEnrolling from './pages/user/ClassEnrollment/classEnrolling';
+import TeacherTimetableSideNav from './components/TeacherTimetableSideNav';
+import TeacherMyTimetable from "./pages/Teacher/Timetable/TeacherMyTimetable";
+import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable";
 
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -259,7 +262,7 @@ function App() {
           <AdminExamSchedule />
         </TimetableSideNav>} />
 
-        {/* User Routes for Timetable Management */}
+        {/* Student Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
           <MainTimetable />
         </TimetableSideNav>} />
@@ -267,6 +270,14 @@ function App() {
           <MyTimetable />
         </TimetableSideNav>} />
         <Route path="/user/classEnrolling" exact element={<ClassEnrolling />} />
+
+        {/* Teacher Routes for Timetable Management */}
+        <Route path="/teacherMainTimetable" exact element={<TeacherTimetableSideNav>
+          <TeacherMainTimetable />
+        </TeacherTimetableSideNav>} />
+        <Route path="/teacherMyTimetable" exact element={<TeacherTimetableSideNav>
+          <TeacherMyTimetable/>
+        </TeacherTimetableSideNav>} />
 
 
         <Route path="/plogin" element={<Username />} />
