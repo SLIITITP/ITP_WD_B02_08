@@ -33,9 +33,9 @@ input[type='file']{
 .body{
     background: #dcdce6;
     background-image: url('../images/teaProfile.jpg');
-    background-size: 100% 120%;
-    object-fit:contain;
-    width: 100%;
+    background-size: contain;
+    background-position: center;
+
   }
 
 
@@ -51,3 +51,11 @@ input[type='file']{
   }
 
 
+  .bodyprofile{
+    background: #dcdce6;
+    background-image: url('../images/teaProfile.jpg');
+    background-size: 100% 120%;
+    object-fit:contain;
+    width: 100%;
+
+  }

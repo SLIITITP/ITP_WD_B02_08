@@ -126,7 +126,7 @@ export default function Profile() {
   };
 
   return (
-    <div className={styles.body}>
+    <div className={styles.bodyprofile}>
       <Modal
         isOpen={deleteit}
         onRequestClose={() => {
