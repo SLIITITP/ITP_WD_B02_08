@@ -162,7 +162,7 @@ function SProtectedRoute({ children }) {
   };
 
   return (
-    <div className="layout !fixed top-0 left-0 h-screen w-1/4 overflow-y-scroll">
+    <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
       <div className="!flex gap-6 w-full h-full ">
         <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
           <div className="menu  ">
@@ -196,7 +196,7 @@ function SProtectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">Thilina Institute Study Material Section</h1>
+            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>

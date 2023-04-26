@@ -31,6 +31,7 @@ export default function MaterialCard() {
         setGrade(response.data.grade);
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
+        setFile(response.data.file);
         // set any other fields you need to update
       } catch (error) {
         console.error(error);
