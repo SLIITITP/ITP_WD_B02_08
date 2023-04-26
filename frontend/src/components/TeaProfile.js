@@ -43,6 +43,8 @@ export default function TeaProfile() {
           address: apiData?.address || "",
           profile: apiData?.profile || "",
           id: apiData._id,
+          teacherId: apiData?.teacherId
+
         });
       });
     } else {
@@ -58,6 +60,8 @@ export default function TeaProfile() {
           address: apiData?.address || "",
           profile: apiData?.profile || "",
           id: apiData._id,
+          teacherId: apiData?.teacherId
+
         });
       });
     }
@@ -71,6 +75,7 @@ export default function TeaProfile() {
       teaId: apiData?.teaId || "",
       address: apiData?.address || "",
       profile: apiData?.profile || "",
+      teacherId: apiData?.teacherId
     },
     enableReinitialize: true,
     validate: profileValidation, //validate the input text box and return value
@@ -144,7 +149,7 @@ export default function TeaProfile() {
   //GPT
 
   return (
-    <div className={styles.body}>
+    <div className={styles.bodyprofile}>
       <div className="container mx-auto">
         <Toaster position="top-center" reverseOrder={false}></Toaster>
 
@@ -193,7 +198,7 @@ export default function TeaProfile() {
                 </div>
                 <div className="name flex w-3/4 gap-10">
                   <input
-                    {...formik.getFieldProps("teaId")}
+                    {...formik.getFieldProps("teacherId")}
                     className={`${styles.textbox} ${extend.textbox}`}
                     type="text"
                     placeholder="Teacher ID"
