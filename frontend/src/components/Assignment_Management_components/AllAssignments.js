@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import back from '../../assets/MaterialBg.jpg';
 
 
 const AllAssignments = () => {
@@ -49,8 +49,14 @@ const AllAssignments = () => {
 
 
   return (
+    
     <div>
-         <h1 className="text-center my-5" style={{ fontSize: '2rem' }}>
+      
+      <div className="opacity-50 absolute" style={{ zIndex: -1 }}>
+        <img src={back} alt="logo" />
+      </div>
+
+      <h1 className="text-center my-5" style={{ fontSize: '2rem' }}>
         All Assignments
       </h1>
 
@@ -64,7 +70,8 @@ const AllAssignments = () => {
           placeholder="Serch By Grade"
           id="searchGrade"
           value={searchGrade}
-          onChange={handleSearch}>
+          onChange={handleSearch}
+          style={{ marginBottom: "5rem" }} >
          
           </input>
 
@@ -72,28 +79,28 @@ const AllAssignments = () => {
       </div>
 
 
-      <table className="table">
-        <thead>
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" style={{ backgroundColor: 'transparent',marginBottom: "1.5rem" }}  >
+        <thead className="text-xs text-white uppercase bg-black dark:bg-gray-700 dark:text-gray-400" >
           <tr>
-            <th>Type</th>
-            <th>Subject</th>
-            <th>Grade</th>
-            <th>Guidelines</th>
-            <th>Deadline</th>
-            <th>Resources</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th scope="col" className="px-6 py-3">Type</th>
+            <th scope="col" className="px-6 py-3">Subject</th>
+            <th scope="col" className="px-6 py-3">Grade</th>
+            <th scope="col" className="px-6 py-3">Guidelines</th>
+            <th scope="col" className="px-6 py-3">Deadline</th>
+            <th scope="col" className="px-6 py-3">Resources</th>
+            <th scope="col" className="px-6 py-3">Edit</th>
+            <th scope="col" className="px-6 py-3">Delete</th>
           </tr>
         </thead>
         <tbody>
-          {assignments.map((assignment) => (
-            <tr key={assignment._id}>
-              <td>{assignment.type}</td>
-              <td>{assignment.subject}</td>
-              <td>{assignment.grade}</td>
-              <td>{assignment.guidelines}</td>
-              <td>{assignment.deadline}</td>
-              <td>
+          {filteredAssignments.map((assignment) => (
+            <tr key={assignment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
+              <td className="px-6 py-4">{assignment.type}</td>
+              <td className="px-6 py-4">{assignment.subject}</td>
+              <td className="px-6 py-4">{assignment.grade}</td>
+              <td className="px-6 py-4">{assignment.guidelines}</td>
+              <td className="px-6 py-4">{assignment.deadline}</td>
+              <td className="px-6 py-4">
                 {assignment.file && (
                   <button
                     className="btn btn-primary"
@@ -105,7 +112,7 @@ const AllAssignments = () => {
                   </button>
                 )}
               </td>
-              <td>
+              <td className="px-6 py-4">
                 <button
                   className="btn btn-warning"
                   onClick={() => handleEdit(assignment._id)}
@@ -113,7 +120,7 @@ const AllAssignments = () => {
                   Edit
                 </button>
               </td>
-              <td>
+              <td className="px-6 py-4">
                 <button
                   className="btn btn-danger"
                   onClick={async () => {
@@ -145,7 +152,12 @@ const AllAssignments = () => {
         Create Assignment
       </button>
   
-    </div>
+
+</div>
+
+
+
+    
   );
   
 };
