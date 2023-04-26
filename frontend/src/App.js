@@ -181,6 +181,11 @@ import StudentAssignments from './components/Assignment_Management_components/St
 import QRScanner from './components/QRScanner';
 
 
+import TRegister from './pages/common/Register/TeachersReg';
+import Tlogin from './pages/common/Login/tlogin';
+import TprotectedRoute from './components/TprotectedRoute'
+
+
 
 
 
@@ -211,6 +216,8 @@ function App() {
         <Route path='/' element={<WelcomePage />}/> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/tregister" element={<TRegister />} />
+        <Route path="/tlogin" element={<Tlogin />} />
         <Route path='/getPayment' exact element={<GetPayment />} />
         <Route path='/testuser' element={<Testuser />} />
         <Route path='/t1' element={<T1 />} />
@@ -302,17 +309,23 @@ function App() {
         />
 
         {/* Admin Routes for exams management */}
+        <Route path='/texams' element={<TprotectedRoute>
+          <Home />
+        </TprotectedRoute>} />
 
 
-        <Route path='/admin/exams' element={<ProtectedRoute>
+        <Route path='/admin/exams' element={<TprotectedRoute>
           <Exams />
-        </ProtectedRoute>} />
-        <Route path='/admin/exams/add' element={<ProtectedRoute>
+        </TprotectedRoute>} />
+        <Route path='/admin/exams/add' element={<TprotectedRoute>
           <AddEditExam />
-        </ProtectedRoute>} />
-        <Route path='/admin/exams/edit/:id' element={<ProtectedRoute>
+        </TprotectedRoute>} />
+        <Route path='/admin/exams/edit/:id' element={<TprotectedRoute>
           <AddEditExam />
-        </ProtectedRoute>} />
+        </TprotectedRoute>} />
+        <Route path='/tuser/twrite-exam/:id' element={<TprotectedRoute>
+          <WriteExam />
+        </TprotectedRoute>} />
 
 
        {/* support Service Routes*/}
