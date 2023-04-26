@@ -71,6 +71,7 @@ const usersRoute = require("./routes/usersRoute");
 const examsRoute = require("./routes/examsRoute");
 const reportsRoute = require("./routes/reportsRoute");
 
+
 //Timetable Management
 const classRouter = require('./routes/classes');
 const enrollRouter = require('./routes/studentEnroll');
@@ -90,6 +91,7 @@ app.use(ticketRoutes);
 app.use("/api/users", usersRoute);
 app.use("/api/exams", examsRoute);
 app.use("/api/reports", reportsRoute);
+
 
 //route middleware
 app.use("/class",classRouter);

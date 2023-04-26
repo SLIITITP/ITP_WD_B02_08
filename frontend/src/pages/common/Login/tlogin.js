@@ -4,6 +4,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { loginUser } from "../../../apicalls/users";
+import { tloginUser } from '../../../apicalls/teachers'
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 
 function Login() {
@@ -11,13 +12,13 @@ function Login() {
   const onFinish = async (values) => {
     try {
       dispatch(ShowLoading()); //showing loader
-      const response = await loginUser(values);
+      const response = await tloginUser(values);
       dispatch(HideLoading()); //hide loader
       if (response.success) {
         message.success(response.message);
         localStorage.setItem("token", response.data);
         localStorage.setItem("userName" , values.name );
-        window.location.href = "/exams";
+        window.location.href = "/texams";
       } else {
         message.error(response.message);
       }
