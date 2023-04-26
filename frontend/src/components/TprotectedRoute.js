@@ -1,7 +1,7 @@
 
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../apicalls/users";
+import { tgetUserInfo } from "../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
 
-function ProtectedRoute({ children }) {
+function TprotectedRoute({ children }) {
   const { user } = useSelector((state) => state.users);
   const [menu, setMenu] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
@@ -53,9 +53,9 @@ function ProtectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Home",
-      paths: ["/exams", "/user/write-exam"],
+      paths: ["/texams", "/tuser/write-exam"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/exams"),
+      onClick: () => navigate("/texams"),
     },
     {
       title: "Exams",
@@ -89,7 +89,7 @@ function ProtectedRoute({ children }) {
   const getUserData = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await getUserInfo();
+      const response = await tgetUserInfo();
       dispatch(HideLoading());
       if (response.success) {
         dispatch(SetUser(response.data));
@@ -129,8 +129,8 @@ function ProtectedRoute({ children }) {
         return true;
       }
       if (
-        activeRoute.includes("/user/write-exam") &&
-        paths.includes("/user/write-exam")
+        activeRoute.includes("/tuser/write-exam") &&
+        paths.includes("/tuser/write-exam")
       ) {
         return true;
       }
@@ -189,5 +189,5 @@ function ProtectedRoute({ children }) {
   );
 }
 
-export default ProtectedRoute;
+export default TprotectedRoute;
 

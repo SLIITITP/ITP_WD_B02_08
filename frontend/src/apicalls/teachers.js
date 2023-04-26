@@ -1,33 +1,29 @@
-
 const { default: axiosInstance } = require(".");
 
-export const registerUser = async (payload) => {
+export const tregisterUser = async (payload) => {
     console.log(payload);
     try {
-        const response = await axiosInstance.post('/api/users/register', payload);
+        const response = await axiosInstance.post('/api/users/tregister', payload);
         return response.data;
     } catch (error) {
         return error.response.data;
     }
 }
 
-export const loginUser = async (payload) => {
+export const tloginUser = async (payload) => {
     try {
-        const response = await axiosInstance.post('/api/users/login', payload);
+        const response = await axiosInstance.post('/api/users/tlogin', payload);
         return response.data;
     } catch (error) {
         return error.response.data;
     }
 }
 
-export const getUserInfo = async () => {
+export const tgetUserInfo = async () => {
     try {
-        const response = await axiosInstance.post('/api/users/get-user-info');
+        const response = await axiosInstance.post('/api/users/tget-user-info');
         return response.data;
     } catch (error) {
         return error.response.data;
     }
 }
-
-
-
