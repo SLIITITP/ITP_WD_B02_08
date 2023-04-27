@@ -106,11 +106,21 @@ function ProtectedRoute({ children }) {
                 message.error(response.message);
             }
         } catch (error) {
-            navigate("/login"); //if there is problem with token user navigate login
+            navigate("/plogin"); //if there is problem with token user navigate plogin
             dispatch(HideLoading());
             message.error(error.message);
         }
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            getUserData();
+        } else {
+            navigate("/plogin"); //if there is problem with token user navigate plogin
+        }
+    }, []);
+
+    const activeRoute = window.location.pathname;
 
     useEffect(() => {
         let usernameFrom = localStorage.getItem("userName");
@@ -139,7 +149,8 @@ function ProtectedRoute({ children }) {
         });
     }, []);
 
-    const activeRoute = window.location.pathname;
+
+
 
     const getIsActiveOrNot = (paths) => {
         if (paths.includes(activeRoute)) {

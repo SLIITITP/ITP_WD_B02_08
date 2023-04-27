@@ -2,6 +2,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function PaymentCheckout() {
 
@@ -174,8 +177,11 @@ function PaymentCheckout() {
                                     name='email'
                                     type='email'
                                     value={email}
-                                    placeholder='email to get reciept'
+                                    placeholder='email to get receipt'
                                     onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                                    style={{ borderColor: email && !email.match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$') ? 'red' : '' }}
                                 />
                             </div>
                             <div className='m-2'>
@@ -195,6 +201,7 @@ function PaymentCheckout() {
                     }
                 </div>
             </>
+            <ToastContainer />
         </div>
     )
 }

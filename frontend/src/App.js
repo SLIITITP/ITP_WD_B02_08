@@ -203,6 +203,7 @@ import ExamMain from './pages/common/Home/ExamMain';
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
 import FinanceUserProtected from './components/FinanceUserProtected'
+import NipTest from './components/PaymentComponents/NipTest';
 
 
 
@@ -270,13 +271,13 @@ function App() {
         <Route path='/am/check' element={<CheckAm />} />
 
 
-
+        <Route path='/niptest' element={<NipTest />} />
 
 
 
         {/* Admin Routes for Timetable Management */}
         <Route path="/adminMainTimetable" exact element={<AdminTimetableSideNav>
-          <AdminMainTimetable/>
+          <AdminMainTimetable />
         </AdminTimetableSideNav>} />
         <Route path="/allClasses" exact element={<AdminTimetableSideNav>
           <AdminEditSchedule />
@@ -296,7 +297,7 @@ function App() {
           <MyTimetable />
         </TimetableSideNav>} />
         <Route path="/user/classEnrolling" exact element={<TimetableSideNav>
-          <ClassEnrolling/>
+          <ClassEnrolling />
         </TimetableSideNav>} />
 
         {/* Teacher Routes for Timetable Management */}
