@@ -31,6 +31,8 @@ import ClassEnrolling from './pages/user/ClassEnrollment/classEnrolling';
 import TeacherTimetableSideNav from './components/TeacherTimetableSideNav';
 import TeacherMyTimetable from "./pages/Teacher/Timetable/TeacherMyTimetable";
 import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable";
+import AdminTimetableSideNav from './components/AdminTimetableSidenav';
+import AdminMainTimetable from './pages/user/Timetable/MainTimetable'
 
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -273,15 +275,18 @@ function App() {
 
 
         {/* Admin Routes for Timetable Management */}
-        <Route path="/allClasses" exact element={<TimetableSideNav>
+        <Route path="/adminMainTimetable" exact element={<AdminTimetableSideNav>
+          <AdminMainTimetable/>
+        </AdminTimetableSideNav>} />
+        <Route path="/allClasses" exact element={<AdminTimetableSideNav>
           <AdminEditSchedule />
-        </TimetableSideNav>} />
-        <Route path="/addClass" exact element={<TimetableSideNav>
+        </AdminTimetableSideNav>} />
+        <Route path="/addClass" exact element={<AdminTimetableSideNav>
           <AddClass />
-        </TimetableSideNav>} />
-        <Route path="/adminExamSchedule" exact element={<TimetableSideNav>
+        </AdminTimetableSideNav>} />
+        <Route path="/adminExamSchedule" exact element={<AdminTimetableSideNav>
           <AdminExamSchedule />
-        </TimetableSideNav>} />
+        </AdminTimetableSideNav>} />
 
         {/* Student Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
@@ -290,7 +295,9 @@ function App() {
         <Route path="/myTimetable" exact element={<TimetableSideNav>
           <MyTimetable />
         </TimetableSideNav>} />
-        <Route path="/user/classEnrolling" exact element={<ClassEnrolling />} />
+        <Route path="/user/classEnrolling" exact element={<TimetableSideNav>
+          <ClassEnrolling/>
+        </TimetableSideNav>} />
 
         {/* Teacher Routes for Timetable Management */}
         <Route path="/teacherMainTimetable" exact element={<TeacherTimetableSideNav>
