@@ -3,7 +3,7 @@ Please go under edit and edit this file as needed for your project
 # Project Name - Educational Instiute Management System
 # Batch - 
 ### Group Leader - IT21388248 - Fernando B.K.M. ()
-### Member 2 - IT21559136 - Wijethunge W.L.D.N.N ()
+### Member 2 - IT21559136 - Wijethunge W.L.D.N.N (Financial Management)
 ### Member 3 - IT21786464 - Nisal V.P.T (IT21786464)
 ### Member 4 - IT21271328 - Withana J.W.J ()
 ### Member 5 - IT21704970 - Lokuge P.P ()
