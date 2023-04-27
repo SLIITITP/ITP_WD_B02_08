@@ -118,17 +118,17 @@ export default function TeacherDashboard() {
 
 
    <div className="grid grid-cols-2 gap-6 mt-4">
-      <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
+      <div className="flex items-center justify-center rounded bg-white  h-52 dark:bg-gray-800">
       <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=10a6ea32-4bb0-4e12-a921-9f3f52a2032d&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
  
       </div>
-      <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
+      <div className="flex items-center justify-center rounded bg-white  h-52 dark:bg-gray-800">
       <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=64386562-8ce8-4015-8220-daab98bbe856&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
       </div>
-      <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
+      <div className="flex items-center justify-center rounded bg-white  h-52 dark:bg-gray-800">
       <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=0b8ba5b3-ccdf-4312-b18b-65e2d77ad98f&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
       </div>
-      <div className="flex items-center justify-center rounded bg-white border border-black h-52 dark:bg-gray-800">
+      <div className="flex items-center justify-center rounded bg-white  h-52 dark:bg-gray-800">
       <iframe style={{background: '#FFFFFF', border: 'none', borderRadius: '2px', boxShadow: '0 2px 10px 0 rgba(70, 76, 79, .2)'}} width="640" height= "208" src="https://charts.mongodb.com/charts-institite-management-syst-znrlt/embed/charts?id=85a0617a-35dc-4ffb-b5c5-6938a6300d74&maxDataAge=-1&theme=light&autoRefresh=true"></iframe>
       </div>
    </div>
