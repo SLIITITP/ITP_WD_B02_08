@@ -56,6 +56,16 @@
     width: 80px;
     border-radius: 50%;
   }
+
+  .backgroundpic{
+    background-image: url("../images/slogin.jpg");
+    
+
+  /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
   
 
   /* loader css */
