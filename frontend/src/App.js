@@ -200,6 +200,9 @@ import TRegister from './pages/common/Register/TeachersReg';
 import Tlogin from './pages/common/Login/tlogin';
 import TprotectedRoute from './components/TprotectedRoute'
 
+import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
+
+
 
 
 
@@ -388,12 +391,12 @@ function App() {
 
 
 
-        <Route path="/a1" element={<AssignmentRoute><AssignmentForm /></AssignmentRoute>} />
-        <Route path="/a2" element={<AssignmentRoute><AllAssignments /></AssignmentRoute>} />
-        <Route path="/a3/:id" element={<AssignmentRoute><AssignmentEdit /></AssignmentRoute>} />
-        <Route path="/viewFeed" element={<AssignmentRoute><ViewFeedbacks /></AssignmentRoute>} />
-        <Route path="/emailAss" element={<AssignmentRoute><EmailSend /></AssignmentRoute>} />
-        <Route path="/test" element={<AssignmentRoute><AllFilesList /></AssignmentRoute>} />
+        <Route path="/a1" element={<TeacherAssignmentRoutes><AssignmentForm /></TeacherAssignmentRoutes>} />
+        <Route path="/a2" element={<TeacherAssignmentRoutes><AllAssignments /></TeacherAssignmentRoutes>} />
+        <Route path="/a3/:id" element={<TeacherAssignmentRoutes><AssignmentEdit /></TeacherAssignmentRoutes>} />
+        <Route path="/viewFeed" element={<TeacherAssignmentRoutes><ViewFeedbacks /></TeacherAssignmentRoutes>} />
+        <Route path="/emailAss" element={<TeacherAssignmentRoutes><EmailSend /></TeacherAssignmentRoutes>} />
+        <Route path="/test" element={<TeacherAssignmentRoutes><AllFilesList /></TeacherAssignmentRoutes>} />
 
     
         
