@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
+import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
@@ -19,54 +20,9 @@ function ProtectedRoute({ children }) {
     const [collapsed, setCollapsed] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [apiData, setApiData] = useState({});
+    const [apiData1, setApiData1] = useState({});
 
-    const adminMenu = [
-        {
-            title: "Home",
-            paths: ["/home"],
-            icon: <i className="ri-home-line"></i>,
-            onClick: () => navigate("/home"),
-        },
-        {
-            title: "Add Payment",
-            paths: ["/addPayment"],
-            icon: <i className="ri-home-line"></i>,
-            onClick: () => navigate("/addPayment"),
-        },
-        {
-            title: "View Payment",
-            paths: ["/viewPayment"],
-            icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/viewPayment"),
-        },
-        {
-            title: "Salary Calculate",
-            paths: ["/salary/calculate"],
-            icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/salary/calculate"),
-        },
-        {
-            title: "Salary History",
-            paths: ["/salary/history"],
-            icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/salary/history"),
-        },
-        {
-            title: "Subject Add or Update",
-            paths: ["/subject/addOrUpdate"],
-            icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/subject/addOrUpdate"),
-        },
-        {
-            title: "Logout",
-            paths: ["/logout"],
-            icon: <i className="ri-logout-box-line"></i>,
-            onClick: () => {
-                localStorage.removeItem("token");
-                navigate("/login");
-            },
-        },
-    ];
 
     const userMenu = [
         {
@@ -93,9 +49,45 @@ function ProtectedRoute({ children }) {
             icon: <i className="ri-logout-box-line"></i>,
             onClick: () => {
                 localStorage.removeItem("token");
-                navigate("/login");
+                navigate("/plogin");
             },
         },
+    ];
+
+    const adminMenu = [
+        // {
+        //     title: "Assignments",
+        //     paths: ["/a2", "/a1"],
+        //     icon: <i className="ri-home-line"></i>,
+        //     onClick: () => navigate("/a2"),
+        // },
+        // {
+        //     title: "Feedbacks",
+        //     paths: ["/viewFeed", "/emailAss"],
+        //     icon: <i className="ri-file-list-line"></i>,
+        //     onClick: () => navigate("/viewFeed", "/emailAss"),
+        // },
+        // {
+        //     title: "Evaluations",
+        //     paths: ["/test"],
+        //     icon: <i className="ri-bar-chart-line"></i>,
+        //     onClick: () => navigate("/test"),
+        // },
+        // {
+        //     title: "Profile",
+        //     paths: ["/profile"],
+        //     icon: <i className="ri-user-line"></i>,
+        //     onClick: () => navigate("/profile"),
+        // },
+        // {
+        //     title: "Logout",
+        //     paths: ["/logout"],
+        //     icon: <i className="ri-logout-box-line"></i>,
+        //     onClick: () => {
+        //         localStorage.removeItem("token");
+        //         navigate("/plogin");
+        //     },
+        // },
     ];
 
     const getUserData = async () => {
@@ -121,11 +113,30 @@ function ProtectedRoute({ children }) {
     };
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
-            getUserData();
-        } else {
-            navigate("/login"); //if there is problem with token user navigate login
-        }
+        let usernameFrom = localStorage.getItem("userName");
+        console.log(usernameFrom);
+        getProfile(usernameFrom).then((results) => {
+            let apiData = results.data;
+            setApiData1(results.data);
+
+            console.log(results.data.isAdmin);
+            if (results.data.isAdmin) {
+                setMenu(adminMenu);
+            } else {
+                setMenu(userMenu);
+            }
+            setApiData({
+                firstName: apiData?.firstName || "",
+                lastName: apiData?.lastName || "",
+                email: apiData?.email || "",
+                mobile: apiData?.mobile || "",
+                address: apiData?.address || "",
+                profile: apiData?.profile || "",
+                id: apiData._id,
+                studentId: apiData?.studentId || "",
+                isAdmin: apiData?.isAdmin || "",
+            });
+        });
     }, []);
 
     const activeRoute = window.location.pathname;
@@ -135,14 +146,15 @@ function ProtectedRoute({ children }) {
             return true;
         } else {
             if (
-                activeRoute.includes("/payment/checkout") &&
-                paths.includes("/payOnline")
+                activeRoute.includes("/a2/a1") &&
+
+                paths.includes("/a2")
             ) {
                 return true;
             }
             if (
-                activeRoute.includes("/user/write-exam") &&
-                paths.includes("/user/write-exam")
+                activeRoute.includes("/editAss") &&
+                paths.includes("/retriveAss")
             ) {
                 return true;
             }
@@ -184,13 +196,13 @@ function ProtectedRoute({ children }) {
                                 onClick={() => setCollapsed(false)}
                             ></i>
                         )}
-                        <h1 className="text-2xl text-white">Financial Management - Thilina Institute</h1>
+                        <h1 className="text-2xl text-white">Thilina Institute Assignment Management</h1>
                         <div>
                             <div className="flex gap-1 items-center">
                                 <i class="ri-user-line"></i>
-                                <h1 className="text-md text-white underline">{user?.name}</h1>
+                                <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
                             </div>
-                            <span>Role : {user?.isAdmin ? "Admin" : "User"}</span>
+                            <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
                         </div>
                     </div>
                     <div className="content">{children}</div>
@@ -201,3 +213,4 @@ function ProtectedRoute({ children }) {
 }
 
 export default ProtectedRoute;
+

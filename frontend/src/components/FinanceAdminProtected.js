@@ -1,7 +1,7 @@
 
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../apicalls/users";
+import { tgetUserInfo } from "../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
@@ -12,13 +12,54 @@ import '../stylesheets/alignments.css'
 import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
+import {
+    updateUser,
+    getProfileTeacher,
+    deleteUser,
+    updateTeacher,
+} from "../apicalls/helper";
+import { useAuthStore } from "../redux/store1";
 
-function ProtectedRoute({ children }) {
+function TprotectedRoute({ children }) {
     const { user } = useSelector((state) => state.users);
     const [menu, setMenu] = useState([]);
     const [collapsed, setCollapsed] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [apiData, setApiData] = useState({});
+    const [apiData1, setApiData1] = useState({});
+    const [file, setFile] = useState();
+    const { username } = useAuthStore((state) => state.auth);
+
+      const userMenu = [
+        // {
+        //   title: "Home",
+        //   paths: ["/exams", "/user/write-exam"],
+        //   icon: <i className="ri-home-line"></i>,
+        //   onClick: () => navigate("/exams"),
+        // },
+        // {
+        //   title: "Reports",
+        //   paths: ["/user/reports"],
+        //   icon: <i className="ri-bar-chart-line"></i>,
+        //   onClick: () => navigate("/user/reports"),
+        // },
+        // {
+        //   title: "Profile",
+        //   paths: ["/profile"],
+        //   icon: <i className="ri-user-line"></i>,
+        //   onClick: () => navigate("/profile"),
+        // },
+        // {
+        //   title: "Logout",
+        //   paths: ["/logout"],
+        //   icon: <i className="ri-logout-box-line"></i>,
+        //   onClick: () => {
+        //     localStorage.removeItem("token");
+        //     navigate("/plogin");
+        //   },
+        // },
+      ];
 
     const adminMenu = [
         {
@@ -63,45 +104,16 @@ function ProtectedRoute({ children }) {
             icon: <i className="ri-logout-box-line"></i>,
             onClick: () => {
                 localStorage.removeItem("token");
-                navigate("/login");
+                navigate("/plogin");
             },
         },
     ];
 
-    const userMenu = [
-        {
-            title: "Home",
-            paths: ["/home"],
-            icon: <i className="ri-home-line"></i>,
-            onClick: () => navigate("/home"),
-        },
-        {
-            title: "Pay Class fees",
-            paths: ["/payOnline", "/payment/checkout"],
-            icon: <i className="ri-file-list-line"></i>,
-            onClick: () => navigate("/payOnline"),
-        },
-        {
-            title: "Payment History",
-            paths: ["/student/payHistory"],
-            icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/student/payHistory"),
-        },
-        {
-            title: "Logout",
-            paths: ["/logout"],
-            icon: <i className="ri-logout-box-line"></i>,
-            onClick: () => {
-                localStorage.removeItem("token");
-                navigate("/login");
-            },
-        },
-    ];
 
     const getUserData = async () => {
         try {
             dispatch(ShowLoading());
-            const response = await getUserInfo();
+            const response = await tgetUserInfo();
             dispatch(HideLoading());
             if (response.success) {
                 dispatch(SetUser(response.data));
@@ -135,20 +147,82 @@ function ProtectedRoute({ children }) {
             return true;
         } else {
             if (
-                activeRoute.includes("/payment/checkout") &&
-                paths.includes("/payOnline")
+                activeRoute.includes("/admin/exams/edit") &&
+                paths.includes("/admin/exams")
             ) {
                 return true;
             }
             if (
-                activeRoute.includes("/user/write-exam") &&
-                paths.includes("/user/write-exam")
+                activeRoute.includes("/tuser/write-exam") &&
+                paths.includes("/tuser/write-exam")
             ) {
                 return true;
             }
         }
         return false;
     };
+
+    useEffect(() => {
+        console.log(username);
+        let usernameFrom = localStorage.getItem("userName");
+        // username = ;
+        console.log(usernameFrom);
+        if (username === "") {
+            let userNameReload = localStorage.getItem("userName");
+            getProfileTeacher(userNameReload).then((results) => {
+                let apiData = results.data;
+                setApiData1(results.data);
+
+                console.log(results.data.isAdmin);
+                if (results.data.isAdmin) {
+                    setMenu(adminMenu);
+                } else {
+                    setMenu(userMenu);
+                }
+                console.log(results);
+                setFile(apiData?.profile || "");
+                setApiData({
+                    firstName: apiData?.firstName || "",
+                    lastName: apiData?.lastName || "",
+                    email: apiData?.email || "",
+                    teaId: apiData?.teaId || "",
+                    address: apiData?.address || "",
+                    profile: apiData?.profile || "",
+                    id: apiData._id,
+                    teacherId: apiData?.teacherId,
+                    isAdmin: apiData?.isAdmin || "",
+
+                });
+            });
+        } else {
+            getProfileTeacher(username).then((results) => {
+                let apiData = results.data;
+                setApiData1(results.data);
+
+                console.log(results.data.isAdmin);
+                if (results.data.isAdmin) {
+                    setMenu(adminMenu);
+                } else {
+                    setMenu(userMenu);
+                }
+                console.log(results);
+                setFile(apiData?.profile || "");
+                setApiData({
+                    firstName: apiData?.firstName || "",
+                    lastName: apiData?.lastName || "",
+                    email: apiData?.email || "",
+                    teaId: apiData?.teaId || "",
+                    address: apiData?.address || "",
+                    profile: apiData?.profile || "",
+                    id: apiData._id,
+                    teacherId: apiData?.teacherId,
+                    isAdmin: apiData?.isAdmin || "",
+
+                });
+            });
+        }
+    }, []);
+
 
     return (
         <div className="layout">
@@ -184,13 +258,13 @@ function ProtectedRoute({ children }) {
                                 onClick={() => setCollapsed(false)}
                             ></i>
                         )}
-                        <h1 className="text-2xl text-white">Financial Management - Thilina Institute</h1>
+                        <h1 className="text-2xl text-white">Thilina Institute Online Exam Portal</h1>
                         <div>
                             <div className="flex gap-1 items-center">
                                 <i class="ri-user-line"></i>
-                                <h1 className="text-md text-white underline">{user?.name}</h1>
+                                <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
                             </div>
-                            <span>Role : {user?.isAdmin ? "Admin" : "User"}</span>
+                            <span>Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
                         </div>
                     </div>
                     <div className="content">{children}</div>
@@ -200,4 +274,4 @@ function ProtectedRoute({ children }) {
     );
 }
 
-export default ProtectedRoute;
+export default TprotectedRoute;
