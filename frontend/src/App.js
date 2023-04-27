@@ -204,7 +204,8 @@ import TprotectedRoute from './components/TprotectedRoute'
 import ExamMain from './pages/common/Home/ExamMain';
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
-
+import FinanceAdminProtected from './components/FinanceAdminProtected'
+import FinanceUserProtected from './components/FinanceUserProtected'
 
 
 
@@ -244,7 +245,7 @@ function App() {
         <Route path='/t1' element={<T1 />} />
 
         {/* Financial Management Routes */}
-        <Route path='/addPayment' exact element={<FinanceProtectRoute><AddPayment /></FinanceProtectRoute>} />
+        {/* <Route path='/addPayment' exact element={<FinanceProtectRoute><AddPayment /></FinanceProtectRoute>} />
         <Route path='/viewPayment' exact element={<FinanceProtectRoute><ViewPayment /></FinanceProtectRoute>} />
         <Route path='/salary/calculate' element={<FinanceProtectRoute><SalaryCalculation /></FinanceProtectRoute>} />
         <Route path='/salary/history' element={<FinanceProtectRoute><SalaryHistory /></FinanceProtectRoute>} />
@@ -253,7 +254,18 @@ function App() {
         <Route path='/confirmPayment' exact element={<FinanceProtectRoute><PaymentConfirm /></FinanceProtectRoute>} />
         <Route path='/payment/checkout' exact element={<FinanceProtectRoute><StripeContainer /></FinanceProtectRoute>} />
         <Route path='/payOnline' exact element={<FinanceProtectRoute><OnlinePayment /></FinanceProtectRoute>} />
-        <Route path='/student/payHistory' element={<FinanceProtectRoute><StudentPayHistory /></FinanceProtectRoute>} />
+        <Route path='/student/payHistory' element={<FinanceProtectRoute><StudentPayHistory /></FinanceProtectRoute>} /> */}
+
+        <Route path='/addPayment' exact element={<FinanceAdminProtected><AddPayment /></FinanceAdminProtected>} />
+        <Route path='/viewPayment' exact element={<FinanceAdminProtected><ViewPayment /></FinanceAdminProtected>} />
+        <Route path='/salary/calculate' element={<FinanceAdminProtected><SalaryCalculation /></FinanceAdminProtected>} />
+        <Route path='/salary/history' element={<FinanceAdminProtected><SalaryHistory /></FinanceAdminProtected>} />
+        <Route path='/subject/addOrUpdate' element={<FinanceAdminProtected><AddSubToTeachers /></FinanceAdminProtected>} />
+
+        <Route path='/confirmPayment' exact element={<FinanceUserProtected><PaymentConfirm /></FinanceUserProtected>} />
+        <Route path='/payment/checkout' exact element={<FinanceUserProtected><StripeContainer /></FinanceUserProtected>} />
+        <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
+        <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
 
         <Route path='/subject/update' element={<SubListUpdate />} />
         <Route path='/niptest' element={<NipTest />} />
@@ -321,7 +333,7 @@ function App() {
 
         {/* User Routes for exams management */}
 
-        <Route path="/exammain" element={<ExamMain />} /> 
+        <Route path="/exammain" element={<ExamMain />} />
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />

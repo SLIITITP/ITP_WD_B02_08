@@ -6,7 +6,7 @@ const Enrollment = require("../models/classEnroll");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 // enroll student
-router.post("/enrollments", authMiddleware, async (req, res) => {
+router.post("/enrollments", async (req, res) => {
   try {
     const { studentID, classID } = req.body;
     const enrollment = await Enrollment.findOne({ studentID });
