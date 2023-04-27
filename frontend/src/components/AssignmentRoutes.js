@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
+import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
@@ -19,6 +20,9 @@ function ProtectedRoute({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [apiData, setApiData] = useState({});
+  const [apiData1, setApiData1] = useState({});
+  
 
   const userMenu = [
     {
@@ -57,7 +61,7 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/plogin");
       },
     },
   ];
@@ -93,7 +97,7 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/plogin");
       },
     },
   ];
@@ -121,11 +125,30 @@ function ProtectedRoute({ children }) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      getUserData();
-    } else {
-      navigate("/login"); //if there is problem with token user navigate login
-    }
+    let usernameFrom = localStorage.getItem("userName");
+    console.log(usernameFrom);
+    getProfile(usernameFrom).then((results) => {
+      let apiData = results.data;
+      setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+      setApiData({
+        firstName: apiData?.firstName || "",
+        lastName: apiData?.lastName || "",
+        email: apiData?.email || "",
+        mobile: apiData?.mobile || "",
+        address: apiData?.address || "",
+        profile: apiData?.profile || "",
+        id: apiData._id,
+        studentId: apiData?.studentId || "",
+        isAdmin: apiData?.isAdmin || "",
+      });
+    });
   }, []);
 
   const activeRoute = window.location.pathname;
@@ -190,9 +213,9 @@ function ProtectedRoute({ children }) {
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{user?.name}</h1>
+                <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
               </div>
-              <span>Role : {user?.isAdmin ? "Admin" : "User"}</span>
+              <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>

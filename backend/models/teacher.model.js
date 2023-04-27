@@ -21,6 +21,11 @@ const mongoose = require('mongoose');
         required : [true, "Please provide a unique email"],
         unique: true,
     },
+    isAdmin:{
+        type: Boolean,
+        required: false,
+        default: true,
+    },
     firstName: { type: String},
     lastName: { type: String},
     teaId : { type : Number},

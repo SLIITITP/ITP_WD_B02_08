@@ -6,7 +6,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import {registerValdation } from '../validations/validate';
 import convertToBase64 from '../validations/convert';
-import { registerUser } from '../apicalls/helper';
+import { registerUser1 } from '../apicalls/helper';
+import { registerUser } from '../apicalls/users'
+import { message } from 'antd';
 
 
 export default function Register() {
@@ -28,7 +30,8 @@ export default function Register() {
         onSubmit : async values =>{                 //validate only after submitting button
             values = await Object.assign(values , {profile : file || ''})
             console.log(values);
-           let registerPromise = registerUser(values)
+           let registerPromise = registerUser1(values)
+           const response = await registerUser(values)
             toast.promise(registerPromise,{
               loading: 'Creating...',
               success: <b>Register Successfully...!</b>,
@@ -45,6 +48,22 @@ export default function Register() {
     setFile(base64);
   }  
 
+  const onFinish = async(values) =>{
+    try {
+        
+        const response = await registerUser(values)
+        
+        if(response.success){
+            message.success(response.message);
+        }else{
+            message.error(response.message);
+        }
+    } catch (error) {
+        
+        message.error(error.message);
+    }
+   }
+
   return (
    <div className={styles.body}>      
     <div className="container mx-auto">
@@ -60,7 +79,7 @@ export default function Register() {
               Welcome to Thilina Educational Institute
             </span>
           </div>
-          <form className='py-1' onSubmit={formik.handleSubmit}>
+          <form className='py-1' onSubmit={formik.handleSubmit} onFinish={onFinish}>
             <div className='profile flex justify-center py-4'>
               <label htmlFor='profile'>
               <img src={file ||avatar} className={styles.profile_img} alt='avatar'></img>
@@ -70,8 +89,8 @@ export default function Register() {
           
             </div>
             <div className="textbox flex flex-col items-center gap-6">
-            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*'/>
-            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*'/>
+            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*' id='email'/>
+            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' id='name'/>
             <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*'/>
             <select {...formik.getFieldProps('grade')} className={styles.textbox} >
               <option value="" >Select Grade</option>

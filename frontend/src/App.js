@@ -299,11 +299,11 @@ function App() {
         <Route path="/reset" element={<Reset />} />
 
         <Route path="/tProfile" element={<TeaProfile />} />
-        <Route path="/tRegister" element={<TeaRegister />} />
-        <Route path="/adminDash" element={<AdminDash />} />
+        <Route path="/ttRegister" element={<TeaRegister />} />
+        {/* <Route path="/adminDash" element={<AdminDash />} /> */}
 
         <Route path="/tProfile" element={<TeaProfile/>}/> 
-        <Route path="/tRegister" element={<TeaRegister/>}/> 
+        <Route path="/ttRegister" element={<TeaRegister/>}/> 
         {/* <Route path="/adminDash" element={<AdminDash/>}/> */}
         <Route path="/adminDash" element={<AdminSideNav><AdminDash/></AdminSideNav>}/>
         <Route path='/pteacherLogin' element={<TeacherLogin/>}/>

@@ -7,6 +7,9 @@ import { useFormik } from 'formik';
 import {registerValdation } from '../validations/validate';
 import convertToBase64 from '../validations/convert';
 import { registerTeacher } from '../apicalls/helper';
+import { tregisterUser } from '../apicalls/teachers'
+import { registerUser } from '../apicalls/users'
+import { message } from 'antd';
 
 
 export default function TeaRegister() {
@@ -28,6 +31,7 @@ export default function TeaRegister() {
         onSubmit : async values =>{                 //validate only after submitting button
             values = await Object.assign(values , {profile : file || ''})
            let registerPromise = registerTeacher(values)
+           const response = await tregisterUser(values)
             toast.promise(registerPromise,{
               loading: 'Creating...',
               success: <b>Register Successfully...!</b>,
@@ -42,7 +46,22 @@ export default function TeaRegister() {
   const onUpload = async e =>{
     const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64);
-  }  
+  }
+  const onFinish = async(values) =>{
+    try {
+        //dispatch(ShowLoading()); //showing loader
+        const response = await tregisterUser(values)
+        //dispatch(HideLoading()); //hide loader
+        if(response.success){
+            message.success(response.message);
+        }else{
+            message.error(response.message);
+        }
+    } catch (error) {
+        //dispatch(HideLoading()); //hide loader
+        message.error(error.message);
+    }
+   }  
 
   return (
    <div className={styles.body}>      
@@ -59,7 +78,7 @@ export default function TeaRegister() {
               Welcome to Thilina Educational Institute
             </span>
           </div>
-          <form className='py-1' onSubmit={formik.handleSubmit}>
+          <form className='py-1' onSubmit={formik.handleSubmit} onFinish={onFinish} >
             <div className='profile flex justify-center py-4'>
               <label htmlFor='profile'>
               <img src={file ||avatar} className={styles.profile_img} alt='avatar'></img>
@@ -69,9 +88,9 @@ export default function TeaRegister() {
           
             </div>
             <div className="textbox flex flex-col items-center gap-6">
-            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*'/>
-            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*'/>
-            <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*'/>
+            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*' id='email'/>
+            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' id='name'/>
+            <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*' id='password'/>
             {/* <input {...formik.getFieldProps('grade')} className={styles.textbox} type="text" placeholder='Grade'/>  */}
               
               <button className={styles.btn} type='submit'>Register</button>

@@ -56,7 +56,10 @@ export default function Profile() {
       address: apiData?.address || "",
       profile: apiData?.profile || "",
       studentId: apiData?.studentId || "",
+     
     },
+
+    
     enableReinitialize: true,
     validate: profileValidation, //validate the input text box and return value
     validateOnBlur: false,
@@ -169,7 +172,7 @@ export default function Profile() {
               <div className="title flex flex-col items-center">
                 <h4 className="text-5xl font-bold"> Student Profile</h4>
                 <span className="py-4 text-xl w-2/3 text-center text-gray-500">
-                  {apiData.studentId} - {username}
+                  {apiData.studentId} - {apiData.username}
                 </span>
               </div>
             </div>

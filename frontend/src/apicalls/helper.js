@@ -45,7 +45,7 @@ export async function getUser({ username }){
 
 
 /** register user function */
-export async function registerUser(credentials){
+export async function registerUser1(credentials){
     try {
         const { data : { msg }, status } = await axios.post(`/api/registration`, credentials);
 
@@ -216,3 +216,4 @@ export async function registerTeacher(credentials){
         return Promise.reject({ error })
     }
 }
+
