@@ -148,6 +148,8 @@ import AddNoteMaterial from './components/AddNoteMaterial';
 import AddPdfMaterial from './components/AddPdfMaterial';
 import AddRecordMaterial from './components/AddRecordMaterial';
 import AddResearchMaterial from './components/AddResearchMaterial';
+import StudyProtectedRoute from './components/StudyProtectedRoute';
+
 //import EditFeedback from './components/EditFeedback';
 import NoteMaterialCardTeacher from './components/NoteMaterialCardTeacher';
 import PdfMaterialCardTeacher from './components/PdfMaterialCardTeacher';
@@ -176,7 +178,7 @@ import NipTest2 from './components/PaymentComponents/NipTest2';
 import AdminSideNav from './components/AdminSideNav';
 import GetAm from './components/AMFunction/GetAm';
 import CheckAm from './components/AMFunction/CheckAm';
-
+import StudentPayHistory from './components/PaymentComponents/StudentPayHistory'
 
 //------------------------------------------/////////////////////////////////////////
 
@@ -231,7 +233,7 @@ function App() {
 
       {loading && <Loader />}
       <Routes>
-        <Route path='/' element={<WelcomePage />}/> 
+        <Route path='/' element={<WelcomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/tregister" element={<TRegister />} />
@@ -247,9 +249,11 @@ function App() {
         <Route path='/salary/history' element={<FinanceProtectRoute><SalaryHistory /></FinanceProtectRoute>} />
         <Route path='/subject/addOrUpdate' element={<FinanceProtectRoute><AddSubToTeachers /></FinanceProtectRoute>} />
 
-        <Route path='/confirmPayment' exact element={<PaymentConfirm />} />
-        <Route path='/payment/checkout' exact element={<StripeContainer />} />
-        <Route path='/payOnline' exact element={<OnlinePayment />} />
+        <Route path='/confirmPayment' exact element={<FinanceProtectRoute><PaymentConfirm /></FinanceProtectRoute>} />
+        <Route path='/payment/checkout' exact element={<FinanceProtectRoute><StripeContainer /></FinanceProtectRoute>} />
+        <Route path='/payOnline' exact element={<FinanceProtectRoute><OnlinePayment /></FinanceProtectRoute>} />
+        <Route path='/student/payHistory' element={<FinanceProtectRoute><StudentPayHistory /></FinanceProtectRoute>} />
+
         <Route path='/subject/update' element={<SubListUpdate />} />
         <Route path='/niptest' element={<NipTest />} />
         <Route path='/niptest2' element={<NipTest2 />} />
@@ -287,7 +291,7 @@ function App() {
           <TeacherMainTimetable />
         </TeacherTimetableSideNav>} />
         <Route path="/teacherMyTimetable" exact element={<TeacherTimetableSideNav>
-          <TeacherMyTimetable/>
+          <TeacherMyTimetable />
         </TeacherTimetableSideNav>} />
 
 
@@ -302,14 +306,14 @@ function App() {
         <Route path="/ttRegister" element={<TeaRegister />} />
         {/* <Route path="/adminDash" element={<AdminDash />} /> */}
 
-        <Route path="/tProfile" element={<TeaProfile/>}/> 
-        <Route path="/ttRegister" element={<TeaRegister/>}/> 
+        <Route path="/tProfile" element={<TeaProfile />} />
+        <Route path="/ttRegister" element={<TeaRegister />} />
         {/* <Route path="/adminDash" element={<AdminDash/>}/> */}
-        <Route path="/adminDash" element={<AdminSideNav><AdminDash/></AdminSideNav>}/>
-        <Route path='/pteacherLogin' element={<TeacherLogin/>}/>
+        <Route path="/adminDash" element={<AdminSideNav><AdminDash /></AdminSideNav>} />
+        <Route path='/pteacherLogin' element={<TeacherLogin />} />
         <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
-        <Route path='/teacherProfile' element={<TeaProfile/>}></Route>
-        <Route path='/adminLogin' element={<AdminLogin/>}></Route>
+        <Route path='/teacherProfile' element={<TeaProfile />}></Route>
+        <Route path='/adminLogin' element={<AdminLogin />}></Route>
 
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
 
@@ -356,9 +360,9 @@ function App() {
         </TprotectedRoute>} />
 
 
-       {/* support Service Routes*/}
+        {/* support Service Routes*/}
 
-        <Route path="/ticket" exact element={<TicketsSideNav/>} />
+        <Route path="/ticket" exact element={<TicketsSideNav />} />
         <Route path="/Stickets" exact element={<TicketsSideNav>
           <StudentTicket />
         </TicketsSideNav>} />
@@ -375,12 +379,12 @@ function App() {
           <ViewReply />
         </TicketsSideNav>} />
         <Route path="/edit/:id" exact element={<TicketsSideNav >
-        <EditTicket />
-        </TicketsSideNav>}/>
+          <EditTicket />
+        </TicketsSideNav>} />
         <Route path="tReport" exact element={<TicketsSideNav >
-        <TicketsReport />
-        </TicketsSideNav>}/>
-      
+          <TicketsReport />
+        </TicketsSideNav>} />
+
         <Route path="/faq" exact element={<FAQ />} />
         <Route path="/gvideos" element={<Gvideos />} />
 
@@ -398,18 +402,18 @@ function App() {
         <Route path="/emailAss" element={<TeacherAssignmentRoutes><EmailSend /></TeacherAssignmentRoutes>} />
         <Route path="/test" element={<TeacherAssignmentRoutes><AllFilesList /></TeacherAssignmentRoutes>} />
 
-    
-        
 
-     
+
+
+
 
 
 
 
         {/*                      --------------------  User  ---------------------                  */}
 
-        <Route path="/s1" element={<AssignmentRoute><StudentAssignments/></AssignmentRoute>} />
-    
+        <Route path="/s1" element={<AssignmentRoute><StudentAssignments /></AssignmentRoute>} />
+
         <Route path="/sub" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
 
         <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback /></AssignmentRoute>} />
@@ -417,7 +421,7 @@ function App() {
 
         <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
         <Route exact path="/charts" element={<AssignmentRoute><ChartJsExample /></AssignmentRoute>} />
-     
+
 
         <Route path="/details" exact element={<Details />} />
 
@@ -425,10 +429,10 @@ function App() {
 
         <Route path="/all" exact element={<DownloadAllFilesButton />} />
 
-        <Route path="/in/get" exact element={<getSubjects/>} />
+        <Route path="/in/get" exact element={<getSubjects />} />
 
 
-    
+
 
 
 
@@ -448,46 +452,46 @@ function App() {
 
 
 
-         <Route  path="/sm"  exact element={<StudyLogin/>} /> 
-        <Route  path="/smt"  exact element={<StudyMaterialRoute><TeacherDashboard /></StudyMaterialRoute>} />
-        <Route  path="/sms"  exact element={<StudyMaterialRoute><StudentDashboard /></StudyMaterialRoute>} />
-        <Route  path="/smN"  exact element={<StudyMaterialRoute><TeacherNotePage /></StudyMaterialRoute>} />
-        <Route  path="/smP"  exact element={<StudyMaterialRoute><TeacherPdfPage /></StudyMaterialRoute>} />
-        <Route  path="/smR"  exact element={<StudyMaterialRoute><TeacherResearchPage /></StudyMaterialRoute>} />
-        <Route  path="/smRe"  exact element={<StudyMaterialRoute><TeacherRecordPage /></StudyMaterialRoute>} />
-        <Route  path="/nmp"  exact element={<StudyMaterialRoute><NoteMaterialPage /></StudyMaterialRoute>} />
-        <Route  path="/pmp"  exact element={<StudyMaterialRoute><PdfMaterialPage /></StudyMaterialRoute>} />
-        <Route  path="/rmp"  exact element={<StudyMaterialRoute><ResearchMaterialPage /></StudyMaterialRoute>} />
-        <Route  path="/rmpRe"  exact element={<StudyMaterialRoute><RecordMaterialPage /></StudyMaterialRoute>} />
-        <Route  path="/fbs"  exact element={<FeedbackPage />} />
+        <Route path="/sm" exact element={<StudyLogin />} />
+        <Route path="/smt" exact element={<StudyProtectedRoute><TeacherDashboard /></StudyProtectedRoute>} />
+        <Route path="/sms" exact element={<StudyMaterialRoute><StudentDashboard /></StudyMaterialRoute>} />
+        <Route path="/smN" exact element={<StudyProtectedRoute><TeacherNotePage /></StudyProtectedRoute>} />
+        <Route path="/smP" exact element={<StudyProtectedRoute><TeacherPdfPage /></StudyProtectedRoute>} />
+        <Route path="/smR" exact element={<StudyProtectedRoute><TeacherResearchPage /></StudyProtectedRoute>} />
+        <Route path="/smRe" exact element={<StudyProtectedRoute><TeacherRecordPage /></StudyProtectedRoute>} />
+        <Route path="/nmp" exact element={<StudyMaterialRoute><NoteMaterialPage /></StudyMaterialRoute>} />
+        <Route path="/pmp" exact element={<StudyMaterialRoute><PdfMaterialPage /></StudyMaterialRoute>} />
+        <Route path="/rmp" exact element={<StudyMaterialRoute><ResearchMaterialPage /></StudyMaterialRoute>} />
+        <Route path="/rmpRe" exact element={<StudyMaterialRoute><RecordMaterialPage /></StudyMaterialRoute>} />
+        <Route path="/fbs" exact element={<FeedbackPage />} />
 
-        <Route  path="/smN/add"  exact element={<NotesAdd />} />
-        <Route  path="/smP/add"  exact element={<AddPdf />} />
-        <Route  path="/smR/add"  exact element={<AddResearch />} />
-        <Route  path="/smRe/add"  exact element={<AddRecords />} />
-        <Route  path="/ef"  exact element={<EditFeedBackPage />} />
+        <Route path="/smN/add" exact element={<NotesAdd />} />
+        <Route path="/smP/add" exact element={<AddPdf />} />
+        <Route path="/smR/add" exact element={<AddResearch />} />
+        <Route path="/smRe/add" exact element={<AddRecords />} />
+        <Route path="/ef" exact element={<EditFeedBackPage />} />
 
-        <Route  path="/smN/a"  exact element={<AddNoteMaterial />} />
-        <Route  path="/smP/a"  exact element={<AddPdfMaterial />} />
-        <Route  path="/smR/a"  exact element={<AddResearchMaterial />} />
-        <Route  path="/smRe/a"  exact element={<AddRecordMaterial />} />
-        <Route  path="/fbs/a"  exact element={<FeedBackStudent />} />
-        <Route  path="/fbs/e"  exact element={<StudyMaterialRoute><EditFeedBackPage /></StudyMaterialRoute>} />
+        <Route path="/smN/a" exact element={<AddNoteMaterial />} />
+        <Route path="/smP/a" exact element={<AddPdfMaterial />} />
+        <Route path="/smR/a" exact element={<AddResearchMaterial />} />
+        <Route path="/smRe/a" exact element={<AddRecordMaterial />} />
+        <Route path="/fbs/a" exact element={<FeedBackStudent />} />
+        <Route path="/fbs/e" exact element={<StudyProtectedRoute><EditFeedBackPage /></StudyProtectedRoute>} />
 
-        <Route  path="/smN/t/:id"  exact element={<NoteMaterialCardTeacher />} />
-        <Route  path="/smP/t/:id"  exact element={<PdfMaterialCardTeacher />} />
-        <Route  path="/smR/t/:id"  exact element={<ResearchMaterialCardTeacher />} />
-        <Route  path="/smRe/t/:id"  exact element={<RecordMaterialTeacher />} />
+        <Route path="/smN/t/:id" exact element={<NoteMaterialCardTeacher />} />
+        <Route path="/smP/t/:id" exact element={<PdfMaterialCardTeacher />} />
+        <Route path="/smR/t/:id" exact element={<ResearchMaterialCardTeacher />} />
+        <Route path="/smRe/t/:id" exact element={<RecordMaterialTeacher />} />
 
-        <Route  path="/nmp/s/:id"  exact element={<NoteMaterialCardStudent />} />
-        <Route  path="/pmp/s/:id"  exact element={<PdfMaterialCardStudent />} />
-        <Route  path="/rmp/s/:id"  exact element={<ResearchMaterialCardStudent />} />
-        <Route  path="/rmpRe/s/:id"  exact element={<RecordMaterialCardStudent />} />
+        <Route path="/nmp/s/:id" exact element={<NoteMaterialCardStudent />} />
+        <Route path="/pmp/s/:id" exact element={<PdfMaterialCardStudent />} />
+        <Route path="/rmp/s/:id" exact element={<ResearchMaterialCardStudent />} />
+        <Route path="/rmpRe/s/:id" exact element={<RecordMaterialCardStudent />} />
 
-        <Route  path="/fbs/t/:id"  exact element={<EditFeedBackPage />} />
+        <Route path="/fbs/t/:id" exact element={<EditFeedBackPage />} />
 
 
-        <Route path='/qrgen' exact element={<QRScanner/>}></Route>
+        <Route path='/qrgen' exact element={<QRScanner />}></Route>
 
 
 

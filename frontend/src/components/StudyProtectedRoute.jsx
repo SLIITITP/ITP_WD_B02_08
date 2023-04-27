@@ -1,11 +1,10 @@
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../apicalls/users";
+import { tgetUserInfo } from "../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
-import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
 import {GrNotes} from 'react-icons/gr'
 import {GrDocumentPdf} from 'react-icons/gr'
 import {GrDocumentVideo} from 'react-icons/gr'
@@ -16,8 +15,15 @@ import '../stylesheets/alignments.css'
 import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
+import {
+  updateUser,
+  getProfileTeacher,
+  deleteUser,
+  updateTeacher,
+} from "../apicalls/helper";
+import { useAuthStore } from "../redux/store1";
 
-function ProtectedRoute({ children }) {
+function TprotectedRoute({ children }) {
   const { user } = useSelector((state) => state.users);
   const [menu, setMenu] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
@@ -25,13 +31,14 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const [apiData, setApiData] = useState({});
   const [apiData1, setApiData1] = useState({});
-  
+  const [file, setFile] = useState();
+  const { username } = useAuthStore((state) => state.auth);
 
   const userMenu = [
     {
-      title: "Dashboard",
-      paths: ["/sms" ],
-      icon: <i class="ri-home-line"></i>,
+      title: "Home",
+      paths: ["/sms"],
+      icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/sms"),
     },
     {
@@ -40,7 +47,6 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-bar-chart-line"></i>,
       onClick: () => navigate("/fbs"),
     },
-    
     {
       title: "Profile",
       paths: ["/profile"],
@@ -99,7 +105,7 @@ function ProtectedRoute({ children }) {
       title: "Profile",
       paths: ["/profile"],
       icon: <i className="ri-user-line"></i>,
-      onClick: () => navigate("/profile"),
+      onClick: () => navigate("/teacherProfile"),
     },
     {
       title: "Logout",
@@ -107,15 +113,16 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/plogin");
+        navigate("/pteacherLogin");
       },
     },
   ];
 
+
   const getUserData = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await getUserInfo();
+      const response = await tgetUserInfo();
       dispatch(HideLoading());
       if (response.success) {
         dispatch(SetUser(response.data));
@@ -135,30 +142,11 @@ function ProtectedRoute({ children }) {
   };
 
   useEffect(() => {
-    let usernameFrom = localStorage.getItem("userName");
-    console.log(usernameFrom);
-    getProfile(usernameFrom).then((results) => {
-      let apiData = results.data;
-      setApiData1(results.data);
-
-      console.log(results.data.isAdmin);
-      if (results.data.isAdmin) {
-        setMenu(adminMenu);
-      } else {
-        setMenu(userMenu);
-      }
-      setApiData({
-        firstName: apiData?.firstName || "",
-        lastName: apiData?.lastName || "",
-        email: apiData?.email || "",
-        mobile: apiData?.mobile || "",
-        address: apiData?.address || "",
-        profile: apiData?.profile || "",
-        id: apiData._id,
-        studentId: apiData?.studentId || "",
-        isAdmin: apiData?.isAdmin || "",
-      });
-    });
+    if (localStorage.getItem("token")) {
+      getUserData();
+    } else {
+      navigate("/login"); //if there is problem with token user navigate login
+    }
   }, []);
 
   const activeRoute = window.location.pathname;
@@ -169,7 +157,6 @@ function ProtectedRoute({ children }) {
     } else {
       if (
         activeRoute.includes("/smt") &&
-        
         paths.includes("/smt")
       ) {
         return true;
@@ -184,9 +171,71 @@ function ProtectedRoute({ children }) {
     return false;
   };
 
+  useEffect(() => {
+    console.log(username);
+    let usernameFrom = localStorage.getItem("userName");
+    // username = ;
+    console.log(usernameFrom);
+    if (username === "") {
+      let userNameReload = localStorage.getItem("userName");
+      getProfileTeacher(userNameReload).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    } else {
+      getProfileTeacher(username).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    }
+  }, []);
+
+
   return (
     <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
-      <div className="!flex gap-6 w-full h-full">
+      <div className="!flex gap-6 w-full h-full ">
         <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
           <div className="menu ">
             {menu.map((item, index) => {
@@ -223,9 +272,9 @@ function ProtectedRoute({ children }) {
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
+                <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
               </div>
-              <span className="text-md text-white">Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
+              <span className="text-md text-white">Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>
@@ -235,5 +284,4 @@ function ProtectedRoute({ children }) {
   );
 }
 
-export default ProtectedRoute;
-
+export default TprotectedRoute;

@@ -179,7 +179,7 @@ function TprotectedRoute({ children }) {
                 <i class="ri-user-line"></i>
                 <h1 className="text-md text-white underline">{user?.userID}</h1>
               </div>
-              <span>Role : {user?.isAdmin ? "Admin" : "User"}</span>
+              <span className="text-md text-white">Role : {user?.isAdmin ? "Admin" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>

@@ -133,9 +133,9 @@ function PaymentCheckout() {
 
     return (
 
-        <div className="h-screen h-full  w-full flex text-md font-medium text-gray-900 dark:text-white">
+        <div className="h-screen h-full flex text-md font-medium text-gray-900 dark:text-white">
             <>
-                <div className='flex justify-center items-center h-screen w-full w-screen bg-gray-300 p-4 pt-2'>
+                <div className='flex justify-center items-center h-full w-full bg-gray-300 p-4 pt-2'>
                     {!success ?
                         <form onSubmit={handleSubmit} >
                             <div>
@@ -170,7 +170,7 @@ function PaymentCheckout() {
                             <div className='m-2'>
                                 <label>Email</label>
                                 <input
-                                    className=''
+                                    className='appearance-none block w-full bg-gray-50 text-lg text-gray-700 border border-gray-200 rounded mt-1 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                                     name='email'
                                     type='email'
                                     value={email}
