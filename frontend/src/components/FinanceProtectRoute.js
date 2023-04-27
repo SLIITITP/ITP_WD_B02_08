@@ -22,6 +22,12 @@ function ProtectedRoute({ children }) {
 
     const adminMenu = [
         {
+            title: "Home",
+            paths: ["/home", "/user/write-exam"],
+            icon: <i className="ri-home-line"></i>,
+            onClick: () => navigate("/home"),
+        },
+        {
             title: "Add Payment",
             paths: ["/addPayment"],
             icon: <i className="ri-home-line"></i>,
@@ -70,22 +76,16 @@ function ProtectedRoute({ children }) {
             onClick: () => navigate("/home"),
         },
         {
-            title: "Exams",
-            paths: ["/admin/exams", "/admin/exams/add"],
+            title: "Pay Class fees",
+            paths: ["/payOnline"],
             icon: <i className="ri-file-list-line"></i>,
-            onClick: () => navigate("/admin/exams"),
+            onClick: () => navigate("/payOnline"),
         },
         {
-            title: "Reports",
-            paths: ["/admin/reports"],
+            title: "Payment History",
+            paths: ["/payHistory"],
             icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/admin/reports"),
-        },
-        {
-            title: "Profile",
-            paths: ["/salary/calculate"],
-            icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/salary/calculate"),
+            onClick: () => navigate("/payHistory"),
         },
         {
             title: "Logout",
@@ -184,7 +184,7 @@ function ProtectedRoute({ children }) {
                                 onClick={() => setCollapsed(false)}
                             ></i>
                         )}
-                        <h1 className="text-2xl text-white">Thilina Institute Online Exam Portal</h1>
+                        <h1 className="text-2xl text-white">Financial Management - Thilina Institute</h1>
                         <div>
                             <div className="flex gap-1 items-center">
                                 <i class="ri-user-line"></i>
