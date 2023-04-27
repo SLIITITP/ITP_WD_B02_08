@@ -23,7 +23,7 @@ function ProtectedRoute({ children }) {
     const adminMenu = [
         {
             title: "Home",
-            paths: ["/home", "/user/write-exam"],
+            paths: ["/home"],
             icon: <i className="ri-home-line"></i>,
             onClick: () => navigate("/home"),
         },
@@ -71,13 +71,13 @@ function ProtectedRoute({ children }) {
     const userMenu = [
         {
             title: "Home",
-            paths: ["/home", "/user/write-exam"],
+            paths: ["/home"],
             icon: <i className="ri-home-line"></i>,
             onClick: () => navigate("/home"),
         },
         {
             title: "Pay Class fees",
-            paths: ["/payOnline"],
+            paths: ["/payOnline", "/payment/checkout"],
             icon: <i className="ri-file-list-line"></i>,
             onClick: () => navigate("/payOnline"),
         },
@@ -135,8 +135,8 @@ function ProtectedRoute({ children }) {
             return true;
         } else {
             if (
-                activeRoute.includes("/admin/exams/edit") &&
-                paths.includes("/admin/exams")
+                activeRoute.includes("/payment/checkout") &&
+                paths.includes("/payOnline")
             ) {
                 return true;
             }

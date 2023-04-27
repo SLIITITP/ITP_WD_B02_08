@@ -71,7 +71,7 @@ export default function PaymentConfirm() {
 
     return (
         <div className="h-screen h-full  w-full flex text-lg font-medium text-gray-900 dark:text-white">
-            <div className='flex justify-center items-center h-screen w-full w-screen bg-gray-300 p-4 pt-2'>
+            <div className='flex justify-center items-center h-screen w-full bg-gray-300 p-4 pt-2'>
 
                 <div className='get-center'>
                     <h2 className='text-3xl font-bold text-center text-blue-900 tracking-tight p-2'>Payment Confirmation</h2>

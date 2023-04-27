@@ -185,7 +185,7 @@ export default function OnlinePayment() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2 p-2 mt-2 bg-purple-600 rounded">
+                        <div className="grid grid-cols-2 gap-2 p-2 mt-2 bg-blue-600 rounded">
                             {subjectList.map((sub) => (
                                 <div key={sub._id} className='bg-gray-200 rounded'>
                                     <label htmlFor={`subject-${sub._id}`} className='block mb-1 mt-1 text-lg font-medium text-gray-900 dark:text-white'>
