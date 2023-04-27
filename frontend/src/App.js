@@ -148,6 +148,8 @@ import AddNoteMaterial from './components/AddNoteMaterial';
 import AddPdfMaterial from './components/AddPdfMaterial';
 import AddRecordMaterial from './components/AddRecordMaterial';
 import AddResearchMaterial from './components/AddResearchMaterial';
+import StudyProtectedRoute from './components/StudyProtectedRoute';
+
 //import EditFeedback from './components/EditFeedback';
 import NoteMaterialCardTeacher from './components/NoteMaterialCardTeacher';
 import PdfMaterialCardTeacher from './components/PdfMaterialCardTeacher';
@@ -449,12 +451,12 @@ function App() {
 
 
          <Route  path="/sm"  exact element={<StudyLogin/>} /> 
-        <Route  path="/smt"  exact element={<StudyMaterialRoute><TeacherDashboard /></StudyMaterialRoute>} />
+        <Route  path="/smt"  exact element={<StudyProtectedRoute><TeacherDashboard /></StudyProtectedRoute>} />
         <Route  path="/sms"  exact element={<StudyMaterialRoute><StudentDashboard /></StudyMaterialRoute>} />
-        <Route  path="/smN"  exact element={<StudyMaterialRoute><TeacherNotePage /></StudyMaterialRoute>} />
-        <Route  path="/smP"  exact element={<StudyMaterialRoute><TeacherPdfPage /></StudyMaterialRoute>} />
-        <Route  path="/smR"  exact element={<StudyMaterialRoute><TeacherResearchPage /></StudyMaterialRoute>} />
-        <Route  path="/smRe"  exact element={<StudyMaterialRoute><TeacherRecordPage /></StudyMaterialRoute>} />
+        <Route  path="/smN"  exact element={<StudyProtectedRoute><TeacherNotePage /></StudyProtectedRoute>} />
+        <Route  path="/smP"  exact element={<StudyProtectedRoute><TeacherPdfPage /></StudyProtectedRoute>} />
+        <Route  path="/smR"  exact element={<StudyProtectedRoute><TeacherResearchPage /></StudyProtectedRoute>} />
+        <Route  path="/smRe"  exact element={<StudyProtectedRoute><TeacherRecordPage /></StudyProtectedRoute>} />
         <Route  path="/nmp"  exact element={<StudyMaterialRoute><NoteMaterialPage /></StudyMaterialRoute>} />
         <Route  path="/pmp"  exact element={<StudyMaterialRoute><PdfMaterialPage /></StudyMaterialRoute>} />
         <Route  path="/rmp"  exact element={<StudyMaterialRoute><ResearchMaterialPage /></StudyMaterialRoute>} />
@@ -472,7 +474,7 @@ function App() {
         <Route  path="/smR/a"  exact element={<AddResearchMaterial />} />
         <Route  path="/smRe/a"  exact element={<AddRecordMaterial />} />
         <Route  path="/fbs/a"  exact element={<FeedBackStudent />} />
-        <Route  path="/fbs/e"  exact element={<StudyMaterialRoute><EditFeedBackPage /></StudyMaterialRoute>} />
+        <Route  path="/fbs/e"  exact element={<StudyProtectedRoute><EditFeedBackPage /></StudyProtectedRoute>} />
 
         <Route  path="/smN/t/:id"  exact element={<NoteMaterialCardTeacher />} />
         <Route  path="/smP/t/:id"  exact element={<PdfMaterialCardTeacher />} />
