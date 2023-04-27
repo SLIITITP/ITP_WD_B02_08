@@ -47,9 +47,9 @@ useEffect(()=>{
     const formik = useFormik({
         initialValues : {
            password : '',
-           email: apiData?.email || "",
+           email: ''
            //profile:apiData?.profile || ''
-        },
+        }, 
        
         validate:passwordValidate,                 //validate the input text box and return value
         validateOnBlur: false,
@@ -62,7 +62,7 @@ useEffect(()=>{
             message.success(response.message);
             localStorage.setItem("token1", response.data);
             //localStorage.setItem("userName" , values.name );
-            window.location.href = "/exams";
+            window.location.href = "/profile";
           } else {
             message.error(response.message);
           }
@@ -101,6 +101,14 @@ useEffect(()=>{
         message.error(error.message);
       }
     };
+
+
+    useEffect(() => {
+      formik.setValues({
+        ...formik.values,
+        email: apiData.email || '',
+      })
+    }, [apiData.email])
   
 
 
@@ -129,7 +137,7 @@ useEffect(()=>{
                {/* src={apiData?.profile || avatar} */}
             </div>
             <div className="textbox flex flex-col items-center gap-6">
-            <input {...formik.getFieldProps('email')} className={styles.textbox} type='email' placeholder='Email' name="email"/>
+            <input {...formik.getFieldProps("email")} className={styles.textbox} type='email' placeholder='Email' name="email"/>
             <input {...formik.getFieldProps('password')} className={styles.textbox} type='password' placeholder='Password' name="password"/>
     
       

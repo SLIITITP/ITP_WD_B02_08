@@ -35,6 +35,7 @@ export default function Profile() {
       let apiData = results.data;
       console.log(results);
       setApiData({
+        username: apiData?.username|| "",
         firstName: apiData?.firstName || "",
         lastName: apiData?.lastName || "",
         email: apiData?.email || "",
@@ -49,6 +50,7 @@ export default function Profile() {
   //console.log(apiData1)
   const formik = useFormik({
     initialValues: {
+      username: apiData?.username|| "",
       firstName: apiData?.firstName || "",
       lastName: apiData?.lastName || "",
       email: apiData?.email || "",
