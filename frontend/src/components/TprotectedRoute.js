@@ -112,7 +112,7 @@ function TprotectedRoute({ children }) {
     if (localStorage.getItem("token")) {
       getUserData();
     } else {
-      navigate("/exammain"); //if there is problem with token user navigate login
+      navigate("/tlogin"); //if there is problem with token user navigate login
     }
   }, []);
 
@@ -179,7 +179,7 @@ function TprotectedRoute({ children }) {
                 <i class="ri-user-line"></i>
                 <h1 className="text-md text-white underline">{user?.userID}</h1>
               </div>
-              <span>Role : {user?.isAdmin ? "Teacher" : "Student"}</span>
+              <span>Role : {user?.isAdmin ? "Admin" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>
