@@ -44,7 +44,7 @@ const ViewFeedbacks = () => {
 
             
 
-            <Table striped bordered hover style={{ marginTop: '50px' }}>
+            <Table   >
                 <thead>
                     <tr>
                         <th>Teacher's Name</th>

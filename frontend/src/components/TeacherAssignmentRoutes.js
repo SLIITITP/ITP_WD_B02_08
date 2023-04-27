@@ -1,14 +1,11 @@
+
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../apicalls/users";
+import { tgetUserInfo } from "../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
-import {GrNotes} from 'react-icons/gr'
-import {GrDocumentPdf} from 'react-icons/gr'
-import {GrDocumentVideo} from 'react-icons/gr'
-import {GiArchiveResearch} from 'react-icons/gi'
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
@@ -16,9 +13,7 @@ import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
 
-
-
-function SProtectedRoute({ children }) {
+function TprotectedRoute({ children }) {
   const { user } = useSelector((state) => state.users);
   const [menu, setMenu] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
@@ -28,15 +23,15 @@ function SProtectedRoute({ children }) {
   const userMenu = [
     {
       title: "Home",
-      paths: ["/sms"],
+      paths: ["/exams", "/user/write-exam"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/sms"),
+      onClick: () => navigate("/exams"),
     },
     {
-      title: "Feedback",
-      paths: ["/fbs"],
+      title: "Reports",
+      paths: ["/user/reports"],
       icon: <i className="ri-bar-chart-line"></i>,
-      onClick: () => navigate("/fbs"),
+      onClick: () => navigate("/user/reports"),
     },
     {
       title: "Profile",
@@ -57,41 +52,23 @@ function SProtectedRoute({ children }) {
 
   const adminMenu = [
     {
-      title: "Home",
-      paths: ["/smt"],
+      title: "Assignments",
+      paths: ["/a2","/a1"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/smt"),
+      onClick: () => navigate("/a2"),
     },
     {
-      title: "Feedback",
-      paths: ["/fbs/e"],
+      title: "Feedbacks",
+      paths: ["/viewFeed","/emailAss"],
       icon: <i className="ri-file-list-line"></i>,
-      onClick: () => navigate("/fbs/e"),
+      onClick: () => navigate("/viewFeed","/emailAss"),
     },
     {
-      title: "NOTES",
-      paths: ["/smN","/smN/add"],
-      icon: <GrNotes className="ri-bar-chart-line bg-white"></GrNotes>,
-      onClick: () => navigate("/smN"),
+      title: "Evaluations",
+      paths: ["/test"],
+      icon: <i className="ri-bar-chart-line"></i>,
+      onClick: () => navigate("/test"),
     },
-    {
-        title: " PDF",
-        paths: ["/smP","/smP/add"],
-        icon: <GrDocumentPdf className="ri-bar-chart-line bg-white"></GrDocumentPdf>,
-        onClick: () => navigate("/smP"),
-      },
-      {
-        title: "RECORDS",
-        paths: ["/smRe","/smRe/add"],
-        icon: <GrDocumentVideo className="ri-bar-chart-line bg-white"></GrDocumentVideo>,
-        onClick: () => navigate("/smRe"),
-      },
-      {
-        title: "RESEARCH",
-        paths: ["/smR","/smR/add"],
-        icon: <GiArchiveResearch className="ri-bar-chart-line"></GiArchiveResearch>,
-        onClick: () => navigate("/smR"),
-      },
     {
       title: "Profile",
       paths: ["/profile"],
@@ -109,10 +86,11 @@ function SProtectedRoute({ children }) {
     },
   ];
 
+
   const getUserData = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await getUserInfo();
+      const response = await tgetUserInfo();
       dispatch(HideLoading());
       if (response.success) {
         dispatch(SetUser(response.data));
@@ -146,14 +124,14 @@ function SProtectedRoute({ children }) {
       return true;
     } else {
       if (
-        activeRoute.includes("/smt") &&
-        paths.includes("/smt")
+        activeRoute.includes("/admin/exams/edit") &&
+        paths.includes("/admin/exams")
       ) {
         return true;
       }
       if (
-        activeRoute.includes("/sms") &&
-        paths.includes("/sms")
+        activeRoute.includes("/tuser/write-exam") &&
+        paths.includes("/tuser/write-exam")
       ) {
         return true;
       }
@@ -162,10 +140,10 @@ function SProtectedRoute({ children }) {
   };
 
   return (
-    <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
-      <div className="!flex gap-6 w-full h-full ">
-        <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
-          <div className="menu  ">
+    <div className="layout">
+      <div className="flex gap-2 w-full h-full h-100">
+        <div className="sidebar">
+          <div className="menu ">
             {menu.map((item, index) => {
                return (
                 <div
@@ -196,13 +174,13 @@ function SProtectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Online Exam Portal</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{user?.name}</h1>
+                <h1 className="text-md text-white underline">{user?.userID}</h1>
               </div>
-              <span className=" text-white">Role : {user?.isAdmin ? "Admin" : "User"}</span>
+              <span>Role : {user?.isAdmin ? "Teacher" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>
@@ -212,5 +190,5 @@ function SProtectedRoute({ children }) {
   );
 }
 
-export default SProtectedRoute;
+export default TprotectedRoute;
 
