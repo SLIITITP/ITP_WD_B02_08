@@ -31,7 +31,7 @@ router.post("/add", authMiddleware, async (req, res) => {
 });
 
 // get all exams
-router.post("/get-all-exams", authMiddleware, async (req, res) => {
+router.post("/get-all-exams", async (req, res) => {
   try {
     const exams = await Exam.find({});
     res.send({
