@@ -4,6 +4,7 @@ import { getUserInfo } from "../../.././apicalls/users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../../.././redux/usersSlice.js";
+import { updateUser, getProfile, deleteUser } from "../../.././apicalls/helper";
 import { message } from "antd";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -15,6 +16,8 @@ const [activeDay, setActiveDay] = useState('Monday');
 const [filteredClasses, setFilteredClasses] = useState(classes);
 const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
 const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
+const [apiData, setApiData] = useState({});
+  const [apiData1, setApiData1] = useState({});
 
 const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -40,7 +43,42 @@ const { user } = useSelector((state) => state.users);
     }
   }, []);
 
-  const studentID = user?._id;
+  useEffect(() => {
+    let usernameFrom = localStorage.getItem("userName");
+    console.log(usernameFrom);
+    getProfile(usernameFrom).then((results) => {
+      let apiData = results.data;
+      setApiData1(results.data);
+      console.log(results.data._id);
+      setApiData({
+        firstName: apiData?.firstName || "",
+        lastName: apiData?.lastName || "",
+        email: apiData?.email || "",
+        mobile: apiData?.mobile || "",
+        address: apiData?.address || "",
+        profile: apiData?.profile || "",
+        id: apiData._id,
+        studentId: apiData?.studentId || "",
+        isAdmin: apiData?.isAdmin || "",
+      });
+    });
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const studentID = apiData1?._id;
+  console.log(apiData1._id)
 
 const handleDayClick = (date) => {
   setActiveDay(date);
