@@ -6,12 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../../.././redux/usersSlice.js";
 import { message } from "antd";
+import { updateUser, getProfile, deleteUser } from "../../.././apicalls/helper";
 function ClassEnrolling() {
   const location = useLocation();
 
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [apiData, setApiData] = useState({});
+  const [apiData1, setApiData1] = useState({});
   const getUserData = async () => {
     try {
       const response = await getUserInfo();
@@ -33,8 +36,56 @@ function ClassEnrolling() {
     }
   }, []);
 
-  const stdID = user?._id;
 
+  useEffect(() => {
+    let usernameFrom = localStorage.getItem("userName");
+    console.log(usernameFrom);
+    getProfile(usernameFrom).then((results) => {
+      let apiData = results.data;
+      setApiData1(results.data);
+      console.log(results.data._id);
+      setApiData({
+        firstName: apiData?.firstName || "",
+        lastName: apiData?.lastName || "",
+        email: apiData?.email || "",
+        mobile: apiData?.mobile || "",
+        address: apiData?.address || "",
+        profile: apiData?.profile || "",
+        id: apiData._id,
+        studentId: apiData?.studentId || "",
+        isAdmin: apiData?.isAdmin || "",
+      });
+    });
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const stdID = apiData1?._id;
+  console.log(apiData1)
   const [classId] = useState(location.state.cId);
   const [grade] = useState(location.state.cGrade);
   const [subject] = useState(location.state.cSubject);
@@ -46,10 +97,10 @@ function ClassEnrolling() {
   const handleEnroll = async (e) => {
 
     console.log(typeof(classId))
-    const token = localStorage.getItem("token");
-    const headers = {
-      authorization: `Bearer ${token}`,
-    };
+    // const token = localStorage.getItem("token");
+    // const headers = {
+    //   authorization: `Bearer ${token}`,
+    // };
     e.preventDefault();
    
      await axios.post(
@@ -58,7 +109,7 @@ function ClassEnrolling() {
           "studentID": stdID,
           "classID":classId
       } ,
-        { headers }
+       
       ).then(response=>{
         console.log(response)
         alert("Enrolled Successfully")
