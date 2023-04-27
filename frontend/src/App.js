@@ -184,6 +184,7 @@ import QRScanner from './components/QRScanner';
 import TRegister from './pages/common/Register/TeachersReg';
 import Tlogin from './pages/common/Login/tlogin';
 import TprotectedRoute from './components/TprotectedRoute'
+import ExamMain from './pages/common/Home/ExamMain';
 
 
 
@@ -288,7 +289,7 @@ function App() {
 
         {/* User Routes for exams management */}
 
-
+        <Route path="/exammain" element={<ExamMain />} /> 
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />
