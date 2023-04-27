@@ -6,23 +6,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
-import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
 import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
+import {
+  updateUser,
+  getProfileTeacher,
+  deleteUser,
+  updateTeacher,
+} from "../apicalls/helper";
+import { useAuthStore } from "../redux/store1";
 
 function AdminSideNav({ children }) {
   const { user } = useSelector((state) => state.users);
+  const [menu, setMenu] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [apiData, setApiData] = useState({});
   const [apiData1, setApiData1] = useState({});
-  const [menu, setMenu] = useState([]);
-  console.log(apiData)
+  const [file, setFile] = useState();
+  const { username } = useAuthStore((state) => state.auth);
 
   const userMenu = [
     {
@@ -49,35 +56,38 @@ function AdminSideNav({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/plogin");
       },
     },
   ];
 
   const adminMenu = [
     {
-      title: "Home",
-      paths: ["/texams", "/tuser/write-exam"],
+      title: "Assignment Admin",
+      paths: ["/a2","/a1"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/texams"),
+      onClick: () => navigate("/a1"),
     },
     {
-      title: "Exams",
-      paths: ["/admin/exams", "/admin/exams/add"],
-      icon: <i className="ri-file-list-line"></i>,
-      onClick: () => navigate("/admin/exams"),
+      title: "StudyMatirial Admin",
+      paths: ["/viewFeed","/emailAss"],
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-file-list-line"></i>,
+      onClick: () => navigate("/smt"),
     },
     {
-      title: "Reports",
-      paths: ["/admin/reports"],
-      icon: <i className="ri-bar-chart-line"></i>,
-      onClick: () => navigate("/admin/reports"),
+      title: "Exam Admin",
+      paths: ["/test"],
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-bar-chart-line"></i>,
+      onClick: () => navigate("/exammain"),
     },
     {
-      title: "Profile",
+      title: "Finance Admin",
       paths: ["/profile"],
-      icon: <i className="ri-user-line"></i>,
-      onClick: () => navigate("/profile"),
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-user-line"></i>,
+      onClick: () => navigate("/addPayment"),
     },
     {
       title: "Logout",
@@ -85,10 +95,11 @@ function AdminSideNav({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/plogin");
       },
     },
   ];
+
 
   const getUserData = async () => {
     try {
@@ -112,38 +123,12 @@ function AdminSideNav({ children }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     getUserData();
-  //   } else {
-  //     navigate("/login"); //if there is problem with token user navigate login
-  //   }
-  // }, []);
   useEffect(() => {
-    let usernameFrom = localStorage.getItem("userName");
-    console.log(usernameFrom);
-    getProfile(usernameFrom).then((results) => {
-      let apiData = results.data;
-      setApiData1(results.data);
-
-      console.log(results.data.isAdmin);
-      if (results.data.isAdmin) {
-        setMenu(adminMenu);
-      } else {
-        setMenu(userMenu);
-      }
-      setApiData({
-        firstName: apiData?.firstName || "",
-        lastName: apiData?.lastName || "",
-        email: apiData?.email || "",
-        mobile: apiData?.mobile || "",
-        address: apiData?.address || "",
-        profile: apiData?.profile || "",
-        id: apiData._id,
-        studentId: apiData?.studentId || "",
-        isAdmin: apiData?.isAdmin || "",
-      });
-    });
+    if (localStorage.getItem("token")) {
+      getUserData();
+    } else {
+      navigate("/login"); //if there is problem with token user navigate login
+    }
   }, []);
 
   const activeRoute = window.location.pathname;
@@ -168,7 +153,67 @@ function AdminSideNav({ children }) {
     return false;
   };
 
-  console.log(apiData1.isAdmin);
+  useEffect(() => {
+    console.log(username);
+    let usernameFrom = localStorage.getItem("userName");
+    // username = ;
+    console.log(usernameFrom);
+    if (username === "") {
+      let userNameReload = localStorage.getItem("userName");
+      getProfileTeacher(userNameReload).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    } else {
+      getProfileTeacher(username).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    }
+  }, []);
+
 
   return (
     <div className="layout">
@@ -205,13 +250,13 @@ function AdminSideNav({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">Thilina Institute Online Exam Portal</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Admin</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
+                <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
               </div>
-              <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
+              <span>Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>
