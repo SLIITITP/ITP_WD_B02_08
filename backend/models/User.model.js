@@ -21,6 +21,11 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide a unique email"],
     unique: true,
   },
+  isAdmin:{
+    type: Boolean,
+    required: false,
+    default: false,
+},
   grade: { type: String, required: [true, "Please provide Grade"] },
   firstName: { type: String },
   lastName: { type: String },

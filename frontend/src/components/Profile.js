@@ -56,7 +56,10 @@ export default function Profile() {
       address: apiData?.address || "",
       profile: apiData?.profile || "",
       studentId: apiData?.studentId || "",
+     
     },
+
+    
     enableReinitialize: true,
     validate: profileValidation, //validate the input text box and return value
     validateOnBlur: false,

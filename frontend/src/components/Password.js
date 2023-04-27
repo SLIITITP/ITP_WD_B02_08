@@ -9,6 +9,8 @@ import useFetch from '../hooks/fetch.hook';
 import {useAuthStore} from '../redux/store1';
 import {verifyPassword, getProfile} from '../apicalls/helper'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { loginUser } from "../apicalls/users";
+import { message } from 'antd';
 
 export default function Password() {
 
@@ -45,6 +47,7 @@ useEffect(()=>{
     const formik = useFormik({
         initialValues : {
            password : '',
+           email: apiData?.email || "",
            //profile:apiData?.profile || ''
         },
        
@@ -54,6 +57,16 @@ useEffect(()=>{
         onSubmit : async values =>{                  //validate only after submitting button
                     
           let loginPromise = verifyPassword({username , password: values.password})
+          const response = await loginUser(values);
+          if (response.success) {
+            message.success(response.message);
+            localStorage.setItem("token1", response.data);
+            //localStorage.setItem("userName" , values.name );
+            window.location.href = "/exams";
+          } else {
+            message.error(response.message);
+          }
+          console.log(loginPromise)
           
           toast.promise(loginPromise ,{
             loading: 'Cheking...',
@@ -62,13 +75,33 @@ useEffect(()=>{
           });
           
           loginPromise.then(res => {
-            let {token} = res.data;
-            localStorage.setItem('token',token)
-            navigate('/profile')
+             let {token} = res.data;
+             localStorage.setItem('token',token)
+             navigate('/profile')
           })
 
         }            
     })
+
+    const onFinish = async (values) => {
+      try {
+        // dispatch(ShowLoading()); //showing loader
+        const response = await loginUser(values);
+        // dispatch(HideLoading()); //hide loader
+        if (response.success) {
+          message.success(response.message);
+          localStorage.setItem("token", response.data);
+          localStorage.setItem("userName" , values.name );
+          window.location.href = "/exams";
+        } else {
+          message.error(response.message);
+        }
+      } catch (error) {
+       
+        message.error(error.message);
+      }
+    };
+  
 
 
    // if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
@@ -89,14 +122,15 @@ useEffect(()=>{
               Explore more by connecting with us
             </span>
           </div>
-          <form className='py-1' onSubmit={formik.handleSubmit}>
+          <form className='py-1' onSubmit={formik.handleSubmit} onFinish={onFinish}>
             <div className='profile flex justify-center py-4'>
                <img src={apiData?.profile || avatar}  className={styles.profile_img} alt='avatar'></img> 
                
                {/* src={apiData?.profile || avatar} */}
             </div>
             <div className="textbox flex flex-col items-center gap-6">
-            <input {...formik.getFieldProps('password')} className={styles.textbox} type='password' placeholder='Password'/>
+            <input {...formik.getFieldProps('email')} className={styles.textbox} type='email' placeholder='Email' name="email"/>
+            <input {...formik.getFieldProps('password')} className={styles.textbox} type='password' placeholder='Password' name="password"/>
     
       
               <button className={styles.btn} type='submit'>Log in</button>
