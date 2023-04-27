@@ -126,7 +126,7 @@ function TprotectedRoute({ children }) {
                 message.error(response.message);
             }
         } catch (error) {
-            navigate("/login"); //if there is problem with token user navigate login
+            navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
             dispatch(HideLoading());
             message.error(error.message);
         }
@@ -136,7 +136,7 @@ function TprotectedRoute({ children }) {
         if (localStorage.getItem("token")) {
             getUserData();
         } else {
-            navigate("/login"); //if there is problem with token user navigate login
+            navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
         }
     }, []);
 
