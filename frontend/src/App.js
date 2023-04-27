@@ -166,15 +166,12 @@ import ResearchMaterialCardStudent from './components/ResearchMaterialCardStuden
 import RecordMaterialCardStudent from './components/RecordMaterialCardStudent';
 import FeedBackStudent from './components/FeedBackStudent';
 import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
-import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
-import NipTest from './components/PaymentComponents/NipTest';
 import WelcomePage from './pages/welcome/welcome';
 import TeacherLogin from './components/TeacherLogin';
 import PasswordTeacher from './components/PasswordTeacher';
 import AdminLogin from './components/AdminLogin';
 import SalaryHistory from './components/PaymentComponents/SalaryHistory';
-import NipTest2 from './components/PaymentComponents/NipTest2';
 import AdminSideNav from './components/AdminSideNav';
 import GetAm from './components/AMFunction/GetAm';
 import CheckAm from './components/AMFunction/CheckAm';
@@ -194,8 +191,6 @@ import getSubjects from './components/Assignment_Management_components/getSubjec
 
 
 import QRScanner from './components/QRScanner';
-import FinanceProtectRoute from './components/FinanceProtectRoute';
-import SubAddingNew from './components/PaymentComponents/SubAddingNew';
 
 
 import TRegister from './pages/common/Register/TeachersReg';
@@ -267,12 +262,10 @@ function App() {
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
 
-        <Route path='/subject/update' element={<SubListUpdate />} />
-        <Route path='/niptest' element={<NipTest />} />
-        <Route path='/niptest2' element={<NipTest2 />} />
+
+
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
-        <Route path='/subaddn' element={<SubAddingNew />} />
 
 
 
