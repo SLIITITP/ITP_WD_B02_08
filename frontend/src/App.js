@@ -201,6 +201,7 @@ import SubAddingNew from './components/PaymentComponents/SubAddingNew';
 import TRegister from './pages/common/Register/TeachersReg';
 import Tlogin from './pages/common/Login/tlogin';
 import TprotectedRoute from './components/TprotectedRoute'
+import ExamMain from './pages/common/Home/ExamMain';
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 
@@ -320,7 +321,7 @@ function App() {
 
         {/* User Routes for exams management */}
 
-
+        <Route path="/exammain" element={<ExamMain />} /> 
         <Route path='/exams' element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>} />

@@ -112,7 +112,7 @@ function TprotectedRoute({ children }) {
     if (localStorage.getItem("token")) {
       getUserData();
     } else {
-      navigate("/login"); //if there is problem with token user navigate login
+      navigate("/tlogin"); //if there is problem with token user navigate login
     }
   }, []);
 

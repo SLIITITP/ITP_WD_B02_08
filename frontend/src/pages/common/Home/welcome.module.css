@@ -1,0 +1,84 @@
+.mainCoantainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.leftSide {
+    background-image: url('../../../images/emain.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(1px);
+    width: 50%;
+    height: 100vh;
+}
+
+.rightSide {
+    display: flex;
+    /* background-color: red; */
+    width: 50%;
+    height: 100vh;
+}
+
+.selectionBlock {
+    margin: auto;
+    width: 70%;
+    height: 60%;
+    background-color: aliceblue;
+    box-shadow: 10px 2px 5px rgba(221, 219, 219, 0.3);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.subHead {
+    font-size: large;
+}
+
+.detailBox {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    /* background-color: rebeccapurple; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: space-between;
+    text-align: center;
+}
+
+
+.btnContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btnContentInside{
+    width: 100%;
+}
+
+.btnContent {
+    width: 70%;
+    padding: 10px 5px;
+    border-radius: 5px;
+    font-weight: 600;
+    color: aliceblue;
+    background-color: rgb(120, 91, 150);
+
+}
+
+.btnContent:hover {
+    
+    background-color: rgb(204, 179, 230);
+
+}
+
+.headingTitle {
+    color: rosybrown;
+    font-size: xx-large;
+}
+
+.imageSet {
+    background-size: cover;
+    background-position: center;
+}

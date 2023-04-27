@@ -65,7 +65,7 @@ function TeacherLogin() {
               <div className="text-center py-2 px-3.5">
                 <span className="text-gray-500">
                   Not a Member{" "}
-                  <Link className="text-red-500" to="/tRegister">
+                  <Link className="text-red-500" to="/ttRegister">
                     Register Now
                   </Link>
                 </span>

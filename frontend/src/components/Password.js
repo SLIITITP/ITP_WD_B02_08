@@ -92,7 +92,7 @@ useEffect(()=>{
           message.success(response.message);
           localStorage.setItem("token", response.data);
           localStorage.setItem("userName" , values.name );
-          window.location.href = "/exams";
+          window.location.href = "/profile";
         } else {
           message.error(response.message);
         }
