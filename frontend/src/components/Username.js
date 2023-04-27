@@ -25,7 +25,7 @@ export default function Username() {
             username : ''
         },
         validate:usernameValidate,                 //validate the input text box and return value
-        validateOnBlur: false,
+        validateOnBlur: false,                      //validation will only be triggered when the form is submitted.
         validateOnChange: false,
         onSubmit : async values =>{                //validate only after submitting button
             setUsername(values.username);

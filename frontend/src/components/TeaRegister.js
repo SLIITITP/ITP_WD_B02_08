@@ -73,7 +73,7 @@ export default function TeaRegister() {
       <div className='flex justify-center items-center h-screen' >
         <div className={styles.glass} style={{height: "85%"}}>
           <div className="title flex flex-col items-center">
-            <h4 className='text-5xl font-bold'> Thilina Registration</h4>
+            <h4 className='text-5xl font-bold'> Teacher Registration</h4>
             <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
               Welcome to Thilina Educational Institute
             </span>
@@ -96,7 +96,7 @@ export default function TeaRegister() {
               <button className={styles.btn} type='submit'>Register</button>
             </div>
             <div className="text-center py-2 px-3.5">
-              <span className='text-gray-500'>Already Register? <Link className='text-red-500' to='/plogin'>Login now</Link></span>
+              <span className='text-gray-500'>Already Register? <Link className='text-red-500' to='/pteacherLogin'>Login now</Link></span>
             </div>
           </form>
         </div>
