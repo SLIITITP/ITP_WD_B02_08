@@ -12,6 +12,13 @@ import '../stylesheets/alignments.css'
 import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
+import {
+  updateUser,
+  getProfileTeacher,
+  deleteUser,
+  updateTeacher,
+} from "../apicalls/helper";
+import { useAuthStore } from "../redux/store1";
 
 function TprotectedRoute({ children }) {
   const { user } = useSelector((state) => state.users);
@@ -19,6 +26,10 @@ function TprotectedRoute({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [apiData, setApiData] = useState({});
+  const [apiData1, setApiData1] = useState({});
+  const [file, setFile] = useState();
+  const { username } = useAuthStore((state) => state.auth);
 
   const userMenu = [
     {
@@ -45,7 +56,7 @@ function TprotectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/plogin");
       },
     },
   ];
@@ -81,7 +92,7 @@ function TprotectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/plogin");
       },
     },
   ];
@@ -139,6 +150,68 @@ function TprotectedRoute({ children }) {
     return false;
   };
 
+  useEffect(() => {
+    console.log(username);
+    let usernameFrom = localStorage.getItem("userName");
+    // username = ;
+    console.log(usernameFrom);
+    if (username === "") {
+      let userNameReload = localStorage.getItem("userName");
+      getProfileTeacher(userNameReload).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    } else {
+      getProfileTeacher(username).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    }
+  }, []);
+
+
   return (
     <div className="layout">
       <div className="flex gap-2 w-full h-full h-100">
@@ -178,9 +251,9 @@ function TprotectedRoute({ children }) {
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{user?.userID}</h1>
+                <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
               </div>
-              <span>Role : {user?.isAdmin ? "Teacher" : "User"}</span>
+              <span>Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>
