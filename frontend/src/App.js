@@ -249,10 +249,11 @@ function App() {
         <Route path='/salary/history' element={<FinanceProtectRoute><SalaryHistory /></FinanceProtectRoute>} />
         <Route path='/subject/addOrUpdate' element={<FinanceProtectRoute><AddSubToTeachers /></FinanceProtectRoute>} />
 
-        <Route path='/confirmPayment' exact element={<PaymentConfirm />} />
-        <Route path='/payment/checkout' exact element={<StripeContainer />} />
-        <Route path='/payOnline' exact element={<OnlinePayment />} />
-        <Route path='/subject/update' element={<SubListUpdate />} />
+        <Route path='/confirmPayment' exact element={<FinanceProtectRoute><PaymentConfirm /></FinanceProtectRoute>} />
+        <Route path='/payment/checkout' exact element={<FinanceProtectRoute><StripeContainer /></FinanceProtectRoute>} />
+        <Route path='/payOnline' exact element={<FinanceProtectRoute><OnlinePayment /></FinanceProtectRoute>} />
+        <Route path='/subject/update' element={<FinanceProtectRoute><SubListUpdate /></FinanceProtectRoute>} />
+
         <Route path='/niptest' element={<NipTest />} />
         <Route path='/niptest2' element={<NipTest2 />} />
         <Route path='/am/add' element={<GetAm />} />
