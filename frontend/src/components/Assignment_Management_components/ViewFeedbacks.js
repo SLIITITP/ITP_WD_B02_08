@@ -30,50 +30,52 @@ const ViewFeedbacks = () => {
 
     return (
         <div className="container">
-            
-            <h1 className="text-center my-5" style={{ fontSize: '2rem' }}>
-            View Feedbacks
-      </h1>
-
-
-<Form inline striped bordered hover style={{ marginTop: '50px' }}>
-                <Form.Control type="text" placeholder="Search by Teacher's Name" className="mr-sm-2"
-                    value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-               
-            </Form>
-
-            
-
-            <Table   >
-                <thead>
-                    <tr>
-                        <th>Teacher's Name</th>
-                        <th>Grade</th>
-                        <th>Assignment Type</th>
-                        <th>Email</th>
-                        <th>Message</th>
-                        <th>Response</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredFeedbacks.map((feedback, index) => (
-                        <tr key={index}>
-                            <td>{feedback.teachersName}</td>
-                            <td>{feedback.grade}</td>
-                            <td>{feedback.assignmentType}</td>
-                            <td>{feedback.email}</td>
-                            <td>{feedback.message}</td>
-                            <td>
-                                <button onClick={() => handleReply(feedback)}
-                                    className="btn btn-primary">
-                                   Reply
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+        <h1 className="text-center my-5" style={{ fontSize: '2rem' }}>
+          View Feedbacks
+        </h1>
+      
+        <div style={{ marginTop: '50px' }}>
+          <Form inline striped bordered hover>
+            <Form.Control
+              type="text"
+              placeholder="Search by Teacher's Name"
+              className="mr-sm-2"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+          </Form>
+      
+          <Table  style={{ marginTop: "4rem" }}>
+            <thead>
+              <tr>
+                <th>Teacher's Name</th>
+                <th>Grade</th>
+                <th>Assignment Type</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Response</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredFeedbacks.map((feedback, index) => (
+                <tr key={index}>
+                  <td>{feedback.teachersName}</td>
+                  <td>{feedback.grade}</td>
+                  <td>{feedback.assignmentType}</td>
+                  <td>{feedback.email}</td>
+                  <td>{feedback.message}</td>
+                  <td>
+                    <button onClick={() => handleReply(feedback)} className="btn btn-primary">
+                      Reply
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </div>
+      </div>
+      
     );
 };
 

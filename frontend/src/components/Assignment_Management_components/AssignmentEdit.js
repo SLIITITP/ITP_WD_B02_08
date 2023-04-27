@@ -67,33 +67,45 @@ const AssignmentEdit = () => {
 
   return (
     <div className="container">
-      <h1>Edit Assignment</h1>
+
+      <h1 className="text-center my-5" style={{ fontSize: '2rem' }}>
+        Edit Assignment
+      </h1>
+
+
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="type">Type:</label>
-          <input type="text" id="type" className="form-control" value={type} onChange={handleTypeChange} />
+        <div class="form-group">
+          <label for="type">Type:</label>
+          <input type="text" class="form-control" id="type" value={type} onChange={handleTypeChange} />
         </div>
-        <div className="form-group">
-          <label htmlFor="subject">Subject:</label>
-          <input type="text" id="subject" className="form-control" value={subject} onChange={handleSubjectChange} />
+        <div class="form-group">
+          <label for="subject">Subject:</label>
+          <input type="text" class="form-control" id="subject" value={subject} onChange={handleSubjectChange} />
         </div>
-        <div className="form-group">
-          <label htmlFor="grade">Grade:</label>
-          <input type="text" id="grade" className="form-control" value={grade} onChange={handleGradeChange} />
+        <div class="form-group">
+          <label for="grade">Grade:</label>
+          <input type="text" class="form-control" id="grade" value={grade} onChange={handleGradeChange} />
         </div>
-        <div className="form-group">
-          <label htmlFor="guidelines">Guidelines:</label>
-          <textarea id="guidelines" className="form-control" value={guidelines} onChange={handleGuidelinesChange} />
+        <div class="form-group">
+          <label for="guidelines">Guidelines:</label>
+          <textarea class="form-control" id="guidelines" value={guidelines} onChange={handleGuidelinesChange} rows="5"></textarea>
         </div>
-        <div className="form-group">
-          <label htmlFor="deadline">Deadline:</label>
-          <input type="date" id="deadline" className="form-control" value={deadline} onChange={handleDeadlineChange} />
+        <div class="form-group">
+          <label for="deadline">Deadline:</label>
+          <input type="date" class="form-control" id="deadline" value={deadline} onChange={handleDeadlineChange} />
         </div>
-        <button type="submit" className="btn btn-primary">Save</button>
+
+        <button
+          className="btn btn-primary">
+          Save
+        </button>
+
+
       </form>
+
     </div>
   );
-  
+
 };
 
 export default AssignmentEdit;
