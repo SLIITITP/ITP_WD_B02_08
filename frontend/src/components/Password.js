@@ -62,7 +62,7 @@ useEffect(()=>{
             message.success(response.message);
             localStorage.setItem("token1", response.data);
             //localStorage.setItem("userName" , values.name );
-            window.location.href = "/profile";
+            window.location.href = "/home";
           } else {
             message.error(response.message);
           }
@@ -77,7 +77,7 @@ useEffect(()=>{
           loginPromise.then(res => {
              let {token} = res.data;
              localStorage.setItem('token',token)
-             navigate('/profile')
+             navigate('/home')
           })
 
         }            
@@ -92,7 +92,7 @@ useEffect(()=>{
           message.success(response.message);
           localStorage.setItem("token", response.data);
           localStorage.setItem("userName" , values.name );
-          window.location.href = "/profile";
+          window.location.href = "/home";
         } else {
           message.error(response.message);
         }

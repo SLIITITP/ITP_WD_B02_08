@@ -13,7 +13,7 @@ import {useAuthStore} from '../redux/store1';
 export default function Username() {
 
   const navigate = useNavigate();
- const setUsername = useAuthStore(state => state.setUsername)
+ const setUsername = useAuthStore(state => state.setUsername)  //set the value of the username state variable in the global state store.
 
 
  useEffect(()=> {

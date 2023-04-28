@@ -7,14 +7,12 @@ import { useFormik } from "formik";
 import { profileValidation } from "../validations/validate";
 import convertToBase64 from "../validations/convert";
 import extend from "../stylesheets/Profile.module.css";
-import useFetch from "../hooks/fetch.hook";
 import { useAuthStore } from "../redux/store1";
 import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
-import QRCodeGenerator from "./QRCodeGenerator";
 import Modal from "react-modal";
 import { Button, Card, Col, Input, Row, Typography } from "antd";
 import QRCode from "qrcode";
-import jsQR from "jsqr";
+
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -84,23 +82,7 @@ export default function Profile() {
       //   })
     },
 
-    //   onSubmit : async values =>{                 //validate only after submitting button
-    //     //values = await Object.assign(values , {profile : apiData.profile ||'' })
-
-    //     let deletePromise = deleteUser(apiData.id);
-
-    //     toast.promise(deletePromise, {
-    //       loading: 'Deleting...',
-    //       success: <b>Delete Sucessfully...!</b>,
-    //       error: <b>Could Not Delete!</b>,
-
-    //     });
-
-    //     // deletePromise.then(res => {
-
-    //     //   navigate('/registers')
-    //     // })
-    // }
+    
   });
 
   //cretae file upload handler
@@ -117,23 +99,6 @@ export default function Profile() {
 
   //if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
   //if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
-  //GPT
-
-  ///// QR code download
-
-  // Create a ref to the QR code element
-  // const qrCodeRef = useRef(null);
-
-  // // Function to handle the download button click
-  // const handleDownloadClick = () => {
-  //   // Get the data URL of the QR code image
-  //   const qrCodeDataURL = qrCodeRef.current?.toDataURL("image/png");
-
-  //   const a = document.createElement("a");
-  //   a.href = qrCodeDataURL;
-  //   a.download = "qrcode.png";
-  //   a.click();
-  // };
 
   const generateQrCode = async () => {
     try {

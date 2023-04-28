@@ -26,7 +26,7 @@ export async function authenticateTeacher(username){
     try {
         return await axios.post('/api/authenticateTeacher', { username })
     } catch (error) {
-        return { error : "Username doesn't exist...!"}
+        return { error : "Teachername doesn't exist...!"}
     }
 }
 
