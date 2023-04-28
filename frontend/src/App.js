@@ -32,7 +32,7 @@ import TeacherTimetableSideNav from './components/TeacherTimetableSideNav';
 import TeacherMyTimetable from "./pages/Teacher/Timetable/TeacherMyTimetable";
 import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable";
 import AdminTimetableSideNav from './components/AdminTimetableSidenav';
-import AdminMainTimetable from './pages/user/Timetable/MainTimetable'
+import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
 
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'

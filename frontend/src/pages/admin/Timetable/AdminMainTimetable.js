@@ -6,7 +6,7 @@ import { SetUser } from "../../../redux/usersSlice.js";
 import { parsePath, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
-function MainTimetable() {
+function AdminMainTimetable() {
 
  const [classes, setClasses] = useState([]);
  const [activeGrade, setActiveGrade] = useState('6');
@@ -157,12 +157,6 @@ return (
              <td>{clz.date}</td>
              <td>{clz.time}</td>
              <td>Rs.{clz.fees}</td>
-             {role !== "admin" && (
-               <td>  
-                  <button key={clz.id} type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center'
-                   onClick={() => handleEnrollClick(clz)}>Enroll</button>         
-               </td>
-              )}
         </tr>
          ))}
 
@@ -175,4 +169,4 @@ return (
 
 }
 
-export default MainTimetable;
+export default AdminMainTimetable;
