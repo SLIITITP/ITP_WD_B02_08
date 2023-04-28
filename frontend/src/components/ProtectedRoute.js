@@ -33,12 +33,12 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-bar-chart-line"></i>,
       onClick: () => navigate("/user/reports"),
     },
-    {
-      title: "Profile",
-      paths: ["/profile"],
-      icon: <i className="ri-user-line"></i>,
-      onClick: () => navigate("/profile"),
-    },
+    // {
+    //   title: "Profile",
+    //   paths: ["/profile"],
+    //   icon: <i className="ri-user-line"></i>,
+    //   onClick: () => navigate("/profile"),
+    // },
     {
       title: "Logout",
       paths: ["/logout"],
@@ -177,7 +177,7 @@ function ProtectedRoute({ children }) {
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{user?.userID}</h1>
+                <h1 className="text-md text-white underline">{user?.name}</h1>
               </div>
               <span>Role : {user?.isAdmin ? "Teacher" : "Student"}</span>
             </div>
