@@ -3,60 +3,111 @@ import axios from 'axios';
 import { getUserInfo } from "../apicalls/users";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
-import { parsePath, useNavigate } from "react-router-dom";
-import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
+import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
+import '../stylesheets/layout.css'
 import bac3 from '../assets/bac3.jpg'
-
 
  function StudentTicket() {
 
-  
   const [tickets, setTickets] = useState([]);
-  const [role, setRole] = useState("");
+  const { user } = useSelector((state) => state.users);
+  const [menu, setMenu] = useState([]);
+  const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.users.user);
-  
-  //const StudentId = "644293c422e13dce0575499e";
-  const StudentId = user?.name;
+  const [apiData, setApiData] = useState({});
+  const [apiData1, setApiData1] = useState({});
+  const StudentId = apiData1.studentId;
+ 
 
-  const getUserData = async (dispatch) => {
-    try {
-      dispatch(ShowLoading());
-      const response = await getUserInfo();
-      dispatch(HideLoading());
-      if (response.success) {
-        dispatch(SetUser(response.data));
-        const role = response.data.isAdmin ? "admin" : "user";
-        setRole(role);
-        return role;
-      } else {
-        message.error(response.message);
-        return;
-      }
-    } catch (error) {
-      message.error(error.message);
-      return;
+ useEffect(() => {
+  let usernameFrom = localStorage.getItem("userName");
+  console.log(usernameFrom);
+  getProfile(usernameFrom).then((results) => {
+    let apiData = results.data;
+    setApiData1(results.data);
+
+    console.log(results.data.isAdmin);
+    if (results.data.isAdmin) {
+      setMenu(adminMenu);
+    } else {
+      setMenu(userMenu);
     }
-  };
+    setApiData({
+      firstName: apiData?.firstName || "",
+      lastName: apiData?.lastName || "",
+      email: apiData?.email || "",
+      mobile: apiData?.mobile || "",
+      address: apiData?.address || "",
+      profile: apiData?.profile || "",
+      id: apiData._id,
+      studentId: apiData?.studentId || "",
+      isAdmin: apiData?.isAdmin || "",
+    });
+  });
+}, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (localStorage.getItem("token")) {
-          const role = await getUserData(dispatch);
-          setRole(role);
-        } else {
-          navigate("/login");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [dispatch, navigate]);
-  
+const userMenu = [
+  {
+    title: "My Ticket",
+    paths: ["/Stickets"],
+    icon: <i className="ri-calendar-todo-line"></i>,
+    onClick: () => navigate("/Stickets"),
+  },
+  {
+    title: "AddTicket",
+    paths: ["/addTicket"],
+    icon: <i className="ri-table-line"></i>,
+    onClick: () => navigate("/addTicket"),
+  },
+  {
+    title: "Profile",
+    paths: ["/profile"],
+    icon: <i className="ri-todo-line"></i>,
+    onClick: () => navigate("/profile"),
+  },
+  {
+    title: "Logout",
+    paths: ["/logout"],
+    icon: <i className="ri-logout-box-line"></i>,
+    onClick: () => {
+      localStorage.removeItem("token");
+      navigate("/plogin");
+    },
+  },
+];
+
+const adminMenu = [
+  {
+    title: "Ticket List",
+    paths: ["/ticketlist"],
+    icon: <i className="ri-calendar-todo-line"></i>,
+    onClick: () => navigate("/ticketlist"),
+  },
+  {
+    title: "Report",
+    paths: ["/tReport"],
+    icon: <i className="ri-todo-line"></i>,
+    onClick: () => navigate("/tReport"),
+  },
+  {
+    title: "Profile",
+    paths: ["/profile"],
+    icon: <i className="ri-menu-add-fill"></i>,
+    onClick: () => navigate("/profile"),
+  },
+  {
+    title: "Logout",
+    paths: ["/logout"],
+    icon: <i className="ri-logout-box-line"></i>,
+    onClick: () => {
+      localStorage.removeItem("token");
+      navigate("/plogin");
+    },
+  },
+];
 
 
   useEffect(() => {
