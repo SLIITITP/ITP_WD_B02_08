@@ -31,6 +31,8 @@ import ClassEnrolling from './pages/user/ClassEnrollment/classEnrolling';
 import TeacherTimetableSideNav from './components/TeacherTimetableSideNav';
 import TeacherMyTimetable from "./pages/Teacher/Timetable/TeacherMyTimetable";
 import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable";
+import AdminTimetableSideNav from './components/AdminTimetableSidenav';
+import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
 
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -166,15 +168,12 @@ import ResearchMaterialCardStudent from './components/ResearchMaterialCardStuden
 import RecordMaterialCardStudent from './components/RecordMaterialCardStudent';
 import FeedBackStudent from './components/FeedBackStudent';
 import AddSubToTeachers from './components/PaymentComponents/AddSubToTeachers';
-import SubListUpdate from './components/PaymentComponents/SubListUpdate';
 import SalaryCalculation from './components/PaymentComponents/SalaryCalculation';
-import NipTest from './components/PaymentComponents/NipTest';
 import WelcomePage from './pages/welcome/welcome';
 import TeacherLogin from './components/TeacherLogin';
 import PasswordTeacher from './components/PasswordTeacher';
 import AdminLogin from './components/AdminLogin';
 import SalaryHistory from './components/PaymentComponents/SalaryHistory';
-import NipTest2 from './components/PaymentComponents/NipTest2';
 import AdminSideNav from './components/AdminSideNav';
 import GetAm from './components/AMFunction/GetAm';
 import CheckAm from './components/AMFunction/CheckAm';
@@ -194,8 +193,6 @@ import getSubjects from './components/Assignment_Management_components/getSubjec
 
 
 import QRScanner from './components/QRScanner';
-import FinanceProtectRoute from './components/FinanceProtectRoute';
-import SubAddingNew from './components/PaymentComponents/SubAddingNew';
 
 
 import TRegister from './pages/common/Register/TeachersReg';
@@ -206,6 +203,7 @@ import ExamMain from './pages/common/Home/ExamMain';
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
 import FinanceUserProtected from './components/FinanceUserProtected'
+import NipTest from './components/PaymentComponents/NipTest';
 
 
 
@@ -267,28 +265,29 @@ function App() {
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
 
-        <Route path='/subject/update' element={<SubListUpdate />} />
-        <Route path='/niptest' element={<NipTest />} />
-        <Route path='/niptest2' element={<NipTest2 />} />
+
+
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
-        <Route path='/subaddn' element={<SubAddingNew />} />
 
 
-
+        <Route path='/niptest' element={<NipTest />} />
 
 
 
         {/* Admin Routes for Timetable Management */}
-        <Route path="/allClasses" exact element={<TimetableSideNav>
+        <Route path="/adminMainTimetable" exact element={<AdminTimetableSideNav>
+          <AdminMainTimetable />
+        </AdminTimetableSideNav>} />
+        <Route path="/allClasses" exact element={<AdminTimetableSideNav>
           <AdminEditSchedule />
-        </TimetableSideNav>} />
-        <Route path="/addClass" exact element={<TimetableSideNav>
+        </AdminTimetableSideNav>} />
+        <Route path="/addClass" exact element={<AdminTimetableSideNav>
           <AddClass />
-        </TimetableSideNav>} />
-        <Route path="/adminExamSchedule" exact element={<TimetableSideNav>
+        </AdminTimetableSideNav>} />
+        <Route path="/adminExamSchedule" exact element={<AdminTimetableSideNav>
           <AdminExamSchedule />
-        </TimetableSideNav>} />
+        </AdminTimetableSideNav>} />
 
         {/* Student Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
@@ -297,7 +296,9 @@ function App() {
         <Route path="/myTimetable" exact element={<TimetableSideNav>
           <MyTimetable />
         </TimetableSideNav>} />
-        <Route path="/user/classEnrolling" exact element={<ClassEnrolling />} />
+        <Route path="/user/classEnrolling" exact element={<TimetableSideNav>
+          <ClassEnrolling />
+        </TimetableSideNav>} />
 
         {/* Teacher Routes for Timetable Management */}
         <Route path="/teacherMainTimetable" exact element={<TeacherTimetableSideNav>

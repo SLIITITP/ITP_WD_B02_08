@@ -64,19 +64,6 @@ const { user } = useSelector((state) => state.users);
     });
   }, []);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   const studentID = apiData1?._id;
   console.log(apiData1._id)
 
@@ -183,30 +170,20 @@ function handlePrintClick() {
 
 // Add table to PDF for each day of the week
 const tableHeaders = ['Day','Time','Subject', 'Grade',  'Teacher'];
+//doc.setFontSize(24);
+//doc.text("My Class Schedule", 14, 25);
 doc.autoTable({
   head: [tableHeaders],
-  styles: { 
-    cellPadding: 3, 
-    valign: 'left',
-    halign: 'left',
-    overflow: 'linebreak',
-    fontSize: 12
-  },
-  columnStyles: {
-    0: { align: 'left' }, // Day column aligned to the left
-    1: { align: 'left' }, // Time column aligned to the left
-    2: { align: 'left' }, // Subject column aligned to the left
-    3: { align: 'left' }, // Grade column centered
-    4: { align: 'left' }, // Teacher column aligned to the left
-  }});
+})
 weekdays.forEach((day, index) => {
   const classRows = classesByDay[day];
   if (classRows) {    
     const tableRows = classRows.map(clz => [clz.date, clz.time, clz.subject, clz.grade,  clz.teacher]);
     doc.setFontSize(18);
     doc.autoTable({
+      
       body: tableRows,
-      margin: { top: 10 },
+      margin: { top: 50 },
       tableWidth: 'auto',
       theme: 'striped',
       styles: { 
@@ -226,8 +203,9 @@ weekdays.forEach((day, index) => {
     });
   }
 });
-  doc.save('class-schedule.pdf');
+doc.save('class-schedule.pdf');
 }
+
 
 return (
 <div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
@@ -276,7 +254,7 @@ return (
   </tbody>
 </table>
 <button className="btn btn-primary" onClick={handlePrintClick}>
-        Print PDF
+Download Timetable
 </button>
 </div> 
 </div>

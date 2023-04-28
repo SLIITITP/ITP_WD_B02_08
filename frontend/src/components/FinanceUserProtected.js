@@ -106,11 +106,21 @@ function ProtectedRoute({ children }) {
                 message.error(response.message);
             }
         } catch (error) {
-            navigate("/login"); //if there is problem with token user navigate login
+            navigate("/plogin"); //if there is problem with token user navigate plogin
             dispatch(HideLoading());
             message.error(error.message);
         }
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            getUserData();
+        } else {
+            navigate("/plogin"); //if there is problem with token user navigate plogin
+        }
+    }, []);
+
+    const activeRoute = window.location.pathname;
 
     useEffect(() => {
         let usernameFrom = localStorage.getItem("userName");
@@ -139,7 +149,8 @@ function ProtectedRoute({ children }) {
         });
     }, []);
 
-    const activeRoute = window.location.pathname;
+
+
 
     const getIsActiveOrNot = (paths) => {
         if (paths.includes(activeRoute)) {
@@ -196,11 +207,11 @@ function ProtectedRoute({ children }) {
                                 onClick={() => setCollapsed(false)}
                             ></i>
                         )}
-                        <h1 className="text-2xl text-white">Thilina Institute Assignment Management</h1>
+                        <h1 className="text-2xl text-white">Student Payments - Thilina Institute</h1>
                         <div>
                             <div className="flex gap-1 items-center">
                                 <i class="ri-user-line"></i>
-                                <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
+                                <h1 className="text-md text-white underline">{apiData1.username}</h1>
                             </div>
                             <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
                         </div>

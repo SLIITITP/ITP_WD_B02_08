@@ -126,7 +126,7 @@ function TprotectedRoute({ children }) {
                 message.error(response.message);
             }
         } catch (error) {
-            navigate("/login"); //if there is problem with token user navigate login
+            navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
             dispatch(HideLoading());
             message.error(error.message);
         }
@@ -136,7 +136,7 @@ function TprotectedRoute({ children }) {
         if (localStorage.getItem("token")) {
             getUserData();
         } else {
-            navigate("/login"); //if there is problem with token user navigate login
+            navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
         }
     }, []);
 
@@ -258,13 +258,13 @@ function TprotectedRoute({ children }) {
                                 onClick={() => setCollapsed(false)}
                             ></i>
                         )}
-                        <h1 className="text-2xl text-white">Thilina Institute Online Exam Portal</h1>
+                        <h1 className="text-2xl text-white">Financial Management - Thilina Institute</h1>
                         <div>
                             <div className="flex gap-1 items-center">
                                 <i class="ri-user-line"></i>
-                                <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
+                                <h1 className="text-md text-white underline">{apiData1.firstName} {apiData1.lastName}</h1>
                             </div>
-                            <span>Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
+                            <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
                         </div>
                     </div>
                     <div className="content">{children}</div>
