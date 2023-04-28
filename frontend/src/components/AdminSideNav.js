@@ -69,7 +69,7 @@ function AdminSideNav({ children }) {
       onClick: () => navigate("/a1"),
     },
     {
-      title: "StudyMatirial Admin",
+      title: "StudyMaterial Admin",
       paths: ["/viewFeed","/emailAss"],
       icon: <i className="ri-home-line"></i>,
       //icon: <i className="ri-file-list-line"></i>,
