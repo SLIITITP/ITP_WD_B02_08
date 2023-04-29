@@ -15,7 +15,7 @@ export default function RecordMaterialTeacher() {
   const { id } = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+ /*  const [category, setCategory] = useState(''); */
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
@@ -28,7 +28,7 @@ export default function RecordMaterialTeacher() {
         const response = await axios.get(`http://localhost:9090/study/viewRecord/${id}`);
         setTitle(response.data.title);
         setDescription(response.data.description);
-        setCategory(response.data.category);
+       /*  setCategory(response.data.category); */
         setGrade(response.data.grade);
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
@@ -49,7 +49,7 @@ export default function RecordMaterialTeacher() {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('category', category);
+  /*   formData.append('category', category); */
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
@@ -148,10 +148,10 @@ export default function RecordMaterialTeacher() {
    <textarea value={description} onChange={(event) => setDescription(event.target.value)} class=" h-20 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
  </div>
 
- <div className="mb-4">
+{/*  <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
    <input type='text' value={category} onChange={(event) => setCategory(event.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
- </div>
+ </div> */}
 
  <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade</label>

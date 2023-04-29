@@ -16,7 +16,7 @@ export default function RecordMaterialPage() {
     const fetchRec = async () => {
       const result = await axios.get("http://localhost:9090/study/allRecords");
       setRecord(result.data);
-    };
+    }; 
   
     useEffect(() => {
       fetchRec();
@@ -39,7 +39,7 @@ export default function RecordMaterialPage() {
       setSearchGrade(event.target.value);
     };
   
-    const filterPdf = (record) => {
+   /*  const filterPdf = (record) => {
       return record.filter((record) => {
         if (searchSubject && searchGrade) {
           return (
@@ -52,6 +52,24 @@ export default function RecordMaterialPage() {
           return record.grade.toLowerCase() === searchGrade.toLowerCase();
         } else {
           return true;
+        }
+      });
+    };
+  
+    const filteredPdf = filterPdf(record); */
+    const filterPdf = (record) => {
+      return record.filter((record) => {
+        if (searchSubject && searchGrade) {
+          return (
+            record.subject.toLowerCase().includes(searchSubject.toLowerCase()) &&
+            record.grade.toLowerCase() === searchGrade.toLowerCase()
+          );
+        } else if (searchSubject) {
+          return record.subject.toLowerCase().includes(searchSubject.toLowerCase());
+        } else if (searchGrade) {
+          return record.grade.toLowerCase() === searchGrade.toLowerCase();
+        } else {
+          return false; // Only show filtered records if there is a search query
         }
       });
     };
@@ -103,6 +121,7 @@ export default function RecordMaterialPage() {
             </div>
         <div>
             <select id="search"value={searchGrade} onChange={handleGradeChange} className= " w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ml-3 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            <option value="" disabled selected >select grade</option>
               <option value="grade 6">grade 6</option>
               <option value="grade 7">grade 7</option>
               <option value="grade 8">grade 8</option>

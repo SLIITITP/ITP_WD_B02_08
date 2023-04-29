@@ -39,7 +39,7 @@ export default function NoteMaterialPage() {
       setSearchGrade(event.target.value);
     };
   
-    const filterPdf = (note) => {
+   /*  const filterPdf = (note) => {
       return note.filter((note) => {
         if (searchSubject && searchGrade) {
           return (
@@ -52,6 +52,24 @@ export default function NoteMaterialPage() {
           return note.grade.toLowerCase() === searchGrade.toLowerCase();
         } else {
           return true;
+        }
+      });
+    };
+  
+    const filteredPdf = filterPdf(note); */
+    const filterPdf = (note) => {
+      return note.filter((note) => {
+        if (searchSubject && searchGrade) {
+          return (
+            note.subject.toLowerCase().includes(searchSubject.toLowerCase()) &&
+            note.grade.toLowerCase() === searchGrade.toLowerCase()
+          );
+        } else if (searchSubject) {
+          return note.subject.toLowerCase().includes(searchSubject.toLowerCase());
+        } else if (searchGrade) {
+          return note.grade.toLowerCase() === searchGrade.toLowerCase();
+        } else {
+          return false; // Only show filtered notes if there is a search query
         }
       });
     };
@@ -104,6 +122,7 @@ export default function NoteMaterialPage() {
             </div>
         <div>
             <select id="search"value={searchGrade} onChange={handleGradeChange} className= " w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ml-3 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            <option value="" disabled selected >select grade</option>
               <option value="grade 6">grade 6</option>
               <option value="grade 7">grade 7</option>
               <option value="grade 8">grade 8</option>
