@@ -37,7 +37,7 @@ export default function PdfMaterialPage() {
     const handleGradeChange = (event) => {
       setSearchGrade(event.target.value);
     };
-  
+  /* 
     const filterPdf = (pdf) => {
       return pdf.filter((pdf) => {
         if (searchSubject && searchGrade) {
@@ -51,6 +51,25 @@ export default function PdfMaterialPage() {
           return pdf.grade.toLowerCase() === searchGrade.toLowerCase();
         } else {
           return true;
+        }
+      });
+    };
+  
+    const filteredPdf = filterPdf(pdf); */
+
+    const filterPdf = (pdf) => {
+      return pdf.filter((pdf) => {
+        if (searchSubject && searchGrade) {
+          return (
+            pdf.subject.toLowerCase().includes(searchSubject.toLowerCase()) &&
+            pdf.grade.toLowerCase() === searchGrade.toLowerCase()
+          );
+        } else if (searchSubject) {
+          return pdf.subject.toLowerCase().includes(searchSubject.toLowerCase());
+        } else if (searchGrade) {
+          return pdf.grade.toLowerCase() === searchGrade.toLowerCase();
+        } else {
+          return false; // Only show filtered pdfs if there is a search query
         }
       });
     };
@@ -103,6 +122,7 @@ export default function PdfMaterialPage() {
               </div>
           <div>
               <select id="search"value={searchGrade} onChange={handleGradeChange} className= " w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ml-3 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+              <option value="" disabled selected >select grade</option>
                 <option value="grade 6">grade 6</option>
                 <option value="grade 7">grade 7</option>
                 <option value="grade 8">grade 8</option>

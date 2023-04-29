@@ -12,10 +12,10 @@ description:{
     type: String,
     required:true
 },
-category:{
+/* category:{
     type: String,
     required:true
-},
+}, */
 
 
 grade:{
@@ -38,10 +38,10 @@ teacher:{
     required:true
 },
 
-file:{
+/* file:{
     type:String,
     required:false
-},
+}, */
 },
 
 {timestamps: true}

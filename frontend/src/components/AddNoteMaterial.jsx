@@ -5,6 +5,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { validateTitle,validateDescription,validateGrade,validateSubject,validateTeacher,validateNoteFile } from '../validations/StudyFormValidations';
 
 
 
@@ -14,7 +15,7 @@ export default function AddNoteMaterial() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+ /*  const [category, setCategory] = useState(''); */
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
@@ -27,19 +28,51 @@ export default function AddNoteMaterial() {
   const componentRef = useRef();
 
   const handleFormSubmit = async (event) => {
+    event.preventDefault();
 
+      // Validate form fields
+  const titleError = validateTitle(title);
+  const descriptionError = validateDescription(description);
+  const gradeError = validateGrade(grade);
+  const subjectError = validateSubject(subject);
+  const teacherError = validateTeacher(teacher);
+  const fileError = validateNoteFile(file);
+  
+  if (titleError || descriptionError || teacherError || fileError || gradeError||subjectError) {
+    toast.error(titleError || descriptionError||gradeError||subjectError || teacherError || fileError, {
+      position: 'top-center',
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    return;
+  }
     
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('category', category);
+ /*    formData.append('category', category); */
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
+     // Check file type
+  if (file && (file.type !== 'application/msword' && file.type !== 'text/plain')) {
+    toast.error('Invalid file type! Only doc and txt files are allowed.', {
+      position: 'top-center',
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    return;
+  }
     formData.append('file', file);
 
     
-      event.preventDefault();
+     
       
       try {
         const Note = await axios.post('http://localhost:9090/study/notes', formData, {
@@ -51,7 +84,7 @@ export default function AddNoteMaterial() {
        
         setTitle('');
         setDescription('');
-        setCategory('');
+      /*   setCategory(''); */
         setGrade('');
         setSubject('');
         setTeacher('');
@@ -72,15 +105,24 @@ export default function AddNoteMaterial() {
        
       } catch (error) {
         console.log(error.Note.data);
+        toast.error('Error occurred!', {
+          position: 'top-center',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+   
       }
-      toast.error('Error occurred!', {
+     /*  toast.error('Error occurred!', {
         position: 'top-center',
         autoClose: 4000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-      });
+      }); */
     };
 
     const pageStyle = `
@@ -107,28 +149,29 @@ export default function AddNoteMaterial() {
 
 <div className="mb-6">
     <label for="title" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-    <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Title of lesson..." required/>
+    <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Title of lesson..." />
   </div>
 
 
   <div className="mb-6">
     <label for="Description" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-    <textarea id="description" value={description} onChange={(event)=> setDescription(event.target.value)} className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Description of material..." required/>
+    <textarea id="description" value={description} onChange={(event)=> setDescription(event.target.value)} className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Description of material..." />
   </div>
 
-  <div className="mb-6">
+{/*   <div className="mb-6">
     <label for="category" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-    <select id="category"onChange={(event)=> setCategory(event.target.value)} required className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+    <select id="category"onChange={(event)=> setCategory(event.target.value)}  className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
       <option value="notes">Notes</option>
       <option value="pdf">Pdf documents</option>
       <option value= "recordings" >recordings</option>
       <option value= "research" >research papers</option>
       </select>
-  </div>
+  </div> */}
 
   <div className="mb-6">
     <label for="grade" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade</label>
-    <select id="grade"  onChange={(event)=> setGrade(event.target.value)} required className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+    <select id="grade"  onChange={(event)=> setGrade(event.target.value)}  className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+    <option value="" disabled selected >select grade</option>
       <option value= "grade 6">grade 6</option>
       <option value="grade 7">grade 7</option>
       <option value="grade 8">grade 8</option>
@@ -142,12 +185,12 @@ export default function AddNoteMaterial() {
 
   <div className="mb-6">
     <label for="subject" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject</label>
-    <input type="text" value={subject} onChange={(event)=>setSubject(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Subject of  notes..."required/>
+    <input type="text" value={subject} onChange={(event)=>setSubject(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Subject of  notes..."/>
   </div>
 
   <div className="mb-6">
     <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
-    <input type="text" value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..." required/>
+    <input type="text" value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..." />
   </div>
 
   
