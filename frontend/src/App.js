@@ -55,6 +55,7 @@ import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
 
 import TicketsSideNav from "./components/TicketsSideNav";
+import TicketSideNavAdmin from "./components/TicketSideNavAdmin";
 import StudentTicket from './components/StudentTicket'
 import AddTicket from './components/AddTicket'
 import EditTicket from './components/EditTicket'
@@ -376,29 +377,30 @@ function App() {
 
         {/* support Service Routes*/}
 
-        <Route path="/ticket" exact element={<TicketsSideNav />} />
+        <Route path="/aticket" exact element={<TicketsSideNav/>} />
+        <Route path="/ticket" exact element={<TicketSideNavAdmin/>} />
         <Route path="/Stickets" exact element={<TicketsSideNav>
           <StudentTicket />
         </TicketsSideNav>} />
-        <Route path="/ticketlist" exact element={<TicketsSideNav>
+        <Route path="/ticketlist" exact element={<TicketSideNavAdmin>
           <TicketList />
-        </TicketsSideNav>} />
+        </TicketSideNavAdmin>} />
         <Route path="/addTicket" exact element={<TicketsSideNav>
           <AddTicket />
         </TicketsSideNav>} />
-        <Route path="/reply/:id" exact element={<TicketsSideNav>
+        <Route path="/reply/:id" exact element={<TicketSideNavAdmin>
           <Reply />
-        </TicketsSideNav>} />
+        </TicketSideNavAdmin>} />
         <Route path="/vreply/:id" exact element={<TicketsSideNav>
           <ViewReply />
         </TicketsSideNav>} />
         <Route path="/edit/:id" exact element={<TicketsSideNav >
-          <EditTicket />
-        </TicketsSideNav>} />
-        <Route path="tReport" exact element={<TicketsSideNav >
-          <TicketsReport />
-        </TicketsSideNav>} />
-
+        <EditTicket />
+        </TicketsSideNav>}/>
+        <Route path="tReport" exact element={<TicketSideNavAdmin >
+        <TicketsReport />
+        </TicketSideNavAdmin>}/>
+      
         <Route path="/faq" exact element={<FAQ />} />
         <Route path="/gvideos" element={<Gvideos />} />
 

@@ -1,24 +1,25 @@
-//import React from "react";
-//import '../stylesheets/timetable-sidenav.css'
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../apicalls/users";
+import { tgetUserInfo } from "../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
-import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
 import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
+import {
+  updateUser,
+  getProfileTeacher,
+  deleteUser,
+  updateTeacher,
+} from "../apicalls/helper";
+import { useAuthStore } from "../redux/store1";
 
-function TicketsSideNav({ children }){
-  
+function TicketSideNavAdmin({ children }) {
   const { user } = useSelector((state) => state.users);
   const [menu, setMenu] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
@@ -26,24 +27,27 @@ function TicketsSideNav({ children }){
   const navigate = useNavigate();
   const [apiData, setApiData] = useState({});
   const [apiData1, setApiData1] = useState({});
+  const [file, setFile] = useState();
+  const { username } = useAuthStore((state) => state.auth);
+
 
   const userMenu = [
     {
-      title: "My Ticket",
-      paths: ["/Stickets"],
-      icon: <i className="ri-calendar-todo-line"></i>,
-      onClick: () => navigate("/Stickets"),
+      title: "Home",
+      paths: ["/exams", "/user/write-exam"],
+      icon: <i className="ri-home-line"></i>,
+      onClick: () => navigate("/exams"),
     },
     {
-      title: "AddTicket",
-      paths: ["/addTicket"],
-      icon: <i className="ri-table-line"></i>,
-      onClick: () => navigate("/addTicket"),
+      title: "Reports",
+      paths: ["/user/reports"],
+      icon: <i className="ri-bar-chart-line"></i>,
+      onClick: () => navigate("/user/reports"),
     },
     {
       title: "Profile",
       paths: ["/profile"],
-      icon: <i className="ri-todo-line"></i>,
+      icon: <i className="ri-user-line"></i>,
       onClick: () => navigate("/profile"),
     },
     {
@@ -61,19 +65,20 @@ function TicketsSideNav({ children }){
     {
       title: "Ticket List",
       paths: ["/ticketlist"],
-      icon: <i className="ri-calendar-todo-line"></i>,
+      icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/ticketlist"),
     },
+   
     {
-      title: "Report",
+      title: "Reports",
       paths: ["/tReport"],
-      icon: <i className="ri-todo-line"></i>,
+      icon: <i className="ri-bar-chart-line"></i>,
       onClick: () => navigate("/tReport"),
     },
     {
       title: "Profile",
       paths: ["/profile"],
-      icon: <i className="ri-menu-add-fill"></i>,
+      icon: <i className="ri-user-line"></i>,
       onClick: () => navigate("/profile"),
     },
     {
@@ -90,7 +95,7 @@ function TicketsSideNav({ children }){
   const getUserData = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await getUserInfo();
+      const response = await tgetUserInfo();
       dispatch(HideLoading());
       if (response.success) {
         dispatch(SetUser(response.data));
@@ -103,39 +108,19 @@ function TicketsSideNav({ children }){
         message.error(response.message);
       }
     } catch (error) {
-      navigate("/login");
+      navigate("/login"); //if there is problem with token user navigate login
       dispatch(HideLoading());
       message.error(error.message);
     }
   };
 
   useEffect(() => {
-    let usernameFrom = localStorage.getItem("userName");
-    console.log(usernameFrom);
-    getProfile(usernameFrom).then((results) => {
-      let apiData = results.data;
-      setApiData1(results.data);
-
-      console.log(results.data.isAdmin);
-      if (results.data.isAdmin) {
-        setMenu(adminMenu);
-      } else {
-        setMenu(userMenu);
-      }
-      setApiData({
-        firstName: apiData?.firstName || "",
-        lastName: apiData?.lastName || "",
-        email: apiData?.email || "",
-        mobile: apiData?.mobile || "",
-        address: apiData?.address || "",
-        profile: apiData?.profile || "",
-        id: apiData._id,
-        studentId: apiData?.studentId || "",
-        isAdmin: apiData?.isAdmin || "",
-      });
-    });
+    if (localStorage.getItem("token")) {
+      getUserData();
+    } else {
+      navigate("/login"); //if there is problem with token user navigate login
+    }
   }, []);
-
 
   const activeRoute = window.location.pathname;
 
@@ -144,14 +129,14 @@ function TicketsSideNav({ children }){
       return true;
     } else {
       if (
-        activeRoute.includes("/ticket") &&
-        paths.includes("/Stickets")
+        activeRoute.includes("/aticket") &&
+        paths.includes("/ticketlist")
       ) {
         return true;
       }
       if (
-        activeRoute.includes("/ticketlist") &&
-        paths.includes("/ticketlist")
+        activeRoute.includes("/tuser/write-exam") &&
+        paths.includes("/tuser/write-exam")
       ) {
         return true;
       }
@@ -159,10 +144,71 @@ function TicketsSideNav({ children }){
     return false;
   };
 
+  useEffect(() => {
+    console.log(username);
+    let usernameFrom = localStorage.getItem("userName");
+    // username = ;
+    console.log(usernameFrom);
+    if (username === "") {
+      let userNameReload = localStorage.getItem("userName");
+      getProfileTeacher(userNameReload).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    } else {
+      getProfileTeacher(username).then((results) => {
+        let apiData = results.data;
+        setApiData1(results.data);
+
+      console.log(results.data.isAdmin);
+      if (results.data.isAdmin) {
+        setMenu(adminMenu);
+      } else {
+        setMenu(userMenu);
+      }
+        console.log(results);
+        setFile(apiData?.profile || "");
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          teaId: apiData?.teaId || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          teacherId: apiData?.teacherId,
+          isAdmin: apiData?.isAdmin || "",
+
+        });
+      });
+    }
+  }, []);
+
   return (
     <div className="layout">
       <div className="flex gap-2 w-full h-full h-100">
-        <div className="sidebar ">
+        <div className="sidebar">
           <div className="menu ">
             {menu.map((item, index) => {
                return (
@@ -198,7 +244,7 @@ function TicketsSideNav({ children }){
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
+                <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
               </div>
               <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
             </div>
@@ -210,4 +256,4 @@ function TicketsSideNav({ children }){
   );
 }
 
-export default TicketsSideNav;
+export default TicketSideNavAdmin;
