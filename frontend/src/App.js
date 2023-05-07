@@ -200,6 +200,7 @@ import TRegister from './pages/common/Register/TeachersReg';
 import Tlogin from './pages/common/Login/tlogin';
 import TprotectedRoute from './components/TprotectedRoute'
 import ExamMain from './pages/common/Home/ExamMain';
+import AdminReports from './pages/admin/AdminReports/index'
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
@@ -372,6 +373,10 @@ function App() {
         </TprotectedRoute>} />
         <Route path='/tuser/twrite-exam/:id' element={<TprotectedRoute>
           <WriteExam />
+        </TprotectedRoute>} />
+
+        <Route path='/admin/reports' element={<TprotectedRoute>
+          <AdminReports/>
         </TprotectedRoute>} />
 
 
