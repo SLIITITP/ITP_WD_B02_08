@@ -79,7 +79,7 @@ function TicketSideNavAdmin({ children }) {
       title: "Profile",
       paths: ["/profile"],
       icon: <i className="ri-user-line"></i>,
-      onClick: () => navigate("/profile"),
+      onClick: () => navigate("/teacherProfile"),
     },
     {
       title: "Logout",
@@ -87,7 +87,7 @@ function TicketSideNavAdmin({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/plogin");
+        navigate("/pteacherlogin");
       },
     },
   ];
