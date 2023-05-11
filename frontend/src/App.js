@@ -206,6 +206,7 @@ import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
 import FinanceUserProtected from './components/FinanceUserProtected'
 import NipTest from './components/PaymentComponents/NipTest';
+import RegForm from './components/ToImp/RegForm';
 
 
 
@@ -268,13 +269,12 @@ function App() {
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
 
 
-
+        {/* Attendance Management */}
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
 
-
-        <Route path='/niptest' element={<NipTest />} />
-
+        {/* Std Reg Form And Other by Nip */}
+        <Route path='/regform' element={<RegForm />} />
 
 
         {/* Admin Routes for Timetable Management */}
