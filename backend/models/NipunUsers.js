@@ -14,23 +14,41 @@ const nipunUserSchema = new mongoose.Schema({
     required: true
   },
   grades: {
-    type: [Number],
+    type: [String],
     required: true
   }
 });
 
-nipunUserSchema.pre('save', function(next) {
+nipunUserSchema.pre('save', async function (next) {
   const now = new Date();
   const year = now.getFullYear().toString().substr(-2);
   const stdPrefix = 'STD';
-  const zeroPadding = '00000';
-  const sequenceNum = this.isNew ? 1 : parseInt(this.studentID.slice(-3), 10) + 1;
-  const sequenceCode = sequenceNum.toString().padStart(3, '0');
-  const idWithoutSeq = stdPrefix + year + zeroPadding.substring(0, 5 - this._id.toString().length - stdPrefix.length - year.length) + this._id.toString();
-  this.studentID = idWithoutSeq + sequenceCode;
+  let grade;
+  const lastGrade = this.grades[this.grades.length - 1];
+  if (lastGrade === "Other") {
+    grade = 0;
+  } else {
+    grade = lastGrade;
+  }
+  let sequenceNum = 1;
+  let idWithoutSeq = '';
+  let isUnique = false;
+
+  while (!isUnique) {
+    const sequenceCode = sequenceNum.toString().padStart(4, '0');
+    idWithoutSeq = stdPrefix + year + grade.toString() + sequenceCode;
+
+    // check if the generated student ID already exists in the database
+    const existingStudent = await mongoose.model('NipunUser', nipunUserSchema).findOne({ studentID: idWithoutSeq }).exec();
+    if (!existingStudent) {
+      isUnique = true;
+    } else {
+      sequenceNum++;
+    }
+  }
+
+  this.studentID = idWithoutSeq;
   next();
 });
-
-
 
 module.exports = mongoose.model('NipunUser', nipunUserSchema);
