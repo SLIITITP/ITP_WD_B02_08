@@ -7,19 +7,24 @@ router.post('/add', async (req, res) => {
     const { studentID, name, email, grades } = req.body;
 
     try {
+        const existingUser = await NipunUser.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
         const nipunUser = new NipunUser({
             studentID,
             name,
             email,
             grades
         });
-
         await nipunUser.save();
         res.status(201).json(nipunUser);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
+
 
 //get lsit of students
 router.get('/list', async (req, res) => {
@@ -31,7 +36,19 @@ router.get('/list', async (req, res) => {
     }
 });
 
-
+//Delete student data by ID
+router.delete('/delete/:id', async (req, res) => {
+    try {
+      const deletedStudent = await NipunUser.findByIdAndDelete(req.params.id);
+      if (!deletedStudent) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+      res.status(200).json({ message: 'Student deleted successfully' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
 
 // GET /api/search/:searchTerm
 router.get('/search/:searchTerm', async (req, res) => {

@@ -5,7 +5,7 @@ const AllStudents = () => {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/students')
+    axios.get('/api/user/list')
       .then(res => {
         setStudents(res.data);
       })
@@ -13,6 +13,16 @@ const AllStudents = () => {
         console.log(err);
       });
   }, []);
+
+  const handleDelete = (_id) => {
+    axios.delete(`/api/user/delete/${_id}`)
+      .then(res => {
+        setStudents(students.filter(student => student._id !== _id));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
@@ -23,7 +33,12 @@ const AllStudents = () => {
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Whatsapp Number</th>
+            <th>Phone Number</th>
+            <th>Address</th>
             <th>Grades</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -32,7 +47,14 @@ const AllStudents = () => {
               <td>{student.studentID}</td>
               <td>{student.name}</td>
               <td>{student.email}</td>
+              <td>{student.whatsappNumber}</td>
+              <td>{student.phoneNumber}</td>
+              <td>{student.address}</td>
               <td>{student.grades.join(', ')}</td>
+              <td>{student.registered}</td>
+              <td>
+                <button onClick={() => handleDelete(student._id)}>Delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
