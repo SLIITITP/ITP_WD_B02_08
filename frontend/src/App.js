@@ -207,6 +207,7 @@ import FinanceAdminProtected from './components/FinanceAdminProtected'
 import FinanceUserProtected from './components/FinanceUserProtected'
 import NipTest from './components/PaymentComponents/NipTest';
 import RegForm from './components/ToImp/RegForm';
+import AllStudents from './components/ToImp/AllStudents';
 
 
 
@@ -275,6 +276,7 @@ function App() {
 
         {/* Std Reg Form And Other by Nip */}
         <Route path='/regform' element={<RegForm />} />
+        <Route path='/allstd' element={<AllStudents />} />
 
 
         {/* Admin Routes for Timetable Management */}
