@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddTicket = () => {
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
   const [state, setState] = useState({
     StudentId: '',
     subject: '',
@@ -20,10 +21,46 @@ const AddTicket = () => {
       ...prevState,
       [name]: value
     }));
+    // Clear specific error message
+  setErrors((prevErrors) => ({
+    ...prevErrors,
+    [name]: ''
+  }));
+};
+
+  const validateForm = () => {
+    const newErrors = {};
+  
+    // Validate StudentId
+    if (!state.StudentId) {
+      newErrors.StudentId = "Student Id is required";
+    }
+  
+    // Validate subject
+    if (!state.subject) {
+      newErrors.subject = "Subject is required";
+    }
+  
+    // Validate issueDate
+    if (!state.issueDate) {
+      newErrors.issueDate = "Issue Date is required";
+    }
+  
+    // Validate details
+    if (!state.details) {
+      newErrors.details = "Details are required";
+    }
+  
+    setErrors(newErrors);
+  
+    // Return true if there are no errors
+    return Object.keys(newErrors).length === 0;
   };
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (validateForm()) {
     const { StudentId, subject, issueDate, details } = state;
     const data = {
       StudentId,
@@ -45,6 +82,7 @@ const AddTicket = () => {
           navigate('/Stickets');
         }
       })
+    }
   };
 
   return (
@@ -67,6 +105,8 @@ const AddTicket = () => {
             onChange={handleInputChange}
             required
           />
+          {errors.StudentId && <p className="text-red-500">{errors.StudentId}</p>}
+
         </div>
 
         <div className="mb-6">
@@ -81,6 +121,8 @@ const AddTicket = () => {
             onChange={handleInputChange}
             required
           />
+          {errors.subject && <p className="text-red-500">{errors.subject}</p>}
+
         </div>
 
         <div className="mb-6">
@@ -95,6 +137,7 @@ const AddTicket = () => {
             onChange={handleInputChange}
             required
           />
+          {errors.issueDate && <p className="text-red-500">{errors.issueDate}</p>}
         </div>
 
         <div className="mb-6">
@@ -104,6 +147,7 @@ const AddTicket = () => {
      placeholder="Enter Details"
      value={state.details}
      onChange={handleInputChange} required></textarea>
+     {errors.details && <p className="text-red-500">{errors.details}</p>}
   </div>
 
   
