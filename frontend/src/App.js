@@ -229,6 +229,8 @@ import FeedbackTable from './components/FeedbackTable';
 import Home from './home/home';
 import Navbar from './home/Navbar';
 import Footer from './home/Footer';
+import RegisteredStudents from './components/ToImp/RegisteredStudents';
+import UpdateStudent from './components/ToImp/UpdateStudent';
 
 
 
@@ -283,6 +285,8 @@ function App() {
         {/* Std Reg Form And Other by Nip */}
         <Route path='/regform' element={<RegForm />} />
         <Route path='/allstd' element={<AllStudents />} />
+        <Route path='/allregstd' element={<RegisteredStudents />} />
+        <Route path='/updateregstd' element={<UpdateStudent />} />
 
 
         {/* Admin Routes for Timetable Management */}
