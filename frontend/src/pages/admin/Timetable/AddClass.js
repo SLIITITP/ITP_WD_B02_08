@@ -29,6 +29,29 @@ function AddClass() {
       return;
     }
 
+    // Check if all fields are filled out
+  for (const field in formData) {
+    if (!formData[field]) {
+      alert("Please fill out all fields.");
+      return;
+    }
+  }
+
+  // Validate the date format (YYYY-MM-DD)
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(formData.date)) {
+    alert("Please enter a valid date (YYYY-MM-DD).");
+    return;
+  }
+
+  // Validate the time format (HH:MM am/pm - HH:MM am/pm)
+  const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)\s-\s(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)$/;
+  if (!timeRegex.test(formData.time)) {
+    alert("Please enter a valid time (HH:MM am/pm - HH:MM am/pm).");
+    return;
+  }
+
+
     axios
       .post("http://localhost:9090/class/addClass", formData)
       .then(() => {

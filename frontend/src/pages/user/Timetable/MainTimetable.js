@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getUserInfo } from "../../../apicalls/users";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../../../redux/usersSlice.js";
+import { getProfile} from "../../.././apicalls/helper";
 import { parsePath, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
@@ -11,11 +12,19 @@ function MainTimetable() {
  const [classes, setClasses] = useState([]);
  const [activeGrade, setActiveGrade] = useState('6');
  const [selectedClass, setSelectedClass] = useState(null);
+ const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
+ const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
  const [role, setRole] = useState("");
+ const [apiData, setApiData] = useState({});
+ const [apiData1, setApiData1] = useState({});
  const dispatch = useDispatch();
  const navigate = useNavigate();
  const user = useSelector((state) => state.users.user);
  
+ const studentID = apiData1?._id;
+ const studentGrade = apiData1?.grade;
+ console.log(apiData1.grade)
+
  //handle the grade click
  const handleGradeClick = (grade) => {
    setActiveGrade(grade);
@@ -30,6 +39,7 @@ function MainTimetable() {
   { grade: '10', label: 'Grade 10' },
   { grade: '11', label: 'Grade 11' },
 ];
+
 
 //set data of the selected class to render them to the register class page
  function handleClassClick(clz) {
@@ -62,43 +72,57 @@ function handleEnrollClick (clz) {
 });
 };
 
-//Check whether the role is admin 
-const getUserData = async (dispatch) => {
-  try {
-    dispatch(ShowLoading());
-    const response = await getUserInfo();
-    dispatch(HideLoading());
-    if (response.success) {
-      dispatch(SetUser(response.data));
-      const role = response.data.isAdmin ? "admin" : "user";
-      setRole(role);
-      return role;
-    } else {
-      message.error(response.message);
-      return;
-    }
-  } catch (error) {
-    message.error(error.message);
-    return;
-  }
-};
+// //Check whether the role is admin 
+// const getUserData = async (dispatch) => {
+//   try {
+//     dispatch(ShowLoading());
+//     const response = await getUserInfo();
+//     dispatch(HideLoading());
+//     if (response.success) {
+//       dispatch(SetUser(response.data));
+//       const role = response.data.isAdmin ? "admin" : "user";
+//       setRole(role);
+//       return role;
+//     } else {
+//       message.error(response.message);
+//       return;
+//     }
+//   } catch (error) {
+//     message.error(error.message);
+//     return;
+//   }
+// };
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       if (localStorage.getItem("token")) {
+//         const role = await getUserData(dispatch);
+//         setRole(role);
+//       } else {
+//         navigate("/login");
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+//   fetchData();
+// }, [dispatch, navigate]);
 
 useEffect(() => {
-  const fetchData = async () => {
-    try {
-      if (localStorage.getItem("token")) {
-        const role = await getUserData(dispatch);
-        setRole(role);
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  fetchData();
-}, [dispatch, navigate]);
-
+  let usernameFrom = localStorage.getItem("userName");
+  console.log(usernameFrom);
+  getProfile(usernameFrom).then((results) => {
+    let apiData = results.data;
+    setApiData1(results.data);
+    console.log(results.data._id);
+    setApiData({
+      id: apiData._id,
+      studentId: apiData?.studentId || "",
+      grade: apiData?.grade || "",
+    });
+  });
+}, []);
 
  //Get all the class schedules (view the timetable)
  useEffect(() => {
@@ -111,6 +135,19 @@ useEffect(() => {
        alert(err.message);
      });
  }, []);
+
+ useEffect(() => {
+  // Get the student's enrolled class IDs from the backend
+    axios
+      .get(`http://localhost:9090/api/enroll/enrollments/${studentID}`)
+      .then((res) => {
+        setEnrolledClassIds(res.data.data);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+
+}, [studentID]);
 
 
 return (
@@ -157,12 +194,24 @@ return (
              <td>{clz.date}</td>
              <td>{clz.time}</td>
              <td>Rs.{clz.fees}</td>
-             {role !== "admin" && (
+           {/*{role !== "admin" && ( */}
+           {studentGrade === activeGrade && (
                <td>  
-                  <button key={clz.id} type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center'
-                   onClick={() => handleEnrollClick(clz)}>Enroll</button>         
+                  <button
+                    key={clz.id}
+                    type="submit"
+                    className={`text-white font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center ${
+                                enrolledClassIds.includes(clz._id)
+                                ? "bg-green-300"
+                                : "bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none cursor-pointer"
+                              }`}
+                    onClick={() => handleEnrollClick(clz)}
+                    disabled={enrolledClassIds.includes(clz._id)}
+                  >
+                  {enrolledClassIds.includes(clz._id) ? "Enrolled" : "Enroll"}
+                  </button>    
                </td>
-              )}
+           )}
         </tr>
          ))}
 

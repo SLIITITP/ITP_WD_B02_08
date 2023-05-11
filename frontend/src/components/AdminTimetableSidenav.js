@@ -212,7 +212,7 @@ function AdminTimetableSideNav({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">Thilina Institute Online Exam Portal</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Timetable Management</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
