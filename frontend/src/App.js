@@ -36,7 +36,7 @@ import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
 
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
-import Home from './pages/common/Home'
+
 import OnlinePayment from './components/PaymentComponents/OnlinePayment'
 import Exams from './pages/admin/Exams'
 import AddEditExam from './pages/admin/Exams/AddEditExam'
@@ -226,6 +226,10 @@ import RecordMaterialTable from './components/RecordMaterialTable';
 import FeedbackTable from './components/FeedbackTable';
 */
 
+import Home from './home/home';
+import Navbar from './home/Navbar';
+import Footer from './home/Footer';
+
 
 
 
@@ -234,6 +238,8 @@ function App() {
   return (
 
     <BrowserRouter>
+
+<Navbar/>
 
       {loading && <Loader />}
       <Routes>
@@ -522,6 +528,7 @@ function App() {
 
 
       </Routes>
+   
     </BrowserRouter>
   );
 }
