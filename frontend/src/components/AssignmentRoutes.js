@@ -131,7 +131,7 @@ function ProtectedRoute({ children }) {
       let apiData = results.data;
       setApiData1(results.data);
 
-      console.log(results.data.isAdmin);
+      console.log(results.data);
       if (results.data.isAdmin) {
         setMenu(adminMenu);
       } else {
