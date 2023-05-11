@@ -8,6 +8,14 @@ const nipunUserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  email: {
+    type: String,
+    required: false
+  },
+  grade: {
+    type: [Number],
+    required: false
   }
 });
 

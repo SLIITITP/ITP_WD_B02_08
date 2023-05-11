@@ -4,12 +4,14 @@ const NipunUser = require('../models/NipunUsers');
 
 // Add a NipunUser
 router.post('/add', async (req, res) => {
-    const { studentID, name } = req.body;
+    const { studentID, name, email, grade } = req.body;
 
     try {
         const nipunUser = new NipunUser({
             studentID,
-            name
+            name,
+            email,
+            grade
         });
 
         await nipunUser.save();
