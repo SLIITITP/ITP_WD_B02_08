@@ -32,6 +32,10 @@ teacher:{
     type: String,
     required:true
   },
+secret:{
+    type: String,
+    required:true
+  },
 
   fileLink:{
     type:String,

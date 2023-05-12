@@ -17,6 +17,7 @@ export default function PdfMaterialCardTeacher() {
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
+  const [secret,setSecret] = useState('');
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function PdfMaterialCardTeacher() {
         setGrade(response.data.grade);
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
+        setSecret(response.data.secret);
         setFile(response.data.file);
       } catch (error) {
         console.error(error);
@@ -41,6 +43,18 @@ export default function PdfMaterialCardTeacher() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const enteredName = window.prompt('Please enter the SecretKey:');
+    if (!enteredName) {
+      // user cancelled the prompt
+      alert('Prompt cancelled by user');
+      return;
+    } else if (enteredName !== secret) {
+      // disallow editing
+      alert(`You are not authorized to edit note`);
+      return;
+    }
+
 
     const formData = new FormData();
     formData.append('title', title);
@@ -119,9 +133,20 @@ export default function PdfMaterialCardTeacher() {
     }
   };
 
-  const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this note?')) {
-      deletePdf();
+  const handleDelete = (pdf) => {
+     if (window.confirm('Are you sure you want to delete this note?')) {
+      //deleteNote(note);
+      const enteredName = window.prompt('Please enter the SecretKey:');
+      if (enteredName === secret) {
+        // allow deleting
+        alert(`Deleting pdf created by ${teacher}`);
+        deletePdf(pdf);
+      } else {
+        // disallow deleting
+        alert(`You are not authorized to delete note`);
+      }
+    
+    
     }
   };
 

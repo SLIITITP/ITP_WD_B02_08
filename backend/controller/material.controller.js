@@ -20,7 +20,7 @@ exports.note = (async (req,res)=>{ // exporting the note post method
         return res.status(400).json({ error: 'Bad Request' });
         }
         //getting the title, description, category, grade, subject, teacher from the body
-        const{title,description,grade,subject,teacher} = req.body;
+        const{title,description,grade,subject,teacher,secret} = req.body;
         //getting the file from the request
         const{filename,mimetype} = req.file;
         
@@ -32,6 +32,7 @@ exports.note = (async (req,res)=>{ // exporting the note post method
             grade: grade,
             subject: subject,
             teacher:teacher,
+            secret:secret,
             file:filename,
             mimetype:mimetype
         });
@@ -182,7 +183,7 @@ exports.pdf = (async (req,res)=>{// exporting the note post method
         return res.status(400).json({ error: 'Bad Request' });
         }
         //getting the title, description, category, grade, subject, teacher from the body
-        const{title,description,grade,subject,teacher} = req.body;
+        const{title,description,grade,subject,teacher,secret} = req.body;
         //getting the file from the request
         const{filename,mimetype} = req.file;
 
@@ -194,6 +195,7 @@ exports.pdf = (async (req,res)=>{// exporting the note post method
             grade: grade,
             subject: subject,
             teacher:teacher,
+            secret:secret,
             file:filename,
             mimetype:mimetype
         });
@@ -348,7 +350,7 @@ exports.research = (async (req,res)=>{// exporting the research post method
         return res.status(400).json({ error: 'Bad Request' });
         }
         //getting the title, description, category,teacher from the body
-        const{title,description,teacher} = req.body;
+        const{title,description,teacher,secret} = req.body;
         //getting the file from the request
         const{filename,mimetype} = req.file;
 
@@ -358,6 +360,7 @@ exports.research = (async (req,res)=>{// exporting the research post method
             description: description,
            // category: category,
             teacher:teacher,
+            secret:secret,
             file:filename,
             mimetype:mimetype
         });
@@ -508,7 +511,7 @@ exports.Record = async (req, res) => {
     //  return res.status(400).json({ error: 'Bad Request' });
    // }
     // getting the title, description, category, grade, subject, teacher, location from the body
-    const { title, description, grade, subject, teacher,fileLink} = req.body;
+    const { title, description, grade, subject, teacher,secret,fileLink} = req.body;
     // getting the file from the request
    // const { filename, mimetype } = req.file;
 
@@ -521,6 +524,7 @@ exports.Record = async (req, res) => {
       grade: grade,
       subject: subject,
       teacher: teacher,
+      secret:secret,
       fileLink:fileLink,
      // file: filename,
      // mimetype: mimetype

@@ -10,6 +10,7 @@ import {GrNotes} from 'react-icons/gr'
 import {GrDocumentPdf} from 'react-icons/gr'
 import {GrDocumentVideo} from 'react-icons/gr'
 import {GiArchiveResearch} from 'react-icons/gi'
+import {MdDashboardCustomize} from 'react-icons/md'
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
@@ -29,26 +30,32 @@ function ProtectedRoute({ children }) {
 
   const userMenu = [
     {
-      title: "Dashboard",
-      paths: ["/sms" ],
+      title: "HOME",
+      paths: ["/home" ],
       icon: <i class="ri-home-line"></i>,
+      onClick: () => navigate("/home"),
+    },
+    {
+      title: "DASHBOARD",
+      paths: ["/sms"],
+      icon: <MdDashboardCustomize className="ri-home-line"></MdDashboardCustomize>,
       onClick: () => navigate("/sms"),
     },
     {
-      title: "Feedbacks",
+      title: "FEEDBACK",
       paths: ["/fbs"],
       icon: <i className="ri-bar-chart-line"></i>,
       onClick: () => navigate("/fbs"),
     },
     
     {
-      title: "Profile",
+      title: "PROFILE",
       paths: ["/profile"],
       icon: <i className="ri-user-line"></i>,
       onClick: () => navigate("/profile"),
     },
     {
-      title: "Logout",
+      title: "LOGOUT",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
@@ -60,13 +67,13 @@ function ProtectedRoute({ children }) {
 
   const adminMenu = [
     {
-      title: "Dashboard",
+      title: "DASHBOARD",
       paths: ["/smt"],
-      icon: <i className="ri-home-line"></i>,
+      icon: <MdDashboardCustomize className="ri-home-line"></MdDashboardCustomize>,
       onClick: () => navigate("/smt"),
     },
     {
-      title: "Feedbacks",
+      title: "FEEDBACKS",
       paths: ["/fbs/e"],
       icon: <i className="ri-file-list-line"></i>,
       onClick: () => navigate("/fbs/e"),
@@ -96,13 +103,13 @@ function ProtectedRoute({ children }) {
         onClick: () => navigate("/smR"),
       },
     {
-      title: "Profile",
+      title: "PROFILE",
       paths: ["/profile"],
       icon: <i className="ri-user-line"></i>,
       onClick: () => navigate("/profile"),
     },
     {
-      title: "Logout",
+      title: "LOGOUT",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
@@ -139,6 +146,7 @@ function ProtectedRoute({ children }) {
     console.log(usernameFrom);
     getProfile(usernameFrom).then((results) => {
       let apiData = results.data;
+      console.log(results.data)
       setApiData1(results.data);
 
       console.log(results.data.isAdmin);

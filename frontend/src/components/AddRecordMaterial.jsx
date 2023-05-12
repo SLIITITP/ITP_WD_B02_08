@@ -4,7 +4,7 @@ import axios from 'axios';
 import ReactToPrint from 'react-to-print';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { validateTitle,validateDescription,validateGrade,validateSubject,validateTeacher,validateLink } from '../validations/StudyFormValidations';
+import { validateTitle,validateDescription,validateGrade,validateSubject,validateTeacher,validateLink,validatePassword } from '../validations/StudyFormValidations';
 
 
 
@@ -18,8 +18,10 @@ export default function AddRecordMaterial() {
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
+  const [secret,setSecret]=useState('');
   const [fileLink, setFileLink] = useState('');
   const [file, setFile] = useState(null);
+
   
    const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -38,10 +40,11 @@ export default function AddRecordMaterial() {
   const subjectError = validateSubject(subject);
   const teacherError = validateTeacher(teacher);
   const linkError = validateLink(fileLink);
+  const passwordError = validatePassword(secret);
   //const fileError = validatePdfFile(file);
   
-  if (titleError || descriptionError || teacherError ||  gradeError||subjectError || linkError) {
-    toast.error(titleError || descriptionError||gradeError||subjectError || teacherError||linkError , {
+  if (titleError || descriptionError || teacherError ||  gradeError||subjectError || linkError || passwordError) {
+    toast.error(titleError || descriptionError||gradeError||subjectError || teacherError||linkError || passwordError, {
       position: 'top-center',
       autoClose: 4000,
       hideProgressBar: true,
@@ -60,6 +63,7 @@ export default function AddRecordMaterial() {
     formData.append('subject', subject);
     formData.append('teacher', teacher);
     formData.append('fileLink', fileLink);
+    formData.append('secret',secret);
     
    if (file !== null) {
      formData.append('file', file);
@@ -80,6 +84,7 @@ export default function AddRecordMaterial() {
       setSubject('');
       setTeacher('');
       setFileLink('');
+      setSecret('');
       setFile(null);
       event.target.reset(); // clear the form inputs, including the file input
       toast.success('Record added successfully', {
@@ -181,6 +186,11 @@ export default function AddRecordMaterial() {
           <label for="web" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Url Here</label>
           <input type="text" value ={fileLink} onChange={(event)=> setFileLink(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."/>
         </div>
+
+        <div className="mb-6">
+        <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add SecretKey</label>
+        <input type="password" value ={secret} onChange={(event)=> setSecret(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="*******..." />
+      </div>
        
      <label for="file" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">File  here</label>
       <input type="file" onChange={handleFileChange} className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size"/>
