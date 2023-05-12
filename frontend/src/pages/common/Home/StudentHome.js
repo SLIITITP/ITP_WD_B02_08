@@ -34,21 +34,18 @@ function StudentHome() {
     getExams();
   }, []);
 
+  console.log("User Grade",user);
+
   const handleSearch = () => {
+    const searchGrade = user.grade
+    
     const filteredExams = exams.filter((exam) => {
-      if (searchName && searchGrade) {
-        return (
-          exam.name.toLowerCase().includes(searchName.toLowerCase()) &&
-          exam.grade == searchGrade
-        );
-      } else if (searchName) {
-        return exam.name.toLowerCase().includes(searchName.toLowerCase());
-      } else if (searchGrade) {
+      if (searchGrade) {
         return exam.grade == searchGrade;
       }
       return true;
     });
-
+  
     if (filteredExams.length === 0) {
       message.warning("No exams found.");
       navigate("/exams");
@@ -57,21 +54,22 @@ function StudentHome() {
       setExams(filteredExams);
     }
   };
+  
 
   return (
     user && (
       <div>
         <PageTitle
-          title={`Hi ${user.name}, Welcome to Thilina Institute Quiz Portal`}
+          title={`Hi ${user?.userID}, Welcome to Thilina Institute Quiz Portal`}
         />
         <div className="divider"></div>
 
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        {/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <input
             className="primary-outlined-btn h-10"
             type="text"
             placeholder="Enter exam name or grade"
-            value={searchName}
+            value={searchGrade1}
             onChange={(e) => setSearchName(e.target.value)}
           />
           <button
@@ -80,7 +78,7 @@ function StudentHome() {
           >
             <i className="ri-search-line p-2 text-2l"></i>
           </button>
-        </div>
+        </div> */}
 
         <Row gutter={[10, 10]}>
           {exams.map((exam) => (
