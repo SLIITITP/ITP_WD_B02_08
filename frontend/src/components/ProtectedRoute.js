@@ -177,7 +177,7 @@ function ProtectedRoute({ children }) {
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{user?.userID}</h1>
+                <h1 className="text-md text-white underline">{user?.username}</h1>
               </div>
               <span>Role : {user?.isAdmin ? "Teacher" : "Student"}</span>
             </div>
