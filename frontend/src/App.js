@@ -241,7 +241,7 @@ function App() {
 
     <BrowserRouter>
 
-<Navbar/>
+<Navbar/> 
 
       {loading && <Loader />}
       <Routes>

@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+
 export default function ResearchMaterialCardTeacher() {
 
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function ResearchMaterialCardTeacher() {
   const [description, setDescription] = useState('');
   /* const [category, setCategory] = useState(''); */
   const [teacher, setTeacher] = useState('');
+  const [secret,setSecret] = useState('');
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export default function ResearchMaterialCardTeacher() {
         setDescription(response.data.description);
       /*   setCategory(response.data.category); */
         setTeacher(response.data.teacher);
+        setSecret(response.data.secret);
         setFile(response.data.file);
         // set any other fields you need to update
       } catch (error) {
@@ -38,6 +41,17 @@ export default function ResearchMaterialCardTeacher() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const enteredName = window.prompt('Please enter the SecretKey:');
+    if (!enteredName) {
+      // user cancelled the prompt
+      alert('Prompt cancelled by user');
+      return;
+    } else if (enteredName !== secret) {
+      // disallow editing
+      alert(`You are not authorized to edit note`);
+      return;
+    }
 
     const formData = new FormData();
     formData.append('title', title);
@@ -106,7 +120,17 @@ export default function ResearchMaterialCardTeacher() {
 
   const handleDelete = (research) => {
     if (window.confirm('Are you sure you want to delete this note?')) {
-      deleteResearch(research);
+      //deleteNote(note);
+      const enteredName = window.prompt('Please enter the SecretKey:');
+      if (enteredName === secret) {
+        // allow deleting
+        alert(`Deleting research created by ${teacher}`);
+        deleteResearch(research);
+      } else {
+        // disallow deleting
+        alert(`You are not authorized to delete note`);
+      }
+    
     
     }
   };

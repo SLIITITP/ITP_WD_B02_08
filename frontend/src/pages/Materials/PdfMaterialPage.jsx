@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { updateUser, getProfile, deleteUser } from '../../apicalls/helper';
+import { getUserInfo } from '../../apicalls/users';
 import back from '../../assets/MaterialBg.jpg';
 import { Link, useParams } from 'react-router-dom';
 import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
@@ -11,15 +12,22 @@ export default function PdfMaterialPage() {
     const [pdf, setPdf] = useState([]);
     const [searchSubject, setSearchSubject] = useState("");
     const [searchGrade, setSearchGrade] = useState("");
+
+    const [apiData, setApiData] = useState({});
+    const [userGrade, setUserGrade] = useState('');
+    const [apiData1, setApiData1] = useState({});
+
   
     const fetchPdf = async () => {
+      console.log('userGrade', userGrade);
       const result = await axios.get("http://localhost:9090/study/allPdf");
-      setPdf(result.data);
+      const pdf = result.data.filter(pdf => pdf.grade === `grade ${userGrade}`);
+      setPdf(pdf);
     };
   
     useEffect(() => {
       fetchPdf();
-    }, []);
+    }, [userGrade]);
   
     const fetchList = async () => {
       const result = await axios.get(`http://localhost:9090/study/viewPdf/${id}`);
@@ -37,7 +45,8 @@ export default function PdfMaterialPage() {
     const handleGradeChange = (event) => {
       setSearchGrade(event.target.value);
     };
-  /* 
+  
+
     const filterPdf = (pdf) => {
       return pdf.filter((pdf) => {
         if (searchSubject && searchGrade) {
@@ -55,9 +64,9 @@ export default function PdfMaterialPage() {
       });
     };
   
-    const filteredPdf = filterPdf(pdf); */
+    const filteredPdf = filterPdf(pdf); 
 
-    const filterPdf = (pdf) => {
+  /*   const filterPdf = (pdf) => {
       return pdf.filter((pdf) => {
         if (searchSubject && searchGrade) {
           return (
@@ -74,7 +83,61 @@ export default function PdfMaterialPage() {
       });
     };
   
-    const filteredPdf = filterPdf(pdf);
+    const filteredPdf = filterPdf(pdf); */
+
+//get the user information
+    const getUserData = async () => {
+      try {
+       // dispatch(ShowLoading());
+        const response = await getUserInfo();
+        //dispatch(HideLoading());
+        if (response.success) {
+         // dispatch(SetUser(response.data));
+          console.log(response.data)
+          if (response.data.isAdmin) {
+            //setMenu(adminMenu);
+          } else {
+            //setMenu(userMenu);
+          }
+        } else {
+         // message.error(response.message);
+        }
+      } catch (error) {
+       // navigate("/login"); //if there is problem with token user navigate login
+        //dispatch(HideLoading());
+       // message.error(error.message);
+      }
+    };
+  
+    useEffect(() => {
+      let usernameFrom = localStorage.getItem("userName");
+      console.log(usernameFrom);
+      getProfile(usernameFrom).then((results) => {
+        let apiData = results.data;
+        console.log(results.data.grade)
+        setApiData1(results.data);
+        setUserGrade(results.data.grade);
+  
+        console.log(results.data.isAdmin);
+        if (results.data.isAdmin) {
+          //setMenu(adminMenu);
+        } else {
+          //setMenu(userMenu);
+        }
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          mobile: apiData?.mobile || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          studentId: apiData?.studentId || "",
+          isAdmin: apiData?.isAdmin || "",
+        });
+      });
+    }, []);
+  
 
      // Create a new SpeechRecognizer object
      const speechConfig = SpeechConfig.fromSubscription('14748c7c00a040d4bbc468aa19742433', 'eastasia');

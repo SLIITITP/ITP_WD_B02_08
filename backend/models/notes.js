@@ -32,6 +32,10 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required:true
       },
+    secret:{
+        type: String,
+        required:true
+      },
 
     file:{
         type:String,

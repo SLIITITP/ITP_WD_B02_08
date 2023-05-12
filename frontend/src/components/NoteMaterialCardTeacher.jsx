@@ -19,6 +19,7 @@ export default function MaterialCard() {
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
+  const [secret,setSecret] = useState('');
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function MaterialCard() {
         setGrade(response.data.grade);
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
+        setSecret(response.data.secret);
         setFile(response.data.file);
         // set any other fields you need to update
       } catch (error) {
@@ -44,16 +46,26 @@ export default function MaterialCard() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
+    const enteredName = window.prompt('Please enter the SecretKey:');
+    if (!enteredName) {
+      // user cancelled the prompt
+      alert('Prompt cancelled by user');
+      return;
+    } else if (enteredName !== secret) {
+      // disallow editing
+      alert(`You are not authorized to edit note`);
+      return;
+    }
+  
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-   /*  formData.append('category', category); */
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
     formData.append('file', file);
-
+  
     try {
       const response = await axios.put(`http://localhost:9090/study/updateNote/${id}`, formData, {
         headers: {
@@ -69,13 +81,12 @@ export default function MaterialCard() {
         pauseOnHover: true,
         draggable: true,
       });
-     
-       // Delay navigation by 2 second
-    setTimeout(() => {
-      navigate('/smN');
-    }, 2000);
-      
-      
+  
+      // Delay navigation by 2 second
+      setTimeout(() => {
+        navigate('/smN');
+      }, 2000);
+  
       // do something with the updated note data
     } catch (error) {
       console.error(error);
@@ -91,6 +102,7 @@ export default function MaterialCard() {
       // handle error
     }
   };
+  
   const deleteNote = async () => {
     try {
       await axios.delete(`http://localhost:9090/study/deleteNote/${id}`);
@@ -123,7 +135,17 @@ export default function MaterialCard() {
 
   const handleDelete = (note) => {
     if (window.confirm('Are you sure you want to delete this note?')) {
-      deleteNote(note);
+      //deleteNote(note);
+      const enteredName = window.prompt('Please enter the SecretKey:');
+      if (enteredName === secret) {
+        // allow deleting
+        alert(`Deleting note created by ${teacher}`);
+        deleteNote(note);
+      } else {
+        // disallow deleting
+        alert(`You are not authorized to delete note`);
+      }
+    
     
     }
   };

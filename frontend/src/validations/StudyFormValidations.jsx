@@ -31,15 +31,38 @@ const validateTitle = (title) => {
     return '';
   };
   
+  const validatePassword = (password) => {
+    if (!password) {
+      return 'Please Provide a SecretKey';
+    }
+    if (password.length < 4) {
+      return 'Secret must be at least 4 characters long';
+    }
+    if (!/\d/.test(password)) {
+      return 'Secret must contain at least one digit';
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      return 'Secret must contain at least one symbol (!@#$%^&*)';
+    }
+    return '';
+  };
+  
+
   const validateNoteFile = (file) => {
     if (!file) {
       return 'Please select a file';
     }
-    if (file.type !== 'application/msword' && file.type !== 'text/plain') {
-      return 'Invalid file type! Only doc and txt files are allowed.';
+    if (
+      file.type !== 'application/msword' &&
+      file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
+      file.type !== 'text/plain'
+    ) {
+      return 'Invalid file type! Only doc, docx and txt files are allowed.';
     }
     return '';
   };
+  
+  
 
   const validatePdfFile = (file) => {
     if (!file) {
@@ -64,6 +87,7 @@ const validateTitle = (title) => {
     validateTeacher,
     validateNoteFile,
     validatePdfFile,
-    validateLink
+    validateLink,
+    validatePassword
   };
   

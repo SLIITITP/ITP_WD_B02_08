@@ -20,6 +20,7 @@ export default function RecordMaterialTeacher() {
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
   const [fileLink, setFileLink] = useState('');
+  const [secret,setSecret] = useState('');
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export default function RecordMaterialTeacher() {
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
         setFileLink(response.data.fileLink);
+        setSecret(response.data.secret);
         // set any other fields you need to update
       } catch (error) {
         console.error(error);
@@ -45,6 +47,17 @@ export default function RecordMaterialTeacher() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const enteredName = window.prompt('Please enter the SecretKey:');
+    if (!enteredName) {
+      // user cancelled the prompt
+      alert('Prompt cancelled by user');
+      return;
+    } else if (enteredName !== secret) {
+      // disallow editing
+      alert(`You are not authorized to edit note`);
+      return;
+    }
 
     const formData = new FormData();
     formData.append('title', title);
@@ -117,8 +130,17 @@ export default function RecordMaterialTeacher() {
 
   const handleDelete = (rec) => {
     if (window.confirm('Are you sure you want to delete this note?')) {
-      deleteNote(rec);
-    
+      //deleteNote(note);
+      const enteredName = window.prompt('Please enter the SecretKey:');
+      if (enteredName === secret) {
+        // allow deleting
+        alert(`Deleting record created by ${teacher}`);
+        deleteNote(rec);
+      } else {
+        // disallow deleting
+        alert(`You are not authorized to delete note`);
+      }
+       
     }
   };
 

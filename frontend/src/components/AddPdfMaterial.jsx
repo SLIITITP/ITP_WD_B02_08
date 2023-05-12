@@ -5,7 +5,7 @@ import { useState,useRef} from 'react';
 import ReactToPrint from 'react-to-print';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { validateTitle,validateDescription,validateGrade,validateSubject,validateTeacher,validatePdfFile } from '../validations/StudyFormValidations';
+import { validateTitle,validateDescription,validateGrade,validateSubject,validateTeacher,validatePdfFile,validatePassword } from '../validations/StudyFormValidations';
 
 
 export default function AddPdfMaterial() {
@@ -18,6 +18,7 @@ export default function AddPdfMaterial() {
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
+  const [secret,setSecret]=useState('');
   const [file, setFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -36,10 +37,12 @@ export default function AddPdfMaterial() {
   const gradeError = validateGrade(grade);
   const subjectError = validateSubject(subject);
   const teacherError = validateTeacher(teacher);
+  const passwordError = validatePassword(secret);
   const fileError = validatePdfFile(file);
+
   
-  if (titleError || descriptionError || teacherError || fileError || gradeError||subjectError) {
-    toast.error(titleError || descriptionError||gradeError||subjectError || teacherError || fileError, {
+  if (titleError || descriptionError || teacherError || fileError || gradeError||subjectError || passwordError) {
+    toast.error(titleError || descriptionError||gradeError||subjectError || teacherError || passwordError || fileError, {
       position: 'top-center',
       autoClose: 4000,
       hideProgressBar: true,
@@ -56,6 +59,7 @@ export default function AddPdfMaterial() {
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
+    formData.append('secret',secret);
     formData.append('file', file);
 
     
@@ -74,6 +78,7 @@ export default function AddPdfMaterial() {
         setGrade('');
         setSubject('');
         setTeacher('');
+        setSecret('');
         setFile(null);
         event.target.reset(); // clear the form inputs, including the file input
         toast.success('Pdf added successfully', {
@@ -171,6 +176,11 @@ export default function AddPdfMaterial() {
           <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
           <input type="text"value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."/>
         </div>
+
+        <div className="mb-6">
+        <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add SecretKey</label>
+        <input type="password" value ={secret} onChange={(event)=> setSecret(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="*******..." />
+      </div>
       
         
        
@@ -179,7 +189,7 @@ export default function AddPdfMaterial() {
       
       
       
-        <div className="mt-16">
+        <div className="mt-8">
           <Link to="/smp">
         <button type="button" className="!px-5 py-3 text-base font-medium text-center text-blue-800 stroke-black bg-white hover:stroke-blue-600 hover:shadow-lg rounded-lg  focus:ring-4 focus:outline-none">CANCEL</button>
         </Link>
