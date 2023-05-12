@@ -10,6 +10,7 @@ function EditTicket(props) {
   const [issueDate, setissueDate] = useState("");
   const [details, setdetails] = useState("");
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,17 +36,56 @@ function EditTicket(props) {
     } else if (name === "details") {
       setdetails(value);
     }
+     // Clear specific error message
+  setErrors((prevErrors) => ({
+    ...prevErrors,
+    [name]: ''
+  }));
   };
+
+  const validateForm = () => {
+    const newErrors = {};
+  
+    // Validate StudentId
+    if (!StudentId) {
+      newErrors.StudentId = "Student Id is required";
+    }
+  
+    // Validate subject
+    if (!subject) {
+      newErrors.subject = "Subject is required";
+    }
+  
+    // Validate issueDate
+    if (!issueDate) {
+      newErrors.issueDate = "Issue Date is required";
+    }
+  
+    // Validate details
+    if (!details) {
+      newErrors.details = "Details are required";
+    }
+  
+    setErrors(newErrors);
+  
+    // Return true if there are no errors
+    return Object.keys(newErrors).length === 0;
+  };
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
     
+    
+  if (validateForm()) {
     const data = {
       StudentId:StudentId,
       subject:subject,
       issueDate:issueDate,
       details:details,
     };
+
+   
     
     axios.put(`http://localhost:9090/ticket/update/${id}`, data).then((res) => {
       if (res.data.success) {
@@ -57,6 +97,7 @@ function EditTicket(props) {
         navigate('/Stickets');
       }
     });
+  }
   };
 
   return (
@@ -74,6 +115,7 @@ function EditTicket(props) {
               placeholder="Enter Student Id"
               value={StudentId}
               onChange={handleInputChange} required></input>
+              {errors.StudentId && <p className="text-red-500">{errors.StudentId}</p>}
   </div>
   <div class="mb-6">
     <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject</label>
@@ -82,6 +124,7 @@ function EditTicket(props) {
             placeholder="Enter subject"
             value={subject}
             onChange={handleInputChange}required></input>
+            {errors.subject && <p className="text-red-500">{errors.subject}</p>}
   </div>
   
   <div class="mb-6">
@@ -91,6 +134,7 @@ function EditTicket(props) {
       placeholder="Enter Date"
       value={issueDate}
       onChange={handleInputChange}required></input>
+      {errors.issueDate && <p className="text-red-500">{errors.issueDate}</p>}
   </div>
 
   <div class="mb-6">
@@ -100,6 +144,7 @@ function EditTicket(props) {
      placeholder="Enter Details"
      value={details}
      onChange={handleInputChange} required></textarea>
+     {errors.details && <p className="text-red-500">{errors.details}</p>}
   </div>
 
   

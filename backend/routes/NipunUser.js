@@ -4,24 +4,17 @@ const NipunUser = require('../models/NipunUsers');
 
 // Add a NipunUser
 router.post('/add', async (req, res) => {
-    const { studentID, name, email, grades } = req.body;
-
     try {
-        const existingUser = await NipunUser.findOne({ email });
+        const existingUser = await NipunUser.findOne({ email: req.body.email });
         if (existingUser) {
             return res.status(400).json({ message: 'Email already exists' });
         }
 
-        const nipunUser = new NipunUser({
-            studentID,
-            name,
-            email,
-            grades
-        });
-        await nipunUser.save();
-        res.status(201).json(nipunUser);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+        const newUser = new NipunUser(req.body);
+        await newUser.save();
+        res.status(201).send(newUser);
+    } catch (error) {
+        res.status(400).send(error);
     }
 });
 
@@ -39,16 +32,16 @@ router.get('/list', async (req, res) => {
 //Delete student data by ID
 router.delete('/delete/:id', async (req, res) => {
     try {
-      const deletedStudent = await NipunUser.findByIdAndDelete(req.params.id);
-      if (!deletedStudent) {
-        return res.status(404).json({ message: 'Student not found' });
-      }
-      res.status(200).json({ message: 'Student deleted successfully' });
+        const deletedStudent = await NipunUser.findByIdAndDelete(req.params.id);
+        if (!deletedStudent) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.status(200).json({ message: 'Student deleted successfully' });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server Error' });
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
     }
-  });
+});
 
 // GET /api/search/:searchTerm
 router.get('/search/:searchTerm', async (req, res) => {
@@ -62,6 +55,57 @@ router.get('/search/:searchTerm', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+// GET route to find a student by ID
+router.get('/students/:studentId', async (req, res) => {
+    const { studentId } = req.params;
+    try {
+        const student = await NipunUser.findOne({ _id: studentId }).exec();
+        if (!student) {
+            return res.status(404).send('Student not found');
+        }
+        return res.json(student);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Server error');
+    }
+});
+
+router.put('/students/:studentId', async (req, res) => {
+    const { studentId } = req.params;
+    try {
+        const student = await NipunUser.findOneAndUpdate({ _id: studentId }, req.body, {
+            new: true,
+            runValidators: true,
+        }).exec();
+        if (!student) {
+            return res.status(404).json({ message: 'Student Not Found' });
+        }
+        return res.status(200).json({ message: 'Student Updated succesfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //checking for ID generate
 router.get('/checkID/:studentID', async (req, res) => {

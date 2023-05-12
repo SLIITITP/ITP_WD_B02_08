@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const nipunUserSchema = new mongoose.Schema({
   studentID: {
@@ -16,6 +17,22 @@ const nipunUserSchema = new mongoose.Schema({
   grades: {
     type: [String],
     required: true
+  },
+  whatsappNumber: {
+      type: String,
+      required: true
+  },
+  phoneNumber: {
+      type: String,
+      required: false
+  },
+  address: {
+      type: String,
+      required: true
+  },
+  password: {
+      type: String,
+      required: false
   }
 });
 
@@ -45,6 +62,13 @@ nipunUserSchema.pre('save', async function (next) {
     } else {
       sequenceNum++;
     }
+  }
+
+  // generate random password
+  if (!this.password) {
+    const password = Math.random().toString(30).substring(2, 8);
+    //const hashedPassword = await bcrypt.hash(password, 10);
+    this.password = password;
   }
 
   this.studentID = idWithoutSeq;
