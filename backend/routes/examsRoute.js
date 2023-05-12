@@ -66,6 +66,25 @@ router.post("/get-exam-by-id", authMiddleware, async (req, res) => {
   }
 });
 
+//get exam by grade
+router.post("/get-exam-by-grade", authMiddleware, async (req, res) => {
+  try {
+    const exam = await Exam.find({ grade: req.body.examGrade }).populate("questions");
+    res.send({
+      message: "Exam fetched successfully",
+      data: exam,
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      data: error,
+      success: false,
+    });
+  }
+});
+
+
 // edit exam by id
 router.post("/edit-exam-by-id", authMiddleware, async (req, res) => {
   try {
