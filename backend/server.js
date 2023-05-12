@@ -66,6 +66,8 @@ const SalaryRouter = require('./routes/Salary');
 const AmNipRouter = require('./routes/AmNip')
 const teachRoute = require('./routes/teacherRoute')
 
+const newUserRouter = require('./routes/NewUser')
+
 
 const usersRoute = require("./routes/usersRoute");
 const examsRoute = require("./routes/examsRoute");
@@ -80,6 +82,7 @@ const enrollRouter = require('./routes/studentEnroll');
 app.use('/api/payment', PaymentRouter);
 app.use('/api/subject', SubjectRouter);
 app.use('/api/user', NipunUserRouter);
+app.use('/api/newuser', newUserRouter);
 app.use('/api/salary', SalaryRouter);
 app.use('/api/amnip', AmNipRouter);
 app.use('/', teachRoute)

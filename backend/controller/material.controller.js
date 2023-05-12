@@ -4,6 +4,9 @@ const pdf = require('../models/pdf');
 const Research = require('../models/research');
 const Record = require('../models/records');
 const path = require('path');
+const fs = require('fs');
+
+
 
 
 //NOTE MATERIALS CRUD FUNCTIONS AND OTHER FUNCTIONS
@@ -17,7 +20,7 @@ exports.note = (async (req,res)=>{ // exporting the note post method
         return res.status(400).json({ error: 'Bad Request' });
         }
         //getting the title, description, category, grade, subject, teacher from the body
-        const{title,description,category,grade,subject,teacher} = req.body;
+        const{title,description,grade,subject,teacher,secret} = req.body;
         //getting the file from the request
         const{filename,mimetype} = req.file;
         
@@ -25,10 +28,11 @@ exports.note = (async (req,res)=>{ // exporting the note post method
         const Notes = await Note.create({
             title : title,
             description: description,
-            category: category,
+           // category: category,
             grade: grade,
             subject: subject,
             teacher:teacher,
+            secret:secret,
             file:filename,
             mimetype:mimetype
         });
@@ -87,14 +91,14 @@ exports.updateNote = async (req, res) => {//exporting the update PDF method
       //getting the id as a parameter
       const { id } = req.params;
       //getting the title, description, category, grade, subject, teacher from the body
-      const { title, description, category, grade, subject, teacher } = req.body;
+      const { title, description, grade, subject, teacher } = req.body;
      
       //creating the updatedPdf variable
     const updatedNote =
         {
           title: title,
           description: description,
-          category: category,
+         // category: category,
           grade: grade,
           subject: subject,
           teacher: teacher,
@@ -122,24 +126,30 @@ exports.updateNote = async (req, res) => {//exporting the update PDF method
   };
   
   //delete the Note Materials
-exports.deleteNote = async (req, res) => {//exporting the delete method
+  exports.deleteNote = async (req, res) => {
     try {
-      //getting the id as a parameter
       const { id } = req.params;
-      //finding the note using id
       const deletedNote = await Note.findByIdAndDelete(id);
-      //checking the deletedNote is available or not
       if (!deletedNote) {
-        return res.status(404).json({ msg: 'Note not found' });//send the error msg
+        return res.status(404).json({ msg: 'Note not found' });
       }
-      //send the deletedNote as response
+      const filePath = path.resolve('uploads','notes',deletedNote.file);
+      console.log('filePath:', filePath);
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('unlink error:', err);
+          return res.status(500).json({ msg: 'Failed to delete file' });
+        }
+        console.log(`File ${filePath} deleted successfully`);
+      });
       res.json(deletedNote);
-    } catch (error) {//catching the errors
-      console.error(error);
-      res.status(500).json({ msg: 'Server error' });//send the error msg
+    } catch (error) {
+      console.error('deleteNote error:', error);
+      res.status(500).json({ msg: 'Server error' });
     }
   };
-
+  
+  
 //download the Note files
 exports.DownloadNote = async (req, res) => {//exporting the download method
     try {
@@ -173,7 +183,7 @@ exports.pdf = (async (req,res)=>{// exporting the note post method
         return res.status(400).json({ error: 'Bad Request' });
         }
         //getting the title, description, category, grade, subject, teacher from the body
-        const{title,description,category,grade,subject,teacher} = req.body;
+        const{title,description,grade,subject,teacher,secret} = req.body;
         //getting the file from the request
         const{filename,mimetype} = req.file;
 
@@ -181,10 +191,11 @@ exports.pdf = (async (req,res)=>{// exporting the note post method
         const PDF = await pdf.create({
             title : title,
             description: description,
-            category: category,
+            //category: category,
             grade: grade,
             subject: subject,
             teacher:teacher,
+            secret:secret,
             file:filename,
             mimetype:mimetype
         });
@@ -243,14 +254,14 @@ exports.updatePdf = async (req, res) => {//exporting the update PDF method
       //getting the id as a parameter
       const { id } = req.params;
       //getting the title, description, category, grade, subject, teacher from the body
-      const { title, description, category, grade, subject, teacher } = req.body;
+      const { title, description, grade, subject, teacher } = req.body;
      
       //creating the updatedPdf variable
     const updatedPdf =
         {
           title: title,
           description: description,
-          category: category,
+          //category: category,
           grade: grade,
           subject: subject,
           teacher: teacher,
@@ -288,6 +299,15 @@ exports.deletePdf = async (req, res) => {//exporting the delete PDF method
       if (!deletedPdf) {
         return res.status(404).json({ msg: 'Pdf file not found' });//send the error msg
       }
+         // Delete the associated file from the file system
+    const filePath = path.resolve('uploads','pdf',deletedPdf.file);
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Failed to delete file' });
+      }
+      console.log(`File ${filePath} deleted successfully`);
+    });
       //send the deleted pdf as a response
       res.json(deletedPdf);
   
@@ -330,7 +350,7 @@ exports.research = (async (req,res)=>{// exporting the research post method
         return res.status(400).json({ error: 'Bad Request' });
         }
         //getting the title, description, category,teacher from the body
-        const{title,description,category,teacher} = req.body;
+        const{title,description,teacher,secret} = req.body;
         //getting the file from the request
         const{filename,mimetype} = req.file;
 
@@ -338,8 +358,9 @@ exports.research = (async (req,res)=>{// exporting the research post method
         const research = await Research.create({
             title : title,
             description: description,
-            category: category,
+           // category: category,
             teacher:teacher,
+            secret:secret,
             file:filename,
             mimetype:mimetype
         });
@@ -398,14 +419,13 @@ exports.updateResearch = async (req, res) => {//exporting the update method
       //getting the id as a parameter
       const { id } = req.params;
       //getting the title, description, category,teacher from the body
-      const { title, description, category,teacher } = req.body;
+      const { title, description,teacher } = req.body;
      
       //creating the research model AND store it in the updatedResearch variable
     const updatedResearch =
         {
           title: title,
           description: description,
-          category: category,
           teacher: teacher,
         }
         //checking the file is attached or not
@@ -441,6 +461,15 @@ exports.deleteResearch = async (req, res) => {//exporting the delete method
       if (!deletedResearch) {
         return res.status(404).json({ msg: 'Research not found' });//send the error msg
       }
+         // Delete the associated file from the file system
+    const filePath = path.resolve('uploads','research', deletedResearch.file);
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Failed to delete file' });
+      }
+      console.log(`File ${filePath} deleted successfully`);
+    });
       //sending the deleted research as a response
       res.json(deletedResearch);
     } catch (error) {//catching the errors
@@ -475,40 +504,44 @@ exports.DownloadResearch = async (req, res) => {//exporting the download method
 
 //adding the Record materials
 exports.Record = async (req, res) => {
-    try {
-      // checking the file and name is attached or not
-      if (!req.file || !req.file.filename) {
-        // If there is no file or filename sending the bad request
-        return res.status(400).json({ error: 'Bad Request' });
-      }
-      // getting the title, description, category, grade, subject, teacher, location from the body
-      const { title, description, category, grade, subject, teacher,fileLink} = req.body;
-      // getting the file from the request
-      const { filename, mimetype } = req.file;
+  try {
+    // checking the file and name is attached or not
+   // if (!req.file || !req.file.filename) {
+      // If there is no file or filename sending the bad request
+    //  return res.status(400).json({ error: 'Bad Request' });
+   // }
+    // getting the title, description, category, grade, subject, teacher, location from the body
+    const { title, description, grade, subject, teacher,secret,fileLink} = req.body;
+    // getting the file from the request
+   // const { filename, mimetype } = req.file;
+
+    // creating the record model AND store it in the record variable
+    const record = await Record.create({
+      
+      title: title,
+      description: description,
+      //category: category,
+      grade: grade,
+      subject: subject,
+      teacher: teacher,
+      secret:secret,
+      fileLink:fileLink,
+     // file: filename,
+     // mimetype: mimetype
+    });
+    await record.validate();
+    // sending the added record as a response
+    res.json(record);
+
+  } catch (error) {//catching the errors
+    console.log(error);
+    res.status(500).send({ msg: "error occurs of server " });//send the error msg
+  }
+};
+
   
-      // creating the record model AND store it in the record variable
-      const record = await Record.create({
-        
-        title: title,
-        description: description,
-        category: category,
-        grade: grade,
-        subject: subject,
-        teacher: teacher,
-        fileLink:fileLink,
-        file: filename,
-        mimetype: mimetype
-      });
-      await record.validate();
-      // sending the added record as a response
-      res.json(record);
-  
-    } catch (error) {//catching the errors
-      console.log(error);
-      res.status(500).send({ msg: "error occurs of server " });//send the error msg
-    }
-  };
-  
+
+
 //get all the Record Materials
 exports.getRecords = async (req, res) => {//exporting the get method
     try {
@@ -554,25 +587,25 @@ exports.updateRecord = async (req, res) => {//exporting the update method
       //getting the id as a parameter
       const { id } = req.params;
       //getting the title, description, category, grade, subject, teacher from the body
-      const { title, description, category, grade, subject, teacher,fileLink } = req.body;
+      const { title, description, grade, subject, teacher,fileLink } = req.body;
      
       //creating the updatedRecord object
     const updatedRecord =
         {
           title: title,
           description: description,
-          category: category,
+         // category: category,
           grade: grade,
           subject: subject,
           teacher: teacher,
           fileLink:fileLink
         }
         //checking the file is attached or not
-        if (req.file) {
+       /*  if (req.file) {
           //getting the file from the req
             updatedRecord.file = req.file.filename;
             updatedRecord.mimetype = req.file.mimetype;
-          }
+          } */
           //finding the record using id and update the record
          const updated = await Record.findByIdAndUpdate(id,updatedRecord);
           //checking the record available or not

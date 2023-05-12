@@ -9,6 +9,7 @@ import {GrNotes} from 'react-icons/gr'
 import {GrDocumentPdf} from 'react-icons/gr'
 import {GrDocumentVideo} from 'react-icons/gr'
 import {GiArchiveResearch} from 'react-icons/gi'
+import {MdDashboardCustomize} from 'react-icons/md'
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
@@ -36,25 +37,25 @@ function TprotectedRoute({ children }) {
 
   const userMenu = [
     {
-      title: "Home",
+      title: "HOME",
       paths: ["/sms"],
       icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/sms"),
     },
     {
-      title: "Feedbacks",
+      title: "FEEDBACK",
       paths: ["/fbs"],
       icon: <i className="ri-bar-chart-line"></i>,
       onClick: () => navigate("/fbs"),
     },
     {
-      title: "Profile",
+      title: "PROFILE",
       paths: ["/profile"],
       icon: <i className="ri-user-line"></i>,
       onClick: () => navigate("/profile"),
     },
     {
-      title: "Logout",
+      title: "LOGOUT",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
@@ -66,13 +67,19 @@ function TprotectedRoute({ children }) {
 
   const adminMenu = [
     {
-      title: "Dashboard",
-      paths: ["/smt"],
+      title: "HOME",
+      paths: ["/home"],
       icon: <i className="ri-home-line"></i>,
+      onClick: () => navigate("/home"),
+    },
+    {
+      title: "DASHBOARD",
+      paths: ["/smt"],
+      icon: <MdDashboardCustomize className="ri-home-line"></MdDashboardCustomize>,
       onClick: () => navigate("/smt"),
     },
     {
-      title: "Feedbacks",
+      title: "FEEDBACKS",
       paths: ["/fbs/e"],
       icon: <i className="ri-file-list-line"></i>,
       onClick: () => navigate("/fbs/e"),
@@ -102,13 +109,13 @@ function TprotectedRoute({ children }) {
         onClick: () => navigate("/smR"),
       },
     {
-      title: "Profile",
+      title: "PROFILE",
       paths: ["/profile"],
       icon: <i className="ri-user-line"></i>,
       onClick: () => navigate("/teacherProfile"),
     },
     {
-      title: "Logout",
+      title: "LOGOUT",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {

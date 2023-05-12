@@ -1,0 +1,18 @@
+import React, { useState } from 'react';
+
+function UserClickCounter() {
+  const [clickCount, setClickCount] = useState(0);
+
+  const handleClick = () => {
+    setClickCount(clickCount + 1);
+  };
+
+  return (
+    <div>
+      <p>Number of clicks: {clickCount}</p>
+      <button onClick={handleClick}>Click me</button>
+    </div>
+  );
+}
+
+export default UserClickCounter;

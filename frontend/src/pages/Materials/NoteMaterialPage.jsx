@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import back from '../../assets/MaterialBg.jpg';
-
+import { updateUser, getProfile, deleteUser } from '../../apicalls/helper';
+import { getUserInfo } from '../../apicalls/users';
 import { Link, useParams  } from 'react-router-dom';
 import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
-
+//import { useDispatch, useSelector } from "react-redux";
+//import { SetUser } from "../redux/usersSlice.js";
 
 export default function NoteMaterialPage() {
 
@@ -12,20 +14,31 @@ export default function NoteMaterialPage() {
     const [note, setNote] = useState([]);
     const [searchSubject, setSearchSubject] = useState("");
     const [searchGrade, setSearchGrade] = useState("");
-  
+    //const dispatch = useDispatch();
+    //const navigate = useNavigate();
+    const [apiData, setApiData] = useState({});
+    const [userGrade, setUserGrade] = useState('');
+    const [apiData1, setApiData1] = useState({});
+
     const fetchNote = async () => {
-      const result = await axios.get("http://localhost:9090/study/allNotes");
-      setNote(result.data);
+      console.log('userGrade', userGrade);
+      const result = await axios.get(`http://localhost:9090/study/allNotes`);
+      const note = result.data.filter(note => note.grade === `grade ${userGrade}`);
+      setNote(note);
     };
+    
+    
+    
+    
   
     useEffect(() => {
       fetchNote();
-    }, []);
+    },[userGrade]);
   
     const fetchList = async () => {
       const result = await axios.get(`http://localhost:9090/study/viewNote/${id}`);
       setNote(result.data);
-    };
+    }
   
     useEffect(() => {
       fetchList();
@@ -39,7 +52,7 @@ export default function NoteMaterialPage() {
       setSearchGrade(event.target.value);
     };
   
-    const filterPdf = (note) => {
+     const filterPdf = (note) => {
       return note.filter((note) => {
         if (searchSubject && searchGrade) {
           return (
@@ -56,8 +69,84 @@ export default function NoteMaterialPage() {
       });
     };
   
-    const filteredPdf = filterPdf(note);
+    const filteredPdf = filterPdf(note); 
+     /*  const filterPdf = (note) => {
+      return note.filter((note) => {
+        if (searchSubject && searchGrade) {
+          return (
+            note.subject.toLowerCase().includes(searchSubject.toLowerCase()) &&
+            note.grade.toLowerCase() === searchGrade.toLowerCase()
+          );
+        } else if (searchSubject) {
+          return note.subject.toLowerCase().includes(searchSubject.toLowerCase());
+        } else if (searchGrade) {
+          return note.grade.toLowerCase() === searchGrade.toLowerCase();
+        } else {
+          return false; // Only show filtered notes if there is a search query
+        }
+      });
+    };
+  
+    const filteredPdf = filterPdf(note);    */
 
+    
+    
+//get the user information
+
+    const getUserData = async () => {
+      try {
+       // dispatch(ShowLoading());
+        const response = await getUserInfo();
+        //dispatch(HideLoading());
+        if (response.success) {
+         // dispatch(SetUser(response.data));
+          console.log(response.data)
+          if (response.data.isAdmin) {
+            //setMenu(adminMenu);
+          } else {
+            //setMenu(userMenu);
+          }
+        } else {
+         // message.error(response.message);
+        }
+      } catch (error) {
+       // navigate("/login"); //if there is problem with token user navigate login
+        //dispatch(HideLoading());
+       // message.error(error.message);
+      }
+    };
+  
+    useEffect(() => {
+      let usernameFrom = localStorage.getItem("userName");
+      console.log(usernameFrom);
+      getProfile(usernameFrom).then((results) => {
+        let apiData = results.data;
+        console.log(results.data.grade)
+        setApiData1(results.data);
+        setUserGrade(results.data.grade);
+  
+        console.log(results.data.isAdmin);
+        if (results.data.isAdmin) {
+          //setMenu(adminMenu);
+        } else {
+          //setMenu(userMenu);
+        }
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          mobile: apiData?.mobile || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          studentId: apiData?.studentId || "",
+          isAdmin: apiData?.isAdmin || "",
+        });
+      });
+    }, []);
+  
+    
+    
      // Create a new SpeechRecognizer object
      const speechConfig = SpeechConfig.fromSubscription('14748c7c00a040d4bbc468aa19742433', 'eastasia');
      const audioConfig = AudioConfig.fromDefaultMicrophoneInput();
@@ -70,6 +159,7 @@ export default function NoteMaterialPage() {
        });
      };
 
+    
 
   return (
     <div>
@@ -104,6 +194,7 @@ export default function NoteMaterialPage() {
             </div>
         <div>
             <select id="search"value={searchGrade} onChange={handleGradeChange} className= " w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ml-3 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            <option value="" disabled selected >select grade</option>
               <option value="grade 6">grade 6</option>
               <option value="grade 7">grade 7</option>
               <option value="grade 8">grade 8</option>

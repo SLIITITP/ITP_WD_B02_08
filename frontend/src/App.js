@@ -36,7 +36,7 @@ import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
 
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
-import Home from './pages/common/Home'
+
 import OnlinePayment from './components/PaymentComponents/OnlinePayment'
 import Exams from './pages/admin/Exams'
 import AddEditExam from './pages/admin/Exams/AddEditExam'
@@ -55,6 +55,7 @@ import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
 
 import TicketsSideNav from "./components/TicketsSideNav";
+import TicketSideNavAdmin from "./components/TicketSideNavAdmin";
 import StudentTicket from './components/StudentTicket'
 import AddTicket from './components/AddTicket'
 import EditTicket from './components/EditTicket'
@@ -199,11 +200,15 @@ import TRegister from './pages/common/Register/TeachersReg';
 import Tlogin from './pages/common/Login/tlogin';
 import TprotectedRoute from './components/TprotectedRoute'
 import ExamMain from './pages/common/Home/ExamMain';
+import AdminReports from './pages/admin/AdminReports/index'
+import StudentHome from './pages/common/Home/StudentHome';
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
 import FinanceUserProtected from './components/FinanceUserProtected'
 import NipTest from './components/PaymentComponents/NipTest';
+import RegForm from './components/ToImp/RegForm';
+import AllStudents from './components/ToImp/AllStudents';
 
 
 
@@ -222,6 +227,12 @@ import RecordMaterialTable from './components/RecordMaterialTable';
 import FeedbackTable from './components/FeedbackTable';
 */
 
+import Home from './home/home';
+import Navbar from './home/Navbar';
+import Footer from './home/Footer';
+import RegisteredStudents from './components/ToImp/RegisteredStudents';
+import UpdateStudent from './components/ToImp/UpdateStudent';
+
 
 
 
@@ -230,6 +241,8 @@ function App() {
   return (
 
     <BrowserRouter>
+
+<Navbar/> 
 
       {loading && <Loader />}
       <Routes>
@@ -266,13 +279,15 @@ function App() {
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
 
 
-
+        {/* Attendance Management */}
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
 
-
-        <Route path='/niptest' element={<NipTest />} />
-
+        {/* Std Reg Form And Other by Nip */}
+        <Route path='/regform' element={<RegForm />} />
+        <Route path='/allstd' element={<AllStudents />} />
+        <Route path='/allregstd' element={<RegisteredStudents />} />
+        <Route path='/updateregstd' element={<UpdateStudent />} />
 
 
         {/* Admin Routes for Timetable Management */}
@@ -336,7 +351,7 @@ function App() {
 
         <Route path="/exammain" element={<ExamMain />} />
         <Route path='/exams' element={<ProtectedRoute>
-          <Home />
+          <StudentHome />
         </ProtectedRoute>} />
 
 
@@ -373,32 +388,37 @@ function App() {
           <WriteExam />
         </TprotectedRoute>} />
 
+        <Route path='/admin/reports' element={<TprotectedRoute>
+          <AdminReports/>
+        </TprotectedRoute>} />
+
 
         {/* support Service Routes*/}
 
-        <Route path="/ticket" exact element={<TicketsSideNav />} />
+        <Route path="/aticket" exact element={<TicketsSideNav/>} />
+        <Route path="/ticket" exact element={<TicketSideNavAdmin/>} />
         <Route path="/Stickets" exact element={<TicketsSideNav>
           <StudentTicket />
         </TicketsSideNav>} />
-        <Route path="/ticketlist" exact element={<TicketsSideNav>
+        <Route path="/ticketlist" exact element={<TicketSideNavAdmin>
           <TicketList />
-        </TicketsSideNav>} />
+        </TicketSideNavAdmin>} />
         <Route path="/addTicket" exact element={<TicketsSideNav>
           <AddTicket />
         </TicketsSideNav>} />
-        <Route path="/reply/:id" exact element={<TicketsSideNav>
+        <Route path="/reply/:id" exact element={<TicketSideNavAdmin>
           <Reply />
-        </TicketsSideNav>} />
+        </TicketSideNavAdmin>} />
         <Route path="/vreply/:id" exact element={<TicketsSideNav>
           <ViewReply />
         </TicketsSideNav>} />
         <Route path="/edit/:id" exact element={<TicketsSideNav >
-          <EditTicket />
-        </TicketsSideNav>} />
-        <Route path="tReport" exact element={<TicketsSideNav >
-          <TicketsReport />
-        </TicketsSideNav>} />
-
+        <EditTicket />
+        </TicketsSideNav>}/>
+        <Route path="tReport" exact element={<TicketSideNavAdmin >
+        <TicketsReport />
+        </TicketSideNavAdmin>}/>
+      
         <Route path="/faq" exact element={<FAQ />} />
         <Route path="/gvideos" element={<Gvideos />} />
 
@@ -513,6 +533,7 @@ function App() {
 
 
       </Routes>
+   
     </BrowserRouter>
   );
 }

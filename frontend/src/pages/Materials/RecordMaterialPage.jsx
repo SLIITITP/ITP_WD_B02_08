@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import back from '../../assets/MaterialBg.jpg';
-import Search from '../../components/Search';
+import { updateUser, getProfile, deleteUser } from '../../apicalls/helper';
+import { getUserInfo } from '../../apicalls/users';
+//import Search from '../../components/Search';
 import { Link, useParams  } from 'react-router-dom';
 import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
 
@@ -12,15 +14,22 @@ export default function RecordMaterialPage() {
     const [record, setRecord] = useState([]);
     const [searchSubject, setSearchSubject] = useState("");
     const [searchGrade, setSearchGrade] = useState("");
+
+    const [apiData, setApiData] = useState({});
+    const [userGrade, setUserGrade] = useState('');
+    const [apiData1, setApiData1] = useState({});
+
   
     const fetchRec = async () => {
+      console.log('userGrade', userGrade);
       const result = await axios.get("http://localhost:9090/study/allRecords");
-      setRecord(result.data);
-    };
+      const record = result.data.filter(pdf => pdf.grade === `grade ${userGrade}`);
+      setRecord(record);
+    }; 
   
     useEffect(() => {
       fetchRec();
-    }, []);
+    }, [userGrade]);
   
     const fetchList = async () => {
       const result = await axios.get(`http://localhost:9090/study/viewRecord/${id}`);
@@ -56,7 +65,80 @@ export default function RecordMaterialPage() {
       });
     };
   
-    const filteredPdf = filterPdf(record);
+    const filteredPdf = filterPdf(record); 
+
+/*     const filterPdf = (record) => {
+      return record.filter((record) => {
+        if (searchSubject && searchGrade) {
+          return (
+            record.subject.toLowerCase().includes(searchSubject.toLowerCase()) &&
+            record.grade.toLowerCase() === searchGrade.toLowerCase()
+          );
+        } else if (searchSubject) {
+          return record.subject.toLowerCase().includes(searchSubject.toLowerCase());
+        } else if (searchGrade) {
+          return record.grade.toLowerCase() === searchGrade.toLowerCase();
+        } else {
+          return false; // Only show filtered records if there is a search query
+        }
+      });
+    };
+  
+    const filteredPdf = filterPdf(record); */
+
+//get the user information 
+    const getUserData = async () => {
+      try {
+       // dispatch(ShowLoading());
+        const response = await getUserInfo();
+        //dispatch(HideLoading());
+        if (response.success) {
+         // dispatch(SetUser(response.data));
+          console.log(response.data)
+          if (response.data.isAdmin) {
+            //setMenu(adminMenu);
+          } else {
+            //setMenu(userMenu);
+          }
+        } else {
+         // message.error(response.message);
+        }
+      } catch (error) {
+       // navigate("/login"); //if there is problem with token user navigate login
+        //dispatch(HideLoading());
+       // message.error(error.message);
+      }
+    };
+  
+    useEffect(() => {
+      let usernameFrom = localStorage.getItem("userName");
+      console.log(usernameFrom);
+      getProfile(usernameFrom).then((results) => {
+        let apiData = results.data;
+        console.log(results.data.grade)
+        setApiData1(results.data);
+        setUserGrade(results.data.grade);
+  
+        console.log(results.data.isAdmin);
+        if (results.data.isAdmin) {
+          //setMenu(adminMenu);
+        } else {
+          //setMenu(userMenu);
+        }
+        setApiData({
+          firstName: apiData?.firstName || "",
+          lastName: apiData?.lastName || "",
+          email: apiData?.email || "",
+          mobile: apiData?.mobile || "",
+          address: apiData?.address || "",
+          profile: apiData?.profile || "",
+          id: apiData._id,
+          studentId: apiData?.studentId || "",
+          isAdmin: apiData?.isAdmin || "",
+        });
+      });
+    }, []);
+
 
     // Create a new SpeechRecognizer object
     const speechConfig = SpeechConfig.fromSubscription('14748c7c00a040d4bbc468aa19742433', 'eastasia');
@@ -103,6 +185,7 @@ export default function RecordMaterialPage() {
             </div>
         <div>
             <select id="search"value={searchGrade} onChange={handleGradeChange} className= " w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ml-3 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            <option value="" disabled selected >select grade</option>
               <option value="grade 6">grade 6</option>
               <option value="grade 7">grade 7</option>
               <option value="grade 8">grade 8</option>

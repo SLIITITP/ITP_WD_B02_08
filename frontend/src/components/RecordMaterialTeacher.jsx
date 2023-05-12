@@ -15,11 +15,12 @@ export default function RecordMaterialTeacher() {
   const { id } = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+ /*  const [category, setCategory] = useState(''); */
   const [grade, setGrade] = useState('');
   const [subject, setSubject] = useState('');
   const [teacher, setTeacher] = useState('');
   const [fileLink, setFileLink] = useState('');
+  const [secret,setSecret] = useState('');
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -28,11 +29,12 @@ export default function RecordMaterialTeacher() {
         const response = await axios.get(`http://localhost:9090/study/viewRecord/${id}`);
         setTitle(response.data.title);
         setDescription(response.data.description);
-        setCategory(response.data.category);
+       /*  setCategory(response.data.category); */
         setGrade(response.data.grade);
         setSubject(response.data.subject);
         setTeacher(response.data.teacher);
         setFileLink(response.data.fileLink);
+        setSecret(response.data.secret);
         // set any other fields you need to update
       } catch (error) {
         console.error(error);
@@ -46,10 +48,21 @@ export default function RecordMaterialTeacher() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const enteredName = window.prompt('Please enter the SecretKey:');
+    if (!enteredName) {
+      // user cancelled the prompt
+      alert('Prompt cancelled by user');
+      return;
+    } else if (enteredName !== secret) {
+      // disallow editing
+      alert(`You are not authorized to edit note`);
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('category', category);
+  /*   formData.append('category', category); */
     formData.append('grade', grade);
     formData.append('subject', subject);
     formData.append('teacher', teacher);
@@ -117,8 +130,17 @@ export default function RecordMaterialTeacher() {
 
   const handleDelete = (rec) => {
     if (window.confirm('Are you sure you want to delete this note?')) {
-      deleteNote(rec);
-    
+      //deleteNote(note);
+      const enteredName = window.prompt('Please enter the SecretKey:');
+      if (enteredName === secret) {
+        // allow deleting
+        alert(`Deleting record created by ${teacher}`);
+        deleteNote(rec);
+      } else {
+        // disallow deleting
+        alert(`You are not authorized to delete note`);
+      }
+       
     }
   };
 
@@ -148,10 +170,10 @@ export default function RecordMaterialTeacher() {
    <textarea value={description} onChange={(event) => setDescription(event.target.value)} class=" h-20 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
  </div>
 
- <div className="mb-4">
+{/*  <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
    <input type='text' value={category} onChange={(event) => setCategory(event.target.value)} className=" h-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
- </div>
+ </div> */}
 
  <div className="mb-4">
    <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade</label>

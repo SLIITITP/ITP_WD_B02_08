@@ -269,7 +269,7 @@ export default function WriteExam() {
                 <h1 className="text-md">VERDICT :{result.verdict}</h1>{" "}
                 {/*Showing pass or fail*/}
                 <div className="flex gap-2 mt-2">
-                  <button
+                  {/* <button
                     className="primary-outlined-btn"
                     onClick={() => {
                       setView("instructions");
@@ -279,7 +279,7 @@ export default function WriteExam() {
                     }}
                   >
                     Retake Exam
-                  </button>
+                  </button> */}
                   <button
                     className="primary-contained-btn"
                     onClick={() => {
@@ -355,7 +355,7 @@ export default function WriteExam() {
               >
                 Close
               </button>
-              <button
+              {/* <button
                 className="primary-contained-btn"
                 onClick={() => {
                   setView("instructions");
@@ -365,7 +365,7 @@ export default function WriteExam() {
                 }}
               >
                 Retake Exam
-              </button>
+              </button> */}
             </div>
           </div>
         )}

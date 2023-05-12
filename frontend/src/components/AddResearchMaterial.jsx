@@ -5,6 +5,7 @@ import { useState,useRef} from 'react';
 import ReactToPrint from 'react-to-print';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { validateTitle,validateDescription,validateTeacher,validatePdfFile,validatePassword } from '../validations/StudyFormValidations';
 
 
 export default function AddResearchMaterial() {
@@ -13,9 +14,11 @@ export default function AddResearchMaterial() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+/*   const [category, setCategory] = useState(''); */
   const [teacher, setTeacher] = useState('');
   const [file, setFile] = useState(null);
+  const [secret,setSecret]=useState('');
+
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -25,14 +28,36 @@ export default function AddResearchMaterial() {
   const componentRef = useRef();
 
   const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+        // Validate form fields
+  const titleError = validateTitle(title);
+  const descriptionError = validateDescription(description);
+  const teacherError = validateTeacher(teacher);
+  const passwordError = validatePassword(secret);
+  const fileError = validatePdfFile(file);
+  
+  if (titleError || descriptionError || teacherError || passwordError|| fileError) {
+    toast.error(titleError || descriptionError|| teacherError || passwordError|| fileError, {
+      position: 'top-center',
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    return;
+  }
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('category', category);
+/*     formData.append('category', category); */
     formData.append('teacher', teacher);
+    formData.append('secret',secret);
     formData.append('file', file);
 
-    event.preventDefault();
+  
       try {
         const Research = await axios.post('http://localhost:9090/study/research', formData, {
           headers: {
@@ -43,8 +68,9 @@ export default function AddResearchMaterial() {
        
         setTitle('');
         setDescription('');
-        setCategory('');
+        /* setCategory(''); */
         setTeacher('');
+        setSecret('');
         setFile(null);
         event.target.reset(); // clear the form inputs, including the file input
         toast.success('Research added successfully', {
@@ -106,7 +132,7 @@ export default function AddResearchMaterial() {
           <textarea id="description" value={description} onChange={(event)=> setDescription(event.target.value)} className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Description of material..."required/>
         </div>
       
-        <div className="mb-6">
+      {/*   <div className="mb-6">
           <label for="category" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
           <select id="description"onChange={(event)=> setCategory(event.target.value)} className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"required>
           <option value="notes">Notes</option>
@@ -115,11 +141,16 @@ export default function AddResearchMaterial() {
           <option value= "research" >research papers</option>
             </select>
         </div>
-      
+       */}
         <div className="mb-6">
           <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
           <input type="text" value ={teacher} onChange={(event)=> setTeacher(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Your name ..."required/>
         </div>
+
+        <div className="mb-6">
+        <label for="teacher" className="!block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add SecretKey</label>
+        <input type="password" value ={secret} onChange={(event)=> setSecret(event.target.value)} id="description" className="!shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="*******..." />
+      </div>
       
         
        

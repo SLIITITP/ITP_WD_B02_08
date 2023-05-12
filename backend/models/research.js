@@ -13,12 +13,16 @@ const researchSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category:{
+   /*  category:{
         type: String,
         required:true
-    },
+    }, */
 
     teacher:{
+        type: String,
+        required:true
+      },
+    secret:{
         type: String,
         required:true
       },

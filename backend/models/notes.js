@@ -12,10 +12,10 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category:{
+   /*  category:{
         type: String,
         required:true
-    },
+    }, */
 
     
     grade:{
@@ -29,6 +29,10 @@ const noteSchema = new mongoose.Schema({
     },
 
     teacher:{
+        type: String,
+        required:true
+      },
+    secret:{
         type: String,
         required:true
       },

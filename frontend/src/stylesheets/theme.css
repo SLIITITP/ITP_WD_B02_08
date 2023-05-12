@@ -16,3 +16,10 @@
 .text-white{
     color: white !important;
 }
+
+.bg-success{
+    background-color: var(--success) !important ;
+}
+.bg-warning{
+    background-color:  var(--secondary) !important;
+}
