@@ -59,12 +59,12 @@ useEffect(()=>{
           let loginPromise = verifyPassword({username , password: values.password})
           const response = await loginUser(values);
           if (response.success) {
-            message.success(response.message);
+           // message.success(response.message);
             localStorage.setItem("token1", response.data);
             //localStorage.setItem("userName" , values.name );
-            window.location.href = "/home";
+            window.location.href = "/profile";
           } else {
-            message.error(response.message);
+           // message.error(response.message);
           }
           console.log(loginPromise)
           
@@ -77,7 +77,7 @@ useEffect(()=>{
           loginPromise.then(res => {
              let {token} = res.data;
              localStorage.setItem('token',token)
-             navigate('/home')
+             navigate('/profile')
           })
 
         }            
@@ -89,16 +89,16 @@ useEffect(()=>{
         const response = await loginUser(values);
         // dispatch(HideLoading()); //hide loader
         if (response.success) {
-          message.success(response.message);
+          //message.success(response.message);
           localStorage.setItem("token", response.data);
           localStorage.setItem("userName" , values.name );
-          window.location.href = "/home";
+          window.location.href = "/profile";
         } else {
-          message.error(response.message);
+          //message.error(response.message);
         }
       } catch (error) {
        
-        message.error(error.message);
+        //message.error(error.message);
       }
     };
 

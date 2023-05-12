@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../images/profile.png';
 import styles from '../stylesheets/Username.module.css'
@@ -9,6 +9,7 @@ import convertToBase64 from '../validations/convert';
 import { registerUser1 } from '../apicalls/helper';
 import { registerUser } from '../apicalls/users'
 import { message } from 'antd';
+import alanBtn from '@alan-ai/alan-sdk-web';
 
 
 export default function Register() {
@@ -16,7 +17,10 @@ export default function Register() {
   const navigate = useNavigate();
 
     const [file , setFile] = useState()
-      
+    // const ALAN_KEY = `9fc60efc76173484ba7004ef5b5618262e956eca572e1d8b807a3e2338fdd0dc/stage`
+    const ALAN_KEY = '046117989bcbdb7e620544158647473c2e956eca572e1d8b807a3e2338fdd0dc/stage'
+    const [alanInstance, setAlanInstance] = useState(null);
+   
     const formik = useFormik({
         initialValues : {
            email : '',
@@ -41,6 +45,38 @@ export default function Register() {
             registerPromise.then(function(){navigate('/plogin')});
         }            
     })
+
+    useEffect(() => {
+     console.log("text");
+      alanBtn({
+        key: ALAN_KEY,
+        onCommand: (commandData) => {
+          console.log(commandData)
+          if (commandData.command === 'email') {
+            formik.setFieldValue("email",commandData.data);
+            // alanInstance.playText(`Setting email to ${commandData.data}`);
+            
+          } else if (commandData.command === 'username') {
+            formik.setFieldValue('username', commandData.data);
+          }
+        },
+      });
+      // setAlanInstance(alan);
+      // formik.setFieldValue("email", "Damish");
+      
+    }, [alanBtn]);
+
+    const handleEmailChange = (e, alanInstance) => {
+      console.log(e);
+      formik.handleChange(e);
+       alanInstance.playText(`Setting email to ${e.target.value}`);
+      
+    };
+    
+    const handleUsernameChange = (e, alanInstance) => {
+      formik.handleChange(e);
+      alanInstance.playText(`Setting username to ${e.target.value}`);
+    };
 
   //cretae file upload handler
   const onUpload = async e =>{
@@ -79,7 +115,7 @@ export default function Register() {
               Welcome to Thilina Educational Institute
             </span>
           </div>
-          <form className='py-1' onSubmit={formik.handleSubmit} onFinish={onFinish}>
+          <form className='py-1' onSubmit={formik.handleSubmit} onFinish={onFinish} >
             <div className='profile flex justify-center py-4'>
               <label htmlFor='profile'>
               <img src={file ||avatar} className={styles.profile_img} alt='avatar'></img>
@@ -89,8 +125,8 @@ export default function Register() {
           
             </div>
             <div className="textbox flex flex-col items-center gap-6">
-            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*' id='email'/>
-            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' id='name'/>
+            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*' id='email' onChange={(e) => handleEmailChange(e, alanInstance)}/>
+            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' id='name' onChange={(e) => handleUsernameChange(e, alanInstance)}/>
             <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*'/>
             <select {...formik.getFieldProps('grade')} className={styles.textbox} >
               <option value="" >Select Grade</option>
