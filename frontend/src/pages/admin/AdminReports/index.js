@@ -10,6 +10,7 @@ import moment from "moment";
 function AdminReports() {
   const [reportsData, setReportsData] = React.useState([]);
   const dispatch = useDispatch();
+  console.log(reportsData);
   const [filters, setFilters] = React.useState({
     examName: "",
     userName: "",
@@ -23,7 +24,7 @@ function AdminReports() {
     {
       title: "User Name",
       dataIndex: "userName",
-      render: (text, record) => <>{record.user.name}</>,
+      render: (text, record) => <>{record.user.username}</>,
     },
     {
       title: "Date",
