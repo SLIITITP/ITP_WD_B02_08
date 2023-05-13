@@ -32,6 +32,11 @@ function MainTimetable() {
 
  //Grade buttons
  const gradeButtons = [
+  { grade: '1', label: 'Grade 1' },
+  { grade: '2', label: 'Grade 2' },
+  { grade: '3', label: 'Grade 3' },
+  { grade: '4', label: 'Grade 4' },
+  { grade: '5', label: 'Grade 5' },
   { grade: '6', label: 'Grade 6' },
   { grade: '7', label: 'Grade 7' },
   { grade: '8', label: 'Grade 8' },
@@ -61,7 +66,7 @@ function handleEnrollClick (clz) {
     state: {
       cId: clz._id,
       cGrade: clz.grade,
-      cSubject: clz.subject,
+      cSubject: clz.subject.split("-")[0],
       cTeacher: clz.teacher,
       cHall: clz.hall,
       cDate: clz.date,
@@ -188,7 +193,7 @@ return (
          .map((clz) => (
           <tr key={clz.id} onClick={() => handleClassClick(clz)}>
              <td>{clz.grade}</td>
-             <td>{clz.subject}</td>
+             <td>{clz.subject.split("-")[0]}</td>
              <td>{clz.teacher}</td>
              <td>{clz.hall}</td>
              <td>{clz.date}</td>

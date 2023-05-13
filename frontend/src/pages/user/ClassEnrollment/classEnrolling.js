@@ -59,31 +59,6 @@ function ClassEnrolling() {
   }, []);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const stdID = apiData1?._id;
   console.log(apiData1)
   const [classId] = useState(location.state.cId);

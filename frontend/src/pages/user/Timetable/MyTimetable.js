@@ -4,7 +4,7 @@ import { getUserInfo } from "../../.././apicalls/users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../../.././redux/usersSlice.js";
-import { updateUser, getProfile, deleteUser } from "../../.././apicalls/helper";
+import { getProfile} from "../../.././apicalls/helper";
 import { message } from "antd";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -244,7 +244,7 @@ return (
         <tr key={clz.id}>
           <td>{clz.time}</td>
           <td>Grade {clz.grade}</td>
-          <td>{clz.subject}</td>
+          <td>{clz.subject.split("-")[0]}</td>
           <td>{clz.teacher}</td>
           <td>{clz.hall}</td>
           <td>Rs.{clz.fees}</td>
