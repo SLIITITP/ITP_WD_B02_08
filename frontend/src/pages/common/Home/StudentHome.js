@@ -1,29 +1,31 @@
 import { Col, message, Row } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getExamByGrade } from "../../../apicalls/exams";
+import { getAllExams } from "../../../apicalls/exams";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import PageTitle from "../../../components/PageTitle";
-import { useNavigate, useParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 function StudentHome() {
   const [exams, setExams] = React.useState([]);
+  const [searchGrade, setSearchGrade] = React.useState("");
+  const [searchName, setSearchName] = React.useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const params = useParams();
   const { user } = useSelector((state) => state.users);
 
   const getExams = async () => {
     try {
-      console.log(user?.grade);
       dispatch(ShowLoading());
-      const response = await getExamByGrade({
-        examGrade: user?.grade,
-      });
+      const response = await getAllExams();
       if (response.success) {
-        setExams(response.data);
-        //handleSearch();
+        dispatch(ShowLoading());
+        const filteredExams = response.data.filter(exam => exam.grade == user.grade );
+        if (filteredExams.length > 0) {
+          dispatch(HideLoading());
+        }
+        dispatch(HideLoading());
+        setExams(filteredExams);
       } else {
         message.error(response.message);
       }
@@ -34,12 +36,21 @@ function StudentHome() {
     }
   };
 
-  const handleSearch = () => {
-    const searchGrade = user?.grade;
+  useEffect(() => {
+    getExams();
+  }, []);
 
+  const handleSearch = () => {
     const filteredExams = exams.filter((exam) => {
-      if (searchGrade) {
-        return exam.grade === searchGrade;
+      if (searchName && searchGrade) {
+        return (
+          exam.name.toLowerCase().includes(searchName.toLowerCase()) &&
+          exam.grade == searchGrade
+        );
+      } else if (searchName) {
+        return exam.name.toLowerCase().includes(searchName.toLowerCase());
+      } else if (searchGrade) {
+        return exam.grade == searchGrade;
       }
       return true;
     });
@@ -53,18 +64,29 @@ function StudentHome() {
     }
   };
 
-  useEffect(() => {
-    getExams();
-    
-  }, []);
-
   return (
     user && (
       <div>
         <PageTitle
-          title={`Hi ${user?.grade}, Welcome to Thilina Institute Quiz Portal`}
+          title={`Hi ${user.username}, Welcome to Thilina Institute Quiz Portal`}
         />
         <div className="divider"></div>
+
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <input
+            className="primary-outlined-btn h-10"
+            type="text"
+            placeholder="Enter exam name or grade"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+          />
+          <button
+            className="primary-outlined-btn h-10 p-2"
+            onClick={handleSearch}
+          >
+            <i className="ri-search-line p-2 text-2l"></i>
+          </button>
+        </div>
 
         <Row gutter={[10, 10]}>
           {exams.map((exam) => (

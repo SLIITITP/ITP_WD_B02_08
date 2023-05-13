@@ -44,6 +44,10 @@ const examSchema = new mongoose.Schema(
       ref: "questions",
       required: false,
     },
+    userID: {
+      type: String,
+      required:true,
+    },
   },
   {
     timestamps: true,

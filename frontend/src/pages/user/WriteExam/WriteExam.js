@@ -42,7 +42,6 @@ export default function WriteExam() {
       message.error(error.message);
     }
   };
-
   const calculateResult = async () => {
     //calculate result
     try {

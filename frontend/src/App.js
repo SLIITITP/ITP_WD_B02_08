@@ -204,6 +204,7 @@ import TprotectedRoute from './components/TprotectedRoute'
 import ExamMain from './pages/common/Home/ExamMain';
 import AdminReports from './pages/admin/AdminReports/index'
 import StudentHome from './pages/common/Home/StudentHome';
+import TeacherExamHome from './pages/common/Home/TecherExamHome';   
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
@@ -373,7 +374,7 @@ function App() {
 
         {/* Admin Routes for exams management */}
         <Route path='/texams' element={<TprotectedRoute>
-          <Home />
+          <TeacherExamHome />
         </TprotectedRoute>} />
 
 

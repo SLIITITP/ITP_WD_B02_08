@@ -6,7 +6,7 @@ import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import PageTitle from "../../../components/PageTitle";
 import { useNavigate } from "react-router-dom";
 
-function Home() {
+function TeacherExamHome() {
   const [exams, setExams] = React.useState([]);
   const [searchGrade, setSearchGrade] = React.useState("");
   const [searchName, setSearchName] = React.useState("");
@@ -110,4 +110,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default TeacherExamHome;
