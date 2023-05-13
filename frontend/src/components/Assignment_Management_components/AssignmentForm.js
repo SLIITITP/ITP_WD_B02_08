@@ -140,6 +140,7 @@ function AssignmentForm({ onSubmit }) {
     }
   };
 
+  //form validations
   const validate = (assignment) => {
     const errors = {};
     if (!assignment.type) {

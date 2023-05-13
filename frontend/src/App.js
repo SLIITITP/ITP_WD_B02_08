@@ -231,6 +231,8 @@ import Footer from './home/Footer';
 
 
 
+
+
 function App() {
   const { loading } = useSelector((state) => state.loader);
   return (
@@ -441,12 +443,12 @@ function App() {
 
         <Route path="/s1" element={<AssignmentRoute><StudentAssignments /></AssignmentRoute>} />
 
-        <Route path="/sub" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
+        
 
         <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback /></AssignmentRoute>} />
 
 
-        <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
+        <Route exact path="/T/D" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
         <Route exact path="/charts" element={<AssignmentRoute><ChartJsExample /></AssignmentRoute>} />
 
 

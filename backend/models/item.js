@@ -9,6 +9,18 @@ const itemSchema = new mongoose.Schema({
         trim:true,
         maxlength:[20,"Name cannot be more than 20 characters"]
     },
+    grade:{
+        type:Number,
+        required: true,
+    },
+    assignmentType:{
+        type:String,
+        required:true
+    },
+    subject:{
+        type:String,
+        required:true,
+    },
 
     file:{
 

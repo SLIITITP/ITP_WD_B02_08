@@ -19,9 +19,4 @@ router.route('/getAll/:id').get(DownloadAssignments);
 
 
 
-
-
-
-
-
 module.exports = router;
