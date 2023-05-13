@@ -7,6 +7,9 @@ import { Link, useParams  } from 'react-router-dom';
 import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
 //import { useDispatch, useSelector } from "react-redux";
 //import { SetUser } from "../redux/usersSlice.js";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function NoteMaterialPage() {
 
@@ -14,8 +17,7 @@ export default function NoteMaterialPage() {
     const [note, setNote] = useState([]);
     const [searchSubject, setSearchSubject] = useState("");
     const [searchGrade, setSearchGrade] = useState("");
-    //const dispatch = useDispatch();
-    //const navigate = useNavigate();
+ 
     const [apiData, setApiData] = useState({});
     const [userGrade, setUserGrade] = useState('');
     const [apiData1, setApiData1] = useState({});
@@ -47,9 +49,20 @@ export default function NoteMaterialPage() {
     const handleSubjectChange = (event) => {
       setSearchSubject(event.target.value);
     };
-  
+
     const handleGradeChange = (event) => {
-      setSearchGrade(event.target.value);
+        const selectedGrade = event.target.value;
+        setSearchGrade(selectedGrade);
+      
+        if (parseInt(selectedGrade.slice(-1)) == userGrade) {
+          toast.success('You have successfully filtered notes for grade ',{
+            position: toast.POSITION.TOP_CENTER,
+          });
+        } else {
+          toast.warning('You are not eligible to access selected grade', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        } 
     };
   
      const filterPdf = (note) => {
@@ -163,6 +176,7 @@ export default function NoteMaterialPage() {
 
   return (
     <div>
+      <ToastContainer/>
             <div className="opacity-50 absolute">
       <img src={back} alt="logo" />
     </div>
