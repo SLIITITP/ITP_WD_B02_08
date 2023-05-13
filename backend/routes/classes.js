@@ -39,14 +39,11 @@ router.route("/allClasses").get((req,res)=>{
 //update classes
 router.route("/updateClass/:id").put(async(req,res)=>{
     let classId = req.params.id;
-    const{subject,teacher,hall,date,time,fees}= req.body;
+    const{hall,date,time}= req.body;
     const updateClass = {
-        subject,
-        teacher,
         hall,
         date,
         time,
-        fees
     }
 
     const update = await Class.findByIdAndUpdate(classId,updateClass)

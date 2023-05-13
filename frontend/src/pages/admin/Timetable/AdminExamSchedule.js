@@ -15,6 +15,11 @@ function AdminExamSchedule() {
    };
   //Grade buttons
   const gradeButtons = [
+    { grade: 1, label: 'Grade 1' },
+    { grade: 2, label: 'Grade 2' },
+    { grade: 3, label: 'Grade 3' },
+    { grade: 4, label: 'Grade 4' },
+    { grade: 5, label: 'Grade 5' },
      { grade: 6, label: 'Grade 6' },
      { grade: 7, label: 'Grade 7' },
      { grade: 8, label: 'Grade 8' },

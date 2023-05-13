@@ -40,7 +40,7 @@ function AdminTimetableSideNav({ children }) {
       onClick: () => navigate("/adminMainTimetable"),
     },
     {
-      title: "Add New Class",
+      title: "Class Schedule Allocation",
       paths: ["/addClass"],
       icon: <i className="ri-menu-add-line"></i>,
       onClick: () => navigate("/addClass"),

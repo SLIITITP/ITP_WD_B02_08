@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function AddClass() {
+
+ //set subject list getting from DB
+ const [subjectList, setSubjectList] = useState([]);
+ const [subjects, setSubjects] = useState([]);
+ const [subjectOptions, setSubjectOptions] = useState([]);
+ const [selectedOptionValue, setSelectedOptionValue] = useState('');
+ const [teacherName, setTeacherName] = useState([]);
+ //set selected subjects
+ const [selectedSubject, setSelectedSubject] = useState([]);
+
   const [formData, setFormData] = useState({
     grade: "",
     subject: "",
@@ -12,13 +22,29 @@ function AddClass() {
     fees: "",
   });
 
+//getting subject details and fetch
+useEffect(() => {
+  const fetchSubjects = async () => {
+    try {
+      const response = await axios.get('http://localhost:9090/api/subject/subjects');
+      setSubjects(response.data);
+      const subjectNames = response.data.map((subject) => `${subject.subjectName} - ${subject.subjectTeacherName}`);
+      setSubjectOptions(subjectNames);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchSubjects();
+}, []);
+
 //Add New Class
   function handleSubmit(event) {
     event.preventDefault();
 
+    // Check if all fields are filled out
     if (
       !formData.grade ||
-      !formData.subject ||
+      !formData.subject||
       !formData.teacher ||
       !formData.hall ||
       !formData.date ||
@@ -28,29 +54,13 @@ function AddClass() {
       alert("Please fill out all fields.");
       return;
     }
-
-    // Check if all fields are filled out
-  for (const field in formData) {
-    if (!formData[field]) {
-      alert("Please fill out all fields.");
-      return;
+    
+    // Validate the time format (HH:MM am/pm - HH:MM am/pm)
+    const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)\s-\s(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)$/;
+    if (!timeRegex.test(formData.time)) {
+      alert("Please enter a valid time (HH:MM am/pm - HH:MM am/pm).");
+    return;
     }
-  }
-
-  // Validate the date format (YYYY-MM-DD)
-  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-  if (!dateRegex.test(formData.date)) {
-    alert("Please enter a valid date (YYYY-MM-DD).");
-    return;
-  }
-
-  // Validate the time format (HH:MM am/pm - HH:MM am/pm)
-  const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)\s-\s(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)$/;
-  if (!timeRegex.test(formData.time)) {
-    alert("Please enter a valid time (HH:MM am/pm - HH:MM am/pm).");
-    return;
-  }
-
 
     axios
       .post("http://localhost:9090/class/addClass", formData)
@@ -62,19 +72,53 @@ function AddClass() {
       });
   }
 
-//Add New Class Form onchange (Avoid duplicating)
-function handleInputChange(event) {
-  const { name, value } = event.target;
-  setFormData({ ...formData, [name]: value });
-}
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    if (name === "subject") {
+      console.log(value);
+      const [subjectName, subjectTeacherName] = value.split(' - ');
+      const selectedSubject = subjects.find(subject => subject.subjectName === subjectName && subject.subjectTeacherName === subjectTeacherName);
+      console.log(selectedSubject);
+      setFormData({ ...formData, subject: value, teacher: subjectTeacherName , fees: selectedSubject.subjectAmount
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  }
+
 
 //Add New Class Form Input field (Avoid duplicating)
-  function renderInput(name, label, placeholder) {
-    return (
-      <div className="col-md-12 mb-2 d-flex items-center justify-center">
-        <label htmlFor={name} className="mr-2">
-          {label}:
-        </label>
+function renderInput(name, label, placeholder) {
+ 
+  const gradeOptions = ["1", "2","3", "4","5","6","7","8","9","10","11","Other"];
+  const hallOptions = ["H01", "H02", "H03", "H04", "H05", "H06", "H07", "Other"];
+  
+  const options = name === "grade" ? gradeOptions : name === "subject" ? subjectOptions : hallOptions;
+
+
+  return (
+    <div className="col-md-12 mb-2 d-flex items-center justify-center">
+      <label htmlFor={name} className="mr-2">
+        {label}:
+      </label>
+      {name === "grade"|| name === "subject" || name === "hall" ? (
+        <select
+          className="block w-full rounded-md border-0 py-1.5 pl-5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+          focus:ring-2 sm:text-sm sm:leading-6"
+          name={name}
+          onChange={handleInputChange}
+          value={formData[name]}
+        >
+          <option value="">--Select {label}--</option>
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option === "Other" ? option : option}
+            </option>
+          ))}
+        </select>
+      )
+ 
+      :(
         <input
           type="text"
           className="block w-full rounded-md border-0 py-1.5 pl-5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
@@ -84,23 +128,25 @@ function handleInputChange(event) {
           onChange={handleInputChange}
           value={formData[name]}
         />
-      </div>
-    );
-  }
+      )}
 
-  return (
+    </div>
+  );
+}
+
+return (
     <div className="container mt-5 ml-4">
       <div className="items-center justify-center">
         
-        <h3 className="mt-3 mb-4 font-medium text-2xl text-gray-900 dark:text-white">Add New Class</h3>
+        <h3 className="mt-3 mb-4 font-medium text-2xl text-gray-900 dark:text-white">Class Schedule Allocation</h3>
         <form className="col-5" onSubmit={handleSubmit}>
           {renderInput("grade", "Grade", "Enter Grade")}
           {renderInput("subject", "Subject", "Enter Subject")}
-          {renderInput("teacher", "Teacher", "Enter Teacher's Name")}
+          {renderInput("teacher", "Teacher", "Teacher's Name")}
           {renderInput("hall", "Hall", "Enter Hall No")}
           {renderInput("date", "Date", "Enter Date")}
           {renderInput("time", "Time", "Enter Time  (HH.MM am/pm - HH.MM am/pm)")}
-          {renderInput("fees", "Fees", "Enter Fees")}
+          {renderInput("fees", "Fees", "Fees")}
 
           <button
             type="submit"
