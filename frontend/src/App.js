@@ -34,6 +34,8 @@ import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable
 import AdminTimetableSideNav from './components/AdminTimetableSidenav';
 import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
 
+import EnrollmentCheckout from './components/PaymentComponents/EnrollmentCheckout';
+
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -278,7 +280,7 @@ function App() {
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
 
-
+        <Route path='/enrollmentCheckout' element={<EnrollmentCheckout/>} />
         {/* Attendance Management */}
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
