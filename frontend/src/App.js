@@ -202,7 +202,8 @@ import TprotectedRoute from './components/TprotectedRoute'
 import ExamMain from './pages/common/Home/ExamMain';
 import AdminReports from './pages/admin/AdminReports/index'
 import StudentHome from './pages/common/Home/StudentHome';
-import TeacherExamHome from './pages/common/Home/TecherExamHome';   
+import TeacherExamHome from './pages/common/Home/TecherExamHome'; 
+import MyExam from './pages/common/Home/MyExam';  
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
@@ -353,6 +354,10 @@ function App() {
         <Route path="/exammain" element={<ExamMain />} />
         <Route path='/exams' element={<ProtectedRoute>
           <StudentHome />
+        </ProtectedRoute>} />
+
+        <Route path='/exams/myexam' element={<ProtectedRoute>
+          <MyExam />
         </ProtectedRoute>} />
 
 

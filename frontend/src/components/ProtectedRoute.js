@@ -53,7 +53,7 @@ function ProtectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Home",
-      paths: ["/exams", "/user/write-exam"],
+      paths: ["/exams", "/user/write-exam","/exams/myexam"],
       icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/exams"),
     },
@@ -131,6 +131,12 @@ function ProtectedRoute({ children }) {
       if (
         activeRoute.includes("/user/write-exam") &&
         paths.includes("/user/write-exam")
+      ) {
+        return true;
+      }
+      if (
+        activeRoute.includes("/exams/myexam") &&
+        paths.includes("/exams")
       ) {
         return true;
       }
