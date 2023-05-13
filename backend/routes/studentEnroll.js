@@ -5,16 +5,17 @@ const User = require("../models/userModel");
 const Enrollment = require("../models/classEnroll");
 const authMiddleware = require("../middlewares/authMiddleware");
 
-// enroll student
+// enroll student for a class
 router.post("/enrollments", async (req, res) => {
   try {
-    const { studentID, classID } = req.body;
+    const { studentID, classID,admissionFeePaid } = req.body;
     const enrollment = await Enrollment.findOne({ studentID });
     if (enrollment) {
       if (enrollment.classID.includes(classID)) {
         return res.status(400).json({ message: "Already enrolled",success: false  });
       } else {
         enrollment.classID.push(classID);
+        enrollment.admissionFeePaid = admissionFeePaid;
         await enrollment.save();
          res.send({
          message: "enrolled successfully",
