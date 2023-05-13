@@ -4,8 +4,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import back from '../../assets/MaterialBg.jpg';
-
-
 const AllAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [searchGrade, setSearchGrade] = useState("");
