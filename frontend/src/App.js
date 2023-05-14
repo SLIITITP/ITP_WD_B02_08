@@ -231,9 +231,11 @@ import RecordMaterialTable from './components/RecordMaterialTable';
 import FeedbackTable from './components/FeedbackTable';
 */
 
-import Home from './home/home';
-import Navbar from './home/Navbar';
-import Footer from './home/Footer';
+import HomePage from './home/homePage'
+
+//import Home from './home/home';
+//import Navbar from './home/Navbar';
+//import Footer from './home/Footer';
 import RegisteredStudents from './components/ToImp/RegisteredStudents';
 import UpdateStudent from './components/ToImp/UpdateStudent';
 
@@ -246,7 +248,7 @@ function App() {
 
     <BrowserRouter>
 
-<Navbar/> 
+{/* <Navbar/>  */}
 
       {loading && <Loader />}
       <Routes>
@@ -535,7 +537,7 @@ function App() {
 
         <Route path='/qrgen' exact element={<QRScanner />}></Route>
 
-
+        <Route path='/h' element={<HomePage/>} />
 
 
 
