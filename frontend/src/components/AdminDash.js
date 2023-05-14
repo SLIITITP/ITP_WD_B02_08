@@ -68,6 +68,7 @@ function AdminDash() {
 
   return (
     <div>
+      <Toaster position='top-center' reverseOrder={false}></Toaster>
     <div id="myModal"  hidden={isHidden} class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
   <div class="max-w-lg mx-auto my-6">
     {/* <!--content--> */}
@@ -105,7 +106,6 @@ function AdminDash() {
   </div>
   <div class="fixed inset-0 z-40 bg-black opacity-25"></div>
 </div>
-
       <h1 style={{ textAlign: "center", fontSize: "40px", marginTop: "1%" }}>
         All Users
       </h1>
