@@ -35,6 +35,20 @@ export const getExamById = async (payload) => {
   }
 };
 
+// get exam by grade
+
+export const getExamByGrade = async (payload) => {
+  try {
+    const response = await axiosInstance.post(
+      "/api/exams/get-exam-by-grade",
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 // edit exam by id
 
 export const editExamById = async (payload) => {

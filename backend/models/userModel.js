@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         //required: true,
     },
-    name:{
+    username:{
         type: String,
         required: false,
     },
@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
         unique: true,
     },
     password:{
+        type: String,
+        required: false,
+    },
+    grade:{
         type: String,
         required: false,
     },

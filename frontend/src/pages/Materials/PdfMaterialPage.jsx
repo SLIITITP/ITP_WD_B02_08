@@ -5,6 +5,8 @@ import { getUserInfo } from '../../apicalls/users';
 import back from '../../assets/MaterialBg.jpg';
 import { Link, useParams } from 'react-router-dom';
 import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function PdfMaterialPage() {
@@ -43,8 +45,19 @@ export default function PdfMaterialPage() {
     };
   
     const handleGradeChange = (event) => {
-      setSearchGrade(event.target.value);
-    };
+      const selectedGrade = event.target.value;
+      setSearchGrade(selectedGrade);
+    
+      if (parseInt(selectedGrade.slice(-1)) == userGrade) {
+        toast.success('You have successfully filtered PDF for grade ',{
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.warning('You are not eligible to access selected grade', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } 
+  };
   
 
     const filterPdf = (pdf) => {
@@ -155,6 +168,7 @@ export default function PdfMaterialPage() {
     return (
       
       <div>
+        <ToastContainer/>
           <div className="opacity-50 absolute">
         <img src={back} alt="logo" />
       </div>

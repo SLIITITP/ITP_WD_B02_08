@@ -1,91 +1,56 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { getUserInfo } from "../../.././apicalls/users";
+//import { getUserInfo } from "../../.././apicalls/users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { SetUser } from "../../.././redux/usersSlice.js";
-import { message } from "antd";
+//import { SetUser } from "../../.././redux/usersSlice.js";
+//import { message } from "antd";
 import { updateUser, getProfile, deleteUser } from "../../.././apicalls/helper";
 function ClassEnrolling() {
   const location = useLocation();
 
   const { user } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [apiData, setApiData] = useState({});
   const [apiData1, setApiData1] = useState({});
-  const getUserData = async () => {
-    try {
-      const response = await getUserInfo();
-      if (response.success) {
-        dispatch(SetUser(response.data));
-      } else {
-        message.error(response.message);
-      }
-    } catch (error) {
-      message.error(error.message);
-    }
-  };
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      getUserData();
-    } else {
-      navigate("/login"); //if there is problem with token user navigate login
-    }
-  }, []);
+  // const getUserData = async () => {
+  //   try {
+  //     const response = await getUserInfo();
+  //     if (response.success) {
+  //       dispatch(SetUser(response.data));
+  //     } else {
+  //       message.error(response.message);
+  //     }
+  //   } catch (error) {
+  //     message.error(error.message);
+  //   }
+  // };
 
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     getUserData();
+  //   } else {
+  //     navigate("/login"); //if there is problem with token user navigate login
+  //   }
+  // }, []);
 
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
     console.log(usernameFrom);
     getProfile(usernameFrom).then((results) => {
-      let apiData = results.data;
       setApiData1(results.data);
       console.log(results.data._id);
-      setApiData({
-        firstName: apiData?.firstName || "",
-        lastName: apiData?.lastName || "",
-        email: apiData?.email || "",
-        mobile: apiData?.mobile || "",
-        address: apiData?.address || "",
-        profile: apiData?.profile || "",
-        id: apiData._id,
-        studentId: apiData?.studentId || "",
-        isAdmin: apiData?.isAdmin || "",
-      });
     });
   }, []);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const stdID = apiData1?._id;
-  console.log(apiData1)
+  const studentID = apiData1?.studentId;
+  const stdGrade = apiData1?.grade;
+  //console.log(apiData1?._id)
+
   const [classId] = useState(location.state.cId);
   const [grade] = useState(location.state.cGrade);
   const [subject] = useState(location.state.cSubject);
@@ -93,6 +58,17 @@ function ClassEnrolling() {
   const [date] = useState(location.state.cDate);
   const [time] = useState(location.state.cTime);
   const [fees] = useState(location.state.cFees);
+
+  
+  const checkPaymentStatus = async () => {
+    try {
+      const response = await axios.get(`http://localhost:9090/api/payment/status/${stdID}`);
+      return response.data.paid;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
 
   const handleEnroll = async (e) => {
 
@@ -103,6 +79,21 @@ function ClassEnrolling() {
     // };
     e.preventDefault();
    
+    // Check if the student has paid the admission fee
+    const hasPaid = await checkPaymentStatus();
+     if (!hasPaid) {
+      navigate('/enrollmentCheckout', {
+        state: {
+          stdID: stdID,
+          studentId: studentID,
+          stdGrade: stdGrade
+        }
+    
+    }); // Navigate to payment page
+     return;
+    }
+
+
      await axios.post(
         `http://localhost:9090/api/enroll/enrollments`,
          {

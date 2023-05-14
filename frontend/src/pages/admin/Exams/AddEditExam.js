@@ -9,11 +9,14 @@ import {
 import PageTitle from "../../../components/PageTitle";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { Tabs } from "antd";
 import AddEditQuestion from "./AddEditQuestion";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+
+import { SetUser } from "../../../redux/usersSlice";
+import { tgetUserInfo } from "../../../apicalls/teachers";
 
 const { TabPane } = Tabs;
 
@@ -25,6 +28,11 @@ function AddEditExam() {
     React.useState(false);
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const params = useParams();
+  const [admins, SetUser1] = React.useState(null)
+  console.log(admins);
+
+  
+ 
 
   /////validation useState
   const [name, setName] = useState("");
@@ -85,7 +93,30 @@ function AddEditExam() {
     }
   };
 
+  const getUserData = async () => {
+    try {
+      dispatch(ShowLoading());
+      const response = await tgetUserInfo();
+      dispatch(HideLoading());
+      if (response.success) {
+        SetUser1(response.data.email);
+        console.log(response.data.email)
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      //navigate("/login"); //if there is problem with token user navigate login
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
+
   useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getUserData();
+    } else {
+      //navigate("/login"); //if there is problem with token user navigate login
+    }
     if (params.id) {
       getExamData();
     }
@@ -160,6 +191,9 @@ function AddEditExam() {
       ),
     },
   ];
+
+  const email = admins
+  console.log(email)
 
   return (
     <div>
@@ -262,6 +296,11 @@ function AddEditExam() {
                 </Col>
                 <Col span={8}>
                   <Form.Item label="Enrollment Key" name="enrollmentkey">
+                    <input className="einput" type="text"  />
+                  </Form.Item>
+                </Col>
+                <Col span={8} id="hidden" className="hidden1">
+                  <Form.Item label="Teacher ID" name="userID">
                     <input className="einput" type="text" />
                   </Form.Item>
                 </Col>

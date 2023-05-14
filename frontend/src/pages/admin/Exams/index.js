@@ -1,6 +1,6 @@
 import { message, Table } from "antd";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteExamById, getAllExams } from "../../../apicalls/exams";
 import PageTitle from "../../../components/PageTitle";
@@ -10,6 +10,25 @@ function Exams() {
   const navigate = useNavigate();
   const [exams, setExams] = React.useState([]);
   const dispatch = useDispatch();
+  const {user} = useSelector((state) => state.users);
+  const userid = user.userID;
+
+  // const getExamsData = async () => {
+  //   try {
+  //     dispatch(ShowLoading());
+  //     const response = await getAllExams();
+  //     dispatch(HideLoading());
+  //     if (response.success) {
+  //       console.log("Data",response.data);
+  //       setExams(response.data);
+  //     } else {
+  //       message.error(response.message);
+  //     }
+  //   } catch (error) {
+  //     dispatch(HideLoading());
+  //     message.error(error.message);
+  //   }
+  // };
 
   const getExamsData = async () => {
     try {
@@ -17,7 +36,9 @@ function Exams() {
       const response = await getAllExams();
       dispatch(HideLoading());
       if (response.success) {
-        setExams(response.data);
+        const filteredExams = response.data.filter(exam => exam.userID == userid );
+        console.log("Data",filteredExams);
+        setExams(filteredExams);
       } else {
         message.error(response.message);
       }

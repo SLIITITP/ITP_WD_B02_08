@@ -1,16 +1,21 @@
-import { Col, message, Row } from "antd";
+import { Alert, Col, message, Row } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllExams } from "../../../apicalls/exams";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import PageTitle from "../../../components/PageTitle";
 import { useNavigate } from "react-router-dom";
+import { getAllReportsByUser } from "../../../apicalls/reports";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Home() {
+
+function MyExam() {
   const [exams, setExams] = React.useState([]);
   const [searchGrade, setSearchGrade] = React.useState("");
   const [searchName, setSearchName] = React.useState("");
   const navigate = useNavigate();
+  const [reportsData, setReportsData] = React.useState([]);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
 
@@ -19,7 +24,15 @@ function Home() {
       dispatch(ShowLoading());
       const response = await getAllExams();
       if (response.success) {
-        setExams(response.data);
+        dispatch(ShowLoading());
+        const filteredExams = response.data.filter(
+          (exam) => exam.grade == user.grade
+        );
+        if (filteredExams.length > 0) {
+          dispatch(HideLoading());
+        }
+        dispatch(HideLoading());
+        setExams(filteredExams);
       } else {
         message.error(response.message);
       }
@@ -30,8 +43,62 @@ function Home() {
     }
   };
 
+  const getData = async () => {
+    try {
+      dispatch(ShowLoading());
+      const response = await getAllReportsByUser();
+      if (response.success) {
+        setReportsData(response.data);
+      } else {
+        message.error(response.message);
+      }
+      dispatch(HideLoading());
+    } catch (error) {
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
+  
+
+  const handleStartExam = (examId,userEmail) => {
+    let foundExam = false;
+    let foundUser = false;
+
+    console.log(examId);
+    console.log(userEmail);
+  
+    for (const item of reportsData) {
+      const { exam, user } = item;
+  
+      if (exam._id == examId) {
+        foundExam = true;
+        console.log("found exam");
+  
+        if (user.email == userEmail) {
+          foundUser = true;
+          console.log("found user");
+          break;
+        }
+      }
+    }
+  
+    if (foundExam == true && foundUser == true) {
+      alert("You have already completed this exam.");
+
+    } else {
+      console.log(`Starting exam with ID ${examId}`);
+      navigate(`/user/write-exam/${examId}`);
+    }
+  };
+  
+  
+
   useEffect(() => {
     getExams();
+  }, []);
+
+  useEffect(() => {
+    getData();
   }, []);
 
   const handleSearch = () => {
@@ -62,7 +129,7 @@ function Home() {
     user && (
       <div>
         <PageTitle
-          title={`Hi ${user.name}, Welcome to Thilina Institute Quiz Portal`}
+          title={`Hi ${user.username}, Welcome to Thilina Institute Quiz Portal`}
         />
         <div className="divider"></div>
 
@@ -95,9 +162,15 @@ function Home() {
                 <h1 className="text-md">Passing Marks : {exam.passingMarks}</h1>
                 <h1 className="text-md">Grade : {exam.grade}</h1>
                 <h1 className="text-md">Duration : {exam.duration} Minute</h1>
-                <button
+                {/* <button
                   className="primary-outlined-btn"
                   onClick={() => navigate(`/user/write-exam/${exam._id}`)}
+                >
+                  Start Exam
+                </button> */}
+                <button
+                  className="primary-outlined-btn"
+                  onClick={() => handleStartExam(exam._id,user.email)}
                 >
                   Start Exam
                 </button>
@@ -110,4 +183,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default MyExam;

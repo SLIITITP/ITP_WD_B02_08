@@ -45,7 +45,7 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/exammain");
       },
     },
   ];
@@ -53,7 +53,7 @@ function ProtectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Home",
-      paths: ["/exams", "/user/write-exam"],
+      paths: ["/exams", "/user/write-exam","/exams/myexam"],
       icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/exams"),
     },
@@ -81,7 +81,7 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/exammain");
       },
     },
   ];
@@ -134,6 +134,12 @@ function ProtectedRoute({ children }) {
       ) {
         return true;
       }
+      if (
+        activeRoute.includes("/exams/myexam") &&
+        paths.includes("/exams")
+      ) {
+        return true;
+      }
     }
     return false;
   };
@@ -177,7 +183,7 @@ function ProtectedRoute({ children }) {
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{user?.userID}</h1>
+                <h1 className="text-md text-white underline">{user?.username}</h1>
               </div>
               <span>Role : {user?.isAdmin ? "Teacher" : "Student"}</span>
             </div>

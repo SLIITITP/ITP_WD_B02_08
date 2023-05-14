@@ -17,7 +17,7 @@ function Login() {
       if (response.success) {
         message.success(response.message);
         localStorage.setItem("token", response.data);
-        localStorage.setItem("userName" , values.name );
+        localStorage.setItem("userName" , values.username );
         window.location.href = "/texams";
       } else {
         message.error(response.message);

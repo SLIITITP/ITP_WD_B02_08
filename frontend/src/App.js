@@ -34,6 +34,8 @@ import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable
 import AdminTimetableSideNav from './components/AdminTimetableSidenav';
 import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
 
+import EnrollmentCheckout from './components/PaymentComponents/EnrollmentCheckout';
+
 import AddPayment from './components/PaymentComponents/AddPayment'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -202,6 +204,8 @@ import TprotectedRoute from './components/TprotectedRoute'
 import ExamMain from './pages/common/Home/ExamMain';
 import AdminReports from './pages/admin/AdminReports/index'
 import StudentHome from './pages/common/Home/StudentHome';
+import TeacherExamHome from './pages/common/Home/TecherExamHome'; 
+import MyExam from './pages/common/Home/MyExam';  
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
@@ -278,7 +282,7 @@ function App() {
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
 
-
+        <Route path='/enrollmentCheckout' element={<EnrollmentCheckout/>} />
         {/* Attendance Management */}
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
@@ -354,6 +358,10 @@ function App() {
           <StudentHome />
         </ProtectedRoute>} />
 
+        <Route path='/exams/myexam' element={<ProtectedRoute>
+          <MyExam />
+        </ProtectedRoute>} />
+
 
 
 
@@ -371,7 +379,7 @@ function App() {
 
         {/* Admin Routes for exams management */}
         <Route path='/texams' element={<TprotectedRoute>
-          <Home />
+          <TeacherExamHome />
         </TprotectedRoute>} />
 
 

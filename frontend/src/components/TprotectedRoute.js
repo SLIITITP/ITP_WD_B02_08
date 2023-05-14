@@ -81,7 +81,7 @@ function TprotectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/exammain");
       },
     },
   ];
@@ -177,7 +177,7 @@ function TprotectedRoute({ children }) {
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
-                <h1 className="text-md text-white underline">{user?.name}</h1>
+                <h1 className="text-md text-white underline">{user?.userID}</h1>
               </div>
               <span className="text-md text-white">Role : {user?.isAdmin ? "Admin" : "User"}</span>
             </div>
