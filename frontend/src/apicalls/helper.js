@@ -62,6 +62,31 @@ export async function registerUser1(credentials){
     }
 }
 
+export async function registrationStatus(credintials,status) {
+    let {username,email}= credintials;
+    let text='';
+    console.log(username,email);
+    // let {
+    //     data: { email },
+    //   } = await getUser({ username });
+      if(status==1){
+        text  = `Admin approved you  Blallllll`;
+      }else{
+        text = `Your Password Recovery OTP is  Verify and recover your password.`;
+      }
+      try{
+        let {mail} = await axios.post("/api/registerMail", {
+            username,
+            userEmail: email,
+            text,
+            subject: "Approval of Registration",
+          });
+          return Promise.resolve({ msg:"Successfully Send the mail" });
+      }catch (error) {
+        return Promise.reject({ error : error})
+    }
+}
+
 
 /** login function */
 export async function verifyPassword({ username, password }){

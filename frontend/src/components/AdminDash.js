@@ -5,12 +5,14 @@ import generatePDF from "../apicalls/Reportgenerator";
 import style from "../stylesheets/AdminDash.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
+import {registrationStatus} from '../apicalls/helper'
 
 function AdminDash() {
   const [Userdata, setUserData] = useState([]);
   const [search, setSearch] = useState("");
   const [isHidden,setIsHidden] = useState(true)
   const [studentId,setStudentId]=useState();
+  const [currentStudent,setCurrentStudent]=useState({});
   const columnsPDF = [
     { Username: "Username", Email: "Email", studentId: "StudentID" },
   ];
@@ -31,6 +33,7 @@ function AdminDash() {
     axios
       .put(`/api/approveUser/${studentId}/${status}`)
       .then((res) => {
+        let pd ={}
         // Update the Userdata state to reflect the change
         setUserData((prevState) => {
           const updatedData = [...prevState];
@@ -39,6 +42,12 @@ function AdminDash() {
           console.log(updatedData[index]);
           return updatedData;
         });
+        let currentS = Userdata.filter((user) => user._id === studentId);
+        console.log(currentS);
+        registrationStatus(currentS[0],status)
+        .then((res)=>{
+          console.log(res);
+        })
       })
       .catch((err) => {
         console.log(err.response.data);
