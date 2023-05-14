@@ -140,6 +140,7 @@ function AssignmentForm({ onSubmit }) {
     }
   };
 
+  //form validations
   const validate = (assignment) => {
     const errors = {};
     if (!assignment.type) {
@@ -162,59 +163,63 @@ function AssignmentForm({ onSubmit }) {
 
   return (
 
-   
+
     <form onSubmit={handleSubmit} className="container">
-  <div className="form-group">
-    <label>Assignment Type</label>
-    <select name="type" id="type" className="form-control" value={assignment.type} onChange={handleInputChange} required>
-      <option value="">Select Assignment Type</option>
-      <option value="Home Work">Home Work</option>
-      <option value="Group Work">Group Work</option>
-      <option value="Subject Related">Subject Related</option>
-      <option value="Extra Work">Extra Work</option>
-    </select>
-    {errors.type && <div className="text-danger">{errors.type}</div>}
-  </div>
-  <div className="form-group">
-    <label>Grade</label>
-    <select name="grade" id="grade" className="form-control" value={assignment.grade} onChange={handleInputChange} required>
-      <option value="">Select grade</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-    </select>
-    {errors.grade && <div className="text-danger">{errors.grade}</div>}
-  </div>
-  <div className="form-group">
-    <label htmlFor="subject">Subject:</label>
-    <input type="text" className="form-control" id="subject" name="subject" value={assignment.subject} onChange={handleInputChange} />
-    {errors.subject && <div className="text-danger">{errors.subject}</div>}
-  </div>
+      <div className="form-group">
+        <label>Assignment Type</label>
+        <select name="type" id="type" className="form-control" value={assignment.type} onChange={handleInputChange} required>
+          <option value="">Select Assignment Type</option>
+          <option value="Home Work">Home Work</option>
+          <option value="Group Work">Group Work</option>
+          <option value="Subject Related">Subject Related</option>
+          <option value="Extra Work">Extra Work</option>
+        </select>
+        {errors.type && <div className="text-danger">{errors.type}</div>}
+      </div>
+      <div className="form-group">
+        <label>Grade</label>
+        <select name="grade" id="grade" className="form-control" value={assignment.grade} onChange={handleInputChange} required>
+          <option value="">Select grade</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+        </select>
+        {errors.grade && <div className="text-danger">{errors.grade}</div>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="subject">Subject:</label>
+        <input type="text" className="form-control" id="subject" name="subject" value={assignment.subject} onChange={handleInputChange} />
+        {errors.subject && <div className="text-danger">{errors.subject}</div>}
+      </div>
 
-  <div className="form-group">
-    <label htmlFor="guidelines">Guidelines:</label>
-    <textarea className="form-control" id="guidelines" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
-    {errors.guidelines && <div className="text-danger">{errors.guidelines}</div>}
-  </div>
+      <div className="form-group">
+        <label htmlFor="guidelines">Guidelines:</label>
+        <textarea className="form-control" id="guidelines" name="guidelines" value={assignment.guidelines} onChange={handleInputChange} />
+        {errors.guidelines && <div className="text-danger">{errors.guidelines}</div>}
+      </div>
 
-  <div className="form-group">
-    <label htmlFor="deadline">Deadline:</label>
-    <input type="date" className="form-control" id="deadline" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
-    {errors.deadline && <div className="text-danger">{errors.deadline}</div>}
-  </div>
+      <div className="form-group">
+        <label htmlFor="deadline">Deadline:</label>
+        <input type="date" className="form-control" id="deadline" name="deadline" value={assignment.deadline} onChange={handleInputChange} />
+        {errors.deadline && <div className="text-danger">{errors.deadline}</div>}
+      </div>
 
-  <div className="form-group">
-    <label htmlFor="file">File</label>
-    <input type="file" className="form-control-file" id="file" name="file" onChange={handleFileChange} />
-  </div>
+      <div className="form-group">
+        
+        <input type="file" onChange={handleFileChange}  style={{ marginTop: '10px' }}className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" />
+      </div>
 
-  <button  className="btn btn-primary">
-                     Create
-                    </button>
-</form>
+
+
+
+
+      <button className="btn btn-primary" style={{ marginTop: '10px' }}>
+        Create
+      </button>
+    </form>
 
   );
 }

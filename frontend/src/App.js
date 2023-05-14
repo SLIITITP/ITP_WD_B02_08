@@ -80,7 +80,7 @@ import FileUploader from './components/Assignment_Management_components/FileUplo
 
 
 
-import DownloadAllFilesButton from './components/Assignment_Management_components/DownloadAllFilesButton';
+
 
 import EmailSend from './components/Assignment_Management_components/EmailSend';
 
@@ -238,6 +238,8 @@ import HomePage from './home/homePage'
 //import Footer from './home/Footer';
 import RegisteredStudents from './components/ToImp/RegisteredStudents';
 import UpdateStudent from './components/ToImp/UpdateStudent';
+
+
 
 
 
@@ -458,12 +460,12 @@ function App() {
 
         <Route path="/s1" element={<AssignmentRoute><StudentAssignments /></AssignmentRoute>} />
 
-        <Route path="/sub" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
+        
 
         <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback /></AssignmentRoute>} />
 
 
-        <Route exact path="/T/D" element={<AssignmentRoute><TeacherD /></AssignmentRoute>} />
+        <Route exact path="/T/D" element={<AssignmentRoute><FileUploader /></AssignmentRoute>} />
         <Route exact path="/charts" element={<AssignmentRoute><ChartJsExample /></AssignmentRoute>} />
 
 
@@ -471,7 +473,7 @@ function App() {
 
 
 
-        <Route path="/all" exact element={<DownloadAllFilesButton />} />
+      
 
         <Route path="/in/get" exact element={<getSubjects />} />
 

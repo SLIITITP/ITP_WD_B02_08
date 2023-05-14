@@ -40,8 +40,11 @@ const getItems = async (req, res) => {
 
 const addItem = asyncWrapper(async (req, res) => {
   const { name } = req.body;
+  const {grade} = req.body;
+  const {assignmentType} = req.body;
+  const {subject} = req.body;
   const file = req.file.path;
-  const item = await Item.create({ name, file });
+  const item = await Item.create({ name,grade,assignmentType,subject, file });
   res.status(201).json({ item });
 });
 

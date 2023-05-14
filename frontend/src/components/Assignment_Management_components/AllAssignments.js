@@ -4,8 +4,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import back from '../../assets/MaterialBg.jpg';
-
-
 const AllAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [searchGrade, setSearchGrade] = useState("");
@@ -14,14 +12,17 @@ const AllAssignments = () => {
   useEffect(() => {
     const fetchAssignments = async () => {
       const response = await fetch("http://localhost:9090/as/getAssignments");
+      
       const data = await response.json();
       setAssignments(data.assignments);
+      console.log(data.assignments);
     };
     fetchAssignments();
   }, []);
 
   const downloadFile = async (id, filename) => {
     const response = await fetch(`http://localhost:9090/as/DownloadAss/${id}`);
+  
     const blob = await response.blob();
     const url = window.URL.createObjectURL(new Blob([blob]));
     const link = document.createElement("a");

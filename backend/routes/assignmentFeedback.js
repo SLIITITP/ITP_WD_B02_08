@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Feedback = require('../models/assignmentFeedback');
 const feedback = require('../models/feedback');
+const Mark = require('../models/markModel');
 
 
 //create
@@ -50,7 +51,48 @@ router.route('/getFeedback').get((req, res) => {
   });
   
   
+// Create a new mark
+router.post('/addMark', async (req, res) => {
+  try {
+    const mark = new Mark(req.body);
+    const savedMark = await mark.save();
+    res.status(201).json(savedMark);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
-  
+// Get all marks
+router.get('/getMark', async (req, res) => {
+  try {
+    const marks = await Mark.find();
+    res.json(marks);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;
