@@ -9,6 +9,10 @@ import convertToBase64 from "../validations/convert";
 import { registerUser1 } from "../apicalls/helper";
 import { registerUser } from "../apicalls/users";
 import { message } from "antd";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+
 
 
 import alanBtn from "@alan-ai/alan-sdk-web";
@@ -17,7 +21,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [file, setFile] = useState();
-  const [showPassword,setShowPassword]=useState(false);
+  const [showPassword,setShowPassword]=useState(true);
   // const ALAN_KEY = `9fc60efc76173484ba7004ef5b5618262e956eca572e1d8b807a3e2338fdd0dc/stage`
   // const ALAN_KEY = '046117989bcbdb7e620544158647473c2e956eca572e1d8b807a3e2338fdd0dc/stage'
   // const [alanInstance, setAlanInstance] = useState(null);
@@ -188,21 +192,21 @@ export default function Register() {
                 <input
                   {...formik.getFieldProps("username")}
                   className={
-                    formik.errors.username
+                    (formik.errors.username && formik.touched.username)
                       ? styles.textStyleError
                       : styles.textbox
                   }
-                  error={formik.errors.username}
+                  error={(formik.errors.username && formik.touched.username)}
                   type="text"
                   placeholder="Username*"
                   id="name"
                 />
-                {formik.errors.username && formik.touched.username && (
+                {(formik.errors.username && formik.touched.username) && (
                   <div className="text-red-500 p-0">
                     {formik.errors.username}
                   </div>
                 )}
-                <div className="flex justify-center" style={{ width: "75%" }}>
+                <div className="flex justify-start" style={{position:'relative',left:"12px", width: "80%" }}>
                   <input
                     {...formik.getFieldProps("password")}
                     className={
@@ -215,11 +219,11 @@ export default function Register() {
                     type={showPassword ? "Password" : "text"}
                     placeholder="Password*"
                   />
-                  <button type="button" onClick={() => {showButton()}}>
+                  <button style={{background:"white",position:"relative",left:"-50px" ,top:"20px",height:"25px" }} type="button" onClick={() => {showButton()}}>
                   {showPassword ? (
-                      "Show"
+                      <FontAwesomeIcon icon={faEyeSlash} className="mr-2" />
                     ) : (
-                      "Hidden"
+                      <FontAwesomeIcon icon={faEye} className="mr-2" />
                     )}
                   </button>
                 </div>
