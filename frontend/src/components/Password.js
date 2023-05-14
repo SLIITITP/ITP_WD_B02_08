@@ -21,6 +21,7 @@ export default function Password() {
 const [apiData,setApiData] = useState({})
 const [file , setFile] = useState();
 const {username}=useAuthStore(state => state.auth)
+const [error,setErrorLogin] = useState('');
 // const [showPassword, setShowPassword] = useState(false);
 
 // const handleTogglePassword = () => {
@@ -55,31 +56,40 @@ useEffect(()=>{
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values =>{                  //validate only after submitting button
-                    
+          toast.loading("Loading......")          
           let loginPromise = verifyPassword({username , password: values.password})
           const response = await loginUser(values);
           if (response.success) {
            // message.success(response.message);
             localStorage.setItem("token1", response.data);
             //localStorage.setItem("userName" , values.name );
-            window.location.href = "/profile";
+            // window.location.href = "/profile";
           } else {
            // message.error(response.message);
           }
           console.log(loginPromise)
+          // toast.promise(loginPromise ,{
+          //   loading: 'Cheking...',
+          //   success: <b>Login Successfully...!</b>,
+          //   error:<b>{error}</b>
+          // });
           
-          toast.promise(loginPromise ,{
-            loading: 'Cheking...',
-            success: <b>Login Successfully...!</b>,
-            error: <b>Password Not Match!</b>
-          });
           
           loginPromise.then(res => {
+            toast.dismiss() 
+            console.log(res);
              let {token} = res.data;
              localStorage.setItem('token',token)
+             toast.success("Login Successfully...!")      
              navigate('/profile')
           })
-
+          .catch(error => {
+            toast.dismiss() 
+            console.log(error.error.response.data);
+            setErrorLogin(error.error.response.data.error)
+            toast.error(error.error.response.data.error)
+          });
+          
         }            
     })
 

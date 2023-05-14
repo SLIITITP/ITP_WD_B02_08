@@ -71,7 +71,7 @@ export async function verifyPassword({ username, password }){
             return Promise.resolve({ data });
         }
     } catch (error) {
-        return Promise.reject({ error : "Password doesn't Match...!"})
+        return Promise.reject({ error : error})
     }
 }
 

@@ -18,8 +18,8 @@ export default function Register() {
 
     const [file , setFile] = useState()
     // const ALAN_KEY = `9fc60efc76173484ba7004ef5b5618262e956eca572e1d8b807a3e2338fdd0dc/stage`
-    const ALAN_KEY = '046117989bcbdb7e620544158647473c2e956eca572e1d8b807a3e2338fdd0dc/stage'
-    const [alanInstance, setAlanInstance] = useState(null);
+    // const ALAN_KEY = '046117989bcbdb7e620544158647473c2e956eca572e1d8b807a3e2338fdd0dc/stage'
+    // const [alanInstance, setAlanInstance] = useState(null);
    
     const formik = useFormik({
         initialValues : {
@@ -46,37 +46,37 @@ export default function Register() {
         }            
     })
 
-    useEffect(() => {
-     console.log("text");
-      alanBtn({
-        key: ALAN_KEY,
-        onCommand: (commandData) => {
-          console.log(commandData)
-          if (commandData.command === 'email') {
-            formik.setFieldValue("email",commandData.data);
-            // alanInstance.playText(`Setting email to ${commandData.data}`);
+    // useEffect(() => {
+    //  console.log("text");
+    //   alanBtn({
+    //     key: ALAN_KEY,
+    //     onCommand: (commandData) => {
+    //       console.log(commandData)
+    //       if (commandData.command === 'email') {
+    //         formik.setFieldValue("email",commandData.data);
+    //         // alanInstance.playText(`Setting email to ${commandData.data}`);
             
-          } else if (commandData.command === 'username') {
-            formik.setFieldValue('username', commandData.data);
-          }
-        },
-      });
-      // setAlanInstance(alan);
-      // formik.setFieldValue("email", "Damish");
+    //       } else if (commandData.command === 'username') {
+    //         formik.setFieldValue('username', commandData.data);
+    //       }
+    //     },
+    //   });
+    //   // setAlanInstance(alan);
+    //   // formik.setFieldValue("email", "Damish");
       
-    }, [alanBtn]);
+    // }, [alanBtn]);
 
-    const handleEmailChange = (e, alanInstance) => {
-      console.log(e);
-      formik.handleChange(e);
-       alanInstance.playText(`Setting email to ${e.target.value}`);
+    // const handleEmailChange = (e, alanInstance) => {
+    //   console.log(e);
+    //   formik.handleChange(e);
+    //    alanInstance.playText(`Setting email to ${e.target.value}`);
       
-    };
+    // };
     
-    const handleUsernameChange = (e, alanInstance) => {
-      formik.handleChange(e);
-      alanInstance.playText(`Setting username to ${e.target.value}`);
-    };
+    // const handleUsernameChange = (e, alanInstance) => {
+    //   formik.handleChange(e);
+    //   alanInstance.playText(`Setting username to ${e.target.value}`);
+    // };
 
   //cretae file upload handler
   const onUpload = async e =>{
@@ -125,8 +125,8 @@ export default function Register() {
           
             </div>
             <div className="textbox flex flex-col items-center gap-6">
-            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*' id='email' onChange={(e) => handleEmailChange(e, alanInstance)}/>
-            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' id='name' onChange={(e) => handleUsernameChange(e, alanInstance)}/>
+            <input {...formik.getFieldProps('email')} className={styles.textbox} type="email" placeholder='Email*' id='email' />
+            <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' id='name' />
             <input {...formik.getFieldProps('password')} className={styles.textbox} type="password" placeholder='Password*'/>
             <select {...formik.getFieldProps('grade')} className={styles.textbox} >
               <option value="" >Select Grade</option>

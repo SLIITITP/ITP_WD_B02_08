@@ -4,8 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const otpenerator = require("otp-generator");
 const StudenIds = require("../models/StudentId");
-const testStudent = require("../models/TestStudent")
-
+const testStudent = require("../models/TestStudent");
 
 // // exports . loginForm = ( req, res ) => {
 // //     res. render ( 'login' , { title : 'Login' });
@@ -95,9 +94,6 @@ async function setUpIds(req, res) {
   } catch (error) {}
 }
 
-
-
-
 /*get all user */
 async function getAllUsers(req, res) {
   try {
@@ -110,6 +106,47 @@ async function getAllUsers(req, res) {
       return rest;
     });
     return res.status(200).json(userList);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: "Server Error" });
+  }
+}
+
+// async function approveUser(req, res) {
+//   try {
+//     const id = req.query.studentId;
+// console.log(id)
+//     if (!id) {
+//       return res.status(401).json({ error: "User Not Found" });
+//     }
+
+//     const body = { isApproved: true };
+
+//     // update the data
+//     await UserModel.updateOne({ _id: id }, body);
+
+//     return res.status(200).json({ msg: "User Approved" });
+//   } catch (error) {
+//     console.error(error.message);
+//     return res.status(500).json({ error: "Server Error" });
+//   }
+// }
+
+async function approveUser(req, res) {
+  try {
+    console.log(req.params);
+    const id = req.params.id;
+    const status = parseInt(req.params.status)
+    if (!id) {
+      return res.status(401).json({ error: "User Not Found" });
+    }
+
+    const body = { isApproved: status };
+
+    // update the data
+    await UserModel.updateOne({ _id: id }, body);
+    //console.log("User Approved",id);
+    return res.status(200).json({ msg: "User Approved" });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ error: "Server Error" });
@@ -133,7 +170,7 @@ async function verifyUser(req, res, next) {
 async function registers(req, res) {
   try {
     console.log(req.body);
-    const { username, password, profile, email ,grade } = req.body;
+    const { username, password, profile, email, grade } = req.body;
     //check the existing user
     const existUsername = new Promise((resolve, reject) => {
       console.log(resolve);
@@ -174,53 +211,55 @@ async function registers(req, res) {
                   const parts = id.split("_");
                   number = parseInt(parts[1]);
                   ++number;
-                  if(number<9){
-                    id = "STU_000"+number.toString()
-                  }else if(number<99 && number>=10){
-                    id = "STU_00"+number.toString()
-                  }else if(number<999 && number>100){
-                    id = "STU_0"+number.toString()
-                  }else{
-                    id = "STU"+number.toString()
+                  if (number < 9) {
+                    id = "STU_000" + number.toString();
+                  } else if (number < 99 && number >= 10) {
+                    id = "STU_00" + number.toString();
+                  } else if (number < 999 && number > 100) {
+                    id = "STU_0" + number.toString();
+                  } else {
+                    id = "STU" + number.toString();
                   }
-                  body ={
-                    studentId:id
-                  }
-                  StudenIds.updateOne({ _id: "643d69d5f591fe749708b625" }, body).then(
-                    (result)=>{
+                  body = {
+                    studentId: id,
+                  };
+                  StudenIds.updateOne(
+                    { _id: "643d69d5f591fe749708b625" },
+                    body
+                  ).then(
+                    (result) => {
                       const user = new UserModel({
-                        studentId:id||"0001",  
+                        studentId: id || "0001",
                         username,
                         password: hashedPassword,
                         profile: profile || "",
                         email,
-                        grade
+                        grade,
                       });
-                      console.log(user)
+                      console.log(user);
                       // return save result as a response
                       user
                         .save()
-                        .then((result) =>
-                          {
-                            console.log(result)
-                            return res.status(201).send({ msg: "User Register Successfully" })
-                          }
-                        )
+                        .then((result) => {
+                          console.log(result);
+                          return res
+                            .status(201)
+                            .send({ msg: "User Register Successfully" });
+                        })
                         .catch((error) => {
-                          console.log(error)
-                          res.status(500).send({ error })
+                          console.log(error);
+                          res.status(500).send({ error });
                         });
                     },
-                    (err)=>{
-                      console.log(err)
+                    (err) => {
+                      console.log(err);
                     }
-                  )
+                  );
                 },
                 (err) => {
                   if (err) reject(new Error(err));
                 }
               );
-              
             })
             .catch((error) => {
               return res.status(500).send({
@@ -253,6 +292,7 @@ module.exports = {
   updateTeacher,
   tearegister,
   setUpIds,
+  approveUser,
 };
 
 /** POST: http://localhost:8080/api/login
@@ -268,6 +308,7 @@ async function login(req, res) {
   try {
     UserModel.findOne({ username })
       .then((user) => {
+        console.log(user.isApproved);
         bcrypt
           .compare(password, user.password)
           .then((passwordCheck) => {
@@ -283,7 +324,13 @@ async function login(req, res) {
               "secret",
               { expiresIn: "24h" }
             );
-
+            console.log(user.isApproved);
+            if (user.isApproved == 0) {
+              throw new Error('Not Approved yet'); 
+            }else if (user.isApproved == 2) {
+              throw new Error('Please contact Admin'); 
+            }
+            
             return res.status(200).send({
               msg: "Login Successful...!",
               username: user.username,
@@ -291,7 +338,8 @@ async function login(req, res) {
             });
           })
           .catch((error) => {
-            return res.status(400).send({ error: "Password does not Match" });
+            console.log(error.message);
+            return res.status(400).send({ error: error.message });
           });
       })
       .catch((error) => {
