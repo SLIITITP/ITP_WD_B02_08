@@ -4,15 +4,11 @@ import { useEffect, useState } from 'react';
 export default function AllFilesList() {
   const [files, setFiles] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
-  const [showMarkForm, setShowMarkForm] = useState(false);
-  const [selectedFileId, setSelectedFileId] = useState(null);
-  const [marks, setMarks] = useState('');
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
         const response = await axios.get('http://localhost:9090/items/getItems');
-        console.log(response.data.items);
         const filesWithDownloadedState = response.data.items.map(file => ({
           ...file,
           downloaded: localStorage.getItem(file._id) === 'true'
@@ -50,35 +46,22 @@ export default function AllFilesList() {
     }
   };
 
-  const handleAssignmentButton = (fileId) => {
-    setSelectedFileId(fileId);
-    setShowMarkForm(true);
-
-
-    // Fetch the relevant assignment ID based on the fileId
-  const selectedFile = files.find(file => file._id === fileId);
-  const assignmentId = selectedFile.assignmentId;
-
-  // Set the assignment ID in the form field
-  const idInput = document.getElementById('IdInput');
-  if (idInput) {
-    idInput.value = assignmentId;
-  }
-  };
-
-
-    
-  
-
-  const handleMarkSubmit = (event) => {
-    event.preventDefault();
-    // Perform mark submission logic
-    console.log(`Marks submitted for file ID: ${selectedFileId}, Marks: ${marks}`);
-
-    // Reset form state
-    setShowMarkForm(false);
-    setSelectedFileId(null);
-    setMarks('');
+  const handleMarkAssignment = (fileId, studentName, marks) => {
+    // Make an API request to store the marks in the database
+    // Adjust the endpoint URL and payload structure based on your backend API
+    axios.post('http://localhost:9090/feed/addMark', {
+      fileId,
+      studentName,
+      marks
+    })
+      .then(response => {
+        console.log('Marks stored successfully:', response.data);
+        // You can handle success cases as per your requirement
+      })
+      .catch(error => {
+        console.log('Error storing marks:', error);
+        // Handle the error case appropriately
+      });
   };
 
   return (
@@ -124,8 +107,9 @@ export default function AllFilesList() {
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">{file.name}</h5>
-                <p className="card-text">{file.description}</p>
                
+                <p className="card-text">{file.description}</p>
+
                 <a
                   href={`http://localhost:9090/items/getAll/${file._id}`}
                   className={`btn btn-primary${file.downloaded ? ' btn-success' : ''}`}
@@ -135,41 +119,35 @@ export default function AllFilesList() {
                   {file.downloaded ? 'Downloaded' : 'Download'}
                 </a>
 
+                <div className="mt-3">
+                  <label htmlFor={`marks_${file._id}`}>Marks:</label>
+                  <input
+                    type="number"
+                    id={`marks_${file._id}`}
+                    className="form-control"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+
                 <button
-                  className="btn btn-secondary ml-2"
-                  onClick={() => handleAssignmentButton(file._id)}
+                  className="btn btn-primary mt-2"
+                  onClick={() => {
+                    const marksInput = document.getElementById(`marks_${file._id}`);
+                    const marks = parseFloat(marksInput.value);
+                    if (!isNaN(marks)) {
+                      handleMarkAssignment(file._id, file.name,marks);
+                      marksInput.value = '';
+                    }
+                  }}
                 >
-                  Mark
+                  Submit Marks
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      {showMarkForm && (
-        <div className="row mt-4">
-          <div className="col-md-6 offset-md-3">
-            <form onSubmit={handleMarkSubmit}>
-              <div className="form-group">
-                <label htmlFor="IdInput"> Assignment Id</label>
-                <input type = "text"></input>
-                <label htmlFor="marksInput">Enter Marks:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="marksInput"
-                  value={marks}
-                  onChange={(e) => setMarks(e.target.value)}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Submit Marks
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

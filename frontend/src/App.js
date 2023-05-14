@@ -78,7 +78,7 @@ import FileUploader from './components/Assignment_Management_components/FileUplo
 
 
 
-import DownloadAllFilesButton from './components/Assignment_Management_components/DownloadAllFilesButton';
+
 
 import EmailSend from './components/Assignment_Management_components/EmailSend';
 
@@ -456,7 +456,7 @@ function App() {
 
 
 
-        <Route path="/all" exact element={<DownloadAllFilesButton />} />
+      
 
         <Route path="/in/get" exact element={<getSubjects />} />
 

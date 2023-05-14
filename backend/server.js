@@ -111,7 +111,6 @@ app.use("/study",Study);
 
 
 
-
 //මේකට යටින් ගහන්න එපා මුකුත්
 // ගහන ඒවා උඩින් ගහන්න (Enter ගහලා)
 //API for PAYMENT
