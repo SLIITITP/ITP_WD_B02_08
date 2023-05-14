@@ -34,6 +34,7 @@ router.put("/updateuser" ,controller.updateUser);
 router.put("/resetPassword",controller.verifyUser,controller.resetPassword);
 router.delete("/deleteUser" ,controller.deleteUser);
 router.get("/getAllUsers", controller.getAllUsers);
+router.put("/approveUser/:id/:status",controller.approveUser);
 
 
 router.post("/setupId",controller.setUpIds);

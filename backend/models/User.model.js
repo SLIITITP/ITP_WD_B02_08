@@ -27,9 +27,9 @@ const UserSchema = new mongoose.Schema({
     default: false,
 },
 isApproved:{
-  type: Boolean,
-  required: false,
-  default: false,
+  type: Number,
+  required: true,
+  default: 0,
 },
   grade: { type: String, required: [true, "Please provide Grade"] },
   firstName: { type: String },
