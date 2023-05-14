@@ -46,6 +46,11 @@ input[type='file']{
     display: flex;
     align-items: center;
   }
+
+  .textStyleError{
+    border-color: red;
+    @apply border-2 px-5 py-4 rounded-xl w-3/4 shadow-sm text-lg;
+  }
   element.style{
     text-align: center;
   }
