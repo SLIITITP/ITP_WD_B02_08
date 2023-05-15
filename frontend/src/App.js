@@ -213,6 +213,7 @@ import FinanceUserProtected from './components/FinanceUserProtected'
 import NipTest from './components/PaymentComponents/NipTest';
 import RegForm from './components/ToImp/RegForm';
 import AllStudents from './components/ToImp/AllStudents';
+import OwnersPage from './components/PaymentComponents/OwnersPage';
 
 
 
@@ -285,6 +286,8 @@ function App() {
         <Route path='/payment/checkout' exact element={<FinanceUserProtected><StripeContainer /></FinanceUserProtected>} />
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
+        <Route path='/owner' element={<OwnersPage />} />
+
 
         <Route path='/enrollmentCheckout' element={<EnrollmentCheckout/>} />
         {/* Attendance Management */}
