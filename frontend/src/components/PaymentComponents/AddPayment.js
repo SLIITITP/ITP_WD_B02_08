@@ -168,7 +168,7 @@ function AddPayment() {
     };
 
     return (
-        <div className="h-full w-full flex text-lg font-medium text-gray-900 dark:text-white">
+        <div className="h-full w-full flex items-start text-lg font-medium text-gray-900 dark:text-white">
             <div className='w-2/3 bg-gray-300 p-4 pt-2'>
                 <h1 className='text-4xl font-bold text-center text-blue-900 tracking-tight p-2'>Student Payment Collecting</h1>
                 <form onSubmit={handleSubmit} className='center'>
@@ -298,7 +298,7 @@ function AddPayment() {
                 </form >
                 <button>Search by QR</button>
             </div>
-            <div className='w-1/3 bg-gray-200 p-4'>
+            <div className='w-1/3 flex bg-gray-200 p-4'>
                 <div>
                     <h2 className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>See Payment History</h2>
                     <button onClick={handleSearchClick} className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>See previous payments</button>
