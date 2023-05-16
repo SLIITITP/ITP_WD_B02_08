@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -154,7 +153,7 @@ export default function EnrollmentCheckout() {
   return (
     <div>
       <div>EnrollmentCheckout
-        <p>_id:{id}</p>
+        <p>_id:{obid}</p>
         <p>StudentId:{studentId}</p>
         <p>Grade:{grade}</p>
       </div>
@@ -172,7 +171,7 @@ export default function EnrollmentCheckout() {
                         Your Student ID : {studentId}
                       </label><br />
                       <label>
-                        Grade : {Grade}
+                        Grade : {grade}
                       </label><br />
                       {subjects && (
                         <label>
