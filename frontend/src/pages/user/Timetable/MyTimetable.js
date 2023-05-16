@@ -17,7 +17,9 @@ const [filteredClasses, setFilteredClasses] = useState(classes);
 const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
 const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
 const [apiData, setApiData] = useState({});
-  const [apiData1, setApiData1] = useState({});
+const [apiData1, setApiData1] = useState({});
+const [reminderData, setReminderData] = useState({});
+const [isModalOpen, setIsModalOpen] = useState(false);
 
 const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -151,9 +153,8 @@ useEffect(() => {
   fetchEnrolledClasses();
 }, [enrolledClassIds]);
 
+
 const tableRef = useRef();
-
-
 //Download timetable as a pdf
 function handlePrintClick() {
   const doc = new jsPDF({ orientation: 'landscape' });
@@ -207,6 +208,25 @@ doc.save('class-schedule.pdf');
 }
 
 
+//set the remider
+const now = new Date();
+
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const currentWeekday = weekdays[now.getDay()];
+let todayClasses = null;
+
+for (let i = 0; i < enrolledClassesData.length; i++) {
+  const classSchedules = enrolledClassesData[i];
+  console.log(classSchedules.date);
+  if (classSchedules.date === currentWeekday) {
+    const clzSubject = classSchedules.subject
+    const clzTeacher = classSchedules.teacher
+    const clzTime = classSchedules.time
+    console.log(clzTeacher)
+  }  
+}
+
+
 return (
 <div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
 {/*View timetable*/}
@@ -256,6 +276,7 @@ return (
 <button className="btn btn-primary" onClick={handlePrintClick}>
 Download Timetable
 </button>
+
 </div> 
 </div>
   </div>
