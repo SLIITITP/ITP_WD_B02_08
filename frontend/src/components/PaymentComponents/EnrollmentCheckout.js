@@ -21,18 +21,18 @@ export default function EnrollmentCheckout() {
   //Nipun
 
   const [month, setMonth] = useState('');
-  const [date, setDate] = useState('');
-  const subjects = "Aadmission";
-  const subjectsIDs = "643e85131535e98f550dc499";
+  const subjects = ['Aadmission'];
+  const subjectsIDs = ['643e85131535e98f550dc499'];
   const paidAmount = 1000;
+  const now = new Date();
+    const ldate = now.toLocaleDateString('en-CA');
+    const ltime = now.toLocaleTimeString('en-US', { hour12: false });
+    const [date, setDate] = useState(`${ldate}T${ltime}`);
 
   useEffect(() => {
     const currentDate = new Date();
     const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
-    const currentDateNumber = currentDate.getDate();
-
     setMonth(currentMonth);
-    setDate(currentDateNumber);
   }, []);
 
   const [success, setSuccess] = useState(false);
@@ -152,11 +152,6 @@ export default function EnrollmentCheckout() {
   //Nipun
   return (
     <div>
-      <div>EnrollmentCheckout
-        <p>_id:{obid}</p>
-        <p>StudentId:{studentId}</p>
-        <p>Grade:{grade}</p>
-      </div>
       <div className="h-screen h-full flex text-md font-medium text-gray-900 dark:text-white">
         <>
           <div className='flex justify-center items-center h-full w-full bg-gray-300 p-4 pt-2'>
