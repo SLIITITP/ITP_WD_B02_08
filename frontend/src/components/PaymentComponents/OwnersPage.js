@@ -48,36 +48,37 @@ const IncomeSummary = () => {
 
 
     return (
-        <div className="h-full h-screen w-full flex text-md font-medium text-gray-900 dark:text-white">
-            <div className='w-1/2 bg-gray-200 p-4 pt-2'>
-                <h1 class="text-3xl font-bold mb-4">Income Summary</h1>
-                <form onSubmit={handleSubmit} class="mb-4">
-                    <div class="flex items-center mb-4">
-                        <label htmlFor="fromDate" class="mr-4 font-bold">From Date:</label>
-                        <input type="date" id="fromDate" name="fromDate" value={fromDate} onChange={handleChange} required class="border border-gray-300 rounded py-2 px-3 w-64" />
+        <div className="h-full h-screen w-full flex items-center justify-center text-md font-medium text-gray-900 dark:text-white">
+            <div className="w-1/2 bg-gray-200 p-4 pt-2 flex flex-col items-center justify-center">
+                <h1 className="text-3xl font-bold mb-4">Income Summary</h1>
+                <form onSubmit={handleSubmit} className="mb-4">
+                    <div className="flex items-center mb-4">
+                        <label htmlFor="fromDate" className="mr-4 font-bold">From Date:</label>
+                        <input type="date" id="fromDate" name="fromDate" value={fromDate} onChange={handleChange} required className="border border-gray-300 rounded py-2 px-3 w-64" />
                     </div>
-                    <div class="flex items-center mb-4">
-                        <label htmlFor="toDate" class="mr-4 font-bold">To Date:</label>
-                        <input type="date" id="toDate" name="toDate" value={toDate} onChange={handleChange} required class="border border-gray-300 rounded py-2 px-3 w-64" />
+                    <div className="flex items-center mb-4">
+                        <label htmlFor="toDate" className="mr-4 font-bold">To Date:</label>
+                        <input type="date" id="toDate" name="toDate" value={toDate} onChange={handleChange} required className="border border-gray-300 rounded py-2 px-3 w-64" />
                     </div>
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                 </form>
-                <button onClick={handleAllTimeIncome} class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">View All-Time Income</button>
-                {loading && <p class="mt-4">Loading...</p>}
+                <button onClick={handleAllTimeIncome} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">View All-Time Income</button>
+                {loading && <p className="mt-4">Loading...</p>}
             </div>
-            <div className='w-1/2 bg-gray-200 p-4'>
+            <div className="w-1/2 bg-gray-200 p-4 pt-2 flex flex-col items-center justify-center">
                 {incomeData && (
-                    <div class="mt-4">
-                        <h2 class="text-2xl font-bold mb-2">Income Details</h2>
-                        <p class="font-bold">Net Total: {incomeData.netTotal}</p>
-                        <p class="font-bold">Owners Commission: {incomeData.ownersCommission}</p>
-                        <p class="font-bold">Other Charges: {incomeData.otherChargesSum}</p>
-                        <p class="font-bold">Teachers Salaries: {incomeData.teacherIncome}</p>
+                    <div className="mt-4">
+                        <h2 className="text-2xl font-bold mb-2">Income Details</h2>
+                        <p className="font-bold">Net Total: {incomeData.netTotal}</p>
+                        <p className="font-bold">Owners Commission: {incomeData.ownersCommission}</p>
+                        <p className="font-bold">Other Charges: {incomeData.otherChargesSum}</p>
+                        <p className="font-bold">Teachers Salaries: {incomeData.teacherIncome}</p>
                     </div>
                 )}
             </div>
         </div>
-    );    
+    );
+
 };
 
 export default IncomeSummary;
