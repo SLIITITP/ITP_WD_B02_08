@@ -46,12 +46,13 @@ export default function AllFilesList() {
     }
   };
 
-  const handleMarkAssignment = (fileId, studentName, marks) => {
+  const handleMarkAssignment = (fileId, studentName,AssignmentType, marks) => {
     // Make an API request to store the marks in the database
     // Adjust the endpoint URL and payload structure based on your backend API
     axios.post('http://localhost:9090/feed/addMark', {
       fileId,
       studentName,
+      AssignmentType,
       marks
     })
       .then(response => {
@@ -136,7 +137,7 @@ export default function AllFilesList() {
                     const marksInput = document.getElementById(`marks_${file._id}`);
                     const marks = parseFloat(marksInput.value);
                     if (!isNaN(marks)) {
-                      handleMarkAssignment(file._id, file.name,marks);
+                      handleMarkAssignment(file._id, file.name,file.assignmentType,marks);
                       marksInput.value = '';
                     }
                   }}
