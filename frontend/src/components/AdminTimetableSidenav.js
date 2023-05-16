@@ -58,13 +58,10 @@ function AdminTimetableSideNav({ children }) {
       onClick: () => navigate("/adminExamSchedule"),
     },
     {
-      title: "Logout",
+      title: "Back",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
-      onClick: () => {
-        localStorage.removeItem("token");
-        navigate("/plogin");
-      },
+      onClick: () => navigate("/adminDash"),
     },
   ];
 

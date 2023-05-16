@@ -90,6 +90,13 @@ function AdminSideNav({ children }) {
       onClick: () => navigate("/addPayment"),
     },
     {
+      title: "Timetable Management",
+      paths: ["/adminMainTimetable"],
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-user-line"></i>,
+      onClick: () => navigate("/adminMainTimetable"),
+    },
+    {
       title: "Logout",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
