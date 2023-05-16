@@ -216,7 +216,7 @@ import AllStudents from './components/ToImp/AllStudents';
 
 
 
-
+import Marks from './components/Assignment_Management_components/Marks';
 
 
 
@@ -539,8 +539,10 @@ function App() {
 
         <Route path='/qrgen' exact element={<QRScanner />}></Route>
 
-        <Route path='/h' element={<HomePage/>} />
+        <Route path='/m' exact element={<Marks/>} />
 
+        <Route path='/h' element={<HomePage/>} />
+     
 
 
 

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const assignmentSchema = new mongoose.Schema({
+  TeacherID: {
+    type: String,
+    required: false
+  },
   type: {
     type: String,
     required: true
@@ -10,15 +14,11 @@ const assignmentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-
-  grade: {
+grade: {
     type: String,
     required: true
   },
-  guidelines: {
-    type: String,
-    required: false
-  },
+ 
   deadline: {
     type: String,
     required: true
