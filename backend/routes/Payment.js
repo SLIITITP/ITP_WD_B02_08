@@ -102,7 +102,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-//total payments by given range
+//total payments by given range or all-time
 router.get('/income-payments', async (req, res) => {
   try {
     const { fromDate, toDate } = req.query;
@@ -131,5 +131,25 @@ router.get('/income-payments', async (req, res) => {
   }
 });
 
+// Route for checking if a student has paid for a specific subject ID
+router.get('/status/:studentID', async (req, res) => {
+  const { studentID } = req.params;
+
+  try {
+    const payment = await Payment.findOne({
+      studentId: studentID,
+      subjectsIDs: '643e85131535e98f550dc499',
+    });
+
+    if (payment) {
+      res.status(200).json({ paid: true });
+    } else {
+      res.status(200).json({ paid: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;
