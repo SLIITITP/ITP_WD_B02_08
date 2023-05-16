@@ -241,6 +241,7 @@ import HomePage from './home/homePage'
 //import Footer from './home/Footer';
 import RegisteredStudents from './components/ToImp/RegisteredStudents';
 import UpdateStudent from './components/ToImp/UpdateStudent';
+import StripeContainerCN from './components/PaymentComponents/StripeContainerCN';
 
 
 
@@ -291,7 +292,7 @@ function App() {
         <Route path='/owner' element={<OwnersPage />} />
 
 
-        <Route path='/enrollmentCheckout' element={<EnrollmentCheckout/>} />
+        <Route path='/enrollmentCheckout' element={<StripeContainerCN/>} />
         {/* Attendance Management */}
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
