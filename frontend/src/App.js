@@ -21,6 +21,7 @@ import testuser from './pages/user/testuser'
 import Testuser from './pages/user/testuser'
 import T1 from './pages/user/T1'
 
+//Timetable Management
 import TimetableSideNav from "./components/TimetableSideNav";
 import AdminEditSchedule from "./pages/admin/Timetable/AdminEditSchedule";
 import AddClass from "./pages/admin/Timetable/AddClass";
@@ -33,6 +34,7 @@ import TeacherMyTimetable from "./pages/Teacher/Timetable/TeacherMyTimetable";
 import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable";
 import AdminTimetableSideNav from './components/AdminTimetableSidenav';
 import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
+import MyExamTimetable from './pages/user/Timetable/MyExamTimetable';
 
 import EnrollmentCheckout from './components/PaymentComponents/EnrollmentCheckout';
 
@@ -217,7 +219,7 @@ import OwnersPage from './components/PaymentComponents/OwnersPage';
 
 
 
-
+import Marks from './components/Assignment_Management_components/Marks';
 
 
 
@@ -300,7 +302,8 @@ function App() {
         <Route path='/allregstd' element={<RegisteredStudents />} />
         <Route path='/updateregstd' element={<UpdateStudent />} />
 
-
+        
+    {/* Timetable Management Routes*/}
         {/* Admin Routes for Timetable Management */}
         <Route path="/adminMainTimetable" exact element={<AdminTimetableSideNav>
           <AdminMainTimetable />
@@ -314,7 +317,6 @@ function App() {
         <Route path="/adminExamSchedule" exact element={<AdminTimetableSideNav>
           <AdminExamSchedule />
         </AdminTimetableSideNav>} />
-
         {/* Student Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
           <MainTimetable />
@@ -322,10 +324,12 @@ function App() {
         <Route path="/myTimetable" exact element={<TimetableSideNav>
           <MyTimetable />
         </TimetableSideNav>} />
+        <Route path="/myExamTimetable" exact element={<TimetableSideNav>
+          <MyExamTimetable />
+        </TimetableSideNav>} />
         <Route path="/user/classEnrolling" exact element={<TimetableSideNav>
           <ClassEnrolling />
         </TimetableSideNav>} />
-
         {/* Teacher Routes for Timetable Management */}
         <Route path="/teacherMainTimetable" exact element={<TeacherTimetableSideNav>
           <TeacherMainTimetable />
@@ -542,8 +546,10 @@ function App() {
 
         <Route path='/qrgen' exact element={<QRScanner />}></Route>
 
-        <Route path='/h' element={<HomePage/>} />
+        <Route path='/m' exact element={<Marks/>} />
 
+        <Route path='/h' element={<HomePage/>} />
+     
 
 
 

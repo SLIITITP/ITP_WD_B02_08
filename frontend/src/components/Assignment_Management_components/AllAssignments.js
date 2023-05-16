@@ -1,24 +1,46 @@
 
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import back from '../../assets/MaterialBg.jpg';
+import { getProfileTeacher} from "../../apicalls/helper";
 const AllAssignments = () => {
   const [assignments, setAssignments] = useState([]);
+  const [assignment1, setAssignments1] = useState([]);
   const [searchGrade, setSearchGrade] = useState("");
   const navigate = useNavigate();
+  const [apiData1, setApiData1] = useState({});
 
   useEffect(() => {
     const fetchAssignments = async () => {
       const response = await fetch("http://localhost:9090/as/getAssignments");
       
       const data = await response.json();
-      setAssignments(data.assignments);
+      setAssignments1(data.assignments);
       console.log(data.assignments);
     };
     fetchAssignments();
   }, []);
+
+  
+  useEffect(() => {
+    const usernameFrom = localStorage.getItem("userName");
+    getProfileTeacher(usernameFrom).then((results) => {
+      setApiData1(results.data);
+      console.log(results.data)
+    });
+  }, []);
+
+  
+  const id = apiData1.teacherId;
+
+  useEffect(() => {
+    const filteredAssignments = assignment1.filter((assignment) => assignment.TeacherID === id);
+    if (filteredAssignments.length > 0) {
+      setAssignments(filteredAssignments);
+      console.log(filteredAssignments);
+    }
+  }, [assignment1, id]);
+
 
   const downloadFile = async (id, filename) => {
     const response = await fetch(`http://localhost:9090/as/DownloadAss/${id}`);
@@ -83,10 +105,11 @@ const AllAssignments = () => {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" style={{ backgroundColor: 'transparent',marginBottom: "1.5rem" }}  >
         <thead className="text-xs text-white uppercase bg-black dark:bg-gray-700 dark:text-gray-400" >
           <tr>
+          <th scope="col" className="px-6 py-3">TeacherID</th>
             <th scope="col" className="px-6 py-3">Type</th>
             <th scope="col" className="px-6 py-3">Subject</th>
             <th scope="col" className="px-6 py-3">Grade</th>
-            <th scope="col" className="px-6 py-3">Guidelines</th>
+           
             <th scope="col" className="px-6 py-3">Deadline</th>
             <th scope="col" className="px-6 py-3">Resources</th>
             <th scope="col" className="px-6 py-3">Edit</th>
@@ -96,10 +119,11 @@ const AllAssignments = () => {
         <tbody>
           {filteredAssignments.map((assignment) => (
             <tr key={assignment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
+              <td className="px-6 py-4">{assignment.TeacherID}</td>
               <td className="px-6 py-4">{assignment.type}</td>
               <td className="px-6 py-4">{assignment.subject}</td>
               <td className="px-6 py-4">{assignment.grade}</td>
-              <td className="px-6 py-4">{assignment.guidelines}</td>
+
               <td className="px-6 py-4">{assignment.deadline}</td>
               <td className="px-6 py-4">
                 {assignment.file && (

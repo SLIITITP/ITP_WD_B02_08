@@ -9,6 +9,10 @@ const markSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  AssignmentType: {
+    type: String,
+    required: true,
+  },
   marks: {
     type: Number,
     required: true,
