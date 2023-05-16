@@ -49,7 +49,8 @@ function ClassEnrolling() {
   const stdID = apiData1?._id;
   const studentID = apiData1?.studentId;
   const stdGrade = apiData1?.grade;
-  //console.log(apiData1?._id)
+  const stdEmail = apiData1?.email
+  console.log(apiData1?.email)
 
   const [classId] = useState(location.state.cId);
   const [grade] = useState(location.state.cGrade);
@@ -86,7 +87,8 @@ function ClassEnrolling() {
         state: {
           stdID: stdID,
           studentId: studentID,
-          stdGrade: stdGrade
+          stdGrade: stdGrade,
+          stdEmail: stdEmail,
         }
     
     }); // Navigate to payment page
