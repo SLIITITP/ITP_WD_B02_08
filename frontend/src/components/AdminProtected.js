@@ -78,13 +78,13 @@ function AdminProtected({ children }) {
             title: "Time Table Management",
             paths: ["/#"],
             icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/"),
+            onClick: () => navigate("/adminMainTimetable"),
         },
         {
             title: "Support Service",
             paths: ["/"],
             icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/#"),
+            onClick: () => navigate("/ticketlist"),
         },
         {
             title: "Logout",
@@ -111,7 +111,7 @@ function AdminProtected({ children }) {
                     setMenu(userMenu);
                 }
             } else {
-                message.error(response.message);
+                //message.error(response.message);
             }
         } catch (error) {
             navigate("/pteacherLogin"); //if there is problem with token user navigate plogin

@@ -64,9 +64,9 @@ function TprotectedRoute({ children }) {
     const adminMenu = [
         {
             title: "Home",
-            paths: ["/home"],
+            paths: ["/adminHome"],
             icon: <i className="ri-home-line"></i>,
-            onClick: () => navigate("/home"),
+            onClick: () => navigate("/adminHome"),
         },
         {
             title: "Add Payment",
