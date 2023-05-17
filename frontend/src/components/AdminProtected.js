@@ -248,7 +248,7 @@ function AdminProtected({ children }) {
                                 onClick={() => setCollapsed(false)}
                             ></i>
                         )}
-                        <h1 className="text-2xl text-white">Financial Management - Thilina Institute</h1>
+                        <h1 className="text-2xl text-white">Admin Home Page - Thilina Institute</h1>
                         <div>
                             <div className="flex gap-1 items-center">
                                 <i class="ri-user-line"></i>
