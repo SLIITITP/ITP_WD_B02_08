@@ -135,8 +135,8 @@ useEffect(() => {
         filteredIds.map((classId) =>
           axios.get(`http://localhost:9090/class/getClassById/${classId}`)
             .then((res) => {
-              const { date,time, grade, subject, teacher,hall, fees } = res.data.selectedClass;
-              return { date,time, grade, subject, teacher, hall, fees  };
+              const { date,time, grade, subject, teacher,hall, fees, _id } = res.data.selectedClass;
+              return { date,time, grade, subject, teacher, hall, fees, _id  };
             })
             .catch((err) => {
               alert(err.message);
@@ -152,6 +152,28 @@ useEffect(() => {
   };
   fetchEnrolledClasses();
 }, [enrolledClassIds]);
+
+
+//Unenroll from a class
+const handleUnenroll = async (classID) => {
+  try {
+    const response = await axios.delete(`http://localhost:9090/api/enroll/unenroll/${studentID}/${classID}`);
+    console.log(response.data); 
+    alert("Unenrollment successful!"); 
+  } catch (error) {
+    console.error(error);
+    alert("Error occurred during unenrollment. Please try again."); 
+  }
+};
+
+const renderUnenrollButton = (classID) => {
+  return (
+    <button className=" text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none 
+                       font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center" 
+     onClick={() => handleUnenroll(classID)}>Unenroll</button>
+  );
+};
+
 
 
 const tableRef = useRef();
@@ -268,6 +290,7 @@ return (
           <td>{clz.teacher}</td>
           <td>{clz.hall}</td>
           <td>Rs.{clz.fees}</td>
+          <td>{renderUnenrollButton(clz._id)}</td>
         </tr>
     ))} 
     

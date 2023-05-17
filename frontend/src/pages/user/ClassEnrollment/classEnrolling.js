@@ -92,7 +92,7 @@ function ClassEnrolling() {
       return;
     }
 
-
+  else{
     await axios.post(
       `http://localhost:9090/api/enroll/enrollments`,
       {
@@ -111,7 +111,7 @@ function ClassEnrolling() {
         alert("Enrollment failed.");
       }
     })
-
+  }
 
   };
 
@@ -132,7 +132,7 @@ function ClassEnrolling() {
             <button
               type="submit"
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mr-6 ml-6 mb-4
-          focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center "
+              focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center "
               onClick={handleEnroll}
             >
               Enroll
