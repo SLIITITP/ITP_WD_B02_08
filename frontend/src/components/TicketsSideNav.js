@@ -103,14 +103,17 @@ function TicketsSideNav({ children }){
         message.error(response.message);
       }
     } catch (error) {
-      navigate("/login");
+      navigate("/plogin");
       dispatch(HideLoading());
-      message.error(error.message);
+      
     }
   };
 
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
+    if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
+      navigate("/plogin");
+    }
     console.log(usernameFrom);
     getProfile(usernameFrom).then((results) => {
       let apiData = results.data;
