@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { validateAssignmentFeedbackForm } from './validateAssignmentFeedbackForm';
+
 
 const AssignmentFeedback = () => {
   const [teachersName, setTeachersName] = useState('');
@@ -7,30 +9,40 @@ const AssignmentFeedback = () => {
   const [assignmentType, setAssignmentType] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  //Create a state variable to store the errors
+  const [formErrors, setFormErrors] = useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newFeedback = {
-      teachersName,
-      grade,
-      assignmentType,
-      email,
-      message
-    };
 
-    axios.post('feed/addFeedback', newFeedback)
-      .then(res => console.log(res.data))
-      .catch(err => console.log('Error: ' + err));
+    const errors = validateAssignmentFeedbackForm(teachersName, grade, assignmentType, email, message);
 
-    setTeachersName('');
-    setGrade('');
-    setAssignmentType('');
-    setEmail('');
-    setMessage('');
+    if (Object.keys(errors).length === 0) {
+      const newFeedback = {
+        teachersName,
+        grade,
+        assignmentType,
+        email,
+        message
+      };
+
+      axios.post('feed/addFeedback', newFeedback)
+        .then(res => console.log(res.data))
+        .catch(err => console.log('Error: ' + err));
+
+      setTeachersName('');
+      setGrade('');
+      setAssignmentType('');
+      setEmail('');
+      setMessage('');
+    } else {
+      // Handle form errors, e.g., display error messages
+      setFormErrors(errors);
+    }
   };
 
   return (
-    
+
     <div className="row">
       <div className="mx-auto col-10 col-md-8 col-lg-6">
 
@@ -42,12 +54,23 @@ const AssignmentFeedback = () => {
           <style>
             {`.form-label {
               font-weight: bold;
-            }`}
+            }`
+            
+            }
           </style>
 
+
+          <style>
+            {`
+    .error {
+      color: red;
+    }
+  `}
+          </style>
           <div class="mb-3">
-            <label class="form-label" for="teacher-name">Teacher's Name:</label>
+            <label class="form-label" for="teacher-name">Teacher's Email:</label>
             <input id="teacher-name" type="text" class="form-control" value={teachersName} onChange={(e) => setTeachersName(e.target.value)} />
+            {formErrors.teachersName && <div className="error">{formErrors.teachersName}</div>}
           </div>
 
           <div class="mb-3">
@@ -61,6 +84,7 @@ const AssignmentFeedback = () => {
               <option value="10">10</option>
               <option value="11">11</option>
             </select>
+            {formErrors.grade && <div className="error">{formErrors.grade}</div>}
           </div>
 
           <div class="mb-3">
@@ -72,16 +96,19 @@ const AssignmentFeedback = () => {
               <option value="Subject Related">Subject Related</option>
               <option value="Extra Work">Extra Work</option>
             </select>
+            {formErrors.assignmentType && <div className="error">{formErrors.assignmentType}</div>}
           </div>
 
           <div class="mb-3">
             <label class="form-label" for="email">Email:</label>
             <input id="email" type="email" class="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
+            {formErrors.email && <div className="error">{formErrors.email}</div>}
           </div>
 
           <div class="mb-3">
             <label class="form-label" for="message">Message:</label>
             <textarea id="message" class="form-control" rows="5" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+            {formErrors.message && <div className="error">{formErrors.message}</div>}
           </div>
           <button
             className="btn btn-primary">
