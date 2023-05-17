@@ -63,25 +63,40 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Form, Row, Select, message , Table} from 'antd'
+import { Button, Col, Form, Row, Select, message , Table, Alert} from 'antd'
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { useDispatch } from "react-redux";
+import moment from 'moment';
 
 function Instructions({ examData, setView, startTimer }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleStartExamClick = () => {
-    const enrollmentKey = document.getElementsByName('enrollmentkey')[0].value;
-    console.log('Enrollment Key:', enrollmentKey);
-    if(enrollmentKey == examData.enrollmentkey){
-       startTimer();
-       setView("questions");
-    }else{
-      console.log("Enrollment key is invalid")
-    }
-    
-  };
+  const currentDate = moment().format('YYYY-MM-DD');
+console.log(currentDate);
+console.log(examData.date);
+
+const currentTime = moment().format('HH:mm');
+console.log(currentTime);
+console.log(examData.time);
+
+const handleStartExamClick = () => {
+  const enrollmentKey = document.getElementsByName('enrollmentkey')[0].value;
+  console.log('Enrollment Key:', enrollmentKey);
+  if (currentDate > examData.date) {
+    alert('You Are Late To The Exam');
+  } else if (currentDate < examData.date) {
+    alert('Exam Not Started Yet');
+  } else if (enrollmentKey === examData.enrollmentkey) {
+    startTimer();
+    setView('questions');
+  } else if(enrollmentKey === '') {
+    alert('Enter Enrollment Key');
+  }else{
+    alert('Invalid Enrollment Key');
+  }
+};
+
 
   return (
     <div className="flex flex-col items-center gap-5 a">
