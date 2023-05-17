@@ -289,7 +289,8 @@ function App() {
         <Route path='/payment/checkout' exact element={<FinanceUserProtected><StripeContainer /></FinanceUserProtected>} />
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
-        <Route path='/owner' element={<OwnersPage />} />
+        <Route path='/owner' element={<FinanceAdminProtected><OwnersPage /></FinanceAdminProtected>} />
+        <Route path='/nip' element={<FinanceAdminProtected><NipTest /></FinanceAdminProtected>} />
 
 
         <Route path='/enrollmentCheckout' element={<StripeContainerCN/>} />
