@@ -53,7 +53,7 @@ const PasswordTeacher = () => {
       
       loginPromise.then(res => {
         let {token} = res.data;
-        localStorage.setItem('token',token)
+        localStorage.setItem('token1',token)
         navigate('/teacherProfile')
       })
 

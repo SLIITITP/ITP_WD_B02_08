@@ -114,6 +114,13 @@ function TicketsSideNav({ children }){
     if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
       navigate("/plogin");
     }
+    if (localStorage.getItem("token1")) {
+      console.log(usernameFrom);
+      navigate("/plogin");
+    } else {
+       //if there is problem with token user navigate login
+       console.log(usernameFrom);
+    }
     console.log(usernameFrom);
     getProfile(usernameFrom).then((results) => {
       let apiData = results.data;
