@@ -1,50 +1,126 @@
 import React,{ Component} from 'react';
+import video1 from '../videos/video1.mp4';
+import Background from '../images/background2.jpg';
+import Background1 from '../images/background1.jpg';
 
 export default class Gvideos extends Component{
 
   render() {
     const videoData = [
-      { title: "Registration process", url: "https://example.com/video1.mp4" },
-      { title: "Payment", url: "https://example.com/video2.mp4" },
-      { title: "Raise a Ticket", url: "https://example.com/video3.mp4" },
-      { title: "Using the App", url: "https://example.com/video4.mp4" },
-      { title: "Customizing Settings", url: "https://example.com/video5.mp4" },
-      { title: "Advanced Features", url: "https://example.com/video6.mp4" }
+      { title: "Registration process", url: video1 },
+     // { title: "Registration process", url: "https://example.com/video1.mp4" },
+      { title: "Payment",  url: video1  },
+      { title: "Raise a Ticket", url: video1  },
+      { title: "Using the site",  url: video1  },
+      { title: "Attend exam", url: video1  },
+      { title: "Study materials",  url: video1  },
+      { title: "Assigments",  url: video1  }
     ];
 
-    const rows = [];
+    const videoRows = [];
 
     for (let i = 0; i < videoData.length; i += 3) {
-      const row = [];
-      for (let j = 0; j < 3 && i+j < videoData.length; j++) {
-        const video = videoData[i+j];
-        row.push(
-          <div key={j} className="flex-1 px-2">
-            <h5>{video.title}</h5>
-            <video src={video.url} controls />
+      const videoRow = [];
+      for (let j = 0; j < 3 && i + j < videoData.length; j++) {
+        const video = videoData[i + j];
+        videoRow.push(
+          <div key={j} className="video-item">
+            <h5 className="video-title">{video.title}</h5>
+            <video src={video.url} controls className="video-frame"/>
           </div>
         );
       }
-      rows.push(<div key={i} className="flex">{row}</div>);
+      videoRows.push(<div key={i} className="video-row">{videoRow}</div>);
     }
 
     return (
-      <div>
+      <div className="container">
+        <br />
         <center>
-          <h3 className="text-3xl font-bold dark:text-white" style={{ marginLeft: '20px' }}>
-            User Guide Videos
-          </h3>
-        </center>
-        <div style={{ marginLeft: '40px' }}>
-          {rows}
+              <h3 className="text-3xl font-bold dark:text-white">
+                User Guide Videos
+              </h3>
+            </center>
+        <div className="content">
+  
+          <div className="image-container">
+            <img src={ Background} alt="Left" className="left-image" />
+          </div>
+          <div className="video-container">
+      
+            {videoRows}
+          </div>
         </div>
+        <br />
+        <br />
+        <style>
+          {`
+               .container {
+                background-image: url(${Background1});
+                background-size: cover;
+                background-position: center;
+              }
+
+            .content {
+              display: flex;
+              align-items: flex-start;
+              margin-left: 40px;
+              margin-top: 40px;
+              gap: 50px;
+            }
+
+            .image-container {
+              flex-basis: 30%;
+            }
+
+            .left-image {
+              width: 100%;
+            }
+
+            .video-container {
+              flex-basis: 70%;
+              display: flex;
+              flex-wrap: wrap;
+            }
+
+            .video-row {
+              display: flex;
+              flex-basis: 100%;
+              justify-content: space-between;
+            }
+
+            .video-item {
+              flex-basis: 30%;
+              padding: 0 10px;
+            }
+
+            .video-title {
+              color: black;
+              font-size: 15px;
+              font-weight: bold;
+            }
+
+            .video-frame {
+              border-radius: 10px;
+            }
+
+            .left-image {
+              width: 100%; /* Adjust the width as needed */
+              max-width: 400px; /* Set a maximum width if desired */
+              height: 500px; /* Maintain aspect ratio */
+            }
+          `}
+        </style>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
       </div>
     );
   }
 }
-    
 
-{/*
+/*{
     render(){
       return(
 
@@ -84,4 +160,4 @@ export default class Gvideos extends Component{
 );
 }
 };
-*/}
+}*/
