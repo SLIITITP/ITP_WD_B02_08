@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Table, Button, Form } from 'react-bootstrap';
+import { Table} from 'react-bootstrap';
 import { getProfileTeacher } from "../../apicalls/helper";
 
 const ViewFeedbacks = () => {
   const [feedbacks, setFeedbacks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+
   const navigate = useNavigate();
   const [apiData1, setApiData1] = useState({});
 
@@ -29,11 +29,6 @@ const ViewFeedbacks = () => {
     navigate(`/emailAss?email=${feedback.email}`);
   };
 
-  const handleSearch = () => {
-    axios.get(`http://localhost:9090/feed/getFeedbackByTeachersName/${searchTerm}`)
-      .then(res => setFeedbacks(res.data))
-      .catch(err => console.log('Error: ' + err));
-  };
 
   const registeredTeacherEmail = apiData1.email;
 
@@ -46,23 +41,15 @@ const ViewFeedbacks = () => {
       </h1>
 
       <div style={{ marginTop: '50px' }}>
-        <Form inline striped bordered hover>
-          <Form.Control
-            type="text"
-            placeholder="Search by Teacher's Name"
-            className="mr-sm-2"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-        </Form>
+        
 
         <Table style={{ marginTop: "4rem" }}>
           <thead>
             <tr>
-              <th>Teacher's Name</th>
+              <th>Teacher's Email</th>
               <th>Grade</th>
               <th>Assignment Type</th>
-              <th>Email</th>
+              <th>Student's Email</th>
               <th>Message</th>
               <th>Response</th>
             </tr>
@@ -84,6 +71,8 @@ const ViewFeedbacks = () => {
             ))}
           </tbody>
         </Table>
+
+        
       </div>
     </div>
   );
