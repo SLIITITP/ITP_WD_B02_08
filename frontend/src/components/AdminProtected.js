@@ -20,7 +20,7 @@ import {
 } from "../apicalls/helper";
 import { useAuthStore } from "../redux/store1";
 
-function TprotectedRoute({ children }) {
+function AdminProtected({ children }) {
     const { user } = useSelector((state) => state.users);
     const [menu, setMenu] = useState([]);
     const [collapsed, setCollapsed] = useState(false);
@@ -64,39 +64,27 @@ function TprotectedRoute({ children }) {
     const adminMenu = [
         {
             title: "Home",
-            paths: ["/home"],
+            paths: ["/adminHome"],
             icon: <i className="ri-home-line"></i>,
-            onClick: () => navigate("/home"),
+            onClick: () => navigate("/adminHome"),
         },
         {
-            title: "Add Payment",
+            title: "Payment Managemet",
             paths: ["/addPayment"],
             icon: <i className="ri-home-line"></i>,
             onClick: () => navigate("/addPayment"),
         },
         {
-            title: "View Payment",
-            paths: ["/viewPayment"],
+            title: "Time Table Management",
+            paths: ["/#"],
             icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/viewPayment"),
+            onClick: () => navigate("/"),
         },
         {
-            title: "Salary Calculate",
-            paths: ["/salary/calculate"],
+            title: "Support Service",
+            paths: ["/"],
             icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/salary/calculate"),
-        },
-        {
-            title: "Salary History",
-            paths: ["/salary/history"],
-            icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/salary/history"),
-        },
-        {
-            title: "Subject Add or Update",
-            paths: ["/subject/addOrUpdate"],
-            icon: <i className="ri-user-line"></i>,
-            onClick: () => navigate("/subject/addOrUpdate"),
+            onClick: () => navigate("/#"),
         },
         {
             title: "Logout",
@@ -117,7 +105,7 @@ function TprotectedRoute({ children }) {
             dispatch(HideLoading());
             if (response.success) {
                 dispatch(SetUser(response.data));
-                if (response.data.isAdmin) {
+                if (response.data.admin) {
                     setMenu(adminMenu);
                 } else {
                     setMenu(userMenu);
@@ -128,7 +116,7 @@ function TprotectedRoute({ children }) {
         } catch (error) {
             navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
             dispatch(HideLoading());
-            message.error(error.message);
+            // message.error(error.message);
         }
     };
 
@@ -165,7 +153,9 @@ function TprotectedRoute({ children }) {
     useEffect(() => {
         console.log(username);
         let usernameFrom = localStorage.getItem("userName");
-        // username = ;
+        if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
+            navigate("/teacherProfile");
+        }
         console.log(usernameFrom);
         if (username === "") {
             let userNameReload = localStorage.getItem("userName");
@@ -173,8 +163,8 @@ function TprotectedRoute({ children }) {
                 let apiData = results.data;
                 setApiData1(results.data);
 
-                console.log(results.data.isAdmin);
-                if (results.data.isAdmin) {
+                console.log(results.data.admin);
+                if (results.data.admin) {
                     setMenu(adminMenu);
                 } else {
                     setMenu(userMenu);
@@ -190,7 +180,7 @@ function TprotectedRoute({ children }) {
                     profile: apiData?.profile || "",
                     id: apiData._id,
                     teacherId: apiData?.teacherId,
-                    isAdmin: apiData?.isAdmin || "",
+                    admin: apiData?.admin || "",
 
                 });
             });
@@ -199,8 +189,8 @@ function TprotectedRoute({ children }) {
                 let apiData = results.data;
                 setApiData1(results.data);
 
-                console.log(results.data.isAdmin);
-                if (results.data.isAdmin) {
+                console.log(results.data.admin);
+                if (results.data.admin) {
                     setMenu(adminMenu);
                 } else {
                     setMenu(userMenu);
@@ -216,7 +206,7 @@ function TprotectedRoute({ children }) {
                     profile: apiData?.profile || "",
                     id: apiData._id,
                     teacherId: apiData?.teacherId,
-                    isAdmin: apiData?.isAdmin || "",
+                    admin: apiData?.admin || "",
 
                 });
             });
@@ -264,7 +254,7 @@ function TprotectedRoute({ children }) {
                                 <i class="ri-user-line"></i>
                                 <h1 className="text-md text-white underline">{apiData1.firstName} {apiData1.lastName}</h1>
                             </div>
-                            <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
+                            <span>Role : {apiData1.admin ? "Admin" : "User"}</span>
                         </div>
                     </div>
                     <div className="content">{children}</div>
@@ -274,4 +264,4 @@ function TprotectedRoute({ children }) {
     );
 }
 
-export default TprotectedRoute;
+export default AdminProtected;

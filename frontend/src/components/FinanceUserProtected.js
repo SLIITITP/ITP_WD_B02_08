@@ -335,12 +335,12 @@ function TprotectedRoute({ children }) {
                     setMenu(userMenu);
                 }
             } else {
-                message.error(response.message);
+                // message.error(response.message);
             }
         } catch (error) {
             navigate("/plogin"); //if there is problem with token user navigate plogin
             dispatch(HideLoading());
-            message.error(error.message);
+            // message.error(error.message);
         }
     };
 
@@ -377,7 +377,6 @@ function TprotectedRoute({ children }) {
     useEffect(() => {
         console.log(username);
         let usernameFrom = localStorage.getItem("userName");
-        // username = ;
         console.log(usernameFrom);
         if (username === "") {
             let userNameReload = localStorage.getItem("userName");

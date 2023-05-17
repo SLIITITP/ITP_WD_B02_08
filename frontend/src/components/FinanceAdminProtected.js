@@ -123,12 +123,12 @@ function TprotectedRoute({ children }) {
                     setMenu(userMenu);
                 }
             } else {
-                message.error(response.message);
+                //message.error(response.message);
             }
         } catch (error) {
             navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
             dispatch(HideLoading());
-            message.error(error.message);
+            // message.error(error.message);
         }
     };
 
@@ -165,6 +165,9 @@ function TprotectedRoute({ children }) {
     useEffect(() => {
         console.log(username);
         let usernameFrom = localStorage.getItem("userName");
+        if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
+            navigate("/");
+        }
         // username = ;
         console.log(usernameFrom);
         if (username === "") {

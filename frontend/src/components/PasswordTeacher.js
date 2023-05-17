@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import { passwordValidate } from "../validations/validate";
 import useFetch from "../hooks/fetch.hook";
 import { useAuthStore } from "../redux/store1";
-import { verifyPasswordTeacher, getProfileTeacher } from "../apicalls/helper";
+import { verifyPasswordTeacher, getProfileTeacher, getProfile } from "../apicalls/helper";
 
 const PasswordTeacher = () => {
   const navigate = useNavigate();
@@ -28,37 +28,44 @@ const PasswordTeacher = () => {
         email: apiData?.email || "",
         mobile: apiData?.mobile || "",
         address: apiData?.address || "",
+        admin: apiData?.admin || "",
         // id:apiData._id
       });
     });
   }, []);
   const formik = useFormik({
-    initialValues : {
-       password : '',
-       //profile:apiData?.profile || ''
+    initialValues: {
+      password: '',
+      //profile:apiData?.profile || ''
     },
-   
-    validate:passwordValidate,                 //validate the input text box and return value
+
+    validate: passwordValidate,                 //validate the input text box and return value
     validateOnBlur: false,
     validateOnChange: false,
-    onSubmit : async values =>{                  //validate only after submitting button
-                
-      let loginPromise = verifyPasswordTeacher({username , password: values.password})
-      
-      toast.promise(loginPromise ,{
+    onSubmit: async values => {                  //validate only after submitting button
+
+      let loginPromise = verifyPasswordTeacher({ username, password: values.password })
+
+      toast.promise(loginPromise, {
         loading: 'Cheking...',
         success: <b>Login Successfully...!</b>,
         error: <b>Password Not Match!</b>
       });
-      
+
       loginPromise.then(res => {
-        let {token} = res.data;
-        localStorage.setItem('token',token)
-        navigate('/teacherProfile')
+        let { token } = res.data;
+        localStorage.setItem('token', token)
+
+        if (apiData?.admin) {
+          navigate('/adminHome');
+        } else {
+          navigate('/teacherProfile');
+        }
+
       })
 
-    }            
-})
+    }
+  })
 
   return (
     <div className={styles.body}>
