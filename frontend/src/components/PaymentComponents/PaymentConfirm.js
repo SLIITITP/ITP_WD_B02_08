@@ -82,7 +82,7 @@ export default function PaymentConfirm() {
                         </p>
                         <label ref={componentRef} className='pb-3'>
                             Student ID : {location.state.studentId}<br />
-                            Student Name : {location.state.grade}<br />
+                            Student Grade : {location.state.grade}<br />
                             Payment Date : {location.state.date}<br />
                             Month : {location.state.month}<br />
                             Total Amount : {location.state.paidAmount}<br />

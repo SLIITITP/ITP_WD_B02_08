@@ -18,8 +18,9 @@ function PaymentCheckout() {
     const [paidAmount] = useState(location.state.sPaidAmount);
     const [month] = useState(location.state.sMonth);
     const [subjectsIDs] = useState(location.state.sSubIDs);
+    const [sEmail] = useState(location.state.sEmail);
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(sEmail);
     const [success, setSuccess] = useState(false);
     const [paymentID, setPaymentID] = useState('');
     const stripe = useStripe();
