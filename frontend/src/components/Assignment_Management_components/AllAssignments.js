@@ -10,6 +10,8 @@ const AllAssignments = () => {
   const navigate = useNavigate();
   const [apiData1, setApiData1] = useState({});
 
+ 
+
   useEffect(() => {
     const fetchAssignments = async () => {
       const response = await fetch("http://localhost:9090/as/getAssignments");
