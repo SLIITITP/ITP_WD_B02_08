@@ -177,7 +177,9 @@ export default function AllFilesList() {
           <div className="col-md-6 mb-4" key={file._id}>
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">{file.name}</h5>
+              {/* /////////////////// */}
+                <h5 className="card-title">{file.name}{file.subject}</h5>
+      
                 <p className="card-text">{file.description}</p>
                 <a
                   href={`http://localhost:9090/items/getAll/${file._id}`}

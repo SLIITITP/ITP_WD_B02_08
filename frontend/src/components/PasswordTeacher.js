@@ -56,7 +56,7 @@ const PasswordTeacher = () => {
         let {token} = res.data;
         localStorage.setItem('token1',token)
         if (apiData?.admin) {
-          navigate('/adminHome');
+          navigate('/adminDash');
         } else {
           navigate('/teacherProfile');
         }

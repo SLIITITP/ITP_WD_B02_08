@@ -626,10 +626,10 @@ function TprotectedRoute({ children }) {
 
     const isAdminMenu = [
         {
-            title: "Home",
-            paths: ["/isAdminHome"],
+            title: "Admin Home",
+            paths: ["/adminDash"],
             icon: <i className="ri-home-line"></i>,
-            onClick: () => navigate("/isAdminHome"),
+            onClick: () => navigate("/adminDash"),
         },
         {
             title: "Payment Managemet",
@@ -641,7 +641,7 @@ function TprotectedRoute({ children }) {
             title: "Time Table Management",
             paths: ["/#"],
             icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/isAdminMainTimetable"),
+            onClick: () => navigate("/adminMainTimetable"),
         },
         {
             title: "Support Service",

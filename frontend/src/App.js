@@ -359,7 +359,7 @@ function App() {
         <Route path="/tProfile" element={<TeaProfile />} />
         <Route path="/ttRegister" element={<TeaRegister />} />
         {/* <Route path="/adminDash" element={<AdminDash/>}/> */}
-        <Route path="/adminDash" element={<AdminSideNav><AdminDash /></AdminSideNav>} />
+        <Route path="/adminDash" element={<AdminProtected><AdminDash /></AdminProtected>} />
         <Route path='/pteacherLogin' element={<TeacherLogin />} />
         <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
         <Route path='/teacherProfile' element={<TeaProfileSideNav><TeaProfile /></TeaProfileSideNav>}></Route>
