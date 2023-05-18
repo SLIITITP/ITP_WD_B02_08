@@ -242,7 +242,7 @@ function ProtectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Assignment Management</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>

@@ -101,12 +101,12 @@ const ChartJsExample = () => {
   };
 
   return (
-    <div>
-      <h1>Marks</h1>
-      <div style={{ width: '300px', height: '200px' }}>
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="text-center">Marks</h1>
+      <div className="w-1/2 h-full pt-10">
         <canvas ref={chartRef} />
       </div>
-      <table ref={tableRef}>
+      <table ref={tableRef} className="mt-4">
         <thead>
           <tr>
             <th>Assignment Type</th>
@@ -122,8 +122,9 @@ const ChartJsExample = () => {
           ))}
         </tbody>
       </table>
-      <button onClick={generatePDF}>Generate PDF</button>
+      <button onClick={generatePDF} className="mt-4">Generate PDF</button>
     </div>
+
   );
 };
 

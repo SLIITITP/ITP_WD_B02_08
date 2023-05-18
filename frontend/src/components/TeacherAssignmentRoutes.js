@@ -71,9 +71,9 @@ function TprotectedRoute({ children }) {
   const adminMenu = [
     {
       title: "Assignments",
-      paths: ["/a2", "/a1"],
-      icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/a2"),
+      paths: ["/a1" ],
+      icon: <i class="ri-book-line"></i>,
+      onClick: () => navigate("/a1"),
     },
     {
       title: "Feedbacks",
@@ -98,7 +98,7 @@ function TprotectedRoute({ children }) {
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("token1");
         navigate("/plogin");
       },
     },
@@ -262,7 +262,7 @@ function TprotectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Assignment Management</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>

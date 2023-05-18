@@ -47,7 +47,7 @@ function AssignmentForm({ onSubmit }) {
         const response = await axios.post('http://localhost:9090/as/addAssignments', formData);
         onSubmit(response.data.assignment);
         setShowSuccessAlert(true); // Show success alert
-        
+
       } catch (error) {
         console.log(error);
       }
@@ -114,76 +114,76 @@ function AssignmentForm({ onSubmit }) {
           <option value="Extra Work">Extra Work</option>
         </select>
         {errors.type && <div className="text-red-500">{errors.type}</div>
-}
-</div>
+        }
+      </div>
 
-<div className="mb-4">
-    <label htmlFor="grade" className="block text-sm font-medium text-gray-700">
-      Grade:
-    </label>
-    <select
-      name="grade"
-      id="grade"
-      className={`form-control ${errors.grade ? 'border-red-500' : ''}`}
-      value={assignment.grade}
-      onChange={handleInputChange}
-      required
-    >
-      <option value="">Select grade</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-    </select>
-    {errors.grade && <div className="text-red-500">{errors.grade}</div>}
-  </div>
+      <div className="mb-4">
+        <label htmlFor="grade" className="block text-sm font-medium text-gray-700">
+          Grade:
+        </label>
+        <select
+          name="grade"
+          id="grade"
+          className={`form-control ${errors.grade ? 'border-red-500' : ''}`}
+          value={assignment.grade}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Select grade</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+        </select>
+        {errors.grade && <div className="text-red-500">{errors.grade}</div>}
+      </div>
 
-  <div className="mb-4">
-    <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-      Subject:
-    </label>
-    <input
-      type="text"
-      className={`form-control ${errors.subject ? 'border-red-500' : ''}`}
-      id="subject"
-      name="subject"
-      value={assignment.subject}
-      onChange={handleInputChange}
-    />
-    {errors.subject && <div className="text-red-500">{errors.subject}</div>}
-  </div>
+      <div className="mb-4">
+        <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+          Subject:
+        </label>
+        <input
+          type="text"
+          className={`form-control ${errors.subject ? 'border-red-500' : ''}`}
+          id="subject"
+          name="subject"
+          value={assignment.subject}
+          onChange={handleInputChange}
+        />
+        {errors.subject && <div className="text-red-500">{errors.subject}</div>}
+      </div>
 
-  <div className="mb-4">
-    <label htmlFor="deadline" className="block text-sm font-medium text-gray-700">
-      Deadline:
-    </label>
-    <input
-      type="date"
-      className={`form-control ${errors.deadline ? 'border-red-500' : ''}`}
-      id="deadline"
-      name="deadline"
-      value={assignment.deadline}
-      onChange={handleInputChange}
-    />
-    {errors.deadline && <div className="text-red-500">{errors.deadline}</div>}
-  </div>
+      <div className="mb-4">
+        <label htmlFor="deadline" className="block text-sm font-medium text-gray-700">
+          Deadline:
+        </label>
+        <input
+          type="date"
+          className={`form-control ${errors.deadline ? 'border-red-500' : ''}`}
+          id="deadline"
+          name="deadline"
+          value={assignment.deadline}
+          onChange={handleInputChange}
+        />
+        {errors.deadline && <div className="text-red-500">{errors.deadline}</div>}
+      </div>
 
-  <div className="mb-4">
-    <input
-      type="file"
-      onChange={handleFileChange}
-      className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      id="large_size"
-    />
-  </div>
+      <div className="mb-4">
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className="!block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          id="large_size"
+        />
+      </div>
 
-  <button className="btn btn-primary" style={{ marginTop: '10px' }}>
-    Create
-  </button>
-</form>
-);
+      <button type='submit' className="btn btn-primary" style={{ marginTop: '10px' ,backgroundColor: 'blue' }}>
+        Create
+      </button>
+    </form>
+  );
 }
 
 export default AssignmentForm;

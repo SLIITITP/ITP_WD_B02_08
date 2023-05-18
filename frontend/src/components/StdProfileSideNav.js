@@ -35,9 +35,9 @@ function StdProfileSideNav({ children }) {
     },
     {
       title: "Assignments",
-      paths: ["/myTimetable"],
-      icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/myTimetable"),
+      paths: ["/s1" ],
+      icon: <i class="ri-book-line"></i>,
+      onClick: () => navigate("/s1"),
     },
     {
       title: "Study Materials",
