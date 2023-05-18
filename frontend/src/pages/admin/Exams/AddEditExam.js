@@ -152,70 +152,142 @@ function AddEditExam() {
       
       {(examData || !params.id) && (
         <Form layout="vertical" onFinish={onFinish} initialValues={examData}>
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="Exam Details" key="1">  {/**exam details tab*/}
-              <Row gutter={[10, 10]}>
-                <Col span={8}>
-                    <Form.Item label="Exam Name" name = "name">
-                        <input className='einput' type='text'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Exam Duration" name = "duration">
-                        <input className='einput' type='number'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Subject" name = "category">
-                        <Select  placeholder="Choose subject" >
-                            <Select.Option value="sinhala">Sinhala</Select.Option>
-                            <Select.Option value="history">History</Select.Option>
-                            <Select.Option value="mathematics">Maths</Select.Option>
-                            <Select.Option value="science">Science</Select.Option>
-                            <Select.Option value="english">English</Select.Option>
-                            <Select.Option value="information-technology">Information-Technology</Select.Option>
-                            <Select.Option value="music">Music</Select.Option>
-                            <Select.Option value="art">Art</Select.Option>
-                            <Select.Option value="commerce">Commerce</Select.Option>
-                        </Select>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Total Marks" name = "totalMarks">
-                        <input className='einput' type='number'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Passing Marks" name = "passingMarks">
-                        <input className='einput' type='number'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Grade" name = "grade">
-                        <input className='einput' type='number'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Date (YYYY/MM/DD)" name = "date">
-                    <input className='einput' type='text'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Time (HH:MM am/pm)" name = "time">
-                    <input className='einput' type='text'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label="Enrollment Key" name = "enrollmentkey">
-                        <input className='einput' type='text'/>
-                    </Form.Item>
-                </Col>
-                <Col span={8} id="hidden" className="hidden1">
-                  <Form.Item label="Teacher ID" name="userID">
-                    <input className="einput" type="text" />
-                  </Form.Item>
-                </Col>
-              </Row>
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Exam Details" key="1">
+            {/* exam details tab */}
+            <Row gutter={[10, 10]}>
+              <Col span={8}>
+                <Form.Item
+                  label="Exam Name"
+                  name="name"
+                  rules={[
+                    { required: true, message: 'Please enter the exam name' },
+                    { max: 50, message: 'Exam name cannot exceed 50 characters' },
+                  ]}
+                >
+                  <input className='einput' type='text'/>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Exam Duration"
+                  name="duration"
+                  rules={[
+                    { required: true, message: 'Please enter the exam duration' },
+                   
+                    { min: 1, message: 'Duration must be at least 1' },
+                  ]}
+                >
+                  <input className='einput' type='number'/>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Subject"
+                  name="category"
+                  rules={[
+                    { required: true, message: 'Please select a subject' },
+                  ]}
+                >
+                  <Select placeholder="Choose subject">
+                    <Select.Option value="Sinhala">Sinhala</Select.Option>
+                    <Select.Option value="History">History</Select.Option>
+                    <Select.Option value="Mathematics">Maths</Select.Option>
+                    <Select.Option value="Science">Science</Select.Option>
+                    <Select.Option value="English">English</Select.Option>
+                    <Select.Option value="Information-Technology">Information-Technology</Select.Option>
+                    <Select.Option value="Music">Music</Select.Option>
+                    <Select.Option value="Art">Art</Select.Option>
+                    <Select.Option value="Commerce">Commerce</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Total Marks"
+                  name="totalMarks"
+                  rules={[
+                    { required: true, message: 'Please enter the total marks' },
+                   
+                    { min: 1, message: 'Total marks must be at least 1' },
+                  ]}
+                >
+                  <input className='einput' type='number'/>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Passing Marks"
+                  name="passingMarks"
+                  rules={[
+                    { required: true, message: 'Please enter the passing marks' },
+                   
+                    { min: 1, message: 'Passing marks must be at least 1' },
+                  ]}
+                >
+                  <input className='einput' type='number'/>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Grade"
+                  name="grade"
+                  rules={[
+                    { required: true, message: 'Please enter the grade' },
+                   
+                    { min: 1, message: 'Grade must be at least 1' },
+                  ]}
+                >
+                  <input className='einput' type='number'/>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Date (YYYY-MM-DD)"
+                  name="date"
+                  rules={[
+                    { required: true, message: 'Please enter the date' },
+                    { pattern: /^\d{4}-\d{2}-\d{2}$/, message: 'Please enter a valid date format (YYYY-MM-DD)' },
+                  ]}
+                >
+                  <input className='einput' type='text'/>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Time (HH:MM) 24 hour format"
+                  name="time"
+                  rules={[
+                    { required: true, message: 'Please enter the time' },
+                    { pattern: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, message: 'Please enter a valid time format (HH:MM)' },
+                  ]}
+                >
+                  <input className='einput' type='text'/>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label="Enrollment Key"
+                  name="enrollmentkey"
+                  rules={[
+                    { required: true, message: 'Please enter the enrollment key' },
+                  ]}
+                >
+                  <input className='einput' type='text'/>
+                </Form.Item>
+              </Col>
+              <Col span={8} id="hidden" className="hidden1">
+                <Form.Item
+                  label="Teacher ID"
+                  name="userID"
+                  rules={[
+                    { required: true, message: 'Please enter the teacher ID' },
+                  ]}
+                >
+                  <input className="einput" type="text" />
+                </Form.Item>
+              </Col>
+            </Row>
               <div className="flex justify-end gap-2">
                 <Button
                   className="primary-contained-btn flex items-center mt-2 mr-9"
