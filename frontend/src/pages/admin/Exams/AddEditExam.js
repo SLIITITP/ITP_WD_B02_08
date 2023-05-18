@@ -35,7 +35,7 @@ function AddEditExam() {
   const [name, setName] = useState("");
   const [isDurationValid, setIsDurationValid] = useState(null);
   const [isTotalMarksValid, setIsTotalMarksValid] = useState(null);
-  const [isPassingMarksValid, setIsPassingMarksValid] = useState(false);
+  const [isPassingMarksValid, setIspassMarksValid] = useState(null);
   const [touched, setTouched] = useState(false);
 
   /////Validation Pattern
@@ -49,6 +49,7 @@ function AddEditExam() {
 
   const handleDurationChange = (e) => {
     const duration = Number(e.target.value);
+    setTouched(true);
     if (Number.isNaN(duration) || duration < 6) {
       setIsDurationValid(false);
     } else {
@@ -60,14 +61,16 @@ function AddEditExam() {
     const value = e.target.value;
     const isValid = !isNaN(value) && value > 0;
     setIsTotalMarksValid(isValid);
+    setTouched(true);
   };
 
   const handlePassingMarksChange = (e) => {
     const value = e.target.value;
-    const totalMarks = document.getElementsByName("totalMarks")[0].value;
-    const isValid = !isNaN(value) && value > 0 && value <= totalMarks;
-    setIsPassingMarksValid(isValid);
+    const isValid = !isNaN(value) && value > 0;
+    setIspassMarksValid(isValid);
+    setTouched(true);
   };
+
 
   const onFinish = async (values) => {
     try {
@@ -392,61 +395,42 @@ function AddEditExam() {
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item
-                    label="Passing Marks"
-                    name="passingMarks"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter passing marks",
-                      },
-                      {
-                        type: "number",
-                        min: 1,
-                        message: "Passing marks must be greater than 0",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const totalMarks = getFieldValue("totalMarks");
-                          if (value <= totalMarks) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error(
-                              "Passing marks must be lower than or equal to total marks"
-                            )
-                          );
-                        },
-                      }),
-                    ]}
-                    validateStatus={
-                      touched &&
-                      (isPassingMarksValid
-                        ? "success"
-                        : isPassingMarksValid === false
-                        ? "error"
-                        : "")
-                    }
-                    help={
-                      touched &&
-                      (isPassingMarksValid ? (
-                        <span style={{ color: "green" }}>
-                          <CheckCircleOutlined />
-                          &nbsp;Passing marks is valid
-                        </span>
-                      ) : isPassingMarksValid === false ? (
-                        <span style={{ color: "red" }}>
-                          <CloseCircleOutlined />
-                          &nbsp;Enter valid passing marks
-                        </span>
-                      ) : null)
-                    }
-                  >
-                    <Input
-                      className="einput"
-                      type="number"
-                      onChange={handlePassingMarksChange}
-                    />
+                  <Form.Item label="Passing Marks" name="passingMarks"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter total marks",
+                    },
+                    {
+                      type: "number",
+                      min: 1,
+                      message: "Total marks must be greater than 0",
+                    },
+                  ]}
+                  validateStatus={
+                    touched &&
+                    (isPassingMarksValid
+                      ? "success"
+                      : isPassingMarksValid === false
+                      ? "error"
+                      : "")
+                  }
+                  help={
+                    touched &&
+                    (isPassingMarksValid ? (
+                      <span style={{ color: "green" }}>
+                        <CheckCircleOutlined />
+                        &nbsp;Passing marks is valid
+                      </span>
+                    ) : isPassingMarksValid === false ? (
+                      <span style={{ color: "red" }}>
+                        <CloseCircleOutlined />
+                        &nbsp;Enter valid passingMarks marks
+                      </span>
+                    ) : null)
+                  }
+                >
+                    <input className="einput" type="number" onChange={handlePassingMarksChange} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
