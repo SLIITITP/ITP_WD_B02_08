@@ -112,7 +112,7 @@ function TicketsSideNav({ children }){
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
     if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
-      navigate("/plogin");
+      navigate("/");
     }
     if (localStorage.getItem("token1")) {
       console.log(usernameFrom);
