@@ -29,9 +29,9 @@ function StdProfileSideNav({ children }) {
   const userMenu = [
     {
       title: "Timetables",
-      paths: ["/mainTimetable","/user/classEnrolling"],
-      icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/mainTimetable"),
+      paths: ["/myTimetable"],
+      icon: <i className="ri-calendar-todo-line"></i>,
+      onClick: () => navigate("/myTimetable"),
     },
     {
       title: "Assignments",

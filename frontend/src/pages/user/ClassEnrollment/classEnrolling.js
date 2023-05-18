@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-//import { getUserInfo } from "../../.././apicalls/users";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-//import { SetUser } from "../../.././redux/usersSlice.js";
-//import { message } from "antd";
+import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { updateUser, getProfile, deleteUser } from "../../.././apicalls/helper";
 function ClassEnrolling() {
   const location = useLocation();
   const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
   const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
-  const { user } = useSelector((state) => state.users);
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [apiData1, setApiData1] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // const getUserData = async () => {
   //   try {
@@ -81,7 +81,7 @@ function ClassEnrolling() {
           setEnrolledClassIds(res.data.data);
         })
         .catch((err) => {
-          alert(err.message);
+          toast.error(err)
         });
   
   }, [studentID]);
@@ -103,7 +103,7 @@ function ClassEnrolling() {
                 return { date,time, grade, subject, teacher, hall, fees, _id, };
               })
               .catch((err) => {
-                alert(err.message);
+                toast.error(err)
                 return null;
               })
           )
@@ -111,7 +111,7 @@ function ClassEnrolling() {
         setEnrolledClassesData(enrolledClassesData.filter(Boolean));
         console.log(enrolledClassesData);
       } catch (err) {
-        alert(err.message);
+        toast.error(err)
       }
     };
     fetchEnrolledClasses();
@@ -142,7 +142,7 @@ function ClassEnrolling() {
     } 
   else if (enrolledClassesData.filter((clz) => clz.date === classDay && clz.time.split("-")[0] === startTime).length > 0) {
     console.log(enrolledClassesData.filter((clz) => clz.date === classDay && clz.time.split("-")[0] === startTime).length)
-    alert("Class Time is clashing with another class")
+    {toast.error("Class Time is clashing with another class")}
   }   
   // Enroll to the class  
   else{
@@ -155,13 +155,13 @@ function ClassEnrolling() {
 
     ).then(response => {
       console.log(response)
-      alert("Enrolled Successfully")
+      {toast.success("Enrolled Successfully")}
     }, error => {
       console.log(error)
       if (error.response && error.response.status === 400 && error.response.data.message === "Already enrolled") {
-        alert("You have already enrolled in this class.");
+        {toast.error("You have already enrolled in this class.")};
       } else {
-        alert("Enrollment failed.");
+        {toast.error("Enrollment failed.")};
       }
     })
   }
@@ -193,6 +193,7 @@ function ClassEnrolling() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
 
   );
