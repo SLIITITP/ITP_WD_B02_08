@@ -1,38 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Table} from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { getProfileTeacher } from "../../apicalls/helper";
 
 const ViewFeedbacks = () => {
   const [feedbacks, setFeedbacks] = useState([]);
-
   const navigate = useNavigate();
   const [apiData1, setApiData1] = useState({});
-
-  useEffect(() => {
-    axios.get('http://localhost:9090/feed/getFeedback')
-      .then(res => setFeedbacks(res.data))
-      .catch(err => console.log('Error: ' + err));
-  }, []);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredFeedbacks, setFilteredFeedbacks] = useState([]);
 
   useEffect(() => {
     const usernameFrom = localStorage.getItem("userName");
+    console.log(usernameFrom)
     getProfileTeacher(usernameFrom).then((results) => {
       setApiData1(results.data);
+
       console.log(results.data);
     });
   }, []);
+  
+
+  const registeredTeacherEmail = apiData1.email;
+
+useEffect(() => {
+  const fetchFeedbacks = async () => {
+    try {
+      const res = await axios.get('http://localhost:9090/feed/getFeedback');
+      const allFeedbacks = res.data;
+      const filteredFeedbacks = allFeedbacks.filter(feedback => feedback.teachersName === registeredTeacherEmail);
+      setFeedbacks(filteredFeedbacks);
+    } catch (err) {
+      console.log('Error: ' + err);
+    }
+  };
+
+  fetchFeedbacks();
+}, [registeredTeacherEmail]);
+  
+
+
+  
+
+  const email = apiData1.email;
+  console.log(email)
 
   const handleReply = (feedback) => {
     console.log(`Replying to feedback ${feedback.id}`);
     navigate(`/emailAss?email=${feedback.email}`);
   };
 
+  // const registeredTeacherEmail = apiData1.email;
 
-  const registeredTeacherEmail = apiData1.email;
+  // console.log(feedbacks);
 
-  const filteredFeedbacks = feedbacks.filter(feedback => feedback.teachersName === registeredTeacherEmail);
+  // useEffect(() => {
+  //   const filteredFeedbacks = feedbacks.filter((feedback) =>
+  //     feedback.teachersName === registeredTeacherEmail
+  //   );
+  //   setFilteredFeedbacks(filteredFeedbacks);
+  // }, [feedbacks, registeredTeacherEmail]);
+
+  const handleSearch = (event) => {
+    const searchTerm = event.target.value;
+    setSearchTerm(searchTerm);
+
+    const filteredFeedbacks = feedbacks.filter((feedback) =>
+      feedback.grade.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredFeedbacks(filteredFeedbacks);
+  };
 
   return (
     <div className="container">
@@ -40,10 +78,19 @@ const ViewFeedbacks = () => {
         View Feedbacks
       </h1>
 
-      <div style={{ marginTop: '50px' }}>
-        
+      <div style={{ marginTop: '20px' }}>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by grade..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
 
+      <div style={{ marginTop: '50px' }}>
         <Table style={{ marginTop: "4rem" }}>
+
           <thead>
             <tr>
               <th>Teacher's Email</th>
@@ -71,8 +118,6 @@ const ViewFeedbacks = () => {
             ))}
           </tbody>
         </Table>
-
-        
       </div>
     </div>
   );
