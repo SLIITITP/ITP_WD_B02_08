@@ -393,7 +393,7 @@ function TprotectedRoute({ children }) {
             paths: ["/logout"],
             icon: <i className="ri-logout-box-line"></i>,
             onClick: () => {
-                localStorage.removeItem("token");
+                localStorage.removeItem("token1");
                 navigate("/plogin");
             },
         },

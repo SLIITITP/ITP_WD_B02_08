@@ -20,7 +20,7 @@
 // } from "../apicalls/helper";
 // import { useAuthStore } from "../redux/store1";
 
-// function AdminProtected({ children }) {
+// function isAdminProtected({ children }) {
 //     const { user } = useSelector((state) => state.users);
 //     const [menu, setMenu] = useState([]);
 //     const [collapsed, setCollapsed] = useState(false);
@@ -61,12 +61,12 @@
 //         // },
 //       ];
 
-//     const adminMenu = [
+//     const isAdminMenu = [
 //         {
 //             title: "Home",
-//             paths: ["/adminHome"],
+//             paths: ["/isAdminHome"],
 //             icon: <i className="ri-home-line"></i>,
-//             onClick: () => navigate("/adminHome"),
+//             onClick: () => navigate("/isAdminHome"),
 //         },
 //         {
 //             title: "Payment Managemet",
@@ -78,7 +78,7 @@
 //             title: "Time Table Management",
 //             paths: ["/#"],
 //             icon: <i className="ri-bar-chart-line"></i>,
-//             onClick: () => navigate("/adminMainTimetable"),
+//             onClick: () => navigate("/isAdminMainTimetable"),
 //         },
 //         {
 //             title: "Support Service",
@@ -105,8 +105,8 @@
 //             dispatch(HideLoading());
 //             if (response.success) {
 //                 dispatch(SetUser(response.data));
-//                 if (response.data.admin) {
-//                     setMenu(adminMenu);
+//                 if (response.data.isAdmin) {
+//                     setMenu(isAdminMenu);
 //                 } else {
 //                     setMenu(userMenu);
 //                 }
@@ -135,8 +135,8 @@
 //             return true;
 //         } else {
 //             if (
-//                 activeRoute.includes("/admin/exams/edit") &&
-//                 paths.includes("/admin/exams")
+//                 activeRoute.includes("/isAdmin/exams/edit") &&
+//                 paths.includes("/isAdmin/exams")
 //             ) {
 //                 return true;
 //             }
@@ -163,9 +163,9 @@
 //                 let apiData = results.data;
 //                 setApiData1(results.data);
 
-//                 console.log(results.data.admin);
-//                 if (results.data.admin) {
-//                     setMenu(adminMenu);
+//                 console.log(results.data.isAdmin);
+//                 if (results.data.isAdmin) {
+//                     setMenu(isAdminMenu);
 //                 } else {
 //                     setMenu(userMenu);
 //                 }
@@ -180,7 +180,7 @@
 //                     profile: apiData?.profile || "",
 //                     id: apiData._id,
 //                     teacherId: apiData?.teacherId,
-//                     admin: apiData?.admin || "",
+//                     isAdmin: apiData?.isAdmin || "",
 
 //                 });
 //             });
@@ -189,9 +189,9 @@
 //                 let apiData = results.data;
 //                 setApiData1(results.data);
 
-//                 console.log(results.data.admin);
-//                 if (results.data.admin) {
-//                     setMenu(adminMenu);
+//                 console.log(results.data.isAdmin);
+//                 if (results.data.isAdmin) {
+//                     setMenu(isAdminMenu);
 //                 } else {
 //                     setMenu(userMenu);
 //                 }
@@ -206,7 +206,7 @@
 //                     profile: apiData?.profile || "",
 //                     id: apiData._id,
 //                     teacherId: apiData?.teacherId,
-//                     admin: apiData?.admin || "",
+//                     isAdmin: apiData?.isAdmin || "",
 
 //                 });
 //             });
@@ -248,13 +248,13 @@
 //                                 onClick={() => setCollapsed(false)}
 //                             ></i>
 //                         )}
-//                         <h1 className="text-2xl text-white">Admin Home Page - Thilina Institute</h1>
+//                         <h1 className="text-2xl text-white">isAdmin Home Page - Thilina Institute</h1>
 //                         <div>
 //                             <div className="flex gap-1 items-center">
 //                                 <i class="ri-user-line"></i>
 //                                 <h1 className="text-md text-white underline">{apiData1.firstName} {apiData1.lastName}</h1>
 //                             </div>
-//                             <span>Role : {apiData1.admin ? "Admin" : "User"}</span>
+//                             <span>Role : {apiData1.isAdmin ? "isAdmin" : "User"}</span>
 //                         </div>
 //                     </div>
 //                     <div className="content">{children}</div>
@@ -264,7 +264,7 @@
 //     );
 // }
 
-// export default AdminProtected;
+// export default isAdminProtected;
 
 
 
@@ -334,12 +334,12 @@
 //         // },
 //       ];
 
-//     const adminMenu = [
+//     const isAdminMenu = [
 //         {
 //             title: "Home",
-//             paths: ["/adminHome"],
+//             paths: ["/isAdminHome"],
 //             icon: <i className="ri-home-line"></i>,
-//             onClick: () => navigate("/adminHome"),
+//             onClick: () => navigate("/isAdminHome"),
 //         },
 //         {
 //             title: "Add Payment",
@@ -391,7 +391,7 @@
 //             if (response.success) {
 //                 dispatch(SetUser(response.data));
 //                 if (response.data.isAdmin) {
-//                     setMenu(adminMenu);
+//                     setMenu(isAdminMenu);
 //                 } else {
 //                     setMenu(userMenu);
 //                 }
@@ -420,8 +420,8 @@
 //             return true;
 //         } else {
 //             if (
-//                 activeRoute.includes("/admin/exams/edit") &&
-//                 paths.includes("/admin/exams")
+//                 activeRoute.includes("/isAdmin/exams/edit") &&
+//                 paths.includes("/isAdmin/exams")
 //             ) {
 //                 return true;
 //             }
@@ -451,7 +451,7 @@
 
 //                 console.log(results.data.isAdmin);
 //                 if (results.data.isAdmin) {
-//                     setMenu(adminMenu);
+//                     setMenu(isAdminMenu);
 //                 } else {
 //                     setMenu(userMenu);
 //                 }
@@ -477,7 +477,7 @@
 
 //                 console.log(results.data.isAdmin);
 //                 if (results.data.isAdmin) {
-//                     setMenu(adminMenu);
+//                     setMenu(isAdminMenu);
 //                 } else {
 //                     setMenu(userMenu);
 //                 }
@@ -540,7 +540,7 @@
 //                                 <i class="ri-user-line"></i>
 //                                 <h1 className="text-md text-white underline">{apiData1.firstName} {apiData1.lastName}</h1>
 //                             </div>
-//                             <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
+//                             <span>Role : {apiData1.isAdmin ? "isAdmin" : "User"}</span>
 //                         </div>
 //                     </div>
 //                     <div className="content">{children}</div>
@@ -624,12 +624,12 @@ function TprotectedRoute({ children }) {
         // },
     ];
 
-    const adminMenu = [
+    const isAdminMenu = [
         {
             title: "Home",
-            paths: ["/adminHome"],
+            paths: ["/isAdminHome"],
             icon: <i className="ri-home-line"></i>,
-            onClick: () => navigate("/adminHome"),
+            onClick: () => navigate("/isAdminHome"),
         },
         {
             title: "Payment Managemet",
@@ -641,7 +641,7 @@ function TprotectedRoute({ children }) {
             title: "Time Table Management",
             paths: ["/#"],
             icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/adminMainTimetable"),
+            onClick: () => navigate("/isAdminMainTimetable"),
         },
         {
             title: "Support Service",
@@ -654,7 +654,7 @@ function TprotectedRoute({ children }) {
             paths: ["/logout"],
             icon: <i className="ri-logout-box-line"></i>,
             onClick: () => {
-                localStorage.removeItem("token");
+                localStorage.removeItem("token1");
                 navigate("/plogin");
             },
         },
@@ -669,7 +669,7 @@ function TprotectedRoute({ children }) {
             if (response.success) {
                 dispatch(SetUser(response.data));
                 if (response.data.isAdmin) {
-                    setMenu(adminMenu);
+                    setMenu(isAdminMenu);
                 } else {
                     setMenu(userMenu);
                 }
@@ -683,13 +683,13 @@ function TprotectedRoute({ children }) {
         }
     };
 
-    useEffect(() => {
-        if (localStorage.getItem("token1")) {
-            getUserData();
-        } else {
-            navigate("/"); //if there is problem with token user navigate login
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (localStorage.getItem("token1")) {
+    //         getUserData();
+    //     } else {
+    //         navigate("/"); //if there is problem with token user navigate login
+    //     }
+    // }, []);
 
     const activeRoute = window.location.pathname;
 
@@ -734,7 +734,7 @@ function TprotectedRoute({ children }) {
 
                 console.log(results.data.isAdmin);
                 if (results.data.isAdmin) {
-                    setMenu(adminMenu);
+                    setMenu(isAdminMenu);
                 } else {
                     setMenu(userMenu);
                 }
@@ -760,7 +760,7 @@ function TprotectedRoute({ children }) {
 
                 console.log(results.data.isAdmin);
                 if (results.data.isAdmin) {
-                    setMenu(adminMenu);
+                    setMenu(isAdminMenu);
                 } else {
                     setMenu(userMenu);
                 }
