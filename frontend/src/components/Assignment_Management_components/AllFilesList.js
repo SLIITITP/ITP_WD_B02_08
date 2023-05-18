@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getProfileTeacher } from "../../apicalls/helper";
@@ -63,9 +62,8 @@ export default function AllFilesList() {
       })
     );
   };
-
- 
-
+  
+  
   const filterFiles = (assignmentType) => {
     if (assignmentType === 'all') {
       const filtered = files.filter(file => file.subject === id);
