@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { getProfileTeacher} from "../../apicalls/helper";
+
 
 export default function AllFilesList() {
   const [files, setFiles] = useState([]);
-  const [files1, setFiles1] = useState([]);
+ 
   const [filteredFiles, setFilteredFiles] = useState([]);
   const [submittedAssignments, setSubmittedAssignments] = useState([]);
-  const [apiData1, setApiData1] = useState({});
+ 
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
         const response = await axios.get('http://localhost:9090/items/getItems');
         const data = await response.json();
-        setFiles1(data.files);
+        setFiles(data.files);
         console.log(data.files);
         const filesWithDownloadedState = response.data.items.map(file => ({
           ...file,
@@ -31,23 +31,11 @@ export default function AllFilesList() {
     fetchFiles();
   }, []);
 
-  useEffect(() => {
-    const usernameFrom = localStorage.getItem("userName");
-    getProfileTeacher(usernameFrom).then((results) => {
-      setApiData1(results.data);
-      console.log(results.data)
-    });
-  }, []);
+  
 
-  const id = apiData1.teacherId;
+  
 
-  useEffect(() => {
-    const filteredFeedbacks = files1.filter((feedback) => feedback.subject === id);
-    if (filteredFeedbacks.length > 0) {
-      setFiles(filteredFeedbacks);
-      console.log(filteredFeedbacks);
-    }
-  }, [files1, id]);
+  
 
 
   const handleDownload = (fileId) => {
