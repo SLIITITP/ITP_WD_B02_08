@@ -206,7 +206,7 @@
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { getProfileTeacher} from "../../apicalls/helper";
+import { getProfileTeacher } from "../../apicalls/helper";
 
 export default function AllFilesList() {
   const [files, setFiles] = useState([]);
@@ -214,28 +214,6 @@ export default function AllFilesList() {
   const [filteredFiles, setFilteredFiles] = useState([]);
   const [submittedAssignments, setSubmittedAssignments] = useState([]);
   const [apiData1, setApiData1] = useState({});
-
-  useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const response = await axios.get('http://localhost:9090/items/getItems');
-        const data = response.data;
-        const filesWithDownloadedState = data.items.map(file => ({
-          ...file,
-          downloaded: localStorage.getItem(file._id) === 'true',
-          marksSubmitted: submittedAssignments.includes(file._id)
-        }));
-        setFiles1(data.files); // Make sure setFiles1 is defined and used correctly
-        setFiles(filesWithDownloadedState); // Make sure setFiles is defined and used correctly
-        setFilteredFiles(filesWithDownloadedState); // Make sure setFilteredFiles is defined and used correctly
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchFiles();
-  }, []);
-
 
   useEffect(() => {
     const usernameFrom = localStorage.getItem("userName");
@@ -248,6 +226,54 @@ export default function AllFilesList() {
 
   const id = apiData1.teacherId;
   console.log(id)
+
+  // useEffect(() => {
+  //   const fetchFiles = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:9090/items/getItems');
+  //       const data = response.data;
+  //       const filesWithDownloadedState = data.items.map(file => ({
+  //         ...file,
+  //         downloaded: localStorage.getItem(file._id) === 'true',
+  //         marksSubmitted: submittedAssignments.includes(file._id)
+  //       }));
+  //       setFiles1(data.files); // Make sure setFiles1 is defined and used correctly
+  //       setFiles(filesWithDownloadedState); // Make sure setFiles is defined and used correctly
+  //       setFilteredFiles(filesWithDownloadedState); // Make sure setFilteredFiles is defined and used correctly
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   fetchFiles();
+  // }, []);
+
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        const response = await axios.get('http://localhost:9090/items/getItems');
+        const data = response.data;
+
+        const filesWithDownloadedState = data.items.map(file => ({
+          ...file,
+          downloaded: localStorage.getItem(file._id) === 'true',
+          marksSubmitted: submittedAssignments.includes(file._id)
+        }));
+
+        setFiles1(data.files); // Make sure setFiles1 is defined and used correctly
+
+        const filtered = filesWithDownloadedState.filter(file => file.subject === id);
+        setFiles(filtered); // Make sure setFiles is defined and used correctly
+        setFilteredFiles(filtered); // Make sure setFilteredFiles is defined and used correctly
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchFiles();
+  }, [id, submittedAssignments]);
+
 
   const handleDownload = (fileId) => {
     setFiles(prevFiles =>
@@ -272,7 +298,6 @@ export default function AllFilesList() {
   //   }
   // };
 
-
   const filterFiles = (assignmentType) => {
     if (assignmentType === 'all') {
       const filtered = files.filter(file => file.subject === id);
@@ -281,7 +306,8 @@ export default function AllFilesList() {
       const filtered = files.filter(file => file.assignmentType === assignmentType && file.subject === id);
       setFilteredFiles(filtered);
     }
-  };  
+  };
+
 
   const handleMarkAssignment = (fileId, studentName, AssignmentType, marks) => {
     // Check if marks have already been submitted for this assignment
@@ -326,6 +352,12 @@ export default function AllFilesList() {
       <div className="row">
         <div className="col-md-12 mb-4">
           <div className="d-flex justify-content-center">
+          <button
+              className="btn btn-info mr-5"
+              onClick={() => filterFiles('all')}
+            >
+              All
+            </button>
             <button
               className="btn btn-info mr-5"
               onClick={() => filterFiles('Home Work')}
