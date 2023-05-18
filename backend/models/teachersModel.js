@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         //required: true,
     },
-    name:{
+    username:{
         type: String,
         required: false,
     },
@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: false,
         default: true,
+    },
+    admin:{
+        type: Boolean,
+        required: false,
+        default: false,
     }
 },{
     timestamps:true,

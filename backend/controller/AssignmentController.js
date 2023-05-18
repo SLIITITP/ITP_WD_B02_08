@@ -6,13 +6,13 @@ const asyncWrapper = require("../middlewares/asyncWrapper");
 
 
 const addAssignments = asyncWrapper(async (req, res) => {
+  const { TeacherID} = req.body;
   const { type } = req.body;
   const { subject } = req.body;
   const { grade } = req.body;
-  const { guidelines} = req.body;
-  const { deadline} = req.body;
+ const { deadline} = req.body;
   const file = req.file.path;
-  const assignment = await Assignment.create({ type,subject,grade,guidelines,deadline, file });
+  const assignment = await Assignment.create({ TeacherID,type,subject,grade,deadline, file });
   res.status(201).json({ assignment });
 });
 
@@ -52,11 +52,11 @@ const updateAssignment = async (req, res) => {
     if (!assignment) {
       return res.status(404).json({ error: 'Assignment not found' });
     }
-    const { type, subject, grade, guidelines, deadline } = req.body;
+    const { TeacherID,type, subject, grade,deadline } = req.body;
+    assignment.TeacherID = TeacherID || assignment.TeacherID;
     assignment.type = type || assignment.type;
     assignment.subject = subject || assignment.subject;
     assignment.grade = grade || assignment.grade;
-    assignment.guidelines = guidelines || assignment.guidelines;
     assignment.deadline = deadline || assignment.deadline;
     await assignment.save();
     res.status(200).json({ message: 'Assignment updated successfully', assignment });

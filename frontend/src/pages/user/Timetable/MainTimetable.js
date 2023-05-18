@@ -114,6 +114,9 @@ function handleEnrollClick (clz) {
 //   fetchData();
 // }, [dispatch, navigate]);
 
+
+//Get Student data id, stdid, grade
+
 useEffect(() => {
   let usernameFrom = localStorage.getItem("userName");
   console.log(usernameFrom);
@@ -200,6 +203,8 @@ return (
              <td>{clz.time}</td>
              <td>Rs.{clz.fees}</td>
            {/*{role !== "admin" && ( */}
+
+           {/*display eroll buttons if only the active grade is similar to student's grade*/ }
            {studentGrade === activeGrade && (
                <td>  
                   <button

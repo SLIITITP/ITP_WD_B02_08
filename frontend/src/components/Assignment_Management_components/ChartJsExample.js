@@ -1,153 +1,125 @@
-import { useState } from "react";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Line } from "react-chartjs-2";
-
-import React, { useRef } from "react";
-import ReactToPrint from "react-to-print";
-
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-const initialData = {
-  labels: ["week 1", "week 2", "week 3", "week 4"],
-  datasets: [
-    {
-      label: "Sinhala",
-      data: [null, null, null, null],
-      backgroundColor: "#2196F3",
-      borderColor: "#2196F3",
-    },
-    {
-      label: "Maths",
-      data: [null, null, null, null],
-      backgroundColor: "#F44236",
-      borderColor: "#F44236",
-    },
-    {
-      label: "English",
-      data: [null, null, null, null],
-      backgroundColor: "#FFCA29",
-      borderColor: "#FFCA29",
-    },
-    {
-      label: "History",
-      data: [null, null, null, null],
-      backgroundColor: "#7E57C2",
-      borderColor: "#7E57C2",
-    },
-    {
-      label: "Science",
-      data: [null, null, null, null],
-      backgroundColor: "#00FF00",
-      borderColor: "#00FF00",
-    },
-
-  ],
-};
-
-
-
-
-
-
-
+import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
+import { Bar } from 'react-chartjs-2';
+import { getProfile } from '../../apicalls/helper';
 
 const ChartJsExample = () => {
+  const chartRef = useRef(null);
+  const [marks, setMarks] = useState([]);
+  const [marks1, setMarks1] = useState([]);
+  const [apiData1, setApiData1] = useState({});
+  const id = apiData1.studentId;
 
-  const componentRef = useRef();
-
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
-  const [data, setData] = useState(initialData);
-  const [showPrintButton, setShowPrintButton] = useState(false); // added state variable
-
-  const handleInputChange = (subjectIndex, weekIndex, value) => {
-    const newData = {
-      ...data,
-      datasets: data.datasets.map((dataset, index) => {
-        if (index !== subjectIndex) return dataset;
-        return {
-          ...dataset,
-          data: dataset.data.map((d, i) => (i === weekIndex ? value : d)),
-        };
-      }),
+  useEffect(() => {
+    const fetchMarks = async () => {
+      try {
+        const response = await axios.get('http://localhost:9090/feed/getMark');
+        setMarks1(response.data);
+      } catch (error) {
+        console.error('Error retrieving marks:', error);
+      }
     };
-    setData(newData);
+
+    fetchMarks();
+  }, []);
+
+  useEffect(() => {
+    let usernameFrom = localStorage.getItem('userName');
+    getProfile(usernameFrom).then((results) => {
+      setApiData1(results.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    const filteredMarks = marks1.filter((marks) => marks.studentName === id);
+    if (filteredMarks.length > 0) {
+      setMarks(filteredMarks);
+    }
+  }, [marks1, id]);
+
+  const createChart = () => {
+    const assignmentTypes = marks.map((mark) => mark.AssignmentType);
+    const markValues = marks.map((mark) => mark.marks);
+
+    const chartData = {
+      labels: assignmentTypes,
+      datasets: [
+        {
+          label: 'Marks',
+          data: markValues,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+        },
+      },
+    };
+
+    return (
+      <div>
+        <div style={{ width: '300px', height: '200px' }}>
+          <Bar ref={chartRef} data={chartData} options={chartOptions} />
+        </div>
+        <button onClick={printChart}>Print</button>
+      </div>
+    );
   };
 
-  const handleSubjectSelect = (e) => {
-    const subject = e.target.value;
-    if (selectedSubjects.includes(subject)) {
-      setSelectedSubjects(selectedSubjects.filter((s) => s !== subject));
-      setShowPrintButton(false); // update state variable
-    } else {
-      setSelectedSubjects([...selectedSubjects, subject]);
-      setShowPrintButton(true); // update state variable
+  const printChart = () => {
+    if (chartRef.current && chartRef.current.chartInstance) {
+      const chartCanvas = chartRef.current.chartInstance.canvas;
+      const printWindow = window.open('', '_blank');
+      printWindow.document.open();
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Chart</title>
+            <style>
+              @media print {
+                body * {
+                  visibility: hidden;
+                }
+                #chart-container, #chart-container * {
+                  visibility: visible;
+                }
+                #chart-container {
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            <div id="chart-container">${chartCanvas.outerHTML}</div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.onload = () => {
+        printWindow.print();
+      };
     }
   };
 
-  const showChart = selectedSubjects.length > 0;
-
   return (
-
-    <div className="container mt-5">
-
-      <div ref={componentRef}>
-
-        <div className="row justify-content-center">
-          <div className="col-lg-8">
-
-            {!showChart && <div className="alert alert-info">Click on subjects to generate the chart</div>}
-
-            <center> <b> Explore Your Progress </b> </center>
-
-            <Line options={{ plugins: { legend: { position: "bottom" } } }} data={{ ...data, datasets: data.datasets.filter((dataset) => selectedSubjects.includes(dataset.label)) }} />
-            <form>
-              {data.datasets.map((dataset, subjectIndex) => (
-                <div key={subjectIndex} className="form-group">
-                  <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value={dataset.label} checked={selectedSubjects.includes(dataset.label)} onChange={handleSubjectSelect} />
-                    <label className="form-check-label">{dataset.label}</label>
-                  </div>
-                  {selectedSubjects.includes(dataset.label) && (
-                    <div className="row">
-                      {dataset.data.map((d, weekIndex) => (
-                        <div key={weekIndex} className="col-sm">
-                          <label>Week {weekIndex + 1}:</label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            value={d}
-                            onChange={(e) => handleInputChange(subjectIndex, weekIndex, parseInt(e.target.value))}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </form>
-
-            {showPrintButton && <ReactToPrint
-              trigger={() => <button>Print this out!</button>}
-              content={() => componentRef.current}
-            />}
-
-          </div>
-        </div>
-
-      </div>
-
+    <div>
+    <h1>Marks</h1>
+    {marks.length > 0 && createChart()}
     </div>
-  );
-};
-
-export default ChartJsExample;
-
+    );
+    };
+    
+    export default ChartJsExample;

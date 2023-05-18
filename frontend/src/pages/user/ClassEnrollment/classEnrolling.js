@@ -49,7 +49,8 @@ function ClassEnrolling() {
   const stdID = apiData1?._id;
   const studentID = apiData1?.studentId;
   const stdGrade = apiData1?.grade;
-  //console.log(apiData1?._id)
+  const stdEmail = apiData1?.email
+  console.log(apiData1?.email)
 
   const [classId] = useState(location.state.cId);
   const [grade] = useState(location.state.cGrade);
@@ -59,10 +60,11 @@ function ClassEnrolling() {
   const [time] = useState(location.state.cTime);
   const [fees] = useState(location.state.cFees);
 
-  
+
   const checkPaymentStatus = async () => {
     try {
-      const response = await axios.get(`http://localhost:9090/api/payment/status/${stdID}`);
+      const response = await axios.get(`http://localhost:9090/api/payment/status/${studentID}`);
+      console.log(response.data.paid)
       return response.data.paid;
     } catch (error) {
       console.log(error);
@@ -72,78 +74,75 @@ function ClassEnrolling() {
 
   const handleEnroll = async (e) => {
 
-    console.log(typeof(classId))
-    // const token = localStorage.getItem("token");
-    // const headers = {
-    //   authorization: `Bearer ${token}`,
-    // };
+    console.log(typeof (classId))
     e.preventDefault();
-   
+
     // Check if the student has paid the admission fee
     const hasPaid = await checkPaymentStatus();
-     if (!hasPaid) {
+    if (!hasPaid) {
       navigate('/enrollmentCheckout', {
         state: {
           stdID: stdID,
           studentId: studentID,
-          stdGrade: stdGrade
+          stdGrade: stdGrade,
+          stdEmail: stdEmail,
         }
-    
-    }); // Navigate to payment page
-     return;
+
+      }); // Navigate to payment page
+      return;
     }
 
+  else{
+    await axios.post(
+      `http://localhost:9090/api/enroll/enrollments`,
+      {
+        "studentID": stdID,
+        "classID": classId
+      },
 
-     await axios.post(
-        `http://localhost:9090/api/enroll/enrollments`,
-         {
-          "studentID": stdID,
-          "classID":classId
-      } ,
-       
-      ).then(response=>{
-        console.log(response)
-        alert("Enrolled Successfully")
-      },error=>{
-        console.log(error)
-        if (error.response && error.response.status === 400 && error.response.data.message === "Already enrolled") {
-          alert("You have already enrolled in this class.");
-        } else {
-          alert("Enrollment failed.");
-        }
-      })
-      
-    
+    ).then(response => {
+      console.log(response)
+      alert("Enrolled Successfully")
+    }, error => {
+      console.log(error)
+      if (error.response && error.response.status === 400 && error.response.data.message === "Already enrolled") {
+        alert("You have already enrolled in this class.");
+      } else {
+        alert("Enrollment failed.");
+      }
+    })
+  }
+
   };
 
   return (
     <div>
       <h3 className="mb-4 mt-12 text-center font-medium text-2xl text-gray-900 dark:text-white">Enroll to the Class</h3>
       <div className="d-flex justify-content-center ">
-      <div className="col-lg-3" >
-        <div className="card mt-6" style={{ width: "400px" , height:"300px"}}>
-          <div className="card-body mt-6 ml-6 " style={{ fontSize: "18px" }}>
-            {grade && <p>Grade: {grade}</p>}
-            {subject && <p>Subject: {subject}</p>}
-            {teacher && <p>Teacher: {teacher}</p>}
-            {date && <p>Date: {date}</p>}
-            {time && <p>Time: {time}</p>}
-            {fees && <p>Fees: Rs.{fees}</p>}
+        <div className="col-lg-3" >
+          <div className="card mt-6" style={{ width: "400px", height: "300px" }}>
+            <div className="card-body mt-6 ml-6 " style={{ fontSize: "18px" }}>
+              {grade && <p>Grade: {grade}</p>}
+              {subject && <p>Subject: {subject}</p>}
+              {teacher && <p>Teacher: {teacher}</p>}
+              {date && <p>Date: {date}</p>}
+              {time && <p>Time: {time}</p>}
+              {fees && <p>Fees: Rs.{fees}</p>}
+            </div>
+            <button
+              type="submit"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mr-6 ml-6 mb-4
+              focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center "
+              onClick={handleEnroll}
+            >
+              Enroll
+            </button>
           </div>
-        <button
-          type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mr-6 ml-6 mb-4
-          focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center "
-          onClick={handleEnroll}
-        >
-        Enroll
-       </button>
-       </div>
-       </div>
+        </div>
       </div>
     </div>
 
   );
-  
+
 }
 export default ClassEnrolling;

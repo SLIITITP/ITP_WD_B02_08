@@ -17,7 +17,9 @@ const [filteredClasses, setFilteredClasses] = useState(classes);
 const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
 const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
 const [apiData, setApiData] = useState({});
-  const [apiData1, setApiData1] = useState({});
+const [apiData1, setApiData1] = useState({});
+const [reminderData, setReminderData] = useState({});
+const [isModalOpen, setIsModalOpen] = useState(false);
 
 const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -133,8 +135,8 @@ useEffect(() => {
         filteredIds.map((classId) =>
           axios.get(`http://localhost:9090/class/getClassById/${classId}`)
             .then((res) => {
-              const { date,time, grade, subject, teacher,hall, fees } = res.data.selectedClass;
-              return { date,time, grade, subject, teacher, hall, fees  };
+              const { date,time, grade, subject, teacher,hall, fees, _id } = res.data.selectedClass;
+              return { date,time, grade, subject, teacher, hall, fees, _id  };
             })
             .catch((err) => {
               alert(err.message);
@@ -151,9 +153,30 @@ useEffect(() => {
   fetchEnrolledClasses();
 }, [enrolledClassIds]);
 
+
+//Unenroll from a class
+const handleUnenroll = async (classID) => {
+  try {
+    const response = await axios.delete(`http://localhost:9090/api/enroll/unenroll/${studentID}/${classID}`);
+    console.log(response.data); 
+    alert("Unenrollment successful!"); 
+  } catch (error) {
+    console.error(error);
+    alert("Error occurred during unenrollment. Please try again."); 
+  }
+};
+
+const renderUnenrollButton = (classID) => {
+  return (
+    <button className=" text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none 
+                       font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center" 
+     onClick={() => handleUnenroll(classID)}>Unenroll</button>
+  );
+};
+
+
+
 const tableRef = useRef();
-
-
 //Download timetable as a pdf
 function handlePrintClick() {
   const doc = new jsPDF({ orientation: 'landscape' });
@@ -207,6 +230,25 @@ doc.save('class-schedule.pdf');
 }
 
 
+//set the remider
+const now = new Date();
+
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const currentWeekday = weekdays[now.getDay()];
+let todayClasses = null;
+
+for (let i = 0; i < enrolledClassesData.length; i++) {
+  const classSchedules = enrolledClassesData[i];
+  console.log(classSchedules.date);
+  if (classSchedules.date === currentWeekday) {
+    const clzSubject = classSchedules.subject
+    const clzTeacher = classSchedules.teacher
+    const clzTime = classSchedules.time
+    console.log(clzTeacher)
+  }  
+}
+
+
 return (
 <div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
 {/*View timetable*/}
@@ -248,6 +290,7 @@ return (
           <td>{clz.teacher}</td>
           <td>{clz.hall}</td>
           <td>Rs.{clz.fees}</td>
+          <td>{renderUnenrollButton(clz._id)}</td>
         </tr>
     ))} 
     
@@ -256,6 +299,7 @@ return (
 <button className="btn btn-primary" onClick={handlePrintClick}>
 Download Timetable
 </button>
+
 </div> 
 </div>
   </div>

@@ -40,9 +40,9 @@ function TimetableSideNav({ children }) {
     },
     {
       title: "Exam Schedule",
-      paths: ["#/myExams"],
+      paths: ["/myExamTimetable"],
       icon: <i className="ri-todo-line"></i>,
-      onClick: () => navigate("#/myExams"),
+      onClick: () => navigate("/myExamTimetable"),
     },
     {
       title: "Logout",
