@@ -11,14 +11,26 @@ export const addReport = async (payload) => {
 }
 
 // get all reports
-export const getAllReports = async (filters) => {
+export const getAllReports = async () => {
     try {
-        const response = await axiosInstance.post("/api/reports/get-all-reports" , filters);
+        const response = await axiosInstance.post("/api/reports/get-all-reports");
         return response.data;
     } catch (error) {
         return error.response.data;
     }
-} 
+}
+
+//get report by id
+export const getReportById = async (payload) => {
+    try {
+        const response = await axiosInstance.post("/api/reports/get-report-by-id", payload);
+        return response.data;
+    } catch (error) {
+        return error.response.data;
+    }
+
+}
+
 
 // get all reports by user
 export const getAllReportsByUser = async () => {

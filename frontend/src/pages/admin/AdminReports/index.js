@@ -1,20 +1,28 @@
-import React from "react";
-import PageTitle from "../../../components/PageTitle";
+import React, { useState, useEffect } from "react";
 import { message, Table } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
-import { getAllReports } from "../../../apicalls/reports";
-import { useEffect } from "react";
+import { getAllReports} from "../../../apicalls/reports";
 import moment from "moment";
 
+import PageTitle from "../../../components/PageTitle";
+import { SetUser } from "../../../redux/usersSlice";
+import { tgetUserInfo } from "../../../apicalls/teachers";
+
 function AdminReports() {
-  const [reportsData, setReportsData] = React.useState([]);
+  const [reportsData, setReportsData] = useState([]);
   const dispatch = useDispatch();
-  console.log(reportsData);
-  const [filters, setFilters] = React.useState({
-    examName: "",
-    userName: "",
-  });
+  const { user } = useSelector((state) => state.users);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getUserData();
+      getData();
+    } else {
+      // navigate("/login"); //if there is problem with token user navigate login
+    }
+  }, []);
+
   const columns = [
     {
       title: "Exam Name",
@@ -55,63 +63,50 @@ function AdminReports() {
     },
   ];
 
-  const getData = async (tempFilters) => {
+  const getData = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await getAllReports(tempFilters);
+      const response = await getAllReports();
+      dispatch(HideLoading());
       if (response.success) {
-        setReportsData(response.data);
+        const filteredExams = response.data.filter(
+          (report) => report.exam.userID === user.userID
+        );
+        setReportsData(filteredExams);
+        if (filteredExams.length > 0) {
+          dispatch(HideLoading());
+        }
       } else {
         message.error(response.message);
       }
-      dispatch(HideLoading());
     } catch (error) {
       dispatch(HideLoading());
       message.error(error.message);
     }
   };
 
-  useEffect(() => {
-    getData(filters);
-  }, []);
+  const getUserData = async () => {
+    try {
+      dispatch(ShowLoading());
+      const response = await tgetUserInfo();
+      dispatch(HideLoading());
+      if (response.success) {
+        dispatch(SetUser(response.data));
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      // navigate("/login"); //if there is problem with token user navigate login
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
 
   return (
     <div>
       <PageTitle title="Reports" />
       <div className="divider"></div>
-      <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="Exam"
-          value={filters.examName}
-          onChange={(e) => setFilters({ ...filters, examName: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="User"
-          value={filters.userName}
-          onChange={(e) => setFilters({ ...filters, userName: e.target.value })}
-        />
-        <button
-          className="primary-outlined-btn"
-          onClick={() => {
-            setFilters({
-              examName: "",
-              userName: "",
-            });
-            getData({
-              examName: "",
-              userName: "",
-            });
-          }}
-        >
-          Clear 
-        </button>
-        <button className="primary-contained-btn" onClick={() => getData(filters)}>
-          Search
-        </button>
-      </div>
-      <Table columns={columns} dataSource={reportsData} className="mt-2" />
+      <Table columns={columns} dataSource={reportsData} />
     </div>
   );
 }

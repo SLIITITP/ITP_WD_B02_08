@@ -69,7 +69,7 @@ import TicketsReport from './components/TicketsReport';
 import Reply from './components/reply';
 import FAQ from './components/faq';
 import Gvideos from './components/GuideVideos';
-
+import Bot from './components/bot';
 
 /////__________________Assignments___________________/////////////////////////////////////
 
@@ -256,6 +256,8 @@ function App() {
     <BrowserRouter>
 
       {/* <Navbar/>  */}
+     <Bot/>
+{/* <Navbar/>  */}
 
       {loading && <Loader />}
       <Routes>
