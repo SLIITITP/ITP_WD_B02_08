@@ -178,7 +178,7 @@ export default function AllFilesList() {
             <div className="card">
               <div className="card-body">
               {/* /////////////////// */}
-                <h5 className="card-title">{file.name}{file.subject}</h5>
+                <h5 className="card-title">{file.name}</h5>
       
                 <p className="card-text">{file.description}</p>
                 <a
@@ -196,11 +196,10 @@ export default function AllFilesList() {
                     <>
                       <label htmlFor={`marks_${file._id}`}>Marks:</label>
                       <input
-                        type="number"
+                        type="text"
                         id={`marks_${file._id}`}
                         className="form-control"
-                        min="0"
-                        step="0.01"
+                        
                       />
                       <button
                         className="btn btn-primary mt-2"

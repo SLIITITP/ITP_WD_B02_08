@@ -271,7 +271,7 @@ function TprotectedRoute({ children }) {
               <span className="text-md text-white">Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
             </div>
           </div>
-          <div className="content">{children}</div>
+          <div style={{ overflowY: 'auto', flexGrow: 1, height: '68%' }}>{children}</div>
         </div>
       </div>
       <ToastContainer />

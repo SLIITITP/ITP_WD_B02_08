@@ -130,6 +130,12 @@ function AssignmentForm({ onSubmit }) {
           required
         >
           <option value="">Select grade</option>
+          <option value="6">1</option>
+          <option value="6">2</option>
+          <option value="6">3</option>
+          <option value="6">4</option>
+          <option value="6">5</option>
+          
           <option value="6">6</option>
           <option value="7">7</option>
           <option value="8">8</option>
