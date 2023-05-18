@@ -8,14 +8,13 @@ const authMiddleware = require("../middlewares/authMiddleware");
 // enroll student for a class
 router.post("/enrollments", async (req, res) => {
   try {
-    const { studentID, classID,admissionFeePaid } = req.body;
+    const { studentID, classID } = req.body;
     const enrollment = await Enrollment.findOne({ studentID });
     if (enrollment) {
       if (enrollment.classID.includes(classID)) {
         return res.status(400).json({ message: "Already enrolled",success: false  });
       } else {
         enrollment.classID.push(classID);
-        enrollment.admissionFeePaid = admissionFeePaid;
         await enrollment.save();
          res.send({
          message: "enrolled successfully",
@@ -63,5 +62,41 @@ router.get("/enrollments/:studentID", async (req, res) => {
   }
 });
 
+// Unenroll student from a class
+router.delete("/unenroll/:studentID/:classID", async (req, res) => {
+  try {
+    const { studentID, classID } = req.params;
+    const enrollment = await Enrollment.findOne({ studentID });
+
+    if (!enrollment) {
+      return res.status(400).json({ message: "Student is not enrolled in any classes", success: false });
+    }
+    const classIndex = enrollment.classID.indexOf(classID);
+
+    if (classIndex === -1) {
+      return res.status(400).json({ message: "Student is not enrolled in the specified class", success: false });
+    }
+    enrollment.classID.splice(classIndex, 1);
+
+    if (enrollment.classID.length === 0) {
+      // If the student is not enrolled in any other class, remove the enrollment record
+      await Enrollment.deleteOne({ studentID });
+    } else {
+      // Save the updated enrollment record
+      await enrollment.save();
+    }
+
+    res.send({
+      message: "Unenrolled successfully",
+      success: true,
+    });
+   } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      data: error,
+      success: false,
+    });
+  }
+});
 
 module.exports = router;

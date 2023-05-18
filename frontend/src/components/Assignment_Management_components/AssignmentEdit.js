@@ -6,7 +6,6 @@ const AssignmentEdit = () => {
   const [type, setType] = useState("");
   const [subject, setSubject] = useState("");
   const [grade, setGrade] = useState("");
-  const [guidelines, setGuidelines] = useState("");
   const [deadline, setDeadline] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
@@ -19,7 +18,6 @@ const AssignmentEdit = () => {
       setType(data.assignment.type || "");
       setSubject(data.assignment.subject || "");
       setGrade(data.assignment.grade || "");
-      setGuidelines(data.assignment.guidelines || "");
       setDeadline(data.assignment.deadline || "");
     };
     fetchAssignment();
@@ -37,9 +35,7 @@ const AssignmentEdit = () => {
     setGrade(event.target.value);
   };
 
-  const handleGuidelinesChange = (event) => {
-    setGuidelines(event.target.value);
-  };
+
 
   const handleDeadlineChange = (event) => {
     setDeadline(event.target.value);
@@ -56,7 +52,6 @@ const AssignmentEdit = () => {
         type,
         subject,
         grade,
-        guidelines,
         deadline,
       }),
     });
@@ -74,29 +69,26 @@ const AssignmentEdit = () => {
 
 
       <form onSubmit={handleSubmit}>
-        <div class="form-group">
-          <label for="type">Type:</label>
+        <div class="form-group" style={{ marginTop: '15px' ,marginBottom: '15px'}} >
+          <label for="type">Assignment Type:</label>
           <input type="text" class="form-control" id="type" value={type} onChange={handleTypeChange} />
         </div>
-        <div class="form-group">
+        <div class="form-group" style={{ marginTop: '15px',marginBottom: '15px' }}>
           <label for="subject">Subject:</label>
           <input type="text" class="form-control" id="subject" value={subject} onChange={handleSubjectChange} />
         </div>
-        <div class="form-group">
+        <div class="form-group" style={{ marginTop: '15px' }}>
           <label for="grade">Grade:</label>
           <input type="text" class="form-control" id="grade" value={grade} onChange={handleGradeChange} />
         </div>
-        <div class="form-group">
-          <label for="guidelines">Guidelines:</label>
-          <textarea class="form-control" id="guidelines" value={guidelines} onChange={handleGuidelinesChange} rows="5"></textarea>
-        </div>
-        <div class="form-group">
+       
+        <div class="form-group"  style={{ marginTop: '15px' }}>
           <label for="deadline">Deadline:</label>
           <input type="date" class="form-control" id="deadline" value={deadline} onChange={handleDeadlineChange} />
         </div>
 
         <button
-          className="btn btn-primary">
+          className="btn btn-primary"  style={{ marginTop: '15px' }}>
           Save
         </button>
 

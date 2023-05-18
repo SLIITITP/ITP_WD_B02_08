@@ -10,6 +10,7 @@ const StudentAssignments = () => {
 
   const id = apiData1.grade;
 
+  //filter assignments according to the grade
   useEffect(() => {
     const filteredAssignments = assignment1.filter((assignment) => assignment.grade === id);
     if (filteredAssignments.length > 0) {
