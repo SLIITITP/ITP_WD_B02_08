@@ -302,7 +302,7 @@ export default function SalaryCalculation() {
                     {/* Search button */}
                     <button type='submit' className='mr-2 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'>Search</button>
                     {/* Add button */}
-                    {payments > 0 &&
+                    {payments.length > 0 &&
                         <button onClick={handleSalaryData} className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md p-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Add</button>
                     }
                 </form>
