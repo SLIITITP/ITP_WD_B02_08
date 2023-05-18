@@ -110,7 +110,7 @@ const StudentAssignments = () => {
             <th>Type</th>
             <th>Subject</th>
             <th>Grade</th>
-            <th>Guidelines</th>
+          
             <th>Deadline</th>
             <th>Resources</th>
           </tr>
@@ -121,7 +121,7 @@ const StudentAssignments = () => {
               <td>{assignment.type}</td>
               <td>{assignment.subject}</td>
               <td>{assignment.grade}</td>
-              <td>{assignment.guidelines}</td>
+
               <td>{assignment.deadline}</td>
               <td>
                 {assignment.file && (

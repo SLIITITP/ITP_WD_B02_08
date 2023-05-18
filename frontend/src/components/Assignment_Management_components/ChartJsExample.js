@@ -122,7 +122,12 @@ const ChartJsExample = () => {
           ))}
         </tbody>
       </table>
-      <button onClick={generatePDF} className="mt-4">Generate PDF</button>
+      <button
+  onClick={generatePDF}
+  className="btn btn-primary" style={{ marginTop: '10px' ,backgroundColor: 'blue' }}
+>
+  Generate Report
+</button>
     </div>
 
   );

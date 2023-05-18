@@ -25,6 +25,40 @@ export default function FileUploader() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    // Perform form validations
+    if (!name.trim()) {
+      alert("Student ID is required");
+      return;
+    }
+
+    if (!TeaID.trim()) {
+      alert("Teacher ID is required");
+      return;
+    }
+
+    if (!grade.trim()) {
+      alert("Grade is required");
+      return;
+    }
+
+    if (!assignmentType) {
+      alert("Assignment Type is required");
+      return;
+    }
+   
+
+    if (!subject.trim()) {
+      alert("Subject is required");
+      return;
+    }
+
+    if (!file) {
+      alert("Please select a file");
+      return;
+    }
+
+
     const formData = new FormData();
     formData.append('name', name);
     formData.append('TeaID', TeaID);

@@ -7,7 +7,7 @@ const Mark = require('../models/markModel');
 //create
 router.route('/addFeedback').post((req, res) => {
 
-  const  teachersName = req.body.teachersName;
+  const  teachersEmail = req.body.teachersName;
   const grade = req.body.grade;
   const assignmentType = req.body.assignmentType;
  // const date = req.body.date;
@@ -15,7 +15,7 @@ router.route('/addFeedback').post((req, res) => {
   const message = req.body.message;
 
   const newFeedback = new Feedback({
-    teachersName,
+    teachersEmail,
     grade,
     assignmentType,
     email,

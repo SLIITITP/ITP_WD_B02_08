@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const feedbackSchema = new Schema({
  
-  teachersName: { type: String, required: true },
+  teachersEmail: { type: String, required: true },
   grade: { type: String, required: true },
   assignmentType:{type: String, required: true },
   message: { type: String, required: true },
