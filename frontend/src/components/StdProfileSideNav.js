@@ -47,21 +47,15 @@ function StdProfileSideNav({ children }) {
     },
     {
         title: "Payments",
-        paths: ["/mainTimetable","/user/classEnrolling"],
-        icon: <i className="ri-home-line"></i>,
-        onClick: () => navigate("/mainTimetable"),
-      },
-      {
-        title: "Attendence",
-        paths: ["/mainTimetable","/user/classEnrolling"],
-        icon: <i className="ri-home-line"></i>,
-        onClick: () => navigate("/mainTimetable"),
+        paths: ["/payOnline","/"],
+        icon: <i className="ri-money-dollar-circle-line"></i>,
+        onClick: () => navigate("/payOnline"),
       },
       {
         title: "Support Services",
-        paths: ["/mainTimetable","/user/classEnrolling"],
+        paths: ["/Stickets","/user/classEnrolling"],
         icon: <i className="ri-home-line"></i>,
-        onClick: () => navigate("/mainTimetable"),
+        onClick: () => navigate("/Stickets"),
       },  
     {
       title: "Logout",

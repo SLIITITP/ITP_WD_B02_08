@@ -142,8 +142,8 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gradient-to-r from-gray-700 to-gray-300 justify-center h-screen">
-      <div className="border-b-2 border-gray-300 mb-8">
+    <div className="flex flex-col items-center bg-gradient-to-r from-gray-700 to-gray-300 justify-start mt-1 h-screen">
+      <div className="border-b-2 border-gray-300 mb-8 mt-8">
         <ul className="flex justify-center rounded-lg bg-white">
           <li className={`${activeTab === 'add' ? 'bg-purple-500 font-bold text-white' : ''} px-4 py-2 cursor-pointer rounded-lg`} onClick={() => handleTabClick('add')}>Add Subject</li>
           <li className={`${activeTab === 'update' ? 'bg-purple-500 font-bold text-white' : ''} px-4 py-2 cursor-pointer rounded-lg`} onClick={() => handleTabClick('update')}>Update Subject</li>

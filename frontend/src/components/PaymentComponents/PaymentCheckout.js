@@ -180,8 +180,8 @@ function PaymentCheckout() {
                                     value={email}
                                     placeholder='email to get receipt'
                                     onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                                    required // Email field is required and must be filled out
+                                    pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$' // Email must match this pattern
                                     style={{ borderColor: email && !email.match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$') ? 'red' : '' }}
                                 />
                             </div>
