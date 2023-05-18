@@ -52,9 +52,6 @@ function Login() {
               >
                 Login
               </button>
-              <Link to="/register" className="underline">
-                Not a member? Register
-              </Link>
             </div>
           </Form>
         </div>
