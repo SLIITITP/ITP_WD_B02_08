@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddClass() {
 
@@ -31,7 +33,7 @@ useEffect(() => {
       const subjectNames = response.data.map((subject) => `${subject.subjectName} - ${subject.subjectTeacherName}`);
       setSubjectOptions(subjectNames);
     } catch (error) {
-      console.error(error);
+      toast.error(error);
     }
   };
   fetchSubjects();
@@ -51,24 +53,24 @@ useEffect(() => {
       !formData.time ||
       !formData.fees
     ) {
-      alert("Please fill out all fields.");
+      toast.error("Please fill out all fields.");
       return;
     }
     
     // Validate the time format (HH:MM am/pm - HH:MM am/pm)
     const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)\s-\s(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)$/;
     if (!timeRegex.test(formData.time)) {
-      alert("Please enter a valid time (HH:MM am/pm - HH:MM am/pm).");
+      toast.error("Please enter a valid time (HH:MM am/pm - HH:MM am/pm).");
     return;
     }
 
     axios
       .post("http://localhost:9090/class/addClass", formData)
       .then(() => {
-        alert("Class Added");
+        toast.success("Class Added");
       })
       .catch((err) => {
-        alert(err);
+        toast.error(err);
       });
   }
 
@@ -145,7 +147,7 @@ return (
           {renderInput("teacher", "Teacher", "Teacher's Name")}
           {renderInput("hall", "Hall", "Enter Hall No")}
           {renderInput("date", "Date", "Enter Date")}
-          {renderInput("time", "Time", "Enter Time  (HH.MM am/pm - HH.MM am/pm)")}
+          {renderInput("time", "Time", "Enter Time  (HH:MM am/pm - HH:MM am/pm)")}
           {renderInput("fees", "Fees", "Fees")}
 
           <button
@@ -157,6 +159,7 @@ return (
         </form>
 
       </div>
+      <ToastContainer/>
     </div>
 
   );

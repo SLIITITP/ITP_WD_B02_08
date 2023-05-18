@@ -70,12 +70,6 @@ function TprotectedRoute({ children }) {
 
   const adminMenu = [
     {
-      title: "Admin Home",
-      paths: ["/adminDash"],
-      icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/adminDash"),
-    },
-    {
       title: "Main Class Schedule",
       paths: ["/adminMainTimetable"],
       icon: <i className="ri-calendar-todo-line"></i>,
@@ -265,7 +259,7 @@ function TprotectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
+            <h1 className="text-2xl text-white">TIMETABLE MANAGEMENT</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
