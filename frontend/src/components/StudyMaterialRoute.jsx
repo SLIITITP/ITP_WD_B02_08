@@ -204,7 +204,7 @@ function ProtectedRoute({ children }) {
   };
 
   return (
-    <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
+    <div className="layout !fixed">
       <div className="!flex gap-6 w-full h-full">
         <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
           <div className="menu ">
