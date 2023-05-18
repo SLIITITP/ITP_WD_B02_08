@@ -176,7 +176,7 @@ export default function AllFilesList() {
                     <>
                       <label htmlFor={`marks_${file._id}`}>Marks:</label>
                       <input
-                        type="text"
+                        type=""
                         id={`marks_${file._id}`}
                         className="form-control"
                   
