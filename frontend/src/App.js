@@ -243,8 +243,8 @@ import HomePage from './home/homePage'
 import RegisteredStudents from './components/ToImp/RegisteredStudents';
 import UpdateStudent from './components/ToImp/UpdateStudent';
 import StripeContainerCN from './components/PaymentComponents/StripeContainerCN';
-
-
+import StdProfileSideNav from './components/StdProfileSideNav';
+import TeaProfileSideNav from './components/TeaProfileSideNav';
 
 
 
@@ -348,7 +348,7 @@ function App() {
         <Route path="/plogin" element={<Username />} />
         <Route path="/password" element={<ProtectRoute><Password /></ProtectRoute>} />
         <Route path="/registers" element={<Registers />} />
-        <Route path="/profile" element={<AuthorizeUser><Profile /></AuthorizeUser>} />
+        <Route path="/profile" element={<StdProfileSideNav><AuthorizeUser><Profile /></AuthorizeUser></StdProfileSideNav>} />
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
 
@@ -362,7 +362,7 @@ function App() {
         <Route path="/adminDash" element={<AdminSideNav><AdminDash /></AdminSideNav>} />
         <Route path='/pteacherLogin' element={<TeacherLogin />} />
         <Route path='/passwordTeacher' element={<PasswordTeacher></PasswordTeacher>}></Route>
-        <Route path='/teacherProfile' element={<TeaProfile />}></Route>
+        <Route path='/teacherProfile' element={<TeaProfileSideNav><TeaProfile /></TeaProfileSideNav>}></Route>
         <Route path='/adminLogin' element={<AdminLogin />}></Route>
 
         {/* <Route path="*" element={<PageNotFoud/>}/> */}
