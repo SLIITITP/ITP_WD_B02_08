@@ -82,7 +82,7 @@ export default function StudentDashboard() {
 </aside> */}
 
 
-<div className= ' h-screen'>
+<div className= ' h-screen '>
    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
 
    <div className="flex h-52 mb-4 rounded bg-green-300 border-black border-2 dark:bg-gray-800">
