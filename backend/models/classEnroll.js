@@ -11,12 +11,8 @@ const enrollmentSchema = new mongoose.Schema({
     ref: "Class",
     required: false,
   } ],
-  admissionFeePaid: {
-    type: Boolean,
-    required: true,
-    default: false
-  }
 });
+
 
 const Enrollment = mongoose.model("Enrollment", enrollmentSchema);
 

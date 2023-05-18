@@ -3,14 +3,24 @@ import axios from 'axios';
 import '../../stylesheets/Payment.css'
 import { Link, useNavigate } from 'react-router-dom';
 import PaymentCheckout from './PaymentCheckout';
+import { updateUser, getProfile, deleteUser } from "../../apicalls/helper";
 
 
 //added comment
 export default function OnlinePayment() {
 
-    const studentId = 'EM12345';
 
-    const [grade, setGrade] = useState('');
+    const [apiData1, setApiData1] = useState({});
+    const stdID = apiData1?._id;
+    const studentID = apiData1?.studentId;
+    const stdGrade = apiData1?.grade;
+    const stdEmail = apiData1?.email
+    console.log(apiData1?.email)
+
+    const studentId = studentID;
+
+    const grade = stdGrade;
+    console.log(grade)
     // const [subjects, setSubjects] = useState([]);
     const [month, setMonth] = useState('');
     const [paidAmount, setAmount] = useState(0);
@@ -24,6 +34,17 @@ export default function OnlinePayment() {
     const [subjectList, setSubjectList] = useState([]);
     //set selected subjects
     const [selectedSubjects, setSelectedSubjects] = useState([]);
+
+    //getting user details from login
+    useEffect(() => {
+        let usernameFrom = localStorage.getItem("userName");
+        console.log(usernameFrom);
+        getProfile(usernameFrom).then((results) => {
+            setApiData1(results.data);
+            console.log(results.data._id);
+        });
+    }, []);
+
 
     //getting subject details and fetch
     useEffect(() => {
@@ -44,14 +65,14 @@ export default function OnlinePayment() {
 
     const handleCheckboxChange = (event, sub) => {
         if (event.target.checked) {
-          setSelectedSubjects([...selectedSubjects, sub]);
-          setAmount(prevAmount => prevAmount + sub.subjectAmount);
-          setSubWithID(prevSubjects => [...prevSubjects, { id: sub.subjectID, name: sub.subjectName }]);
-      
+            setSelectedSubjects([...selectedSubjects, sub]);
+            setAmount(prevAmount => prevAmount + sub.subjectAmount);
+            setSubWithID(prevSubjects => [...prevSubjects, { id: sub.subjectID, name: sub.subjectName }]);
+
         } else {
-          setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
-          setAmount(prevAmount => prevAmount - sub.subjectAmount);
-          setSubWithID(prevSubjects => prevSubjects.filter((s) => s.id !== sub.subjectID));
+            setSelectedSubjects(selectedSubjects.filter((s) => s._id !== sub._id));
+            setAmount(prevAmount => prevAmount - sub.subjectAmount);
+            setSubWithID(prevSubjects => prevSubjects.filter((s) => s.id !== sub.subjectID));
         }
 
         // console.log(subjects); // ["Subject 1", "Subject 2", "Subject 3"]
@@ -97,6 +118,7 @@ export default function OnlinePayment() {
 
     const handleSubmit = () => {
         setSubmitted(true);
+        console.log(grade)
         navigate('/payment/checkout', {
             state: {
                 sId: studentId,
@@ -106,8 +128,8 @@ export default function OnlinePayment() {
                 sPaidAmount: paidAmount,
                 sDate: date,
                 sSubIDs: subjectsIDs,
+                sEmail: stdEmail,
             }
-
         });
     }
 
@@ -144,9 +166,9 @@ export default function OnlinePayment() {
                                 <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2">
                                     Grade :
                                 </label>
-                                <select value={grade} onChange={(e) => setGrade(e.target.value)} required className='appearance-none block w-full bg-gray-50 text-lg text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'>
-                                    <option value=''>--Select Grade--</option>
-                                    <option value='1'>Grade 1</option>
+                                <select value={grade} required className='appearance-none block w-full bg-gray-50 text-lg text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'>
+                                    <option value={stdGrade}>Grade {stdGrade}</option>
+                                    {/* <option value='1'>Grade 1</option>
                                     <option value='2'>Grade 2</option>
                                     <option value='3'>Grade 3</option>
                                     <option value='4'>Grade 4</option>
@@ -157,7 +179,7 @@ export default function OnlinePayment() {
                                     <option value='9'>Grade 9</option>
                                     <option value='10'>Grade 10</option>
                                     <option value='11'>Grade 11</option>
-                                    <option value='Other'>Other</option>
+                                    <option value='Other'>Other</option> */}
                                 </select>
                             </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -227,11 +249,11 @@ export default function OnlinePayment() {
                             <tbody className='text-center'>
                                 {payments.map(payment => (
                                     <tr key={payment._id}>
-                                        <td  className='border border-black p-1'>{payment.date}</td>
-                                        <td  className='border border-black p-1 text-lg text-green-500'>{payment.month}</td>
-                                        <td  className='border border-black p-1'>{payment.subjects.join(', ')}</td>
-                                        <td  className='border border-black p-1'>{payment.grade}</td>
-                                        <td  className='border border-black p-1'>{payment.paidAmount}</td>
+                                        <td className='border border-black p-1'>{payment.date}</td>
+                                        <td className='border border-black p-1 text-lg text-green-500'>{payment.month}</td>
+                                        <td className='border border-black p-1'>{payment.subjects.join(', ')}</td>
+                                        <td className='border border-black p-1'>{payment.grade}</td>
+                                        <td className='border border-black p-1'>{payment.paidAmount}</td>
                                     </tr>
                                 ))}
                             </tbody>

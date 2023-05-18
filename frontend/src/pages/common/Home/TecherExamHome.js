@@ -13,6 +13,7 @@ function TeacherExamHome() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
+  console.log(user);
 
   const getExams = async () => {
     try {
@@ -62,7 +63,7 @@ function TeacherExamHome() {
     user && (
       <div>
         <PageTitle
-          title={`Hi ${user.name}, Welcome to Thilina Institute Quiz Portal`}
+          title={`Hi ${user.username}, Welcome to Thilina Institute Quiz Portal`}
         />
         <div className="divider"></div>
 

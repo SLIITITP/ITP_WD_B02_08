@@ -21,6 +21,7 @@ import testuser from './pages/user/testuser'
 import Testuser from './pages/user/testuser'
 import T1 from './pages/user/T1'
 
+//Timetable Management
 import TimetableSideNav from "./components/TimetableSideNav";
 import AdminEditSchedule from "./pages/admin/Timetable/AdminEditSchedule";
 import AddClass from "./pages/admin/Timetable/AddClass";
@@ -33,6 +34,7 @@ import TeacherMyTimetable from "./pages/Teacher/Timetable/TeacherMyTimetable";
 import TeacherMainTimetable from "./pages/Teacher/Timetable/TeacherMainTimetable";
 import AdminTimetableSideNav from './components/AdminTimetableSidenav';
 import AdminMainTimetable from './pages/admin/Timetable/AdminMainTimetable';
+import MyExamTimetable from './pages/user/Timetable/MyExamTimetable';
 
 import EnrollmentCheckout from './components/PaymentComponents/EnrollmentCheckout';
 
@@ -67,7 +69,7 @@ import TicketsReport from './components/TicketsReport';
 import Reply from './components/reply';
 import FAQ from './components/faq';
 import Gvideos from './components/GuideVideos';
-
+import Bot from './components/bot';
 
 /////__________________Assignments___________________/////////////////////////////////////
 
@@ -204,8 +206,8 @@ import TprotectedRoute from './components/TprotectedRoute'
 import ExamMain from './pages/common/Home/ExamMain';
 import AdminReports from './pages/admin/AdminReports/index'
 import StudentHome from './pages/common/Home/StudentHome';
-import TeacherExamHome from './pages/common/Home/TecherExamHome'; 
-import MyExam from './pages/common/Home/MyExam';  
+import TeacherExamHome from './pages/common/Home/TecherExamHome';
+import MyExam from './pages/common/Home/MyExam';
 
 import TeacherAssignmentRoutes from './components/TeacherAssignmentRoutes'
 import FinanceAdminProtected from './components/FinanceAdminProtected'
@@ -213,7 +215,9 @@ import FinanceUserProtected from './components/FinanceUserProtected'
 import NipTest from './components/PaymentComponents/NipTest';
 import RegForm from './components/ToImp/RegForm';
 import AllStudents from './components/ToImp/AllStudents';
-
+import OwnersPage from './components/PaymentComponents/OwnersPage';
+import AdminProtected from './components/AdminProtected';
+import TestAndDemo from './components/PaymentComponents/TestAndDemo';
 
 
 import Marks from './components/Assignment_Management_components/Marks';
@@ -238,6 +242,7 @@ import HomePage from './home/homePage'
 //import Footer from './home/Footer';
 import RegisteredStudents from './components/ToImp/RegisteredStudents';
 import UpdateStudent from './components/ToImp/UpdateStudent';
+import StripeContainerCN from './components/PaymentComponents/StripeContainerCN';
 
 
 
@@ -250,6 +255,8 @@ function App() {
 
     <BrowserRouter>
 
+      {/* <Navbar/>  */}
+     <Bot/>
 {/* <Navbar/>  */}
 
       {loading && <Loader />}
@@ -285,8 +292,12 @@ function App() {
         <Route path='/payment/checkout' exact element={<FinanceUserProtected><StripeContainer /></FinanceUserProtected>} />
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
+        <Route path='/owner' element={<FinanceAdminProtected><OwnersPage /></FinanceAdminProtected>} />
+        <Route path='/adminHome' element={<AdminProtected><NipTest /></AdminProtected>} />
+        <Route path='/demo' element={<TestAndDemo />} />
 
-        <Route path='/enrollmentCheckout' element={<EnrollmentCheckout/>} />
+
+        <Route path='/enrollmentCheckout' element={<StripeContainerCN />} />
         {/* Attendance Management */}
         <Route path='/am/add' element={<GetAm />} />
         <Route path='/am/check' element={<CheckAm />} />
@@ -298,6 +309,7 @@ function App() {
         <Route path='/updateregstd' element={<UpdateStudent />} />
 
 
+        {/* Timetable Management Routes*/}
         {/* Admin Routes for Timetable Management */}
         <Route path="/adminMainTimetable" exact element={<AdminTimetableSideNav>
           <AdminMainTimetable />
@@ -311,7 +323,6 @@ function App() {
         <Route path="/adminExamSchedule" exact element={<AdminTimetableSideNav>
           <AdminExamSchedule />
         </AdminTimetableSideNav>} />
-
         {/* Student Routes for Timetable Management */}
         <Route path="/mainTimetable" exact element={<TimetableSideNav>
           <MainTimetable />
@@ -319,10 +330,12 @@ function App() {
         <Route path="/myTimetable" exact element={<TimetableSideNav>
           <MyTimetable />
         </TimetableSideNav>} />
+        <Route path="/myExamTimetable" exact element={<TimetableSideNav>
+          <MyExamTimetable />
+        </TimetableSideNav>} />
         <Route path="/user/classEnrolling" exact element={<TimetableSideNav>
           <ClassEnrolling />
         </TimetableSideNav>} />
-
         {/* Teacher Routes for Timetable Management */}
         <Route path="/teacherMainTimetable" exact element={<TeacherTimetableSideNav>
           <TeacherMainTimetable />
@@ -401,14 +414,14 @@ function App() {
         </TprotectedRoute>} />
 
         <Route path='/admin/reports' element={<TprotectedRoute>
-          <AdminReports/>
+          <AdminReports />
         </TprotectedRoute>} />
 
 
         {/* support Service Routes*/}
 
-        <Route path="/aticket" exact element={<TicketsSideNav/>} />
-        <Route path="/ticket" exact element={<TicketSideNavAdmin/>} />
+        <Route path="/aticket" exact element={<TicketsSideNav />} />
+        <Route path="/ticket" exact element={<TicketSideNavAdmin />} />
         <Route path="/Stickets" exact element={<TicketsSideNav>
           <StudentTicket />
         </TicketsSideNav>} />
@@ -425,12 +438,12 @@ function App() {
           <ViewReply />
         </TicketsSideNav>} />
         <Route path="/edit/:id" exact element={<TicketsSideNav >
-        <EditTicket />
-        </TicketsSideNav>}/>
+          <EditTicket />
+        </TicketsSideNav>} />
         <Route path="tReport" exact element={<TicketSideNavAdmin >
-        <TicketsReport />
-        </TicketSideNavAdmin>}/>
-      
+          <TicketsReport />
+        </TicketSideNavAdmin>} />
+
         <Route path="/faq" exact element={<FAQ />} />
         <Route path="/gvideos" element={<Gvideos />} />
 
@@ -460,7 +473,7 @@ function App() {
 
         <Route path="/s1" element={<AssignmentRoute><StudentAssignments /></AssignmentRoute>} />
 
-        
+
 
         <Route path="/FeedbackAss" element={<AssignmentRoute><AssignmentFeedback /></AssignmentRoute>} />
 
@@ -473,7 +486,7 @@ function App() {
 
 
 
-      
+
 
         <Route path="/in/get" exact element={<getSubjects />} />
 
@@ -539,15 +552,15 @@ function App() {
 
         <Route path='/qrgen' exact element={<QRScanner />}></Route>
 
-        <Route path='/m' exact element={<Marks/>} />
+        <Route path='/m' exact element={<Marks />} />
 
-        <Route path='/h' element={<HomePage/>} />
-     
+        <Route path='/h' element={<HomePage />} />
+
 
 
 
       </Routes>
-   
+
     </BrowserRouter>
   );
 }

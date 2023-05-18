@@ -5,9 +5,9 @@ const Subject = require('../models/Subjects');
 
 // POST /payments - create a new payment
 router.post('/add', (req, res) => {
-  const { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID, notice } = req.body;
+  const { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID, notice, email } = req.body;
 
-  const newPayment = new Payment({ studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID, notice });
+  const newPayment = new Payment({ studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID, notice, email });
 
   newPayment.save()
     .then((payment) => {
@@ -17,56 +17,6 @@ router.post('/add', (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
-
-// router.post('/add', async (req, res) => {
-//   const { studentId, date, month, subjects, subjectsIDs, grade, paidAmount, paymentID, notice } = req.body;
-
-//   // Check if a payment with the same studentId, grade, month, and subjectsIDs already exists
-//   // const existingPayment = await Payment.findOne({ studentId, grade, month, subjectsIDs });
-
-//   // if (existingPayment) {
-//   //   // A payment with the same details already exists
-//   //   return res.status(400).json({ error: 'Payment already exists for the same subjectIDs, student, grade, and month' });
-//   // }
-
-//   // Filter the relevant subjects based on studentId, grade, month, and subjectsIDs
-//   const relevantPayments = await Payment.find({ studentId, grade, month });
-//   const relevantSubjectsIDs = relevantPayments.map(payment => payment.subjectsIDs).flat();
-
-//   console.log(relevantPayments)
-//   console.log(relevantSubjectsIDs)
-//   // Check if any of the subject IDs in the input array already exist in the database
-//   const duplicateSubjects = subjects.filter(subject => relevantSubjects.includes(subject));
-
-//   const duplicateSubjectsIDs = subjectsIDs.filter(subjectID => relevantSubjectsIDs.includes(subjectID));
-
-//   console.log(duplicateSubjectsIDs)
-//   if (duplicateSubjectsIDs.length > 0) {
-//     return res.status(400).json({ error: `Payment already exists for subject IDs: ${duplicateSubjectsIDs.join(', ')}` });
-//   }
-
-//   // Create a new payment
-//   const payment = new Payment({
-//     studentId,
-//     date,
-//     month,
-//     subjects,
-//     subjectsIDs,
-//     grade,
-//     paidAmount,
-//     paymentID,
-//     notice,
-//   });
-
-//   try {
-//     // Save the new payment to the database
-//     await payment.save();
-//     res.status(201).json(payment);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// });
-
 
 //serach payment history by Student ID
 router.get('/history/:studentId', async (req, res) => {
@@ -152,5 +102,54 @@ router.get('/', async (req, res) => {
   }
 });
 
+//total payments by given range or all-time
+router.get('/income-payments', async (req, res) => {
+  try {
+    const { fromDate, toDate } = req.query;
+
+    let dateFilter = {};
+    let calculationType = '';
+    if (fromDate && toDate) {
+      dateFilter = { date: { $gte: new Date(fromDate), $lte: new Date(toDate) } };
+      calculationType = 'Given Range';
+    } else {
+      calculationType = 'All Time';
+    }
+
+    const payments = await Payment.find(dateFilter);
+
+    if (payments.length === 0) {
+      return res.status(404).json({ msg: 'No payments found for the given date range' });
+    }
+
+    const totalPaidAmount = payments.reduce((total, payment) => total + payment.paidAmount, 0);
+
+    res.json({ totalPaidAmount, calculationType });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while calculating the total paid amount.' });
+  }
+});
+
+// Route for checking if a student has paid for a specific subject ID
+router.get('/status/:studentID', async (req, res) => {
+  const { studentID } = req.params;
+
+  try {
+    const payment = await Payment.findOne({
+      studentId: studentID,
+      subjectsIDs: '643e85131535e98f550dc499',
+    });
+
+    if (payment) {
+      res.status(200).json({ paid: true });
+    } else {
+      res.status(200).json({ paid: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;
