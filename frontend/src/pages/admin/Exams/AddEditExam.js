@@ -1,5 +1,5 @@
-import { Button, Col, Form, Row, Select, message, Table, Input } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row, Select, message , Table} from 'antd'
+import React, { useEffect } from "react";
 import {
   addExam,
   deleteQuestionById,
@@ -9,14 +9,10 @@ import {
 import PageTitle from "../../../components/PageTitle";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { Tabs } from "antd";
 import AddEditQuestion from "./AddEditQuestion";
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-
-import { SetUser } from "../../../redux/usersSlice";
-import { tgetUserInfo } from "../../../apicalls/teachers";
 
 const { TabPane } = Tabs;
 
@@ -28,47 +24,6 @@ function AddEditExam() {
     React.useState(false);
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const params = useParams();
-  const [admins, SetUser1] = React.useState(null);
-  console.log(admins);
-
-  /////validation useState
-  const [name, setName] = useState("");
-  const [isDurationValid, setIsDurationValid] = useState(null);
-  const [isTotalMarksValid, setIsTotalMarksValid] = useState(null);
-  const [isPassingMarksValid, setIsPassingMarksValid] = useState(false);
-  const [touched, setTouched] = useState(false);
-
-  /////Validation Pattern
-  const isNameValid =
-    name.length == 0 ? null : /^[a-zA-Z0-9\s]{6,}$/.test(name);
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-    setTouched(true);
-  };
-
-  const handleDurationChange = (e) => {
-    const duration = Number(e.target.value);
-    if (Number.isNaN(duration) || duration < 6) {
-      setIsDurationValid(false);
-    } else {
-      setIsDurationValid(true);
-    }
-  };
-
-  const handleTotalMarksChange = (e) => {
-    const value = e.target.value;
-    const isValid = !isNaN(value) && value > 0;
-    setIsTotalMarksValid(isValid);
-  };
-
-  const handlePassingMarksChange = (e) => {
-    const value = e.target.value;
-    const totalMarks = document.getElementsByName("totalMarks")[0].value;
-    const isValid = !isNaN(value) && value > 0 && value <= totalMarks;
-    setIsPassingMarksValid(isValid);
-  };
-
   const onFinish = async (values) => {
     try {
       console.log(values);
@@ -76,10 +31,10 @@ function AddEditExam() {
       let response;
       console.log(params);
       if (params.id) {
-        response = await editExamById({
-          //check it is add exam or edit exam
+        response = await editExamById({  //check it is add exam or edit exam
           ...values,
           examId: params.id,
+          
         });
       } else {
         response = await addExam(values);
@@ -100,8 +55,7 @@ function AddEditExam() {
   const getExamData = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await getExamById({
-        //get exam by id
+      const response = await getExamById({ //get exam by id
         examId: params.id,
       });
       dispatch(HideLoading());
@@ -116,30 +70,7 @@ function AddEditExam() {
     }
   };
 
-  const getUserData = async () => {
-    try {
-      dispatch(ShowLoading());
-      const response = await tgetUserInfo();
-      dispatch(HideLoading());
-      if (response.success) {
-        SetUser1(response.data.email);
-        console.log(response.data.email);
-      } else {
-        message.error(response.message);
-      }
-    } catch (error) {
-      //navigate("/login"); //if there is problem with token user navigate login
-      dispatch(HideLoading());
-      message.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      getUserData();
-    } else {
-      //navigate("/login"); //if there is problem with token user navigate login
-    }
     if (params.id) {
       getExamData();
     }
@@ -150,7 +81,7 @@ function AddEditExam() {
       dispatch(ShowLoading());
       const response = await deleteQuestionById({
         questionId,
-        examId: params.id,
+        examId : params.id
       });
       dispatch(HideLoading());
       if (response.success) {
@@ -215,259 +146,69 @@ function AddEditExam() {
     },
   ];
 
-  const email = admins;
-  console.log(email);
-
   return (
     <div>
-      <PageTitle title={params.id ? "Edit Exam" : "Add Exam"} />{" "}
-      {/*change header according to id edit or add exams*/}
+      <PageTitle title={params.id ? "Edit Exam" : "Add Exam"} /> {/*change header according to id edit or add exams*/}
+      
       {(examData || !params.id) && (
         <Form layout="vertical" onFinish={onFinish} initialValues={examData}>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Exam Details" key="1">
-              {" "}
-              {/**exam details tab*/}
+            <TabPane tab="Exam Details" key="1">  {/**exam details tab*/}
               <Row gutter={[10, 10]}>
                 <Col span={8}>
-                  {" "}
-                  {/**?????????????????Exam name validation?????????????????? */}
-                  <Form.Item
-                    label="Exam Name"
-                    name="name"
-                    validateStatus={
-                      touched &&
-                      (isNameValid
-                        ? "success"
-                        : isNameValid === false
-                        ? "error"
-                        : "")
-                    }
-                    help={
-                      touched &&
-                      (isNameValid ? (
-                        <span style={{ color: "green" }}>
-                          <CheckCircleOutlined />
-                          &nbsp;Name is valid
-                        </span>
-                      ) : isNameValid === false ? (
-                        <span style={{ color: "red" }}>
-                          <CloseCircleOutlined />
-                          &nbsp;Enter valid Exam Name
-                        </span>
-                      ) : null)
-                    }
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter an exam name",
-                      },
-                      {
-                        min: 7,
-                        message: "Exam name must be longer than 6 characters",
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="einput"
-                      type="text"
-                      onChange={handleNameChange}
-                    />
-                  </Form.Item>{" "}
-                  {/**?????????????????Exam Duration validation?????????????????? */}
+                    <Form.Item label="Exam Name" name = "name">
+                        <input className='einput' type='text'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item
-                    label="Exam Duration"
-                    name="duration"
-                    validateStatus={
-                      touched &&
-                      (isDurationValid
-                        ? "success"
-                        : isDurationValid === false
-                        ? "error"
-                        : "")
-                    }
-                    help={
-                      touched &&
-                      (isDurationValid ? (
-                        <span style={{ color: "green" }}>
-                          <CheckCircleOutlined />
-                          &nbsp;Duration is valid
-                        </span>
-                      ) : isDurationValid === false ? (
-                        <span style={{ color: "red" }}>
-                          <CloseCircleOutlined />
-                          &nbsp;Enter valid Exam Duration
-                        </span>
-                      ) : null)
-                    }
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter an exam duration",
-                      },
-                      {
-                        type: "number",
-                        min: 6,
-                        message: "Exam duration must be greater than 5 minutes",
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="einput"
-                      type="number"
-                      onChange={handleDurationChange}
-                    />
-                  </Form.Item>
+                    <Form.Item label="Exam Duration" name = "duration">
+                        <input className='einput' type='number'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item
-                    label="Subject"
-                    name="category"
-                    rules={[
-                      { required: true, message: "Please select a subject" },
-                    ]}
-                  >
-                    <Select placeholder="Choose subject">
-                      <Select.Option value="sinhala">Sinhala</Select.Option>
-                      <Select.Option value="history">History</Select.Option>
-                      <Select.Option value="mathematics">
-                        Mathematics
-                      </Select.Option>
-                      <Select.Option value="science">Science</Select.Option>
-                      <Select.Option value="english">English</Select.Option>
-                      <Select.Option value="information-technology">
-                        Information Technology
-                      </Select.Option>
-                      <Select.Option value="music">Music</Select.Option>
-                      <Select.Option value="art">Art</Select.Option>
-                      <Select.Option value="commerce">Commerce</Select.Option>
-                    </Select>
-                  </Form.Item>
+                    <Form.Item label="Subject" name = "category">
+                        <Select  placeholder="Choose subject" >
+                            <Select.Option value="sinhala">Sinhala</Select.Option>
+                            <Select.Option value="history">History</Select.Option>
+                            <Select.Option value="mathematics">Maths</Select.Option>
+                            <Select.Option value="science">Science</Select.Option>
+                            <Select.Option value="english">English</Select.Option>
+                            <Select.Option value="information-technology">Information-Technology</Select.Option>
+                            <Select.Option value="music">Music</Select.Option>
+                            <Select.Option value="art">Art</Select.Option>
+                            <Select.Option value="commerce">Commerce</Select.Option>
+                        </Select>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item
-                    label="Total Marks"
-                    name="totalMarks"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter total marks",
-                      },
-                      {
-                        type: "number",
-                        min: 1,
-                        message: "Total marks must be greater than 0",
-                      },
-                    ]}
-                    validateStatus={
-                      touched &&
-                      (isTotalMarksValid
-                        ? "success"
-                        : isTotalMarksValid === false
-                        ? "error"
-                        : "")
-                    }
-                    help={
-                      touched &&
-                      (isTotalMarksValid ? (
-                        <span style={{ color: "green" }}>
-                          <CheckCircleOutlined />
-                          &nbsp;Total marks is valid
-                        </span>
-                      ) : isTotalMarksValid === false ? (
-                        <span style={{ color: "red" }}>
-                          <CloseCircleOutlined />
-                          &nbsp;Enter valid total marks
-                        </span>
-                      ) : null)
-                    }
-                  >
-                    <Input
-                      className="einput"
-                      type="number"
-                      onChange={handleTotalMarksChange}
-                    />
-                  </Form.Item>
+                    <Form.Item label="Total Marks" name = "totalMarks">
+                        <input className='einput' type='number'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item
-                    label="Passing Marks"
-                    name="passingMarks"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter passing marks",
-                      },
-                      {
-                        type: "number",
-                        min: 1,
-                        message: "Passing marks must be greater than 0",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const totalMarks = getFieldValue("totalMarks");
-                          if (value <= totalMarks) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error(
-                              "Passing marks must be lower than or equal to total marks"
-                            )
-                          );
-                        },
-                      }),
-                    ]}
-                    validateStatus={
-                      touched &&
-                      (isPassingMarksValid
-                        ? "success"
-                        : isPassingMarksValid === false
-                        ? "error"
-                        : "")
-                    }
-                    help={
-                      touched &&
-                      (isPassingMarksValid ? (
-                        <span style={{ color: "green" }}>
-                          <CheckCircleOutlined />
-                          &nbsp;Passing marks is valid
-                        </span>
-                      ) : isPassingMarksValid === false ? (
-                        <span style={{ color: "red" }}>
-                          <CloseCircleOutlined />
-                          &nbsp;Enter valid passing marks
-                        </span>
-                      ) : null)
-                    }
-                  >
-                    <Input
-                      className="einput"
-                      type="number"
-                      onChange={handlePassingMarksChange}
-                    />
-                  </Form.Item>
+                    <Form.Item label="Passing Marks" name = "passingMarks">
+                        <input className='einput' type='number'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Grade" name="grade">
-                    <input className="einput" type="number" />
-                  </Form.Item>
+                    <Form.Item label="Grade" name = "grade">
+                        <input className='einput' type='number'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Date (YYYY/MM/DD)" name="date">
-                    <input className="einput" type="text" />
-                  </Form.Item>
+                    <Form.Item label="Date (YYYY/MM/DD)" name = "date">
+                    <input className='einput' type='text'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Time (HH:MM am/pm)" name="time">
-                    <input className="einput" type="text" />
-                  </Form.Item>
+                    <Form.Item label="Time (HH:MM am/pm)" name = "time">
+                    <input className='einput' type='text'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Enrollment Key" name="enrollmentkey">
-                    <input className="einput" type="text" />
-                  </Form.Item>
+                    <Form.Item label="Enrollment Key" name = "enrollmentkey">
+                        <input className='einput' type='text'/>
+                    </Form.Item>
                 </Col>
                 <Col span={8} id="hidden" className="hidden1">
                   <Form.Item label="Teacher ID" name="userID">
@@ -483,18 +224,13 @@ function AddEditExam() {
                 >
                   Cancel
                 </Button>
-                <Button
-                  className="primary-contained-btn flex items-center mt-2 mr-9"
-                  htmlType="submit"
-                >
+                <Button className="primary-contained-btn flex items-center mt-2 mr-9" htmlType="submit">
                   Save
                 </Button>
               </div>
             </TabPane>
             {params.id && (
-              <TabPane tab="Questions" key="2">
-                {" "}
-                {/*question tab*/}
+              <TabPane tab="Questions" key="2">  {/*question tab*/}
                 <div className="flex justify-end">
                   <button
                     className="primary-outlined-btn"
@@ -504,6 +240,7 @@ function AddEditExam() {
                     Add Question
                   </button>
                 </div>
+
                 <Table
                   columns={questionsColumns}
                   dataSource={examData?.questions || []}
@@ -513,6 +250,7 @@ function AddEditExam() {
           </Tabs>
         </Form>
       )}
+
       {showAddEditQuestionModal && (
         <AddEditQuestion
           setShowAddEditQuestionModal={setShowAddEditQuestionModal}
