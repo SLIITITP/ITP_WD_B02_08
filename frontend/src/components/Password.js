@@ -61,7 +61,7 @@ useEffect(()=>{
           const response = await loginUser(values);
           if (response.success) {
            // message.success(response.message);
-            localStorage.setItem("token1", response.data);
+            localStorage.setItem("token", response.data);
             //localStorage.setItem("userName" , values.name );
             // window.location.href = "/profile";
           } else {

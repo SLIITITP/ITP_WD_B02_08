@@ -3,6 +3,7 @@ import image from '../../assets/7176510.jpg'
 import AddNoteMaterial from '../../components/AddNoteMaterial';
 import MaterialTable from '../../components/MaterialTable';
 
+
 export default function addNotes() {
   return (
     <>
