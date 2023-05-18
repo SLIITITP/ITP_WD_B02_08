@@ -21,27 +21,7 @@ export default function AllFilesList() {
   const id = apiData1.teacherId;
   console.log(id)
 
-  // useEffect(() => {
-  //   const fetchFiles = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:9090/items/getItems');
-  //       const data = response.data;
-  //       const filesWithDownloadedState = data.items.map(file => ({
-  //         ...file,
-  //         downloaded: localStorage.getItem(file._id) === 'true',
-  //         marksSubmitted: submittedAssignments.includes(file._id)
-  //       }));
-  //       setFiles1(data.files); // Make sure setFiles1 is defined and used correctly
-  //       setFiles(filesWithDownloadedState); // Make sure setFiles is defined and used correctly
-  //       setFilteredFiles(filesWithDownloadedState); // Make sure setFilteredFiles is defined and used correctly
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchFiles();
-  // }, []);
-
+  
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -82,7 +62,8 @@ export default function AllFilesList() {
       })
     );
   };
-
+  
+  
   const filterFiles = (assignmentType) => {
     if (assignmentType === 'all') {
       const filtered = files.filter(file => file.subject === id);
@@ -193,11 +174,10 @@ export default function AllFilesList() {
                     <>
                       <label htmlFor={`marks_${file._id}`}>Marks:</label>
                       <input
-                        type="number"
+                        type=""
                         id={`marks_${file._id}`}
                         className="form-control"
-                        min="0"
-                        step="0.01"
+                  
                       />
                       <button
                         className="btn btn-primary mt-2"
