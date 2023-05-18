@@ -1,15 +1,11 @@
-//import { message } from "antd";
+
+import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { tgetUserInfo } from "../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
-import {GrNotes} from 'react-icons/gr'
-import {GrDocumentPdf} from 'react-icons/gr'
-import {GrDocumentVideo} from 'react-icons/gr'
-import {GiArchiveResearch} from 'react-icons/gi'
-import {MdDashboardCustomize} from 'react-icons/md'
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
@@ -23,11 +19,8 @@ import {
   updateTeacher,
 } from "../apicalls/helper";
 import { useAuthStore } from "../redux/store1";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-
-function TprotectedRoute({ children }) {
+function TeaProfileSideNav({ children }) {
   const { user } = useSelector((state) => state.users);
   const [menu, setMenu] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
@@ -40,25 +33,25 @@ function TprotectedRoute({ children }) {
 
   const userMenu = [
     {
-      title: "HOME",
-      paths: ["/sms"],
+      title: "Home",
+      paths: ["/exams", "/user/write-exam"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/sms"),
+      onClick: () => navigate("/exams"),
     },
     {
-      title: "FEEDBACK",
-      paths: ["/fbs"],
+      title: "Reports",
+      paths: ["/user/reports"],
       icon: <i className="ri-bar-chart-line"></i>,
-      onClick: () => navigate("/fbs"),
+      onClick: () => navigate("/user/reports"),
     },
     {
-      title: "PROFILE",
+      title: "Profile",
       paths: ["/profile"],
       icon: <i className="ri-user-line"></i>,
       onClick: () => navigate("/profile"),
     },
     {
-      title: "LOGOUT",
+      title: "Logout",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
@@ -70,59 +63,53 @@ function TprotectedRoute({ children }) {
 
   const adminMenu = [
     {
-      title: "HOME",
-      paths: ["/"],
+      title: "Timetables",
+      paths: ["/a2","/a1"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/"),
+      onClick: () => navigate("/a1"),
     },
     {
-      title: "DASHBOARD",
-      paths: ["/smt"],
-      icon: <MdDashboardCustomize className="ri-home-line"></MdDashboardCustomize>,
+      title: "Assignments",
+      paths: ["/viewFeed","/emailAss"],
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-file-list-line"></i>,
       onClick: () => navigate("/smt"),
     },
     {
-      title: "FEEDBACKS",
-      paths: ["/fbs/e"],
-      icon: <i className="ri-file-list-line"></i>,
-      onClick: () => navigate("/fbs/e"),
+      title: "Study Materials",
+      paths: ["/test"],
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-bar-chart-line"></i>,
+      onClick: () => navigate("/smt"),
     },
     {
-        title: "NOTES",
-        paths: ["/smN","/smN/add"],
-        icon: <GrNotes className="ri-bar-chart-line bg-white"></GrNotes>,
-        onClick: () => navigate("/smN"),
-      },
-      {
-        title: " PDF",
-        paths: ["/smP","/smP/add"],
-        icon: <GrDocumentPdf className="ri-bar-chart-line bg-white"></GrDocumentPdf>,
-        onClick: () => navigate("/smP"),
-      },
-      {
-        title: "RECORDS",
-        paths: ["/smRe","/smRe/add"],
-        icon: <GrDocumentVideo className="ri-bar-chart-line bg-white"></GrDocumentVideo>,
-        onClick: () => navigate("/smRe"),
-      },
-      {
-        title: "RESEARCH",
-        paths: ["/smR","/smR/add"],
-        icon: <GiArchiveResearch className="ri-bar-chart-line"></GiArchiveResearch>,
-        onClick: () => navigate("/smR"),
-      },
-    {
-      title: "PROFILE",
+      title: "Payments",
       paths: ["/profile"],
-      icon: <i className="ri-user-line"></i>,
-      onClick: () => navigate("/teacherProfile"),
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-user-line"></i>,
+      onClick: () => navigate("/addPayment"),
     },
     {
-      title: "LOGOUT",
+      title: "Attendence",
+      paths: ["/adminMainTimetable"],
+      icon: <i className="ri-home-line"></i>,
+      //icon: <i className="ri-user-line"></i>,
+      onClick: () => navigate("/adminMainTimetable"),
+    },
+    {
+        title: "Support Services",
+        paths: ["/adminMainTimetable"],
+        icon: <i className="ri-home-line"></i>,
+        //icon: <i className="ri-user-line"></i>,
+        onClick: () => navigate("/adminMainTimetable"),
+      },
+
+    {
+      title: "Logout",
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
-        localStorage.removeItem("token1");
+        localStorage.removeItem("token");
         navigate("/pteacherLogin");
       },
     },
@@ -142,20 +129,20 @@ function TprotectedRoute({ children }) {
           setMenu(userMenu);
         }
       } else {
-        toast.error(response.message);
+        message.error(response.message);
       }
     } catch (error) {
       navigate("/login"); //if there is problem with token user navigate login
       dispatch(HideLoading());
-      toast.error(error.message);
+      message.error(error.message);
     }
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token1")) {
+    if (localStorage.getItem("token")) {
       getUserData();
     } else {
-      navigate("/"); //if there is problem with token user navigate login
+      navigate("/login"); //if there is problem with token user navigate login
     }
   }, []);
 
@@ -166,14 +153,14 @@ function TprotectedRoute({ children }) {
       return true;
     } else {
       if (
-        activeRoute.includes("/smt") &&
-        paths.includes("/smt")
+        activeRoute.includes("/admin/exams/edit") &&
+        paths.includes("/admin/exams")
       ) {
         return true;
       }
       if (
-        activeRoute.includes("/sms") &&
-        paths.includes("/sms")
+        activeRoute.includes("/tuser/write-exam") &&
+        paths.includes("/tuser/write-exam")
       ) {
         return true;
       }
@@ -184,14 +171,6 @@ function TprotectedRoute({ children }) {
   useEffect(() => {
     console.log(username);
     let usernameFrom = localStorage.getItem("userName");
-    if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
-      navigate("/pteacherLogin");
-    }
-    if (localStorage.getItem("token1")) {
-      console.log(username);
-    } else {
-      navigate("/"); //if there is problem with token user navigate login
-    }
     // username = ;
     console.log(usernameFrom);
     if (username === "") {
@@ -217,6 +196,7 @@ function TprotectedRoute({ children }) {
           profile: apiData?.profile || "",
           id: apiData._id,
           teacherId: apiData?.teacherId,
+          studentId: apiData?.studentId,
           isAdmin: apiData?.isAdmin || "",
 
         });
@@ -243,6 +223,7 @@ function TprotectedRoute({ children }) {
           profile: apiData?.profile || "",
           id: apiData._id,
           teacherId: apiData?.teacherId,
+          studentId: apiData?.studentId,
           isAdmin: apiData?.isAdmin || "",
 
         });
@@ -252,10 +233,9 @@ function TprotectedRoute({ children }) {
 
 
   return (
-    
-    <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
-      <div className="!flex gap-6 w-full h-full ">
-        <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
+    <div className="layout">
+      <div className="flex gap-2 w-full h-full h-100">
+        <div className="sidebar">
           <div className="menu ">
             {menu.map((item, index) => {
                return (
@@ -287,21 +267,21 @@ function TprotectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Teacher</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
                 <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
               </div>
-              <span className="text-md text-white">Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
+              <span>Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>
         </div>
       </div>
-      <ToastContainer/>
     </div>
   );
 }
 
-export default TprotectedRoute;
+export default TeaProfileSideNav;
+

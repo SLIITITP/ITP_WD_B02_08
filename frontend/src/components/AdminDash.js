@@ -154,6 +154,7 @@ function AdminDash() {
           <th>Username</th>
           <th>Email</th>
           <th>Student ID</th>
+          <th>Grade</th>
           <th>Approve / Disapprove</th>
         </tr>
         {Userdata.filter((element) => {
@@ -169,6 +170,7 @@ function AdminDash() {
             <td>{elm.username}</td>
             <td>{elm.email}</td>
             <td>{elm.studentId}</td>
+            <td>{elm.grade}</td>
 
             <td>
               {elm.isApproved === 1 ? (

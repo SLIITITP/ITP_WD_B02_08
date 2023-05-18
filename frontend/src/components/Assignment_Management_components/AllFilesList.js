@@ -80,6 +80,10 @@ export default function AllFilesList() {
     );
   };
 
+
+
+  
+  
   const filterFiles = (assignmentType) => {
     if (assignmentType === 'all') {
       const filtered = files.filter(file => file.subject === id);

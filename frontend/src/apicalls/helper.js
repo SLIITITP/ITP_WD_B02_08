@@ -70,9 +70,9 @@ export async function registrationStatus(credintials,status) {
     //     data: { email },
     //   } = await getUser({ username });
       if(status==1){
-        text  = `Admin approved you  Blallllll`;
+        text  = `Admin approved you. Now you can log in to the system.`;
       }else{
-        text = `Your Password Recovery OTP is  Verify and recover your password.`;
+        text = `Admin disapproved your request. Please contact the admin`;
       }
       try{
         let {mail} = await axios.post("/api/registerMail", {

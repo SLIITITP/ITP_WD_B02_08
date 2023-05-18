@@ -1,3 +1,6 @@
+
+
+
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { getUserInfo } from "../apicalls/users";
@@ -6,11 +9,6 @@ import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../redux/loaderSlice";
 import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
-import {GrNotes} from 'react-icons/gr'
-import {GrDocumentPdf} from 'react-icons/gr'
-import {GrDocumentVideo} from 'react-icons/gr'
-import {GiArchiveResearch} from 'react-icons/gi'
-import {MdDashboardCustomize} from 'react-icons/md'
 import '../stylesheets/layout.css'
 import '../stylesheets/theme.css'
 import '../stylesheets/alignments.css'
@@ -18,7 +16,7 @@ import '../stylesheets/textelements.css'
 import '../stylesheets/custom-component.css'
 import '../stylesheets/form-elements.css'
 
-function ProtectedRoute({ children }) {
+function StdProfileSideNav({ children }) {
   const { user } = useSelector((state) => state.users);
   const [menu, setMenu] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
@@ -30,35 +28,45 @@ function ProtectedRoute({ children }) {
 
   const userMenu = [
     {
-      title: "HOME",
-      paths: ["/" ],
-      icon: <i class="ri-home-line"></i>,
-      onClick: () => 
-      navigate("/"),
+      title: "Timetables",
+      paths: ["/mainTimetable","/user/classEnrolling"],
+      icon: <i className="ri-home-line"></i>,
+      onClick: () => navigate("/mainTimetable"),
     },
     {
-      title: "DASHBOARD",
-      paths: ["/sms"],
-      icon: <MdDashboardCustomize className="ri-home-line"></MdDashboardCustomize>,
+      title: "Assignments",
+      paths: ["/myTimetable"],
+      icon: <i className="ri-home-line"></i>,
+      onClick: () => navigate("/myTimetable"),
+    },
+    {
+      title: "Study Materials",
+      paths: ["/myExamTimetable"],
+      icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/sms"),
     },
     {
-      title: "FEEDBACK",
-      paths: ["/fbs"],
-      icon: <i className="ri-bar-chart-line"></i>,
-      onClick: () => navigate("/fbs"),
-    },
-    
+        title: "Payments",
+        paths: ["/mainTimetable","/user/classEnrolling"],
+        icon: <i className="ri-home-line"></i>,
+        onClick: () => navigate("/mainTimetable"),
+      },
+      {
+        title: "Attendence",
+        paths: ["/mainTimetable","/user/classEnrolling"],
+        icon: <i className="ri-home-line"></i>,
+        onClick: () => navigate("/mainTimetable"),
+      },
+      {
+        title: "Support Services",
+        paths: ["/mainTimetable","/user/classEnrolling"],
+        icon: <i className="ri-home-line"></i>,
+        onClick: () => navigate("/mainTimetable"),
+      },  
     {
-      title: "PROFILE",
-      paths: ["/profile"],
-      icon: <i className="ri-user-line"></i>,
-      onClick: () => navigate("/profile"),
-    },
-    {
-      title: "LOGOUT",
+      title: "Logout",
       paths: ["/logout"],
-      icon: <i className="ri-logout-box-line"></i>,
+      icon: <i className="ri-home-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
         navigate("/plogin");
@@ -66,59 +74,6 @@ function ProtectedRoute({ children }) {
     },
   ];
 
-  const adminMenu = [
-    {
-      title: "DASHBOARD",
-      paths: ["/smt"],
-      icon: <MdDashboardCustomize className="ri-home-line"></MdDashboardCustomize>,
-      onClick: () => navigate("/smt"),
-    },
-    {
-      title: "FEEDBACKS",
-      paths: ["/fbs/e"],
-      icon: <i className="ri-file-list-line"></i>,
-      onClick: () => navigate("/fbs/e"),
-    },
-    {
-        title: "NOTES",
-        paths: ["/smN","/smN/add"],
-        icon: <GrNotes className="ri-bar-chart-line bg-white"></GrNotes>,
-        onClick: () => navigate("/smN"),
-      },
-      {
-        title: " PDF",
-        paths: ["/smP","/smP/add"],
-        icon: <GrDocumentPdf className="ri-bar-chart-line bg-white"></GrDocumentPdf>,
-        onClick: () => navigate("/smP"),
-      },
-      {
-        title: "RECORDS",
-        paths: ["/smRe","/smRe/add"],
-        icon: <GrDocumentVideo className="ri-bar-chart-line bg-white"></GrDocumentVideo>,
-        onClick: () => navigate("/smRe"),
-      },
-      {
-        title: "RESEARCH",
-        paths: ["/smR","/smR/add"],
-        icon: <GiArchiveResearch className="ri-bar-chart-line"></GiArchiveResearch>,
-        onClick: () => navigate("/smR"),
-      },
-    {
-      title: "PROFILE",
-      paths: ["/profile"],
-      icon: <i className="ri-user-line"></i>,
-      onClick: () => navigate("/profile"),
-    },
-    {
-      title: "LOGOUT",
-      paths: ["/logout"],
-      icon: <i className="ri-logout-box-line"></i>,
-      onClick: () => {
-        localStorage.removeItem("token");
-        navigate("/plogin");
-      },
-    },
-  ];
 
   const getUserData = async () => {
     try {
@@ -127,11 +82,7 @@ function ProtectedRoute({ children }) {
       dispatch(HideLoading());
       if (response.success) {
         dispatch(SetUser(response.data));
-        if (response.data.isAdmin) {
-          setMenu(adminMenu);
-        } else {
-          setMenu(userMenu);
-        }
+        setMenu(userMenu);
       } else {
         message.error(response.message);
       }
@@ -144,28 +95,14 @@ function ProtectedRoute({ children }) {
 
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
-    if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
-      navigate("/plogin");
-    }
-    if (localStorage.getItem("token1")) {
-      console.log(usernameFrom);
-      navigate("/");
-    } else {
-       //if there is problem with token user navigate login
-       console.log(usernameFrom);
-    }
     console.log(usernameFrom);
     getProfile(usernameFrom).then((results) => {
       let apiData = results.data;
-      console.log(results.data)
       setApiData1(results.data);
 
-      console.log(results.data.isAdmin);
-      if (results.data.isAdmin) {
-        setMenu(adminMenu);
-      } else {
-        setMenu(userMenu);
-      }
+      console.log(results.data._id);    
+      setMenu(userMenu);
+
       setApiData({
         firstName: apiData?.firstName || "",
         lastName: apiData?.lastName || "",
@@ -187,15 +124,8 @@ function ProtectedRoute({ children }) {
       return true;
     } else {
       if (
-        activeRoute.includes("/smt") &&
-        
-        paths.includes("/smt")
-      ) {
-        return true;
-      }
-      if (
-        activeRoute.includes("/sms") &&
-        paths.includes("/sms")
+        activeRoute.includes("/user/classEnrolling") &&     
+        paths.includes("/mainTimetable")
       ) {
         return true;
       }
@@ -204,9 +134,9 @@ function ProtectedRoute({ children }) {
   };
 
   return (
-    <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
-      <div className="!flex gap-6 w-full h-full">
-        <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
+    <div className="layout">
+      <div className="flex gap-2 w-full h-full h-100">
+        <div className="sidebar">
           <div className="menu ">
             {menu.map((item, index) => {
                return (
@@ -238,13 +168,13 @@ function ProtectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
+            <h1 className="text-2xl text-white">Thilina Institute Student</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
                 <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
               </div>
-              <span className="text-md text-white">Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
+              <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>
@@ -254,5 +184,5 @@ function ProtectedRoute({ children }) {
   );
 }
 
-export default ProtectedRoute;
+export default StdProfileSideNav;
 
