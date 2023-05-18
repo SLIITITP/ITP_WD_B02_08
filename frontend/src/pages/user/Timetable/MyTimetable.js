@@ -230,24 +230,20 @@ const now = new Date();
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const currentWeekday = weekdays[now.getDay()];
-let todayClasses = null;
+let todayClasses = [];
 
 for (let i = 0; i < enrolledClassesData.length; i++) {
   const classSchedules = enrolledClassesData[i];
-  console.log(classSchedules.date);
   if (classSchedules.date === currentWeekday) {
-    const clzSubject = classSchedules.subject
-    const clzTeacher = classSchedules.teacher
-    const clzTime = classSchedules.time
-    console.log(clzTeacher)
+    todayClasses.push(classSchedules);
   }  
 }
 
-
 return (
-<div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
+<div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>
+<div className="row">       
 {/*View timetable*/}
-<div class="col-11" >
+<div class="col-8" >
 <h3 className="mb-4 text-center font-medium text-2xl text-gray-900 dark:text-white">My Class Schedule</h3>
 <nav className="d-flex justify-content-center mb-4">
       <ul className="nav nav-pills">
@@ -297,12 +293,50 @@ return (
   </tbody>
 </table>
 <button className="btn btn-primary" onClick={handlePrintClick}>
-Download Timetable
+<i class="ri-download-2-line"></i> Download Timetable
 </button>
 
 </div> 
 </div>
+
+<div class="col-1" style={{width: "2%"}}>
+  <div class="d-flex " style={{height: "80vh"}}>
+      <div class="vr"></div>
   </div>
+</div>
+
+<div class="col">
+    <div className="card text-white bg-info mb-3" style={{ maxWidth: "20rem" }}>
+    <div class="card-header text-white" style={{ fontWeight: "bold", fontSize: "20px"}} >
+    <i class="ri-timer-line"></i> Today Classes - {currentWeekday}</div>
+      <div class="card-body">
+        {todayClasses.length > 0 ? (
+        todayClasses
+        .sort((a, b) => {
+          const timeAStart = convertTo24Hour(a.time.split("-")[0]);
+          const timeBStart = convertTo24Hour(b.time.split("-")[0]);
+          return timeAStart - timeBStart;
+        })
+        .map((classSchedule, index) => (
+          <div key={index}>
+            <p className="card-text">{classSchedule.subject}</p>
+            <p className="card-text">Teacher: {classSchedule.teacher}</p>
+            <p className="card-text">Time: {classSchedule.time}</p>
+            <hr className="mb-2 mt-2"/>
+          </div>
+        ))
+      ) : (
+        <div>
+        <p>You Are Free Today.............</p>
+        <p>No classes scheduled for today.</p>
+        </div>
+      )}
+      </div>
+    </div>
+</div>
+
+</div>
+</div>
 );
 
 }
