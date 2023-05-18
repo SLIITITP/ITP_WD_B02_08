@@ -291,20 +291,20 @@ function ProtectedRoute({ children }) {
   const userMenu = [
     {
         title: "Home",
-        paths: ["/h"],
+        paths: ["/profile"],
         icon: <i className="ri-home-line"></i>,
-        onClick: () => navigate("/h"),
+        onClick: () => navigate("/profile"),
     },
     {
         title: "Pay Class fees",
         paths: ["/payOnline", "/payment/checkout"],
-        icon: <i className="ri-file-list-line"></i>,
+        icon: <i className="ri-bank-card-line"></i>,
         onClick: () => navigate("/payOnline"),
     },
     {
         title: "Payment History",
         paths: ["/student/payHistory"],
-        icon: <i className="ri-bar-chart-line"></i>,
+        icon: <i className="ri-history-line"></i>,
         onClick: () => navigate("/student/payHistory"),
     },
     {
@@ -388,7 +388,7 @@ function ProtectedRoute({ children }) {
         message.error(response.message);
       }
     } catch (error) {
-      navigate("/login"); //if there is problem with token user navigate login
+      navigate("/plogin"); //if there is problem with token user navigate plogin
       dispatch(HideLoading());
       message.error(error.message);
     }
@@ -401,9 +401,9 @@ function ProtectedRoute({ children }) {
     }
     if (localStorage.getItem("token1")) {
       console.log(usernameFrom);
-      navigate("/");
+      navigate("/plogin");
     } else {
-       //if there is problem with token user navigate login
+       //if there is problem with token user navigate plogin
        console.log(usernameFrom);
     }
     console.log(usernameFrom);
@@ -456,7 +456,7 @@ function ProtectedRoute({ children }) {
   };
 
   return (
-    <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
+    <div className="layout !fixed">
       <div className="!flex gap-6 w-full h-full">
         <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
           <div className="menu ">
@@ -490,13 +490,13 @@ function ProtectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">STUDY MATERIAL SECTION</h1>
+            <h1 className="text-2xl text-white">Student Payment</h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
                 <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
               </div>
-              <span className="text-md text-white">Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
+              <span className="text-md text-white">Role : {apiData1.isAdmin ? "Admin" : "Student"}</span>
             </div>
           </div>
           <div className="content">{children}</div>

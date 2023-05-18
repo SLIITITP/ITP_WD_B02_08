@@ -56,7 +56,7 @@
 //         //   icon: <i className="ri-logout-box-line"></i>,
 //         //   onClick: () => {
 //         //     localStorage.removeItem("token");
-//         //     navigate("/plogin");
+//         //     navigate("/pteacherLogin");
 //         //   },
 //         // },
 //       ];
@@ -92,7 +92,7 @@
 //             icon: <i className="ri-logout-box-line"></i>,
 //             onClick: () => {
 //                 localStorage.removeItem("token");
-//                 navigate("/plogin");
+//                 navigate("/pteacherLogin");
 //             },
 //         },
 //     ];
@@ -114,7 +114,7 @@
 //                 //message.error(response.message);
 //             }
 //         } catch (error) {
-//             navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
+//             navigate("/pteacherLogin"); //if there is problem with token user navigate pteacherLogin
 //             dispatch(HideLoading());
 //             // message.error(error.message);
 //         }
@@ -124,7 +124,7 @@
 //         if (localStorage.getItem("token")) {
 //             getUserData();
 //         } else {
-//             navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
+//             navigate("/pteacherLogin"); //if there is problem with token user navigate pteacherLogin
 //         }
 //     }, []);
 
@@ -329,7 +329,7 @@
 //         //   icon: <i className="ri-logout-box-line"></i>,
 //         //   onClick: () => {
 //         //     localStorage.removeItem("token");
-//         //     navigate("/plogin");
+//         //     navigate("/pteacherLogin");
 //         //   },
 //         // },
 //       ];
@@ -377,7 +377,7 @@
 //             icon: <i className="ri-logout-box-line"></i>,
 //             onClick: () => {
 //                 localStorage.removeItem("token");
-//                 navigate("/plogin");
+//                 navigate("/pteacherLogin");
 //             },
 //         },
 //     ];
@@ -399,7 +399,7 @@
 //                 //message.error(response.message);
 //             }
 //         } catch (error) {
-//             navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
+//             navigate("/pteacherLogin"); //if there is problem with token user navigate pteacherLogin
 //             dispatch(HideLoading());
 //             // message.error(error.message);
 //         }
@@ -409,7 +409,7 @@
 //         if (localStorage.getItem("token")) {
 //             getUserData();
 //         } else {
-//             navigate("/pteacherLogin"); //if there is problem with token user navigate plogin
+//             navigate("/pteacherLogin"); //if there is problem with token user navigate pteacherLogin
 //         }
 //     }, []);
 
@@ -619,7 +619,7 @@ function TprotectedRoute({ children }) {
         //   icon: <i className="ri-logout-box-line"></i>,
         //   onClick: () => {
         //     localStorage.removeItem("token");
-        //     navigate("/plogin");
+        //     navigate("/pteacherLogin");
         //   },
         // },
     ];
@@ -634,7 +634,7 @@ function TprotectedRoute({ children }) {
         {
             title: "Payment Managemet",
             paths: ["/addPayment"],
-            icon: <i className="ri-home-line"></i>,
+            icon: <i class="ri-money-dollar-circle-line"></i>,
             onClick: () => navigate("/addPayment"),
         },
         {
@@ -655,7 +655,7 @@ function TprotectedRoute({ children }) {
             icon: <i className="ri-logout-box-line"></i>,
             onClick: () => {
                 localStorage.removeItem("token1");
-                navigate("/plogin");
+                navigate("/pteacherLogin");
             },
         },
     ];
@@ -785,7 +785,7 @@ function TprotectedRoute({ children }) {
 
     return (
 
-        <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
+        <div className="layout !fixed">
             <div className="!flex gap-6 w-full h-full ">
                 <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
                     <div className="menu ">
@@ -824,7 +824,7 @@ function TprotectedRoute({ children }) {
                                 <i class="ri-user-line"></i>
                                 <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
                             </div>
-                            <span className="text-md text-white">Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
+                            <span className="text-md text-white">Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
                         </div>
                     </div>
                     <div className="content">{children}</div>
