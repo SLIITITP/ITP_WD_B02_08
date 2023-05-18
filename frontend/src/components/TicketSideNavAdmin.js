@@ -63,6 +63,12 @@ function TicketSideNavAdmin({ children }) {
 
   const adminMenu = [
     {
+      title: "Home",
+      paths: ["/adminDash"],
+      icon: <i className="ri-home-line"></i>,
+      onClick: () => navigate("/adminDash"),
+    },
+    {
       title: "Ticket List",
       paths: ["/ticketlist"],
       icon: <i className="ri-home-line"></i>,
@@ -86,7 +92,7 @@ function TicketSideNavAdmin({ children }) {
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("token1");
         navigate("/pteacherlogin");
       },
     },
@@ -152,6 +158,7 @@ function TicketSideNavAdmin({ children }) {
     }
     if (localStorage.getItem("token1")) {
       console.log(username);
+      localStorage.removeItem("token");
     } else {
       navigate("/pteacherLogin"); //if there is problem with token user navigate login
     }

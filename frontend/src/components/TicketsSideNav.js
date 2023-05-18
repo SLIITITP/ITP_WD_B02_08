@@ -81,7 +81,7 @@ function TicketsSideNav({ children }){
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("token1");
         navigate("/plogin");
       },
     },
@@ -111,10 +111,12 @@ function TicketsSideNav({ children }){
 
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
-    if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
-      navigate("/");
+    if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == '' || localStorage.getItem("token") == null){
+      navigate("/plogin");
     }
     if (localStorage.getItem("token1")) {
+      localStorage.removeItem("token");
+
       console.log(usernameFrom);
       navigate("/plogin");
     } else {
