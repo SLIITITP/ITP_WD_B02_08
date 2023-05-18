@@ -140,7 +140,8 @@ function ClassEnrolling() {
       }); // Navigate to payment page
       return;
     } 
-  else if (enrolledClassesData.filter((clz) => clz.date === classDay && clz.time.split("-")[0] === startTime).length > 1) {
+  else if (enrolledClassesData.filter((clz) => clz.date === classDay && clz.time.split("-")[0] === startTime).length > 0) {
+    console.log(enrolledClassesData.filter((clz) => clz.date === classDay && clz.time.split("-")[0] === startTime).length)
     alert("Class Time is clashing with another class")
   }   
   // Enroll to the class  
