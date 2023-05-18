@@ -67,42 +67,42 @@ function handleEnrollClick (clz) {
 });
 };
 
-//Check whether the role is admin 
-const getUserData = async (dispatch) => {
-  try {
-    dispatch(ShowLoading());
-    const response = await getUserInfo();
-    dispatch(HideLoading());
-    if (response.success) {
-      dispatch(SetUser(response.data));
-      const role = response.data.isAdmin ? "admin" : "user";
-      setRole(role);
-      return role;
-    } else {
-      message.error(response.message);
-      return;
-    }
-  } catch (error) {
-    message.error(error.message);
-    return;
-  }
-};
+// //Check whether the role is admin 
+// const getUserData = async (dispatch) => {
+//   try {
+//     dispatch(ShowLoading());
+//     const response = await getUserInfo();
+//     dispatch(HideLoading());
+//     if (response.success) {
+//       dispatch(SetUser(response.data));
+//       const role = response.data.isAdmin ? "admin" : "user";
+//       setRole(role);
+//       return role;
+//     } else {
+//       message.error(response.message);
+//       return;
+//     }
+//   } catch (error) {
+//     message.error(error.message);
+//     return;
+//   }
+// };
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      if (localStorage.getItem("token")) {
-        const role = await getUserData(dispatch);
-        setRole(role);
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  fetchData();
-}, [dispatch, navigate]);
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       if (localStorage.getItem("token")) {
+//         const role = await getUserData(dispatch);
+//         setRole(role);
+//       } else {
+//         navigate("/login");
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+//   fetchData();
+// }, [dispatch, navigate]);
 
 
  //Get all the class schedules (view the timetable)
