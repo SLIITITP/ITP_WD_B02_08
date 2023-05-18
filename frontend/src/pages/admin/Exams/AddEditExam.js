@@ -247,10 +247,10 @@ function AddEditExam() {
                   name="date"
                   rules={[
                     { required: true, message: 'Please enter the date' },
-                    { pattern: /^\d{4}-\d{2}-\d{2}$/, message: 'Please enter a valid date format (YYYY-MM-DD)' },
+                    // { pattern: /^\d{4}-\d{2}-\d{2}$/, message: 'Please enter a valid date format (YYYY-MM-DD)' },
                   ]}
                 >
-                  <input className='einput' type='text'/>
+                  <input className='einput' type='date'/>
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -259,10 +259,10 @@ function AddEditExam() {
                   name="time"
                   rules={[
                     { required: true, message: 'Please enter the time' },
-                    { pattern: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, message: 'Please enter a valid time format (HH:MM)' },
+                    // { pattern: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, message: 'Please enter a valid time format (HH:MM)' },
                   ]}
                 >
-                  <input className='einput' type='text'/>
+                  <input className='einput' type='time'/>
                 </Form.Item>
               </Col>
               <Col span={8}>

@@ -118,6 +118,7 @@ function Instructions({ examData, setView, startTimer }) {
     // Add a delay of 2 seconds
     setTimeout(() => {
       if (isPaid) {
+        
         if (enrollmentKey === examData.enrollmentkey) {
           startTimer();
           setView("questions");
