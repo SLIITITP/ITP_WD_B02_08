@@ -75,7 +75,7 @@ const IncomeSummary = () => {
 
     return (
         <div className="h-full h-screen w-full flex items-center justify-center text-md font-medium text-gray-900 dark:text-white">
-            <div className="w-1/2 h-full bg-gray-200 p-4 pt-2 flex flex-col items-center justify-center">
+            <div className="w-1/2 h-full bg-gray-200 p-4 pt-2 flex flex-col items-center justify-start">
                 <h1 className="text-3xl font-bold mb-4">Income Summary</h1>
                 <form onSubmit={handleSubmit} className="mb-4">
                     <div className="flex items-center justify-between mb-4">
@@ -94,7 +94,8 @@ const IncomeSummary = () => {
                 <button onClick={handleAllPaidAmount} className="bg-green-500 hover:bg-green-700 text-white font-bold mb-2 py-2 px-4 rounded">View Student Paid Amounts</button>
                 {loading && <p className="mt-4">Loading...</p>}
             </div>
-            <div className="w-1/2 h-full bg-gray-200 p-4 pt-2 flex flex-col items-center justify-center">
+            <div className="w-1/2 h-full bg-gray-200 p-4 pt-2 flex flex-col items-center justify-start">
+            <label className="font-bold  mt-10">Details</label>
                 {showIncomeDetails && incomeData && (
                     <div className="mt-4">
                         <h2 className="text-2xl font-bold mb-2">Income Details</h2>
