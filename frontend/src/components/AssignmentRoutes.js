@@ -175,9 +175,9 @@ function ProtectedRoute({ children }) {
   };
 
   return (
-    <div className="layout">
-      <div className="flex gap-2 w-full h-full h-100">
-        <div className="sidebar">
+    <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
+      <div className="!flex gap-6 w-full h-full">
+        <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
           <div className="menu ">
             {menu.map((item, index) => {
                return (
@@ -209,13 +209,13 @@ function ProtectedRoute({ children }) {
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
-            <h1 className="text-2xl text-white">Thilina Institute Assignment Management</h1>
+            <h1 className="text-2xl text-white">Assignment Management </h1>
             <div>
               <div className="flex gap-1 items-center">
                 <i class="ri-user-line"></i>
                 <h1 className="text-md text-white underline">{apiData1.studentId}</h1>
               </div>
-              <span>Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
+              <span className="text-md text-white">Role : {apiData1.isAdmin ? "Admin" : "User"}</span>
             </div>
           </div>
           <div className="content">{children}</div>

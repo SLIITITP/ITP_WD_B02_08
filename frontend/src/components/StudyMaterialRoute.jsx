@@ -31,9 +31,10 @@ function ProtectedRoute({ children }) {
   const userMenu = [
     {
       title: "HOME",
-      paths: ["/home" ],
+      paths: ["/" ],
       icon: <i class="ri-home-line"></i>,
-      onClick: () => navigate("/home"),
+      onClick: () => 
+      navigate("/"),
     },
     {
       title: "DASHBOARD",
@@ -143,6 +144,16 @@ function ProtectedRoute({ children }) {
 
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
+    if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
+      navigate("/plogin");
+    }
+    if (localStorage.getItem("token1")) {
+      console.log(usernameFrom);
+      navigate("/");
+    } else {
+       //if there is problem with token user navigate login
+       console.log(usernameFrom);
+    }
     console.log(usernameFrom);
     getProfile(usernameFrom).then((results) => {
       let apiData = results.data;

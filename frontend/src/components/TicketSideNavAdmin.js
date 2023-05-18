@@ -115,7 +115,7 @@ function TicketSideNavAdmin({ children }) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token1")) {
       getUserData();
     } else {
       navigate("/login"); //if there is problem with token user navigate login
@@ -150,6 +150,12 @@ function TicketSideNavAdmin({ children }) {
     if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
       navigate("/");
     }
+    if (localStorage.getItem("token1")) {
+      console.log(username);
+    } else {
+      navigate("/pteacherLogin"); //if there is problem with token user navigate login
+    }
+
     // username = ;
     console.log(usernameFrom);
     if (username === "") {

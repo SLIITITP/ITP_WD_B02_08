@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser, getProfile, deleteUser } from "../../.././apicalls/helper";
 function ClassEnrolling() {
   const location = useLocation();
-
+  const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
+  const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
   const { user } = useSelector((state) => state.users);
   //const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -72,11 +73,59 @@ function ClassEnrolling() {
     }
   };
 
+  useEffect(() => {
+    // Get the student's enrolled class IDs from the backend
+      axios
+        .get(`http://localhost:9090/api/enroll/enrollments/${studentID}`)
+        .then((res) => {
+          setEnrolledClassIds(res.data.data);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+  
+  }, [studentID]);
+  
+  useEffect(() => {
+    // Get the details of the enrolled classes
+    const fetchEnrolledClasses = async () => {
+      try {
+        const filteredIds = enrolledClassIds.filter(Boolean);
+        console.log(filteredIds);
+        const enrolledClassesData = await Promise.all(
+          filteredIds.map((classId) =>
+            axios.get(`http://localhost:9090/class/getClassById/${classId}`)
+              .then((res) => {
+                const { date,time, grade, subject, teacher,hall, fees, _id } = res.data.selectedClass;
+                // Extracting start and end times from the 'time' string
+                const startTime = time.split("-")[0];
+                console.log(startTime)
+                return { date,time, grade, subject, teacher, hall, fees, _id, };
+              })
+              .catch((err) => {
+                alert(err.message);
+                return null;
+              })
+          )
+        );
+        setEnrolledClassesData(enrolledClassesData.filter(Boolean));
+        console.log(enrolledClassesData);
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+    fetchEnrolledClasses();
+  }, [enrolledClassIds]);
+
   const handleEnroll = async (e) => {
 
     console.log(typeof (classId))
     e.preventDefault();
-
+    
+    const classDay = date
+    const startTime = time.split("-")[0]
+    console.log(startTime)
+    
     // Check if the student has paid the admission fee
     const hasPaid = await checkPaymentStatus();
     if (!hasPaid) {
@@ -90,8 +139,12 @@ function ClassEnrolling() {
 
       }); // Navigate to payment page
       return;
-    }
-
+    } 
+  else if (enrolledClassesData.filter((clz) => clz.date === classDay && clz.time.split("-")[0] === startTime).length > 0) {
+    console.log(enrolledClassesData.filter((clz) => clz.date === classDay && clz.time.split("-")[0] === startTime).length)
+    alert("Class Time is clashing with another class")
+  }   
+  // Enroll to the class  
   else{
     await axios.post(
       `http://localhost:9090/api/enroll/enrollments`,

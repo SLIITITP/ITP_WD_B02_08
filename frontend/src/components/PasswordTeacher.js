@@ -53,15 +53,13 @@ const PasswordTeacher = () => {
       });
 
       loginPromise.then(res => {
-        let { token } = res.data;
-        localStorage.setItem('token', token)
-
+        let {token} = res.data;
+        localStorage.setItem('token1',token)
         if (apiData?.admin) {
-          navigate('/adminHome');
+          navigate('/adminDash');
         } else {
           navigate('/teacherProfile');
         }
-
       })
 
     }

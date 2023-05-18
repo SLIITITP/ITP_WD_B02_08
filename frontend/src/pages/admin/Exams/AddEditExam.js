@@ -28,22 +28,45 @@ function AddEditExam() {
     React.useState(false);
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const params = useParams();
-  const [admins, SetUser1] = React.useState(null)
+  const [admins, SetUser1] = React.useState(null);
   console.log(admins);
-
-  
- 
 
   /////validation useState
   const [name, setName] = useState("");
+  const [isDurationValid, setIsDurationValid] = useState(null);
+  const [isTotalMarksValid, setIsTotalMarksValid] = useState(null);
+  const [isPassingMarksValid, setIsPassingMarksValid] = useState(false);
   const [touched, setTouched] = useState(false);
 
   /////Validation Pattern
-  const isNameValid = name.length == 0 ? null : /^[a-zA-Z0-9\s]{6,}$/.test(name);;
+  const isNameValid =
+    name.length == 0 ? null : /^[a-zA-Z0-9\s]{6,}$/.test(name);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
     setTouched(true);
+  };
+
+  const handleDurationChange = (e) => {
+    const duration = Number(e.target.value);
+    if (Number.isNaN(duration) || duration < 6) {
+      setIsDurationValid(false);
+    } else {
+      setIsDurationValid(true);
+    }
+  };
+
+  const handleTotalMarksChange = (e) => {
+    const value = e.target.value;
+    const isValid = !isNaN(value) && value > 0;
+    setIsTotalMarksValid(isValid);
+  };
+
+  const handlePassingMarksChange = (e) => {
+    const value = e.target.value;
+    const totalMarks = document.getElementsByName("totalMarks")[0].value;
+    const isValid = !isNaN(value) && value > 0 && value <= totalMarks;
+    setIsPassingMarksValid(isValid);
   };
 
   const onFinish = async (values) => {
@@ -100,7 +123,7 @@ function AddEditExam() {
       dispatch(HideLoading());
       if (response.success) {
         SetUser1(response.data.email);
-        console.log(response.data.email)
+        console.log(response.data.email);
       } else {
         message.error(response.message);
       }
@@ -192,8 +215,8 @@ function AddEditExam() {
     },
   ];
 
-  const email = admins
-  console.log(email)
+  const email = admins;
+  console.log(email);
 
   return (
     <div>
@@ -207,11 +230,18 @@ function AddEditExam() {
               {/**exam details tab*/}
               <Row gutter={[10, 10]}>
                 <Col span={8}>
+                  {" "}
+                  {/**?????????????????Exam name validation?????????????????? */}
                   <Form.Item
                     label="Exam Name"
                     name="name"
                     validateStatus={
-                      touched && (isNameValid ? "success" : isNameValid === false ? "error" : "")
+                      touched &&
+                      (isNameValid
+                        ? "success"
+                        : isNameValid === false
+                        ? "error"
+                        : "")
                     }
                     help={
                       touched &&
@@ -243,40 +273,180 @@ function AddEditExam() {
                       type="text"
                       onChange={handleNameChange}
                     />
+                  </Form.Item>{" "}
+                  {/**?????????????????Exam Duration validation?????????????????? */}
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label="Exam Duration"
+                    name="duration"
+                    validateStatus={
+                      touched &&
+                      (isDurationValid
+                        ? "success"
+                        : isDurationValid === false
+                        ? "error"
+                        : "")
+                    }
+                    help={
+                      touched &&
+                      (isDurationValid ? (
+                        <span style={{ color: "green" }}>
+                          <CheckCircleOutlined />
+                          &nbsp;Duration is valid
+                        </span>
+                      ) : isDurationValid === false ? (
+                        <span style={{ color: "red" }}>
+                          <CloseCircleOutlined />
+                          &nbsp;Enter valid Exam Duration
+                        </span>
+                      ) : null)
+                    }
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter an exam duration",
+                      },
+                      {
+                        type: "number",
+                        min: 6,
+                        message: "Exam duration must be greater than 5 minutes",
+                      },
+                    ]}
+                  >
+                    <Input
+                      className="einput"
+                      type="number"
+                      onChange={handleDurationChange}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Exam Duration" name="duration">
-                    <input className="einput" type="number" />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item label="Subject" name="category">
+                  <Form.Item
+                    label="Subject"
+                    name="category"
+                    rules={[
+                      { required: true, message: "Please select a subject" },
+                    ]}
+                  >
                     <Select placeholder="Choose subject">
-                      <Select.Option value="sinhala">sinhala</Select.Option>
-                      <Select.Option value="history">history</Select.Option>
+                      <Select.Option value="sinhala">Sinhala</Select.Option>
+                      <Select.Option value="history">History</Select.Option>
                       <Select.Option value="mathematics">
-                        mathematics
+                        Mathematics
                       </Select.Option>
-                      <Select.Option value="science">science</Select.Option>
-                      <Select.Option value="english">english</Select.Option>
+                      <Select.Option value="science">Science</Select.Option>
+                      <Select.Option value="english">English</Select.Option>
                       <Select.Option value="information-technology">
-                        information-technology
+                        Information Technology
                       </Select.Option>
-                      <Select.Option value="music">music</Select.Option>
-                      <Select.Option value="art">art</Select.Option>
-                      <Select.Option value="commerce">commerce</Select.Option>
+                      <Select.Option value="music">Music</Select.Option>
+                      <Select.Option value="art">Art</Select.Option>
+                      <Select.Option value="commerce">Commerce</Select.Option>
                     </Select>
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Total Marks" name="totalMarks">
-                    <input className="einput" type="number" />
+                  <Form.Item
+                    label="Total Marks"
+                    name="totalMarks"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter total marks",
+                      },
+                      {
+                        type: "number",
+                        min: 1,
+                        message: "Total marks must be greater than 0",
+                      },
+                    ]}
+                    validateStatus={
+                      touched &&
+                      (isTotalMarksValid
+                        ? "success"
+                        : isTotalMarksValid === false
+                        ? "error"
+                        : "")
+                    }
+                    help={
+                      touched &&
+                      (isTotalMarksValid ? (
+                        <span style={{ color: "green" }}>
+                          <CheckCircleOutlined />
+                          &nbsp;Total marks is valid
+                        </span>
+                      ) : isTotalMarksValid === false ? (
+                        <span style={{ color: "red" }}>
+                          <CloseCircleOutlined />
+                          &nbsp;Enter valid total marks
+                        </span>
+                      ) : null)
+                    }
+                  >
+                    <Input
+                      className="einput"
+                      type="number"
+                      onChange={handleTotalMarksChange}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Passing Marks" name="passingMarks">
-                    <input className="einput" type="number" />
+                  <Form.Item
+                    label="Passing Marks"
+                    name="passingMarks"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter passing marks",
+                      },
+                      {
+                        type: "number",
+                        min: 1,
+                        message: "Passing marks must be greater than 0",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          const totalMarks = getFieldValue("totalMarks");
+                          if (value <= totalMarks) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error(
+                              "Passing marks must be lower than or equal to total marks"
+                            )
+                          );
+                        },
+                      }),
+                    ]}
+                    validateStatus={
+                      touched &&
+                      (isPassingMarksValid
+                        ? "success"
+                        : isPassingMarksValid === false
+                        ? "error"
+                        : "")
+                    }
+                    help={
+                      touched &&
+                      (isPassingMarksValid ? (
+                        <span style={{ color: "green" }}>
+                          <CheckCircleOutlined />
+                          &nbsp;Passing marks is valid
+                        </span>
+                      ) : isPassingMarksValid === false ? (
+                        <span style={{ color: "red" }}>
+                          <CloseCircleOutlined />
+                          &nbsp;Enter valid passing marks
+                        </span>
+                      ) : null)
+                    }
+                  >
+                    <Input
+                      className="einput"
+                      type="number"
+                      onChange={handlePassingMarksChange}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -296,7 +466,7 @@ function AddEditExam() {
                 </Col>
                 <Col span={8}>
                   <Form.Item label="Enrollment Key" name="enrollmentkey">
-                    <input className="einput" type="text"  />
+                    <input className="einput" type="text" />
                   </Form.Item>
                 </Col>
                 <Col span={8} id="hidden" className="hidden1">

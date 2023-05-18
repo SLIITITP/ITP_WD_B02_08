@@ -33,7 +33,7 @@
 //         </li>
 //       </ul>
 //       <Form> 
-      
+
 //       <div className="flex gap-2">
 //         <input className='einput' type='text'  name = "enrollmentkey" placeholder="Enter Enrollment key"/>
 //         </div>
@@ -61,41 +61,77 @@
 
 // export default Instructions;
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Form, Row, Select, message , Table, Alert} from 'antd'
+import { Button, Col, Form, Row, Select, message, Table } from 'antd'
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
-import { useDispatch } from "react-redux";
-import moment from 'moment';
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Instructions({ examData, setView, startTimer }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const currentDate = moment().format('YYYY-MM-DD');
-console.log(currentDate);
-console.log(examData.date);
+  //Nipun
+  const { user } = useSelector((state) => state.users)
+  const studentId = user.userID;
+  console.log(studentId)
 
-const currentTime = moment().format('HH:mm');
-console.log(currentTime);
-console.log(examData.time);
 
-const handleStartExamClick = () => {
-  const enrollmentKey = document.getElementsByName('enrollmentkey')[0].value;
-  console.log('Enrollment Key:', enrollmentKey);
-  if (currentDate > examData.date) {
-    alert('You Are Late To The Exam');
-  } else if (currentDate < examData.date) {
-    alert('Exam Not Started Yet');
-  } else if (enrollmentKey === examData.enrollmentkey) {
-    startTimer();
-    setView('questions');
-  } else if(enrollmentKey === '') {
-    alert('Enter Enrollment Key');
-  }else{
-    alert('Invalid Enrollment Key');
-  }
-};
+  const [subjectName, setSubjectName] = useState('');
+  const [isPaid, setIsPaid] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
+  const handleCheckPayment = async () => {
+    setLoading(true);
+    try {
+      const currentDate = new Date();
+      const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+      console.log(currentMonth);
+      const response = await axios.get('/api/payment/payHistory', {
+        params: {
+          studentId: studentId,
+          subject: subjectName,
+          month: currentMonth,
+        },
+      });
+      const payments = response.data;
+      console.log(payments)
+      setIsPaid(payments.length > 0);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+  //Nipun
+  const handleStartExamClick = () => {
+    const enrollmentKey = document.getElementsByName('enrollmentkey')[0].value;
+    console.log('Enrollment Key:', enrollmentKey);
+    console.log(examData.category, examData.grade)
+    setSubjectName(examData.category);
+
+    handleCheckPayment();
+    console.log(isPaid)
+    // Add a delay of 2 seconds
+    setTimeout(() => {
+      if (isPaid) {
+        if (enrollmentKey === examData.enrollmentkey) {
+          startTimer();
+          setView("questions");
+        } else {
+          console.log("Enrollment key is invalid");
+          toast.error("Enrollment key is invalid");
+        }
+      } else {
+        console.log("Your payment not found for the subject in the current month.");
+        toast.error("Your payment not found for the subject in the current month.");
+      }
+    }, 2000);
+
+  };
 
 
   return (
@@ -123,26 +159,27 @@ const handleStartExamClick = () => {
           <span className="font-bold">{examData.passingMarks}</span>.
         </li>
       </ul>
-      <Form> 
-      
-      <div className="flex gap-2">
-        <input className='einput' type='text'  name="enrollmentkey" placeholder="Enter Enrollment key"/>
+      <Form>
+
+        <div className="flex gap-2">
+          <input className='einput' type='text' name="enrollmentkey" placeholder="Enter Enrollment key" />
         </div>
-      <br/>
-      <div className="flex gap-2">
-        <button className="primary-outlined-btn"
-         onClick={()=>navigate('/exams')}
-        >
-              CLOSE
-        </button>
-        <button
-          className="primary-contained-btn" type="button"
-          onClick={handleStartExamClick}
-        >
-          Start Exam
-        </button>       
+        <br />
+        <div className="flex gap-2">
+          <button className="primary-outlined-btn"
+            onClick={() => navigate('/exams')}
+          >
+            CLOSE
+          </button>
+          <button
+            className="primary-contained-btn" type="button"
+            onClick={handleStartExamClick}
+          >
+            Start Exam
+          </button>
         </div>
       </Form>
+      <ToastContainer />
     </div>
   );
 }

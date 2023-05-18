@@ -9,7 +9,7 @@ export default function Footer() {
     <div className="mx-auto max-w-screen-xl mt-5">
         <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
-                <Link to ="/home" className="flex items-center">
+                <Link to ="/" className="flex items-center">
                     <img src={logo} className="mr-3 h-16 rounded-full" alt="Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Thilina Institute</span>
                 </Link>
