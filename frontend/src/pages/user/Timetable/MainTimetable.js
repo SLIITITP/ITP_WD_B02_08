@@ -10,7 +10,7 @@ import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 function MainTimetable() {
 
  const [classes, setClasses] = useState([]);
- const [activeGrade, setActiveGrade] = useState('6');
+ const [activeGrade, setActiveGrade] = useState('1');
  const [selectedClass, setSelectedClass] = useState(null);
  const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
  const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
