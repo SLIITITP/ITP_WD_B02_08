@@ -157,6 +157,19 @@ useEffect(() => {
 
 }, [studentID]);
 
+function convertTo24Hour(time) {
+  const [hour, minute] = time.split(":");
+  let hour24 = parseInt(hour, 10);
+
+  if (time.includes('pm')) {
+    if (hour24 !== 12) {
+      hour24 += 12;
+    }
+  } else if (hour24 === 12) {
+    hour24 = 0;
+  }
+  return hour24;
+}
 
 return (
 <div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
@@ -193,6 +206,21 @@ return (
      <tbody className="text-center">
        {classes
          .filter((clz) => clz.grade === activeGrade)
+         .sort((a, b) => {
+          const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+          const dayAIndex = daysOfWeek.indexOf(a.date);
+          const dayBIndex = daysOfWeek.indexOf(b.date);
+      
+          // Sort by day of the week first
+          if (dayAIndex !== dayBIndex) {
+            return dayAIndex - dayBIndex;
+          }
+      
+          // Sort by start time if the days are the same
+          const timeAStart = convertTo24Hour(a.time.split("-")[0]);
+          const timeBStart = convertTo24Hour(b.time.split("-")[0]);
+          return timeAStart - timeBStart;
+        })
          .map((clz) => (
           <tr key={clz.id} onClick={() => handleClassClick(clz)}>
              <td>{clz.grade}</td>

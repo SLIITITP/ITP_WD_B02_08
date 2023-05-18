@@ -27,16 +27,16 @@ function TimetableSideNav({ children }) {
 
   const userMenu = [
     {
-      title: "Main Class Schedule",
-      paths: ["/mainTimetable","/user/classEnrolling"],
-      icon: <i className="ri-calendar-todo-line"></i>,
-      onClick: () => navigate("/mainTimetable"),
-    },
-    {
       title: "My Class Schedule",
       paths: ["/myTimetable"],
       icon: <i className="ri-table-line"></i>,
       onClick: () => navigate("/myTimetable"),
+    },
+    {
+      title: "Main Class Schedule",
+      paths: ["/mainTimetable","/user/classEnrolling"],
+      icon: <i className="ri-calendar-todo-line"></i>,
+      onClick: () => navigate("/mainTimetable"),
     },
     {
       title: "Exam Schedule",
@@ -55,24 +55,6 @@ function TimetableSideNav({ children }) {
     },
   ];
 
-
-  const getUserData = async () => {
-    try {
-      dispatch(ShowLoading());
-      const response = await getUserInfo();
-      dispatch(HideLoading());
-      if (response.success) {
-        dispatch(SetUser(response.data));
-        setMenu(userMenu);
-      } else {
-        message.error(response.message);
-      }
-    } catch (error) {
-      navigate("/login"); //if there is problem with token user navigate login
-      dispatch(HideLoading());
-      message.error(error.message);
-    }
-  };
 
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
