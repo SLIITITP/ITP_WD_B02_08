@@ -2,9 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { getProfile } from '../../apicalls/helper';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const ChartJsExample = () => {
   const chartRef = useRef(null);
+  const tableRef = useRef(null);
   const [marks, setMarks] = useState([]);
   const [marks1, setMarks1] = useState([]);
   const [apiData1, setApiData1] = useState({});
@@ -114,10 +117,30 @@ const ChartJsExample = () => {
     }
   };
 
+  const generatePDF = () => {
+    html2canvas(chartRef.current).then((chartCanvas) => {
+      html2canvas(tableRef.current).then((tableCanvas) => {
+        const chartImgData = chartCanvas.toDataURL('image/png');
+        const tableImgData = tableCanvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgProps = pdf.getImageProperties(chartImgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(chartImgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
+        pdf.addImage(tableImgData, 'PNG', 10, 150);
+
+        pdf.save('chart_with_marks.pdf');
+      });
+    });
+  };
+
   return (
     <div>
-    <h1>Marks</h1>
-    {marks.length > 0 && createChart()}
+      <h1>Marks</h1>
+      <div style={{ width: '300px', height: '200px' }}>
+        <canvas ref={chartRef} />
+      </div>
     </div>
     );
     };
