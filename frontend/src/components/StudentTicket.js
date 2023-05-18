@@ -30,11 +30,7 @@ import bac3 from '../assets/bac3.jpg'
     setApiData1(results.data);
 
     console.log(results.data.isAdmin);
-    if (results.data.isAdmin) {
-      setMenu(adminMenu);
-    } else {
-      setMenu(userMenu);
-    }
+  
     setApiData({
       firstName: apiData?.firstName || "",
       lastName: apiData?.lastName || "",
@@ -49,65 +45,6 @@ import bac3 from '../assets/bac3.jpg'
   });
 }, []);
 
-const userMenu = [
-  {
-    title: "My Ticket",
-    paths: ["/Stickets"],
-    icon: <i className="ri-calendar-todo-line"></i>,
-    onClick: () => navigate("/Stickets"),
-  },
-  {
-    title: "AddTicket",
-    paths: ["/addTicket"],
-    icon: <i className="ri-table-line"></i>,
-    onClick: () => navigate("/addTicket"),
-  },
-  {
-    title: "Profile",
-    paths: ["/profile"],
-    icon: <i className="ri-todo-line"></i>,
-    onClick: () => navigate("/profile"),
-  },
-  {
-    title: "Logout",
-    paths: ["/logout"],
-    icon: <i className="ri-logout-box-line"></i>,
-    onClick: () => {
-      localStorage.removeItem("token");
-      navigate("/plogin");
-    },
-  },
-];
-
-const adminMenu = [
-  {
-    title: "Ticket List",
-    paths: ["/ticketlist"],
-    icon: <i className="ri-calendar-todo-line"></i>,
-    onClick: () => navigate("/ticketlist"),
-  },
-  {
-    title: "Report",
-    paths: ["/tReport"],
-    icon: <i className="ri-todo-line"></i>,
-    onClick: () => navigate("/tReport"),
-  },
-  {
-    title: "Profile",
-    paths: ["/profile"],
-    icon: <i className="ri-menu-add-fill"></i>,
-    onClick: () => navigate("/profile"),
-  },
-  {
-    title: "Logout",
-    paths: ["/logout"],
-    icon: <i className="ri-logout-box-line"></i>,
-    onClick: () => {
-      localStorage.removeItem("token");
-      navigate("/plogin");
-    },
-  },
-];
 
 
   useEffect(() => {
