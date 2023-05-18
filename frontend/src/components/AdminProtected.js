@@ -644,9 +644,15 @@ function TprotectedRoute({ children }) {
             onClick: () => navigate("/adminMainTimetable"),
         },
         {
+            title: "Attendance Management",
+            paths: ["/am/add"],
+            icon: <i className="ri-group-line"></i>,
+            onClick: () => navigate("/am/add"),
+        },
+        {
             title: "Support Service",
             paths: ["/"],
-            icon: <i className="ri-user-line"></i>,
+            icon: <i className="ri-hand-heart-line"></i>,
             onClick: () => navigate("/ticketlist"),
         },
         {

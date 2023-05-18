@@ -245,7 +245,7 @@ import UpdateStudent from './components/ToImp/UpdateStudent';
 import StripeContainerCN from './components/PaymentComponents/StripeContainerCN';
 import StdProfileSideNav from './components/StdProfileSideNav';
 import TeaProfileSideNav from './components/TeaProfileSideNav';
-
+import AttendanceProtect from './components/AMFunction/AttendanceProtect';
 
 
 
@@ -299,8 +299,8 @@ function App() {
 
         <Route path='/enrollmentCheckout' element={<StripeContainerCN />} />
         {/* Attendance Management */}
-        <Route path='/am/add' element={<GetAm />} />
-        <Route path='/am/check' element={<CheckAm />} />
+        <Route path='/am/add' element={<AttendanceProtect><GetAm /></AttendanceProtect>} />
+        <Route path='/am/check' element={<AttendanceProtect><CheckAm /></AttendanceProtect>} />
 
         {/* Std Reg Form And Other by Nip */}
         <Route path='/regform' element={<RegForm />} />
