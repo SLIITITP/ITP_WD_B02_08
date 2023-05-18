@@ -7,21 +7,38 @@ export default function AllFilesList() {
   const [files1, setFiles1] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
   const [submittedAssignments, setSubmittedAssignments] = useState([]);
+  const [marks, setMarks] = useState([]);
   const [apiData1, setApiData1] = useState({});
 
   useEffect(() => {
     const usernameFrom = localStorage.getItem("userName");
-    console.log(usernameFrom)
+    // console.log(usernameFrom)
     getProfileTeacher(usernameFrom).then((results) => {
       setApiData1(results.data);
-      console.log(results.data);
+      // console.log(results.data);
     });
   }, []);
 
   const id = apiData1.teacherId;
-  console.log(id)
+  // console.log(id)
 
-  
+  useEffect(() => {
+    async function fetchMarks() {
+      try {
+        const response = await fetch('http://localhost:9090/feed/getMark');
+        const data = await response.json();
+        setMarks(data);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    }
+
+    fetchMarks();
+  }, []); // Empty dependency array to run the effect only once on mount
+
+  console.log(marks)
+
+
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -37,11 +54,11 @@ export default function AllFilesList() {
 
         setFiles1(data.files); // Make sure setFiles1 is defined and used correctly
 
-        const filtered = filesWithDownloadedState.filter(file => file.subject === id);
+        const filtered = filesWithDownloadedState.filter(file => file.TeaID === id);
         setFiles(filtered); // Make sure setFiles is defined and used correctly
         setFilteredFiles(filtered); // Make sure setFilteredFiles is defined and used correctly
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
 
@@ -62,6 +79,9 @@ export default function AllFilesList() {
       })
     );
   };
+
+
+
   
   
   const filterFiles = (assignmentType) => {
@@ -69,7 +89,7 @@ export default function AllFilesList() {
       const filtered = files.filter(file => file.subject === id);
       setFilteredFiles(filtered);
     } else {
-      const filtered = files.filter(file => file.assignmentType === assignmentType && file.subject === id);
+      const filtered = files.filter(file => file.assignmentType === assignmentType && file.TeaID === id);
       setFilteredFiles(filtered);
     }
   };
@@ -78,7 +98,7 @@ export default function AllFilesList() {
   const handleMarkAssignment = (fileId, studentName, AssignmentType, marks) => {
     // Check if marks have already been submitted for this assignment
     if (submittedAssignments.includes(fileId)) {
-      console.log('Marks already submitted for this assignment.');
+      // console.log('Marks already submitted for this assignment.');
       return;
     }
 
@@ -91,12 +111,12 @@ export default function AllFilesList() {
       marks
     })
       .then(response => {
-        console.log('Marks stored successfully:', response.data);
+        // console.log('Marks stored successfully:', response.data);
         setSubmittedAssignments(prevAssignments => [...prevAssignments, fileId]);
         // You can handle success cases as per your requirement
       })
       .catch(error => {
-        console.log('Error storing marks:', error);
+        // console.log('Error storing marks:', error);
         // Handle the error case appropriately
       });
   };
@@ -174,10 +194,11 @@ export default function AllFilesList() {
                     <>
                       <label htmlFor={`marks_${file._id}`}>Marks:</label>
                       <input
-                        type=""
+                        type="number"
                         id={`marks_${file._id}`}
                         className="form-control"
-                  
+                        min="0"
+                        step="0.01"
                       />
                       <button
                         className="btn btn-primary mt-2"
@@ -199,6 +220,7 @@ export default function AllFilesList() {
               </div>
             </div>
           </div>
+
         ))}
       </div>
     </div>

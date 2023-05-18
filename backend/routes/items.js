@@ -16,7 +16,4 @@ router.route('/getItems').get( getItems);
 //route for download item
 router.route('/getAll/:id').get(DownloadAssignments);
 
-
-
-
 module.exports = router;
