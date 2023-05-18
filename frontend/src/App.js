@@ -261,7 +261,7 @@ function App() {
 
       {loading && <Loader />}
       <Routes>
-        <Route path='/' element={<WelcomePage />} />
+        <Route path='/w' element={<WelcomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/tregister" element={<TRegister />} />
@@ -554,7 +554,7 @@ function App() {
 
         <Route path='/m' exact element={<Marks />} />
 
-        <Route path='/h' element={<HomePage />} />
+        <Route path='/' element={<HomePage />} />
 
 
 

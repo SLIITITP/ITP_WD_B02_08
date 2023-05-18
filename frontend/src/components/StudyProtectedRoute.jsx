@@ -1,4 +1,4 @@
-import { message } from "antd";
+//import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { tgetUserInfo } from "../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,9 @@ import {
   updateTeacher,
 } from "../apicalls/helper";
 import { useAuthStore } from "../redux/store1";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function TprotectedRoute({ children }) {
   const { user } = useSelector((state) => state.users);
@@ -68,9 +71,9 @@ function TprotectedRoute({ children }) {
   const adminMenu = [
     {
       title: "HOME",
-      paths: ["/home"],
+      paths: ["/"],
       icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/home"),
+      onClick: () => navigate("/"),
     },
     {
       title: "DASHBOARD",
@@ -119,7 +122,7 @@ function TprotectedRoute({ children }) {
       paths: ["/logout"],
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("token1");
         navigate("/pteacherLogin");
       },
     },
@@ -139,20 +142,20 @@ function TprotectedRoute({ children }) {
           setMenu(userMenu);
         }
       } else {
-        message.error(response.message);
+        toast.error(response.message);
       }
     } catch (error) {
       navigate("/login"); //if there is problem with token user navigate login
       dispatch(HideLoading());
-      message.error(error.message);
+      toast.error(error.message);
     }
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token1")) {
       getUserData();
     } else {
-      navigate("/login"); //if there is problem with token user navigate login
+      navigate("/"); //if there is problem with token user navigate login
     }
   }, []);
 
@@ -181,6 +184,14 @@ function TprotectedRoute({ children }) {
   useEffect(() => {
     console.log(username);
     let usernameFrom = localStorage.getItem("userName");
+    if(usernameFrom == 'undefined' || usernameFrom == null || usernameFrom == ''){
+      navigate("/pteacherLogin");
+    }
+    if (localStorage.getItem("token1")) {
+      console.log(username);
+    } else {
+      navigate("/"); //if there is problem with token user navigate login
+    }
     // username = ;
     console.log(usernameFrom);
     if (username === "") {
@@ -241,6 +252,7 @@ function TprotectedRoute({ children }) {
 
 
   return (
+    
     <div className="layout !fixed top-0 left-0 h-screen w-1/4 ">
       <div className="!flex gap-6 w-full h-full ">
         <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
@@ -287,6 +299,7 @@ function TprotectedRoute({ children }) {
           <div className="content">{children}</div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 }
