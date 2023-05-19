@@ -131,10 +131,7 @@ function AdminReports() {
   const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
-  const [users, setUsers] = useState([]);
   
-  console.log(user);
-
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getData();
@@ -189,11 +186,13 @@ function AdminReports() {
       const response = await getAllReports();
       dispatch(HideLoading());
       if (response.success) {
-        console.log(user.userID);
         const filteredExams = response.data.filter(
-          (report) => report.exam && report.exam.userID == user.userID
+          (report) => 
+            report.exam && 
+            report.exam.userID === user.userID &&
+            (report.exam.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+              report.user.username.toLowerCase().includes(searchValue.toLowerCase()))
         );
-        console.log(filteredExams);
         setReportsData(filteredExams);
         if (filteredExams.length > 0) {
           dispatch(HideLoading());
@@ -214,8 +213,9 @@ function AdminReports() {
 
   const filteredReports = reportsData.filter((report) => {
     const userName = report.user?.username?.toLowerCase() || '';
+    const examName = report.exam?.name?.toLowerCase() || '';
     const search = searchValue.toLowerCase();
-    return userName.includes(search);
+    return userName.includes(search) || examName.includes(search);
   });
 
   const handlePrintReport = () => {
@@ -246,7 +246,7 @@ function AdminReports() {
       <PageTitle title="Reports" />
       <div className="reports-search">
         <Input
-          placeholder="Search by user name"
+          placeholder="Search by user name or exam name"
           value={searchValue}
           onChange={handleSearch}
         />
@@ -260,7 +260,6 @@ function AdminReports() {
       <Button type="primary" className="primary-outlined-btn h-10 p-2" icon={<DownloadOutlined  />}  onClick={handlePrintReport}>
             Download report
       </Button>
-      {/* <button className="primary-outlined" >Print Report</button> */}
       </div>
     </>
   );
