@@ -6,7 +6,7 @@ const TeacherSalary = require('../models/Salarys');
 router.post('/teacherSalary', async (req, res) => {
     try {
         // const { commissionPercentage, salaryData, total, allTotal } = req.body;
-        const { teacherID, teacherName, date, allTotal, commissionPercentage, total, otherCharges, otherChargesNote, salaryData, } = req.body;
+        const { teacherID, teacherName, date, allTotal, commissionPercentage, total, otherCharges, otherChargesNote, salaryData, netTotal } = req.body;
 
         // Create a new instance of the TeacherSalary model
         const newTeacherSalary = new TeacherSalary({
@@ -19,6 +19,7 @@ router.post('/teacherSalary', async (req, res) => {
             otherCharges,
             otherChargesNote,
             salaryData,
+            netTotal
         });
 
         // Save the new instance to the database
@@ -35,12 +36,13 @@ router.post('/teacherSalary', async (req, res) => {
 // GET route to retrieve all teacher salary entries
 router.get('/teachersalary', async (req, res) => {
     try {
-        const teacherSalaries = await TeacherSalary.find();
+        const teacherSalaries = await TeacherSalary.find().sort({ _id: -1 });
         res.json(teacherSalaries);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
+
 
 
 //route for get payment count

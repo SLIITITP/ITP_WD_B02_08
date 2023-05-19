@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function AdminEditSchedule() {
   
  //view timetabe 
   const [classes, setClasses] = useState([]);
-  const [activeGrade, setActiveGrade] = useState('6');
+  const [activeGrade, setActiveGrade] = useState('1');
   const handleGradeClick = (grade) => {
     setActiveGrade(grade);
   };
@@ -29,7 +31,7 @@ function AdminEditSchedule() {
         setClasses(res.data);
       })
       .catch((err) => {
-        alert(err.message);
+        toast.error(err)
       });
   }, []);
 
@@ -40,16 +42,23 @@ function AdminEditSchedule() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
+  const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)\s-\s(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)$/;
+
   function sendData(e) {
     e.preventDefault();
     if (!selectedClass) {
-      alert("No class selected.");
+      toast.error("No class selected.");
       return;
     }
     else if ( !hall || !date || !time ) {
-      alert("Please fill out all fields.");
+      toast.error("Please fill out all fields.");
       return;
     } 
+    else if (!timeRegex.test(time)) {
+      toast.error("Please enter a valid time (HH:MM am/pm - HH:MM am/pm).");
+    return;
+    }
+  
     const updatedClass = {
       hall,
       date,
@@ -58,18 +67,18 @@ function AdminEditSchedule() {
     console.log("selectedClass:", selectedClass);
     axios.put(`http://localhost:9090/class/updateClass/${selectedClass.id}`, updatedClass)
       .then(() => {
-        alert("Class updated");
+        toast.success("Class updated");
         axios
         .get('http://localhost:9090/class/allClasses')
         .then((res) => {
           setClasses(res.data);
         })
         .catch((err) => {
-          alert(err.message);
+          toast.error(err.message);
         });
       })
       .catch((err) => {
-        alert(err.message);
+        toast.error(err.message);
       });
       if (!selectedClass) {
         console.error("No class selected.");
@@ -117,37 +126,45 @@ function InputField({ label, placeholder, value, onChange }) {
 //Delete Class
 function deleteClass(id) {
   if (!selectedClass) {
-    alert("No class selected.");
+    toast.error("No class selected.");
     return;
   }
+  
+  // Validate the time format (HH:MM am/pm - HH:MM am/pm)
+
   console.log("selectedClass:", selectedClass);
   axios
     .delete(`http://localhost:9090/class/deleteClass/${selectedClass.id}`)
     .then((res) => {
-      alert("Class deleted");
+      toast.success("Class deleted");
       axios
         .get('http://localhost:9090/class/allClasses')
         .then((res) => {
           setClasses(res.data);
         })
         .catch((err) => {
-          alert(err.message);
+          toast.error(err.message);
         });
     })
     .catch((err) => {
-      alert(err.message);
+      toast.error(err.message);
     });
 
 }
-const conditionalRowStyles = [
-  {
-    when: row => row.toggleSelected,
-    style: {
-      backgroundColor: "green",
-      userSelect: "none"
+
+function convertTo24Hour(time) {
+  const [hour, minute] = time.split(":");
+  let hour24 = parseInt(hour, 10);
+
+  if (time.includes('pm')) {
+    if (hour24 !== 12) {
+      hour24 += 12;
     }
+  } else if (hour24 === 12) {
+    hour24 = 0;
   }
-];
+  return hour24;
+}
 
 return (
    
@@ -187,9 +204,23 @@ return (
           <tbody className="text-center">
             {classes
               .filter((clz) => clz.grade === activeGrade)
+              .sort((a, b) => {
+                const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+                const dayAIndex = daysOfWeek.indexOf(a.date);
+                const dayBIndex = daysOfWeek.indexOf(b.date);
+            
+                // Sort by day of the week first
+                if (dayAIndex !== dayBIndex) {
+                  return dayAIndex - dayBIndex;
+                }
+            
+                // Sort by start time if the days are the same
+                const timeAStart = convertTo24Hour(a.time.split("-")[0]);
+                const timeBStart = convertTo24Hour(b.time.split("-")[0]);
+                return timeAStart - timeBStart;
+              })              
               .map((clz) => (
-                <tr key={clz._id} onClick={() => handleClassClick(clz)}
-                conditionalRowStyles={conditionalRowStyles}>
+                <tr key={clz._id} onClick={() => handleClassClick(clz)}>
                   <td>{clz.grade}</td>
                   <td>{clz.subject.split("-")[0]}</td>
                   <td>{clz.teacher}</td>
@@ -262,6 +293,8 @@ return (
   </div>
 
     </div>
+
+    <ToastContainer />
     </div>
     
   );

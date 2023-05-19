@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProfile } from "../../apicalls/helper";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const StudentAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [assignment1, setAssignments1] = useState([]);
   const navigate = useNavigate();
   const [apiData1, setApiData1] = useState({});
+
+  const subjects = assignment1.map((assignment) => assignment.subject);
+  console.log(subjects);
 
   const id = apiData1.grade;
 
@@ -48,6 +53,52 @@ const StudentAssignments = () => {
     document.body.removeChild(link);
   };
 
+
+  //niun
+
+  const { user } = useSelector((state) => state.users);
+  const studentId = apiData1.studentId;
+  console.log(studentId);
+
+  const [subs, setSubs] = useState([]);
+  const [subjectName, setSubjectName] = useState('');
+  const [isPaid, setIsPaid] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // useEffect(() => {
+  //   setSubs(assignments.subject);
+  //   console.log(subs);
+  // }, []);
+
+  const handleCheckPayment = async (Cid, Cfile, Csubject) => {
+    setLoading(true);
+    try {
+      const currentDate = new Date();
+      const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+      console.log(currentMonth);
+      const response = await axios.get('/api/payment/payHistory', {
+        params: {
+          studentId: studentId,
+          Csubject,
+          month: currentMonth,
+        },
+      });
+      const payments = response.data;
+      console.log(payments);
+      setIsPaid(payments.length > 0);
+      if(isPaid){
+        downloadFile(Cid, Cfile);
+      }else{
+        alert('No payment Found')
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+
+  //nipun
   return (
     <div className="container">
       <h1 className="text-center my-5" style={{ fontSize: "2rem" }}>
@@ -59,7 +110,7 @@ const StudentAssignments = () => {
             <th>Type</th>
             <th>Subject</th>
             <th>Grade</th>
-            <th>Guidelines</th>
+          
             <th>Deadline</th>
             <th>Resources</th>
           </tr>
@@ -70,14 +121,15 @@ const StudentAssignments = () => {
               <td>{assignment.type}</td>
               <td>{assignment.subject}</td>
               <td>{assignment.grade}</td>
-              <td>{assignment.guidelines}</td>
+
               <td>{assignment.deadline}</td>
               <td>
                 {assignment.file && (
                   <button
                     className="btn btn-primary"
                     onClick={() => {
-                      downloadFile(assignment._id, assignment.file);
+                      // downloadFile(assignment._id, assignment.file);
+                      handleCheckPayment(assignment._id, assignment.file, assignment.subject);
                     }}
                   >
                     Download

@@ -69,8 +69,21 @@ function GetAm() {
   const handleScanWebCam = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
+  
+    if (!video || !canvas) {
+      // Handle the error here, such as displaying an error message or taking alternative action
+      console.error('Video or canvas element is null.');
+      return;
+    }
+  
     const ctx = canvas.getContext('2d');
-
+  
+    if (!ctx) {
+      // Handle the error here, such as displaying an error message or taking alternative action
+      console.error('Could not get 2D context of the canvas.');
+      return;
+    }
+  
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const code = jsQR(imageData.data, imageData.width, imageData.height);
@@ -83,9 +96,13 @@ function GetAm() {
       setStudentID(code.data)
       requestAnimationFrame(handleScanWebCam);
     } else {
-      requestAnimationFrame(handleScanWebCam);
+      setTimeout(() => {
+        requestAnimationFrame(handleScanWebCam); // Request next frame after delay
+      }, 1500); // Delay of 1500 milliseconds (1.5 seconds)
     }
   };
+
+  
   //End of QR Generater
 
 

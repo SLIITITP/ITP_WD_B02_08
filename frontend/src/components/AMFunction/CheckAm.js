@@ -118,7 +118,7 @@ const CheckAm = () => {
         const rows = searchResults.map((attendance) => [
             new Date(attendance.date).toLocaleDateString(),
             attendance.time,
-            attendance.student.name - attendance.studentID,
+            - attendance.studentID,
             attendance.grade
         ]);
 
@@ -240,7 +240,7 @@ const CheckAm = () => {
                                     <td className="px-4 py-2 text-sm text-gray-500">{attendance.time}</td>
                                     <td className="px-4 py-2 text-sm text-gray-500">{attendance.subject.subjectName}</td>
                                     <td className="px-4 py-2 text-sm text-gray-500">{attendance.teacher}</td>
-                                    <td className="px-4 py-2 text-sm text-gray-500">{attendance.student.name} - ({attendance.studentID})</td>
+                                    <td className="px-4 py-2 text-sm text-gray-500"> - ({attendance.studentID})</td>
                                     <td className="px-4 py-2 text-sm text-gray-500">{attendance.grade}</td>
                                 </tr>
                             ))}
@@ -253,3 +253,76 @@ const CheckAm = () => {
 };
 
 export default CheckAm;
+
+
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+
+// const AttendanceSearch = () => {
+//   const [attendance, setAttendance] = useState([]);
+//   const [grade, setGrade] = useState('');
+//   const [subject, setSubject] = useState('');
+//   const [date, setDate] = useState('');
+//   const [studentID, setStudentID] = useState('');
+
+//   const handleSearch = async () => {
+//     try {
+//       const response = await axios.get('/api/attendance/search', {
+//         params: {
+//           grade,
+//           subject,
+//           date,
+//           studentID,
+//         },
+//       });
+//       setAttendance(response.data.attendance);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     handleSearch();
+//   }, []);
+
+//   return (
+//     <div>
+//       <h2>Attendance Search</h2>
+//       <div>
+//         <label>Grade:</label>
+//         <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} />
+//       </div>
+//       <div>
+//         <label>Subject:</label>
+//         <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} />
+//       </div>
+//       <div>
+//         <label>Date:</label>
+//         <input type="text" value={date} onChange={(e) => setDate(e.target.value)} />
+//       </div>
+//       <div>
+//         <label>Student ID:</label>
+//         <input type="text" value={studentID} onChange={(e) => setStudentID(e.target.value)} />
+//       </div>
+//       <button onClick={handleSearch}>Search</button>
+
+//       <h3>Attendance Results</h3>
+//       {attendance.length > 0 ? (
+//         <ul>
+//           {attendance.map((item) => (
+//             <li key={item._id}>
+//               <p>Grade: {item.grade}</p>
+//               <p>Subject: {item.subject.subjectName}</p>
+//               <p>Student: {item.student.name}</p>
+//               <p>Date: {item.date}</p>
+//             </li>
+//           ))}
+//         </ul>
+//       ) : (
+//         <p>No attendance records found.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default AttendanceSearch;

@@ -9,6 +9,7 @@ import { useState, useRef } from 'react';
 export default function FileUploader() {
 
   const [name, setName] = useState('');
+  const [TeaID, setTeaID] = useState('');
   const [grade, setGrade] = useState('');
   const [assignmentType, setAssignment] = useState('');
   const [subject, setSubject] = useState('');
@@ -24,8 +25,43 @@ export default function FileUploader() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    // Perform form validations
+    if (!name.trim()) {
+      alert("Student ID is required");
+      return;
+    }
+
+    if (!TeaID.trim()) {
+      alert("Teacher ID is required");
+      return;
+    }
+
+    if (!grade.trim()) {
+      alert("Grade is required");
+      return;
+    }
+
+    if (!assignmentType) {
+      alert("Assignment Type is required");
+      return;
+    }
+   
+
+    if (!subject.trim()) {
+      alert("Subject is required");
+      return;
+    }
+
+    if (!file) {
+      alert("Please select a file");
+      return;
+    }
+
+
     const formData = new FormData();
     formData.append('name', name);
+    formData.append('TeaID', TeaID);
     formData.append('grade', grade);
     formData.append('assignmentType', assignmentType);
     formData.append('subject', subject);
@@ -60,6 +96,11 @@ export default function FileUploader() {
         <div className="mb-6">
           <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Student ID</label>
           <input type="text" value={name} onChange={(event) => setName(event.target.value)} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="student id.." required />
+        </div>
+
+        <div className="mb-6">
+          <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teacher ID</label>
+          <input type="text" value={TeaID} onChange={(event) => setTeaID(event.target.value)} id="TeaID" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Teacher id.." required />
         </div>
 
 

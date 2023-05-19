@@ -1,11 +1,9 @@
 import React, { useState, useEffect , useRef} from 'react';
 import axios from 'axios';
-import { getUserInfo } from "../../.././apicalls/users";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { SetUser } from "../../.././redux/usersSlice.js";
+import { useDispatch} from "react-redux";
+import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { getProfile} from "../../.././apicalls/helper";
-import { message } from "antd";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -18,32 +16,31 @@ const [enrolledClassIds=[], setEnrolledClassIds] = useState([]);
 const [enrolledClassesData=[], setEnrolledClassesData] = useState([]);
 const [apiData, setApiData] = useState({});
 const [apiData1, setApiData1] = useState({});
-const [reminderData, setReminderData] = useState({});
-const [isModalOpen, setIsModalOpen] = useState(false);
+const dispatch = useDispatch();
+const navigate = useNavigate();
+// const { user } = useSelector((state) => state.users);
+  
+//   const navigate = useNavigate();
+//   const getUserData = async () => {
+//     try {
+//       const response = await getUserInfo();
+//       if (response.success) {
+//         dispatch(SetUser(response.data));
+//       } else {
+//         //message.error(response.message);
+//       }
+//     } catch (error) {
+//       //message.error(error.message);
+//     }
+//   };
 
-const { user } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const getUserData = async () => {
-    try {
-      const response = await getUserInfo();
-      if (response.success) {
-        dispatch(SetUser(response.data));
-      } else {
-        //message.error(response.message);
-      }
-    } catch (error) {
-      //message.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      getUserData();
-    } else {
-      navigate("/login"); //if there is problem with token user navigate login
-    }
-  }, []);
+//   useEffect(() => {
+//     if (localStorage.getItem("token")) {
+//       getUserData();
+//     } else {
+//       navigate("/login"); //if there is problem with token user navigate login
+//     }
+//   }, []);
 
   useEffect(() => {
     let usernameFrom = localStorage.getItem("userName");
@@ -122,43 +119,48 @@ useEffect(() => {
 
 useEffect(() => {
   // Get the details of the enrolled classes
-  const fetchEnrolledClasses = async () => {
-    try {
-      const filteredIds = enrolledClassIds.filter(Boolean);
-      console.log(filteredIds);
-      const enrolledClassesData = await Promise.all(
-        filteredIds.map((classId) =>
-          axios.get(`http://localhost:9090/class/getClassById/${classId}`)
-            .then((res) => {
-              const { date,time, grade, subject, teacher,hall, fees, _id } = res.data.selectedClass;
-              return { date,time, grade, subject, teacher, hall, fees, _id  };
-            })
-            .catch((err) => {
-              alert(err.message);
-              return null;
-            })
-        )
-      );
-      setEnrolledClassesData(enrolledClassesData.filter(Boolean));
-      console.log(enrolledClassesData);
-    } catch (err) {
-      alert(err.message);
-    }
-  };
   fetchEnrolledClasses();
 }, [enrolledClassIds]);
 
+const fetchEnrolledClasses = async () => {
+  try {
+    const filteredIds = enrolledClassIds.filter(Boolean);
+    console.log(filteredIds);
+    const enrolledClassesData = await Promise.all(
+      filteredIds.map((classId) =>
+        axios.get(`http://localhost:9090/class/getClassById/${classId}`)
+          .then((res) => {
+            const { date,time, grade, subject, teacher,hall, fees, _id } = res.data.selectedClass;
+            return { date,time, grade, subject, teacher, hall, fees, _id  };
+          })
+          .catch((err) => {
+            alert(err.message);
+            return null;
+          })
+      )
+    );
+    setEnrolledClassesData(enrolledClassesData.filter(Boolean));
+    console.log(enrolledClassesData);
+  } catch (err) {
+    alert(err.message);
+  }
+};
 
 //Unenroll from a class
 const handleUnenroll = async (classID) => {
   try {
+    dispatch(ShowLoading());
     const response = await axios.delete(`http://localhost:9090/api/enroll/unenroll/${studentID}/${classID}`);
     console.log(response.data); 
     alert("Unenrollment successful!"); 
+    fetchEnrolledClasses();
+    dispatch(HideLoading());
   } catch (error) {
+    dispatch(HideLoading());
     console.error(error);
     alert("Error occurred during unenrollment. Please try again."); 
   }
+  
 };
 
 const renderUnenrollButton = (classID) => {
@@ -230,24 +232,20 @@ const now = new Date();
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const currentWeekday = weekdays[now.getDay()];
-let todayClasses = null;
+let todayClasses = [];
 
 for (let i = 0; i < enrolledClassesData.length; i++) {
   const classSchedules = enrolledClassesData[i];
-  console.log(classSchedules.date);
   if (classSchedules.date === currentWeekday) {
-    const clzSubject = classSchedules.subject
-    const clzTeacher = classSchedules.teacher
-    const clzTime = classSchedules.time
-    console.log(clzTeacher)
+    todayClasses.push(classSchedules);
   }  
 }
 
-
 return (
-<div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>     
+<div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>
+<div className="row">       
 {/*View timetable*/}
-<div class="col-11" >
+<div class="col-8" >
 <h3 className="mb-4 text-center font-medium text-2xl text-gray-900 dark:text-white">My Class Schedule</h3>
 <nav className="d-flex justify-content-center mb-4">
       <ul className="nav nav-pills">
@@ -297,12 +295,51 @@ return (
   </tbody>
 </table>
 <button className="btn btn-primary" onClick={handlePrintClick}>
-Download Timetable
+<i class="ri-download-2-line"></i> Download Timetable
 </button>
 
 </div> 
 </div>
+
+<div class="col-1" style={{width: "2%"}}>
+  <div class="d-flex " style={{height: "80vh"}}>
+      <div class="vr"></div>
   </div>
+</div>
+
+{/* Today Classes Field */}
+<div class="col">
+    <div className="card text-white bg-info mb-3" style={{ maxWidth: "20rem" }}>
+    <div class="card-header text-white" style={{ fontWeight: "bold", fontSize: "20px"}} >
+    <i class="ri-timer-line"></i> Today Classes - {currentWeekday}</div>
+      <div class="card-body">
+        {todayClasses.length > 0 ? (
+        todayClasses
+        .sort((a, b) => {
+          const timeAStart = convertTo24Hour(a.time.split("-")[0]);
+          const timeBStart = convertTo24Hour(b.time.split("-")[0]);
+          return timeAStart - timeBStart;
+        })
+        .map((classSchedule, index) => (
+          <div key={index}>
+            <p className="card-text">Subject: {classSchedule.subject.split("-")[0]}</p>
+            <p className="card-text">Teacher: {classSchedule.teacher}</p>
+            <p className="card-text">Time: {classSchedule.time}</p>
+            <hr className="mb-2 mt-2"/>
+          </div>
+        ))
+      ) : (
+        <div>
+        <p>You Are Free Today.............</p>
+        <p>No classes scheduled for today.</p>
+        </div>
+      )}
+      </div>
+    </div>
+</div>
+
+</div>
+</div>
 );
 
 }

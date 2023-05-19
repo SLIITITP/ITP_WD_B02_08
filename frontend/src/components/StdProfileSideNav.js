@@ -29,15 +29,15 @@ function StdProfileSideNav({ children }) {
   const userMenu = [
     {
       title: "Timetables",
-      paths: ["/mainTimetable","/user/classEnrolling"],
-      icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/mainTimetable"),
+      paths: ["/myTimetable"],
+      icon: <i className="ri-calendar-todo-line"></i>,
+      onClick: () => navigate("/myTimetable"),
     },
     {
       title: "Assignments",
-      paths: ["/myTimetable"],
-      icon: <i className="ri-home-line"></i>,
-      onClick: () => navigate("/myTimetable"),
+      paths: ["/s1" ],
+      icon: <i class="ri-book-line"></i>,
+      onClick: () => navigate("/s1"),
     },
     {
       title: "Study Materials",
@@ -47,21 +47,15 @@ function StdProfileSideNav({ children }) {
     },
     {
         title: "Payments",
-        paths: ["/mainTimetable","/user/classEnrolling"],
-        icon: <i className="ri-home-line"></i>,
-        onClick: () => navigate("/mainTimetable"),
-      },
-      {
-        title: "Attendence",
-        paths: ["/mainTimetable","/user/classEnrolling"],
-        icon: <i className="ri-home-line"></i>,
-        onClick: () => navigate("/mainTimetable"),
+        paths: ["/payOnline","/"],
+        icon: <i className="ri-money-dollar-circle-line"></i>,
+        onClick: () => navigate("/payOnline"),
       },
       {
         title: "Support Services",
-        paths: ["/mainTimetable","/user/classEnrolling"],
+        paths: ["/Stickets","/user/classEnrolling"],
         icon: <i className="ri-home-line"></i>,
-        onClick: () => navigate("/mainTimetable"),
+        onClick: () => navigate("/Stickets"),
       },  
     {
       title: "Logout",

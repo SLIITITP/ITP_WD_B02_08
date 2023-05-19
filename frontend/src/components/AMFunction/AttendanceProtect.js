@@ -1,29 +1,29 @@
-
 //import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { tgetUserInfo } from "../apicalls/teachers";
+import { tgetUserInfo } from "../../apicalls/teachers";
 import { useDispatch, useSelector } from "react-redux";
-import { SetUser } from "../redux/usersSlice.js";
+import { SetUser } from "../../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
-import { HideLoading, ShowLoading } from "../redux/loaderSlice";
+import { HideLoading, ShowLoading } from "../../redux/loaderSlice";
 import { GrNotes } from 'react-icons/gr'
 import { GrDocumentPdf } from 'react-icons/gr'
 import { GrDocumentVideo } from 'react-icons/gr'
 import { GiArchiveResearch } from 'react-icons/gi'
 import { MdDashboardCustomize } from 'react-icons/md'
-import '../stylesheets/layout.css'
-import '../stylesheets/theme.css'
-import '../stylesheets/alignments.css'
-import '../stylesheets/textelements.css'
-import '../stylesheets/custom-component.css'
-import '../stylesheets/form-elements.css'
+// import '../../stylesheets/layout.css'
+import '../../stylesheets/theme.css'
+import '../../stylesheets/alignments.css'
+import '../../stylesheets/textelements.css'
+import '../../stylesheets/custom-component.css'
+import '../../stylesheets/form-elements.css'
+import '../../stylesheets/layout.css'
 import {
     updateUser,
     getProfileTeacher,
     deleteUser,
     updateTeacher,
-} from "../apicalls/helper";
-import { useAuthStore } from "../redux/store1";
+} from "../../apicalls/helper";
+import { useAuthStore } from "../../redux/store1";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -77,40 +77,16 @@ function TprotectedRoute({ children }) {
             onClick: () => navigate("/adminDash"),
         },
         {
-            title: "Add Payment",
-            paths: ["/addPayment"],
-            icon: <i className="ri-add-line"></i>,
-            onClick: () => navigate("/addPayment"),
+            title: "Get Attendance",
+            paths: ["/am/add"],
+            icon: <i className="ri-home-line"></i>,
+            onClick: () => navigate("/am/add"),
         },
         {
-            title: "View Payment",
-            paths: ["/viewPayment"],
+            title: "Check Attendance",
+            paths: ["/am/check"],
             icon: <i className="ri-bar-chart-line"></i>,
-            onClick: () => navigate("/viewPayment"),
-        },
-        {
-            title: "Salary Calculate",
-            paths: ["/salary/calculate"],
-            icon: <i className="ri-calculator-line"></i>,
-            onClick: () => navigate("/salary/calculate"),
-        },
-        {
-            title: "Salary History",
-            paths: ["/salary/history"],
-            icon: <i className="ri-history-fill"></i>,
-            onClick: () => navigate("/salary/history"),
-        },
-        {
-            title: "Subject Add or Update",
-            paths: ["/subject/addOrUpdate"],
-            icon: <i className="ri-add-box-line"></i>,
-            onClick: () => navigate("/subject/addOrUpdate"),
-        },
-        {
-            title: "Owner's Page",
-            paths: ["/owner"],
-            icon: <i className="ri-shield-user-line"></i>,
-            onClick: () => navigate("/owner"),
+            onClick: () => navigate("/am/check"),
         },
         {
             title: "Logout",
@@ -140,7 +116,7 @@ function TprotectedRoute({ children }) {
                 toast.error(response.message);
             }
         } catch (error) {
-            navigate("/pteacherLogin"); //if there is problem with token user navigate login
+            navigate("/login"); //if there is problem with token user navigate login
             dispatch(HideLoading());
             toast.error(error.message);
         }
@@ -150,7 +126,7 @@ function TprotectedRoute({ children }) {
         if (localStorage.getItem("token1")) {
             getUserData();
         } else {
-            navigate("/pteacherLogin"); //if there is problem with token user navigate login
+            navigate("/"); //if there is problem with token user navigate login
         }
     }, []);
 
@@ -185,7 +161,7 @@ function TprotectedRoute({ children }) {
         if (localStorage.getItem("token1")) {
             console.log(username);
         } else {
-            navigate("/pteacherLogin"); //if there is problem with token user navigate login
+            navigate("/"); //if there is problem with token user navigate login
         }
         // username = ;
         console.log(usernameFrom);
@@ -249,7 +225,7 @@ function TprotectedRoute({ children }) {
     return (
 
         <div className="layout !fixed">
-            <div className="!flex gap-6 w-full h-full ">
+            <div className="!flex gap-5 w-full h-full ">
                 <div className="sidebar !h-screen z-auto transition-transform -translate-x-full sm:translate-x-0">
                     <div className="menu ">
                         {menu.map((item, index) => {
@@ -281,13 +257,13 @@ function TprotectedRoute({ children }) {
                                 onClick={() => setCollapsed(false)}
                             ></i>
                         )}
-                        <h1 className="text-2xl text-white">ADMIN - Financial Management</h1>
+                        <h1 className="text-2xl text-white">Attendance Management - ADMIN</h1>
                         <div>
                             <div className="flex gap-1 items-center">
                                 <i class="ri-user-line"></i>
                                 <h1 className="text-md text-white underline">{apiData1.teacherId}</h1>
                             </div>
-                            <span className="text-md text-white">Role : {apiData1.isAdmin ? "Finance Admin" : "User"}</span>
+                            <span className="text-md text-white">Role : {apiData1.isAdmin ? "Teacher" : "User"}</span>
                         </div>
                     </div>
                     <div className="content">{children}</div>

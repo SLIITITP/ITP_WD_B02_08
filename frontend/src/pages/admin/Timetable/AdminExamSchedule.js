@@ -6,7 +6,7 @@ import moment from 'moment';
 function AdminExamSchedule() {
 
   const [exams, setExams] = useState([]);
-  const [activeGrade, setActiveGrade] = useState(6); 
+  const [activeGrade, setActiveGrade] = useState(1); 
   const moment = require('moment');
 
   //handle the grade click

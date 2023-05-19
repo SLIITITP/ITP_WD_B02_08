@@ -9,6 +9,10 @@ const itemSchema = new mongoose.Schema({
         trim:true,
         maxlength:[20,"Name cannot be more than 20 characters"]
     },
+    TeaID:{
+        type:String,
+        required:true
+    },
     grade:{
         type:Number,
         required: true,

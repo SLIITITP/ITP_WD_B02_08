@@ -70,10 +70,9 @@ function TeaProfileSideNav({ children }) {
     },
     {
       title: "Assignments",
-      paths: ["/viewFeed","/emailAss"],
-      icon: <i className="ri-home-line"></i>,
-      //icon: <i className="ri-file-list-line"></i>,
-      onClick: () => navigate("/smt"),
+      paths: ["/a2" ],
+      icon: <i class="ri-book-line"></i>,
+      onClick: () => navigate("/a2"),
     },
     {
       title: "Study Materials",

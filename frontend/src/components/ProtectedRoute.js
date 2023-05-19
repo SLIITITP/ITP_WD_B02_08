@@ -81,7 +81,7 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token");
-        navigate("/exammain");
+        navigate("/");
       },
     },
   ];
