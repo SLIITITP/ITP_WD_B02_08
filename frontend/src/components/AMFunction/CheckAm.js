@@ -152,7 +152,7 @@ const CheckAm = () => {
             <form onSubmit={handleSubmit} class="flex flex-wrap justify-center items-center space-y-4">
                 <div class="w-full md:w-1/4 px-3">
                     <label htmlFor="grade" class="block">Grade:</label>
-                    <select id="grade" name="grade" onChange={handleChange} class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <select id="grade" name="grade" required onChange={handleChange} class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
                         <option value="">Select grade</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -170,7 +170,7 @@ const CheckAm = () => {
                 </div>
                 <div class="w-full md:w-1/4 px-3">
                     <label htmlFor="subject" class="block">Subject:</label>
-                    <select id="subject" name="subject" onChange={handleChange} className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'>
+                    <select id="subject" name="subject" required onChange={handleChange} className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'>
                         <option value="">Select Subject</option>
                         {subjectList.map((sub) => (
                             <option key={sub.subjectID} value={sub._id}>
@@ -185,6 +185,7 @@ const CheckAm = () => {
                         type="date"
                         id="date"
                         name="date"
+                        required
                         onChange={handleChange}
                         class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     />
