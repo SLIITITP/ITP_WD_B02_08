@@ -293,7 +293,7 @@ function App() {
         <Route path='/payOnline' exact element={<FinanceUserProtected><OnlinePayment /></FinanceUserProtected>} />
         <Route path='/student/payHistory' element={<FinanceUserProtected><StudentPayHistory /></FinanceUserProtected>} />
         <Route path='/owner' element={<FinanceAdminProtected><OwnersPage /></FinanceAdminProtected>} />
-        <Route path='/adminHome' element={<AdminProtected><NipTest /></AdminProtected>} />
+        <Route path='/test' element={<NipTest />} />
         <Route path='/demo' element={<TestAndDemo />} />
 
 
