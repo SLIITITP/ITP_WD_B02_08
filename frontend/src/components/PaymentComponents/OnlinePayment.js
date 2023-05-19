@@ -135,8 +135,8 @@ export default function OnlinePayment() {
 
 
     return (
-        <div className="h-screen h-full  w-full flex text-md font-medium text-gray-900 dark:text-white">
-            <div className='w-2/3 bg-gray-300 p-4 pt-2'>
+        <div className="h-screen h-full  w-full flex text-md font-medium text-gray-900 dark:text-white overflow-x-hidden">
+            <div className='bg-gray-300 p-4 pt-2'>
                 <>
                     <h3 className='text-3xl font-bold text-center text-blue-900 tracking-tight p-2'>Hello, You are ready to pay your class fees</h3>
                     <form onSubmit={() => { handleSubmit() }} className='center p-1 pt-2'>
@@ -231,7 +231,7 @@ export default function OnlinePayment() {
                     </form>
                 </>
             </div >
-            <div className='w-1/3 bg-gray-200 p-4 pt-2'>
+            <div className='bg-gray-200 p-4 pt-2'>
                 <div>
                     <h4>Payment History for Student ID {studentId}</h4>
                     {errorMessage && <p>{errorMessage}</p>}
