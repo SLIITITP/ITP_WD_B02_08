@@ -24,6 +24,16 @@ function AddClass() {
     fees: "",
   });
 
+  const [errors, setErrors] = useState({
+    grade: "",
+    subject: "",
+    teacher: "",
+    hall: "",
+    date: "",
+    time: "",
+    fees: "",
+  });
+
 //getting subject details and fetch
 useEffect(() => {
   const fetchSubjects = async () => {
@@ -56,7 +66,7 @@ useEffect(() => {
       toast.error("Please fill out all fields.");
       return;
     }
-    
+
     // Validate the time format (HH:MM am/pm - HH:MM am/pm)
     const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)\s-\s(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)$/;
     if (!timeRegex.test(formData.time)) {
@@ -67,7 +77,7 @@ useEffect(() => {
     axios
       .post("http://localhost:9090/class/addClass", formData)
       .then(() => {
-        toast.success("Class Added");
+        toast.success("Class Added Successfully!!");
       })
       .catch((err) => {
         toast.error(err);
@@ -76,6 +86,13 @@ useEffect(() => {
 
   function handleInputChange(event) {
     const { name, value } = event.target;
+    
+      // Update form data
+  setFormData({ ...formData, [name]: value });
+
+  // Reset the corresponding error message
+  setErrors({ ...errors, [name]: "" });
+
     if (name === "subject") {
       console.log(value);
       const [subjectName, subjectTeacherName] = value.split(' - ');
@@ -86,7 +103,24 @@ useEffect(() => {
     } else {
       setFormData({ ...formData, [name]: value });
     }
-  }
+
+    // const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)\s-\s(0?[1-9]|1[0-2]):[0-5]\d\s(am|pm)$/;
+    // if (name === "time") {
+    // if (!timeRegex.test(formData.time)) {
+    //   setErrors((prevErrors) => ({
+    //     ...prevErrors,
+    //     [name]: "Please enter a valid time (HH:MM am/pm - HH:MM am/pm).",
+    //   }));  
+    // return;
+    // }else {
+    //   // Hide the error message for time field when reset to valid format
+    //     setErrors((prevErrors) => ({
+    //       ...prevErrors,
+    //       [name]: "",
+    //     }));
+    // }
+   }
+
 
 
 //Add New Class Form Input field (Avoid duplicating)
@@ -103,6 +137,7 @@ function renderInput(name, label, placeholder) {
       <label htmlFor={name} className="mr-2">
         {label}:
       </label>
+
       {name === "grade"|| name === "subject" || name === "hall" ? (
         <select
           className="block w-full rounded-md border-0 py-1.5 pl-5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
@@ -110,6 +145,7 @@ function renderInput(name, label, placeholder) {
           name={name}
           onChange={handleInputChange}
           value={formData[name]}
+          required={true}
         >
           <option value="">--Select {label}--</option>
           {options.map((option) => (
@@ -117,7 +153,9 @@ function renderInput(name, label, placeholder) {
               {option === "Other" ? option : option}
             </option>
           ))}
+          {/* {errors[name] && <span className="text-red-500">{errors[name]}</span>} */}  
         </select>
+            
       )
  
       :(
@@ -129,7 +167,12 @@ function renderInput(name, label, placeholder) {
           placeholder={placeholder}
           onChange={handleInputChange}
           value={formData[name]}
-        />
+          required= {true}
+          readOnly={name === "teacher" || name === "fees"}
+        >
+         
+          {/* {errors[name] && <span className="text-red-500">{errors[name]}</span>} */}
+        </input>       
       )}
 
     </div>

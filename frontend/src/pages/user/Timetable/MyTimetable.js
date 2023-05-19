@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { getProfile} from "../../.././apicalls/helper";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -112,7 +114,7 @@ useEffect(() => {
         setEnrolledClassIds(res.data.data);
       })
       .catch((err) => {
-        alert(err.message);
+        toast.error(err.message);
       });
 
 }, [studentID]);
@@ -134,7 +136,7 @@ const fetchEnrolledClasses = async () => {
             return { date,time, grade, subject, teacher, hall, fees, _id  };
           })
           .catch((err) => {
-            alert(err.message);
+            toast.error(err.message);
             return null;
           })
       )
@@ -142,25 +144,21 @@ const fetchEnrolledClasses = async () => {
     setEnrolledClassesData(enrolledClassesData.filter(Boolean));
     console.log(enrolledClassesData);
   } catch (err) {
-    alert(err.message);
+    toast.error(err.message);
   }
 };
 
 //Unenroll from a class
 const handleUnenroll = async (classID) => {
   try {
-    dispatch(ShowLoading());
     const response = await axios.delete(`http://localhost:9090/api/enroll/unenroll/${studentID}/${classID}`);
     console.log(response.data); 
-    alert("Unenrollment successful!"); 
+    toast.success("Unenrollment successful!"); 
     fetchEnrolledClasses();
-    dispatch(HideLoading());
   } catch (error) {
-    dispatch(HideLoading());
     console.error(error);
-    alert("Error occurred during unenrollment. Please try again."); 
+    toast.error("Error occurred during unenrollment. Please try again."); 
   }
-  
 };
 
 const renderUnenrollButton = (classID) => {
@@ -240,6 +238,7 @@ for (let i = 0; i < enrolledClassesData.length; i++) {
     todayClasses.push(classSchedules);
   }  
 }
+
 
 return (
 <div className="container my-5 ml-9" style={{ maxWidth: "1600px"}}>
@@ -337,8 +336,8 @@ return (
       </div>
     </div>
 </div>
-
 </div>
+<ToastContainer/>
 </div>
 );
 
