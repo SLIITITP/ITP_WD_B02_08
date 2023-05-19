@@ -44,11 +44,7 @@ export default function Register() {
     } else if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/i.test(values.password)) {
       errors.password = "Add atleats one Speacual character";
     }
-    if(!values.rePassword){
-      errors.rePassword="Re Password Required";
-    }else if(values.rePassword!=values.password){
-      errors.rePassword="Passwords not matched";
-    }
+    
     return errors;
   };
   const formik = useFormik({
@@ -56,7 +52,6 @@ export default function Register() {
       email: "",
       username: "",
       password: "",
-      rePassword:"",
       grade: "",
     },
     // validate:registerValdation,
@@ -232,22 +227,7 @@ export default function Register() {
                     {formik.errors.password}
                   </div>
                 )}
-                  <input
-                    {...formik.getFieldProps("rePassword")}
-                    className={
-                      formik.errors.rePassword && formik.touched.rePassword
-                        ? styles.textStyleError
-                        : styles.textbox
-                    }
-                    error={formik.errors.rePassword}
-                    type={showPassword ? "Password" : "text"}
-                    placeholder="Re password*"
-                  />
-                {formik.errors.rePassword && formik.touched.rePassword && (
-                  <div className="text-red-500 p-0">
-                    {formik.errors.rePassword}
-                  </div>
-                )}
+                 
                 <select
                   {...formik.getFieldProps("grade")}
                   className={styles.textbox}
