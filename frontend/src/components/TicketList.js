@@ -3,62 +3,11 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 
 
-//import { getUserInfo } from "../apicalls/users";
-//import { useDispatch, useSelector } from "react-redux";
-//import { SetUser } from "../redux/usersSlice.js";
-//import { parsePath, useNavigate } from "react-router-dom";
-//import { message } from "antd";
-//import { HideLoading, ShowLoading } from "../redux/loaderSlice";
-
-
 
  function TicketList() {
   const [tickets, setTickets] = useState([]);
   const [searchKey, setSearchKey] = useState('');
   
- 
-  {/*const [role, setRole] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.users.user);
-
-  const getUserData = async (dispatch) => {
-    try {
-      dispatch(ShowLoading());
-      const response = await getUserInfo();
-      dispatch(HideLoading());
-      if (response.success) {
-        dispatch(SetUser(response.data));
-        const role = response.data.isAdmin ? "admin" : "user";
-        setRole(role);
-
-        
-        return role;
-      } else {
-        message.error(response.message);
-        return;
-      }
-    } catch (error) {
-      message.error(error.message);
-      return;
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (localStorage.getItem("token")) {
-          const role = await getUserData(dispatch);
-          setRole(role);
-        } else {
-          navigate("/login");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [dispatch, navigate]);*/}
   
   useEffect(() => {
     retrieveTickets();

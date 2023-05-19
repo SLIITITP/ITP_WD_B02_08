@@ -1,10 +1,7 @@
 import React ,{ useState, useEffect } from 'react';
 import axios from 'axios';
-import { getUserInfo } from "../apicalls/users";
 import { useDispatch, useSelector } from "react-redux";
-import { SetUser } from "../redux/usersSlice.js";
 import { useNavigate } from "react-router-dom";
-import { HideLoading, ShowLoading } from "../redux/loaderSlice";
 import { updateUser, getProfile, deleteUser } from "../apicalls/helper";
 import '../stylesheets/layout.css'
 import bac3 from '../assets/bac3.jpg'

@@ -93,7 +93,7 @@ function TicketSideNavAdmin({ children }) {
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
         localStorage.removeItem("token1");
-        navigate("/pteacherlogin");
+        navigate("/");
       },
     },
   ];

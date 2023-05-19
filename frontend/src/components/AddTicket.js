@@ -163,3 +163,5 @@ const AddTicket = () => {
   }
 
   export default AddTicket;
+
+  ///^STU_[a-zA-Z0-9]+$/.test
