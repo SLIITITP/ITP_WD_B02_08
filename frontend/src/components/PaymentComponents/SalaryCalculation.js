@@ -194,7 +194,7 @@ export default function SalaryCalculation() {
             otherChargesNote: otherChargesNote,
             salaryData: salarydata,
         });
-    }, [subject, subjectID, grade, month, payments, tAmount, subjectList, teacherName, paymentCount, subjectAmount, totalAmount]);
+    }, [subject, subjectID, grade, month, payments, tAmount, subjectList, teacherName, paymentCount, subjectAmount, totalAmount, netTotal]);
 
 
 
