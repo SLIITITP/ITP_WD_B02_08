@@ -6,7 +6,8 @@ import { SetUser } from "../../../redux/usersSlice.js";
 import { getProfile} from "../../.././apicalls/helper";
 import { parsePath, useNavigate } from "react-router-dom";
 import { message } from "antd";
-import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function MainTimetable() {
 
  const [classes, setClasses] = useState([]);
@@ -140,7 +141,7 @@ useEffect(() => {
        setClasses(res.data);
      })
      .catch((err) => {
-       alert(err.message);
+      toast.error(err.message);
      });
  }, []);
 
@@ -152,7 +153,7 @@ useEffect(() => {
         setEnrolledClassIds(res.data.data);
       })
       .catch((err) => {
-        alert(err.message);
+        toast.error(err.message);
       });
 
 }, [studentID]);
@@ -257,6 +258,7 @@ return (
    </table>
  </div>
  </div>
+ <ToastContainer/>
  </div>
 );
 

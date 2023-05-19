@@ -61,10 +61,10 @@ function MyExamTimetable() {
           });
           setExams(sortedExams);
       } else {
-        message.error(response.message);
+       // message.error(response.message);
       }
     } catch (error) {
-      message.error(error.message);
+     // message.error(error.message);
     }
   };
 
@@ -116,7 +116,6 @@ Grade - {studentGrade} Exam Schedule</h3>
 }
 
 export default MyExamTimetable;
-
 
 
 
