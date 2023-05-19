@@ -22,6 +22,9 @@ function Instructions({ examData, setView, startTimer }) {
   const currentDate = moment().format('YYYY-MM-DD');
   const currentTime = moment().format('HH:mm');
 
+  const examDurationWithExtraTime = moment.duration(examData.duration, 'minutes').add(40, 'minutes').asSeconds();
+  console.log("Exam Duration with extra time:", moment.utc(examDurationWithExtraTime * 1000).format("HH:mm:ss"));
+
   const handleCheckPayment = async () => {
     setLoading(true);
     try {
