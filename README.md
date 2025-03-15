@@ -2,7 +2,7 @@ Please go under edit and edit this file as needed for your project
 
 # Project Name - Educational Instiute Management System
 # Batch - 
-### Group Leader - IT21388248 - Fernando B.K.M. ()
+### Group Leader - IT21388248 - Fernando B.K.M. (Assignment Management)
 ### Member 2 - IT21559136 - Wijethunge W.L.D.N.N (Financial Management)
 ### Member 3 - IT21786464 - Nisal V.P.T (Exam Management)
 ### Member 4 - IT21271328 - Withana J.W.J (Timetable Management)
